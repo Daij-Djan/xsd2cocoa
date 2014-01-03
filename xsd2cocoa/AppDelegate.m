@@ -15,6 +15,25 @@
 
 @implementation AppDelegate
 
+- (IBAction)toggleAdvancedOptions:(id)sender {
+    //toggle
+    self.advancedOptionsBox.hidden = !self.advancedOptionsBox.isHidden;
+    
+    //adapt frame
+    CGRect f = self.advancedOptionsBox.window.frame;
+    if(!self.advancedOptionsBox.isHidden) {
+        //show and move button
+        f.size.height += self.advancedOptionsBox.frame.size.height;
+        f.origin.y -= self.advancedOptionsBox.frame.size.height;
+    }
+    else {
+        ///hide and move button
+        f.size.height -= self.advancedOptionsBox.frame.size.height;
+        f.origin.y += self.advancedOptionsBox.frame.size.height;
+    }
+    [self.advancedOptionsBox.window setFrame:f display:YES animate:YES];
+}
+
 - (IBAction)openDocument:(id)sender {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     panel.canChooseDirectories = YES;
@@ -108,6 +127,11 @@
         return;
     }
 
+    //apply custom prefix if set
+    if(self.customPrefix.stringValue.length) {
+        schema.classPrefix = self.customPrefix.stringValue;
+    }
+    
     //write out data
     [schema generateInto: outFolder copyAdditionalFiles:YES error: &error];
     if(error != nil) {

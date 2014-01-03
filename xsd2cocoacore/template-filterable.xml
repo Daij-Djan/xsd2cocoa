@@ -198,7 +198,7 @@
     int _currentNodeType = xmlTextReaderNodeType(reader);
     int _currentXmlDept = xmlTextReaderDepth(reader);
     while(_currentNodeType != XML_READER_TYPE_NONE && _complexTypeXmlDept < _currentXmlDept) {
-      if(_currentNodeType == XML_READER_TYPE_ELEMENT) {  
+      if(_currentNodeType == XML_READER_TYPE_ELEMENT || _currentNodeType == XML_READER_TYPE_TEXT) {
         NSString* _currentElementName = [NSString stringWithCString: (const char*) xmlTextReaderConstLocalName(reader) encoding:NSUTF8StringEncoding];
         {% for element in type.elements %}if([@"{{element.name}}" isEqualToString: _currentElementName]) {
           {{ element.readTemplate }}

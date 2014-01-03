@@ -197,10 +197,16 @@
         XSSimpleType *stype = [self.schema typeForName: baseType];
         assert(stype);
         if(stype != nil && [stype isKindOfClass:[XSSimpleType class]]) {
-            [str appendString:[stype readPrefixCode]];
+            id substr = [stype readPrefixCode];
+            if(substr)
+                [str appendString:substr];
+            
             if(str.length)
                 [str appendString:@"\n"];
-            [str appendString:[stype readValueTemplate]];
+            
+            substr = [stype readValueTemplate];
+            if(substr)
+                [str appendString:substr];
         }
         else
             [str appendString:@"/*called by mistake*/"]; //:/ ?

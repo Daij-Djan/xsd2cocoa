@@ -46,7 +46,7 @@
 
     for(NSXMLElement* overrideNode in prefixOverrideNodes) {
         XSDPrefixOverride* override = [[XSDPrefixOverride alloc] initWithElement: overrideNode error: error];
-        [prefixOverrideDict setValue: override forKey: override.forXMLPrefix.uppercaseString];
+        [prefixOverrideDict setValue: override forKey: override.forXMLPrefix];
     }
 
     NSArray* additionalFileNodes = [xmlDoc nodesForXPath:@"/template[1]/additional_file" error: error];
@@ -237,7 +237,7 @@
 
 - (NSString*) prefixForXMLPrefix: (NSString*) prefix {
     XSDPrefixOverride *override = [prefixOverrideDict objectForKey:prefix];
-    return override ? override.toCodePrefix : prefix.uppercaseString;
+    return override ? override.toCodePrefix : prefix;
 }
 
 // Called when initializing the object from a node
@@ -270,6 +270,9 @@
         //fix so output is ok
         if(!self.classPrefix) {
             self.classPrefix = @"";
+        }
+        else {
+            self.classPrefix = [self.classPrefix uppercaseString];
         }
         
         NSMutableArray* globalElements = [NSMutableArray array];
