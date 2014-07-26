@@ -10,7 +10,9 @@
             <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
           {% if element.isSingleValue %}self.{{ element.variableName }} = [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding];{% else %}[{{ element.variableName }}Array addObject: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% /if %}
           _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
-            <value>self.value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];</value>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = value;</value>
 		</read>
 	</simpletype>
     <simpletype name="anyURI" objType="NSURL" arrayType="NSArray">
@@ -20,7 +22,9 @@
             <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
                 {% if element.isSingleValue %}self.{{ element.variableName }} = [NSURL URLWithString:[NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% else %}[{{ element.variableName }}Array addObject: [NSURL URLWithString:[NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]]];{% /if %}
                 _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
-            <value>self.value = [NSURL URLWithString:[NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding]];</value>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = [NSURL URLWithString:value];</value>
 		</read>
 	</simpletype>
 	<simpletype name="boolean" objType="NSNumber" arrayType="NSArray">
@@ -30,7 +34,9 @@
 			<element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
           self.{{ element.variableName }} = [NSNumber numberWithBool: [[NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding] isEqualToString: @"true"]];
           _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
-            <value>self.value = [NSNumber numberWithBool: [[NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding] isEqualToString: @"true"]];</value>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = [NSNumber numberWithBool: [value isEqualToString: @"true"]];</value>
 		</read>
 	</simpletype>
 	<simpletype name="int" objType="NSNumber" arrayType="NSArray">
@@ -41,7 +47,9 @@
 			<element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
           self.{{ element.variableName }} = [intFormatter numberFromString: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];
           _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
-            <value>self.value = [intFormatter numberFromString: [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding]];</value>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = [intFormatter numberFromString: value];</value>
 		</read>
 	</simpletype>
     <simpletype name="integer" objType="NSNumber" arrayType="NSArray">
@@ -52,7 +60,9 @@
 			<element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
                 self.{{ element.variableName }} = [numFormatter numberFromString: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];
                 _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
-            <value>self.value = [numFormatter numberFromString: [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding]];</value>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = [numFormatter numberFromString: value];</value>
 		</read>
 	</simpletype>
 	<simpletype name="decimal" objType="NSNumber" arrayType="NSArray">
@@ -64,7 +74,9 @@
 			<element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
                 self.{{ element.variableName }} = [decFormatter numberFromString: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];
                 _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
-            <value>self.value = [decFormatter numberFromString: [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding]];</value>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = [decFormatter numberFromString: value];</value>
 		</read>
 	</simpletype>
 	<simpletype name="dateTime" objType="NSDate" arrayType="NSArray">
@@ -76,7 +88,9 @@
 			<element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
                 {% if element.isSingleValue %}self.{{ element.variableName }} = [dateFormatter dateFromString: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% else %}[{{ element.variableName }}Array addObject: [dateFormatter dateFromString: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]]];{% /if %}
           _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
-            <value>self.value = [dateFormatter dateFromString: [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding]];</value>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = [dateFormatter dateFromString: value];</value>
 		</read>
 	</simpletype>
     
@@ -88,7 +102,9 @@
             <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
                 {% if element.isSingleValue %}self.{{ element.variableName }} = [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding];{% else %}[self.{{ element.variableName }}Array addObject: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% /if %}
                 _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
-			<value>self.value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];</value>
+			<value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = value;</value>
 		</read>
 	</simpletype>
 	<simpletype name="functionNames" objType="NSString" arrayType="NSArray">
@@ -98,7 +114,9 @@
             <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
                 {% if element.isSingleValue %}self.{{ element.variableName }} = [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding];{% else %}[self.{{ element.variableName }}Array addObject: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% /if %}
                 _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
-			<value>self.value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];</value>
+			<value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = value;</value>
 		</read>
 	</simpletype>
 	<simpletype name="featuresName" objType="NSString" arrayType="NSArray">
@@ -108,7 +126,9 @@
             <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
                 {% if element.isSingleValue %}self.{{ element.variableName }} = [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding];{% else %}[self.{{ element.variableName }}Array addObject: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% /if %}
                 _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
-			<value>self.value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];</value>
+			<value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = value;</value>
 		</read>
 	</simpletype>
     <simpletype name="isoCode" objType="NSString" arrayType="NSArray">
@@ -118,12 +138,62 @@
             <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
                 {% if element.isSingleValue %}self.{{ element.variableName }} = [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding];{% else %}[self.{{ element.variableName }}Array addObject: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% /if %}
                 _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
-            <value>self.value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];</value>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = value;</value>
 		</read>
 	</simpletype>
+    <simpletype name="questionText" objType="NSString" arrayType="NSArray">
+        <read>
+            <prefix></prefix>
+            <attribute>self.{{ attribute.variableName }} = [NSString stringWithCString: {{ attribute.name }}AttrValue encoding: NSUTF8StringEncoding];</attribute>
+            <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
+                {% if element.isSingleValue %}self.{{ element.variableName }} = [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding];{% else %}[self.{{ element.variableName }}Array addObject: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% /if %}
+                _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = value;</value>
+        </read>
+    </simpletype>
+    <simpletype name="infoText" objType="NSString" arrayType="NSArray">
+        <read>
+            <prefix></prefix>
+            <attribute>self.{{ attribute.variableName }} = [NSString stringWithCString: {{ attribute.name }}AttrValue encoding: NSUTF8StringEncoding];</attribute>
+            <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
+                {% if element.isSingleValue %}self.{{ element.variableName }} = [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding];{% else %}[self.{{ element.variableName }}Array addObject: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% /if %}
+                _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = value;</value>
+        </read>
+    </simpletype>
+    <simpletype name="listId" objType="NSString" arrayType="NSArray">
+        <read>
+            <prefix></prefix>
+            <attribute>self.{{ attribute.variableName }} = [NSString stringWithCString: {{ attribute.name }}AttrValue encoding: NSUTF8StringEncoding];</attribute>
+            <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
+                {% if element.isSingleValue %}self.{{ element.variableName }} = [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding];{% else %}[self.{{ element.variableName }}Array addObject: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% /if %}
+                _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = value;</value>
+        </read>
+    </simpletype>
+    <simpletype name="formId" objType="NSString" arrayType="NSArray">
+        <read>
+            <prefix></prefix>
+            <attribute>self.{{ attribute.variableName }} = [NSString stringWithCString: {{ attribute.name }}AttrValue encoding: NSUTF8StringEncoding];</attribute>
+            <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
+                {% if element.isSingleValue %}self.{{ element.variableName }} = [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding];{% else %}[self.{{ element.variableName }}Array addObject: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% /if %}
+                _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = value;</value>
+        </read>
+    </simpletype>
     
     <!--complex type-->
-    <complextype arrayType="DDFilterableArray">
+    <complextype arrayType="NSArray">
         <read>
             <element><![CDATA[{% if element.isSingleValue %}self.{{ element.variableName }} = [[{{ element.objcType }} alloc] initWithReader: reader];{% else %}[{{ element.variableName }}Array addObject: [[{{ element.schemaType.targetClassName }} alloc] initWithReader: reader]];{% /if %}]]></element>
         </read>
