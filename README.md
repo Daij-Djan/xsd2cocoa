@@ -21,7 +21,7 @@ Following standard simple types are currently supported:
 </table>
 
 The Project is still in alpha phase, BUT real world usage is already be possible. *and practiced* <br/>
-**A demo project is included** and I used it to generate XML Parsers for **two commercial projects already**.
+**A demo project is included** and I used it to generate XML Parsers for **two commercial projects already** (Ill merge back fixes as I find the time).
 
 ###how-to
 ##### (very brief ;))
@@ -43,9 +43,8 @@ The Project is still in alpha phase, BUT real world usage is already be possible
 
 - Complex type elements (except local anonymous complex types)
 - Simple type elements/attributes (standard and custom)
-- Sequences and choices (but no nesting of the groups)
-Inheritance by extension
-Static parsing methods for global elements (a category is generated for a complex type that is used the root element)
+- Inheritance by extension
+- Static parsing methods for global elements (a category is generated for a complex type that is used the root element)
 - Mapping xml namespaces to class name prefixes via a specific tag in a template. (without it, namespaces are mapped 1 : 1 to Class prefixes)
 - referencing external files to copy to the destination folder when generating code
 - nested sequences&choices
@@ -59,7 +58,8 @@ The generator itself uses the NSXML* tree based API and is for OSX only.
 1. So far the generator does NOT handle references to elements/attributes via the ref= attribute.
 2. The min & maxOccurances of elements inside a sequence/choice must be specified on element itself as opposed to the sequence itself
 3. The generator doesnt do xs:enums. the resitrictions of the base type is just ignored and the base type is used. It would be cool if the generator genereated real enums from the values
-
+4. the generator doesnt support includes/imports
+5. the generator doesnt support annotations (will be added soonish)
 ###Filterable arrays
 In the screenshot above I show you that the app has 2 built-in objective C templates. One that uses NSArrays for collections of objects, one that uses DDFilterableArrays...
 
