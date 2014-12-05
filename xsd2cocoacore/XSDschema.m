@@ -345,6 +345,10 @@
     if([vName caseInsensitiveCompare:@"id"]==NSOrderedSame) {
         vName = @"identifier";
     }
+    //copy fix
+    if([vName caseInsensitiveCompare:@"copy"]==NSOrderedSame) {
+        vName = @"textCopy";
+    }
     //class fix
     if([vName caseInsensitiveCompare:@"class"]==NSOrderedSame) {
         vName = @"typeClass";
