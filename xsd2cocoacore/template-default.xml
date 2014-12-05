@@ -275,7 +275,8 @@
         NSString* _currentElementName = [NSString stringWithCString: (const char*) xmlTextReaderConstLocalName(reader) encoding:NSUTF8StringEncoding];
         {% for element in type.elements %}if([@"{{element.name}}" isEqualToString: _currentElementName]) {
           {{ element.readTemplate }}
-          handledInChild = YES;
+          {% if element.hasComplexType %}
+          handledInChild = YES;{% /if %}
         } else {% /for %} {% if type.hasSimpleBaseClass %} if([@"#text" isEqualToString: _currentElementName]){
               char* contentValue = (char*) xmlTextReaderConstValue(reader);
               if(contentValue) {
