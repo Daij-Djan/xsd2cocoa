@@ -64,12 +64,23 @@
                         }
                         else if([name isEqualToString:@"template"]) {
                             self.templatePathTextfield.stringValue = url.path;
+                            [self.templateStyleMatrix selectCellWithTag:2];
                         }
                     }
                 }
+                
+                [self validateWriteButton];
             }
         }
     }];
+}
+
+- (IBAction)templateChosen:(id)sender {
+    [self validateWriteButton];
+}
+
+- (IBAction)textfieldEdited:(id)sender {
+    [self validateWriteButton];
 }
 
 - (IBAction)writeObjcCode:(id)sender {
@@ -83,8 +94,8 @@
 
     //Get scheme
     NSURL *schemaURL = [NSURL fileURLWithPath: self.xsdFilePathTextfield.stringValue];
-    if(![fm isReadableFileAtPath: [schemaURL path]]) {
-        NSRunAlertPanel(@"Error", [NSString stringWithFormat:@"Schema at %@ cannot be found", [schemaURL path]], @"OK", nil, nil);
+    if(![fm isReadableFileAtPath: schemaURL.path]) {
+        NSRunAlertPanel(@"Error", @"Schema at %@ cannot be found", @"OK", nil, nil, schemaURL.path);
         return;
     }
     
@@ -92,7 +103,8 @@
     NSError* error = nil;
     XSDschema* schema = [[XSDschema alloc] initWithUrl: schemaURL prefix: nil error: &error];
     if(error != nil) {
-        NSRunAlertPanel(@"Error", [NSString stringWithFormat:@"Error while reading XSD %@", ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error"], @"OK", nil, nil);
+        NSString *errorString = [error localizedDescription] ? [error localizedDescription] : @"Unknown Error";
+        NSRunAlertPanel(@"Error", @"Error while reading XSD %@", @"OK", nil, nil, errorString);
         return;
     }
 
@@ -112,18 +124,16 @@
             }
             templateUrl = [NSURL fileURLWithPath:self.templatePathTextfield.stringValue];
             break;
-        case 1:
+        default:
             templateUrl = [[NSBundle mainBundle] URLForResource:@"template-default" withExtension:@"xml"];
-            break;
-        case 0:
-            templateUrl = [[NSBundle mainBundle] URLForResource:@"template-filterable" withExtension:@"xml"];
             break;
     }
     
     //load template
     [schema loadTemplate: templateUrl error: &error];
     if(error != nil) {
-        NSRunAlertPanel(@"Error", [NSString stringWithFormat:@"Error while assigning template %@", ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error"], @"OK", nil, nil);
+        NSString *errorString = ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error";
+        NSRunAlertPanel(@"Error", @"Error while assigning template %@", @"OK", nil, nil, errorString);
         return;
     }
 
@@ -132,18 +142,55 @@
         schema.classPrefix = self.customPrefix.stringValue;
     }
     
+    //write umbrella header
+    BOOL header = (self.writeHeaderCheckbox.state == NSOnState);
+    
     //write out data
-    [schema generateInto: outFolder copyAdditionalFiles:YES error: &error];
+    [schema generateInto: outFolder copyAdditionalFiles:YES addUmbrellaHeader:header error: &error];
     if(error != nil) {
-        NSRunAlertPanel(@"Error", [NSString stringWithFormat:@"Error while saving %@", ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error"], @"OK", nil, nil);
+        NSString *errorString = ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error";
+        NSRunAlertPanel(@"Error", @"Error while saving %@", @"OK", nil, nil, errorString);
         return;
     }
-
+    
     //success
     NSInteger ret = NSRunAlertPanel(@"Success", @"Generated Code for specified xsd", @"OK", @"Reveal", nil);
     if(ret == NSAlertAlternateReturn) {
         [[NSWorkspace sharedWorkspace] selectFile:nil inFileViewerRootedAtPath:outFolder.path];
     }
+}
+
+#pragma mark help
+
+- (IBAction)showXSDHelp:(id)sender {
+    NSInteger res = NSRunInformationalAlertPanel(@"XML Schema Definition", @"The XSD file that describes the 'grammar' for the xml files that parser should be able to parse.\n\nIf you dont have a XSD, but a XML you want to generate a parser for, use a free online services to create a XSD from that XML file", @"Dont have it", @"Close", nil);
+    if(res == NSAlertDefaultReturn) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.freeformatter.com/xsd-generator.html"]];
+    }
+}
+
+- (IBAction)showCustomTemplateHelp:(id)sender {
+    NSInteger res = NSRunInformationalAlertPanel(@"Custom Template", @"This converter uses a template.xml file to map xsd types to objC-classes and to define how elements are to be parsed.\n\nxsd2cocoa comes with a default template that generates code for ios/osx based on libxml.\n\nIf you want to modify that or add support for new specific simple types, copy the default, rewrite it and supply the new file here", @"I Want a new template", @"Close", nil);
+    if(res == NSAlertDefaultReturn) {
+        NSSavePanel *p = [NSSavePanel savePanel];
+        p.canCreateDirectories = YES;
+        [p beginWithCompletionHandler:^(NSInteger result) {
+            if(result == NSFileHandlingPanelOKButton) {
+                NSURL *templateUrl = [[NSBundle mainBundle] URLForResource:@"template-default" withExtension:@"xml"];
+                NSURL *destinationUrl = p.URL;
+                if([[NSFileManager defaultManager] copyItemAtURL:templateUrl toURL:destinationUrl error:nil]) {
+                    [[NSWorkspace sharedWorkspace] openURL:destinationUrl];
+                    self.templatePathTextfield.stringValue = destinationUrl.path;
+                    [self.templateStyleMatrix selectCellWithTag:2];
+                    [self validateWriteButton];
+                }
+            }
+        }];
+    }
+}
+
+- (IBAction)showPrefixHelp:(id)sender {
+    NSRunInformationalAlertPanel(@"Class Prefix", @"This prefix is added to all generated classes and files.\n\nBy default, when left blank, the namespace attribute from the XSD file is used", @"Close", nil, nil);
 }
 
 #pragma mark - file open panel delegate
@@ -176,6 +223,30 @@
     }
     
     return NO;
+}
+
+#pragma mark - helpers
+
+- (void)validateWriteButton {
+    self.writeButton.enabled = NO;
+    switch (self.templateStyleMatrix.selectedTag) {
+        case 2:
+            //if we have all, go
+            if(self.templatePathTextfield.stringValue.length) {
+                if(self.xsdFilePathTextfield.stringValue.length
+                   && self.outputFolderPathTextfield.stringValue.length) {
+                    self.writeButton.enabled = YES;
+                }
+            }
+            break;
+            default:
+            //if we have all, go
+            if(self.xsdFilePathTextfield.stringValue.length
+               && self.outputFolderPathTextfield.stringValue.length) {
+                self.writeButton.enabled = YES;
+            }
+            break;
+    }
 }
 
 @end

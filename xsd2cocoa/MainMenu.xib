@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6221" systemVersion="14C81f" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6221"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -10,7 +11,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <menu title="AMainMenu" systemMenu="main" id="29">
             <items>
                 <menuItem title="xsd2cocoa" id="56">
@@ -315,62 +316,71 @@
         <window title="xsd2cocoa" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="388" height="439"/>
+            <rect key="contentRect" x="172" y="632" width="410" height="394"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
-            <value key="minSize" type="size" width="200" height="439"/>
+            <value key="minSize" type="size" width="410" height="394"/>
+            <value key="maxSize" type="size" width="2000" height="394"/>
             <view key="contentView" id="372">
-                <rect key="frame" x="0.0" y="0.0" width="388" height="439"/>
+                <rect key="frame" x="0.0" y="-5" width="410" height="394"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="WtC-UY-2MM">
-                        <rect key="frame" x="18" y="402" width="86" height="17"/>
+                        <rect key="frame" x="18" y="357" width="128" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="XSD File Path" id="BMJ-NZ-yXs">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input XSD File Path:" id="BMJ-NZ-yXs">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" id="BrR-Dr-DXs">
-                        <rect key="frame" x="128" y="28" width="145" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="push" title="Write ObjC Code" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lpR-Oq-0hP">
+                    <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="tFM-BQ-YZQ">
+                        <rect key="frame" x="365" y="330" width="25" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BcT-CV-UOb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="writeObjcCode:" target="494" id="bms-Uf-Hzt"/>
+                            <action selector="showXSDHelp:" target="494" id="rsX-Zi-Zck"/>
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" id="dO4-XI-ytA">
-                        <rect key="frame" x="20" y="377" width="348" height="22"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Egs-XU-e3p">
+                        <rect key="frame" x="20" y="332" width="339" height="22"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="file path for a XSD to generate a parser" drawsBackground="YES" id="Egs-XU-e3p">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <action selector="textfieldEdited:" target="494" id="fi2-Aq-kbX"/>
+                            <outlet property="nextKeyView" destination="bXB-tP-aWJ" id="qY8-9d-yKH"/>
+                        </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="LRl-Te-CaG">
-                        <rect key="frame" x="18" y="347" width="90" height="17"/>
+                        <rect key="frame" x="18" y="302" width="220" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Output folder" id="Fu9-bW-9zn">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Output folder for generated parser:" id="Fu9-bW-9zn">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="bXB-tP-aWJ">
-                        <rect key="frame" x="20" y="322" width="348" height="22"/>
+                        <rect key="frame" x="20" y="277" width="370" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="VCz-8o-7PV">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="path to folder for generated .h/.m files" drawsBackground="YES" id="VCz-8o-7PV">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <action selector="textfieldEdited:" target="494" id="eCY-dB-zzN"/>
+                            <outlet property="nextKeyView" destination="BGQ-MM-U13" id="6oa-ce-smp"/>
+                        </connections>
                     </textField>
                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="NrG-Eb-ed4">
-                        <rect key="frame" x="20" y="299" width="13" height="13"/>
+                        <rect key="frame" x="20" y="254" width="13" height="13"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="disclosureTriangle" bezelStyle="disclosure" imagePosition="above" alignment="left" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gI1-eF-J3I">
                             <behavior key="behavior" pushIn="YES" changeBackground="YES" changeGray="YES" lightByContents="YES"/>
@@ -381,7 +391,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="SBV-rf-bPj">
-                        <rect key="frame" x="39" y="297" width="66" height="17"/>
+                        <rect key="frame" x="39" y="252" width="66" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Advanced" id="zrQ-h3-bD5">
                             <font key="font" metaFont="system"/>
@@ -390,35 +400,26 @@
                         </textFieldCell>
                     </textField>
                     <box autoresizesSubviews="NO" title="Box" borderType="line" titlePosition="noTitle" id="ovF-HT-zwy">
-                        <rect key="frame" x="17" y="87" width="354" height="209"/>
+                        <rect key="frame" x="17" y="57" width="374" height="194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <view key="contentView">
-                            <rect key="frame" x="1" y="1" width="352" height="207"/>
+                            <rect key="frame" x="1" y="1" width="372" height="192"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="H60-8D-EWM">
-                                    <rect key="frame" x="6" y="185" width="119" height="17"/>
+                                    <rect key="frame" x="16" y="163" width="119" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Template File Path" id="r4t-LP-FZS">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Parser Template:" id="r4t-LP-FZS">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" id="tkt-Dk-vOf">
-                                    <rect key="frame" x="8" y="12" width="336" height="22"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Leave blank to use the prefix configured in the XML" drawsBackground="YES" id="TN1-Zv-4NQ">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
                                 <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" id="BGQ-MM-U13">
-                                    <rect key="frame" x="8" y="59" width="336" height="118"/>
+                                    <rect key="frame" x="18" y="45" width="336" height="110"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="cellSize" width="312" height="34"/>
+                                    <size key="cellSize" width="187" height="18"/>
                                     <size key="intercellSpacing" width="4" height="2"/>
                                     <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="DcX-GQ-7Tc">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -426,53 +427,111 @@
                                     </buttonCell>
                                     <cells>
                                         <column>
-                                            <buttonCell type="radio" imagePosition="left" alignment="left" tag="1" inset="2" id="997-XF-6Tz">
+                                            <buttonCell type="radio" title="Built-in Objective-C Parser" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="997-XF-6Tz">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <string key="title">Built-In: Stock NSArrays Template without 
-extended filtering</string>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
-                                            <buttonCell type="radio" imagePosition="left" alignment="left" state="on" inset="2" id="KcG-sB-MTe">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <string key="title">Built-In: Use DDFilterableArray instances with 
-direct support for predicates</string>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <buttonCell type="radio" title="Custom:" imagePosition="left" alignment="left" tag="2" inset="2" id="Tvc-Nq-KZZ">
+                                            <buttonCell type="radio" title="Custom" imagePosition="left" alignment="left" tag="2" inset="2" id="KcG-sB-MTe">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                         </column>
                                     </cells>
+                                    <connections>
+                                        <action selector="templateChosen:" target="494" id="cJ3-Z8-Uee"/>
+                                    </connections>
                                 </matrix>
                                 <textField verticalHuggingPriority="750" id="shM-H9-Sro">
-                                    <rect key="frame" x="89" y="79" width="255" height="22"/>
+                                    <rect key="frame" x="38" y="89" width="287" height="22"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="" drawsBackground="YES" id="eIH-a1-P24">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="file path to custom template xml" drawsBackground="YES" id="eIH-a1-P24">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <action selector="textfieldEdited:" target="494" id="RcD-3Y-j8m"/>
+                                        <outlet property="nextKeyView" destination="tkt-Dk-vOf" id="tWc-uJ-PMc"/>
+                                    </connections>
                                 </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="U1d-l3-I8J">
-                                    <rect key="frame" x="6" y="42" width="128" height="17"/>
+                                <button id="6Ep-5W-8cZ">
+                                    <rect key="frame" x="16" y="12" width="340" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Custom Class Prefix" id="oiu-Up-vJg">
+                                    <buttonCell key="cell" type="check" title="Generate Umbrella (Convenience) header" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="7xK-aR-HkN">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <outlet property="nextKeyView" destination="BrR-Dr-DXs" id="1TB-fV-FJd"/>
+                                    </connections>
+                                </button>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="U1d-l3-I8J">
+                                    <rect key="frame" x="17" y="50" width="133" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Custom Class Prefix:" id="oiu-Up-vJg">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
+                                <textField verticalHuggingPriority="750" id="tkt-Dk-vOf">
+                                    <rect key="frame" x="152" y="48" width="171" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Custom class prefix" drawsBackground="YES" id="TN1-Zv-4NQ">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                    <connections>
+                                        <action selector="textfieldEdited:" target="494" id="zkL-BG-E51"/>
+                                        <outlet property="nextKeyView" destination="6Ep-5W-8cZ" id="1k3-fn-VER"/>
+                                    </connections>
+                                </textField>
+                                <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="K4n-lo-vD4">
+                                    <rect key="frame" x="331" y="45" width="25" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="63F-Sn-IZe">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="showPrefixHelp:" target="494" id="LeU-Tm-c1s"/>
+                                    </connections>
+                                </button>
+                                <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="WsS-jm-SMN">
+                                    <rect key="frame" x="331" y="87" width="25" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="plS-ht-NOZ">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="showCustomTemplateHelp:" target="494" id="cyP-No-brO"/>
+                                    </connections>
+                                </button>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
+                    <button verticalHuggingPriority="750" id="BrR-Dr-DXs">
+                        <rect key="frame" x="117" y="13" width="145" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Write ObjC Code" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lpR-Oq-0hP">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="writeObjcCode:" target="494" id="bms-Uf-Hzt"/>
+                            <outlet property="nextKeyView" destination="dO4-XI-ytA" id="MDJ-IO-Ihf"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <connections>
-                <outlet property="initialFirstResponder" destination="BrR-Dr-DXs" id="JbN-Gf-f4o"/>
-            </connections>
+            <point key="canvasLocation" x="265" y="318"/>
         </window>
         <customObject id="494" customClass="AppDelegate">
             <connections>
@@ -482,6 +541,8 @@ direct support for predicates</string>
                 <outlet property="templatePathTextfield" destination="shM-H9-Sro" id="kFK-HK-Vvd"/>
                 <outlet property="templateStyleMatrix" destination="BGQ-MM-U13" id="ZLF-QK-sjr"/>
                 <outlet property="window" destination="371" id="532"/>
+                <outlet property="writeButton" destination="BrR-Dr-DXs" id="3xh-v3-I5W"/>
+                <outlet property="writeHeaderCheckbox" destination="6Ep-5W-8cZ" id="GwJ-FD-YT3"/>
                 <outlet property="xsdFilePathTextfield" destination="dO4-XI-ytA" id="MhU-Fh-iEo"/>
             </connections>
         </customObject>

@@ -138,76 +138,6 @@
     return YES;
 }
 
-- (BOOL) generateInto: (NSURL*) destinationFolder
-  copyAdditionalFiles:(BOOL)copyAdditionalFiles
-                error: (NSError**) error{
-    NSParameterAssert(destinationFolder);
-    NSParameterAssert(error);
-    
-    for(XSDcomplexType* type in self.complexTypes) {
-        if (self.headerTemplateString != nil) {
-            NSString *result = [engine processTemplate: self.headerTemplateString
-                                         withVariables: type.substitutionDict];
-            
-            NSString* headerFileName = [NSString stringWithFormat: @"%@.h", type.targetClassName];
-            NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName]; 
-            [result writeToURL: headerFilePath atomically:TRUE encoding: NSUTF8StringEncoding error: error];
-            if(*error != nil) {
-                return NO;
-            }
-        }
-        
-        if (self.classTemplateString != nil) {
-            NSString *result = [engine processTemplate: self.classTemplateString
-                                         withVariables: type.substitutionDict];
-            
-            NSString* classFileName = [NSString stringWithFormat: @"%@.m", type.targetClassName];
-            NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName]; 
-            [result writeToURL: classFilePath atomically:TRUE encoding: NSUTF8StringEncoding error: error];
-            if(*error != nil) {
-                return NO;
-            }
-        }
-
-        // readers
-        if(type.globalElements.count) {
-            if (self.readerHeaderTemplateString != nil) {
-                NSString *result = [engine processTemplate: self.readerHeaderTemplateString
-                                             withVariables: type.substitutionDict];
-                
-                NSString* headerFileName = [NSString stringWithFormat: @"%@+File.h", type.targetClassName];
-                NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName];
-                [result writeToURL: headerFilePath atomically:TRUE encoding: NSUTF8StringEncoding error: error];
-                if(*error != nil) {
-                    return NO;
-                }
-            }
-            
-            if (self.readerClassTemplateString != nil) {
-                NSString *result = [engine processTemplate: self.readerClassTemplateString
-                                             withVariables: type.substitutionDict];
-                
-                NSString* classFileName = [NSString stringWithFormat: @"%@+File.m", type.targetClassName];
-                NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName];
-                [result writeToURL: classFilePath atomically:TRUE encoding: NSUTF8StringEncoding error: error];
-                if(*error != nil) {
-                    return NO;
-                }
-            }
-        }
-        
-        if(copyAdditionalFiles) {
-            //copy additional files
-            for (NSString *filePath in self.additionalFiles) {
-                NSString *destPath = [destinationFolder.path stringByAppendingPathComponent:filePath.lastPathComponent];
-                [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destPath error:nil];
-            }
-        }
-    }
-    
-    return YES;
-}
-
 - (id<XSType>) typeForName: (NSString*) qName {
     assert(qName.length); //EVERYTHING has a type name
 
@@ -352,6 +282,120 @@
     
     assert(vName.length); //EVERYTHING has a name
     return vName;
+}
+
+#pragma mark - write out
+
+- (BOOL) generateInto: (NSURL*) destinationFolder
+  copyAdditionalFiles: (BOOL)copyAdditionalFiles
+    addUmbrellaHeader: (BOOL)addUmbrellaHeader
+                error: (NSError**) error {
+    NSParameterAssert(destinationFolder);
+    NSParameterAssert(error);
+    
+    //write classes
+    for(XSDcomplexType* type in self.complexTypes) {
+        if (self.headerTemplateString != nil) {
+            NSString *result = [engine processTemplate: self.headerTemplateString
+                                         withVariables: type.substitutionDict];
+            
+            NSString* headerFileName = [NSString stringWithFormat: @"%@.h", type.targetClassName];
+            NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName];
+            [result writeToURL: headerFilePath atomically:TRUE encoding: NSUTF8StringEncoding error: error];
+            if(*error != nil) {
+                return NO;
+            }
+        }
+        
+        if (self.classTemplateString != nil) {
+            NSString *result = [engine processTemplate: self.classTemplateString
+                                         withVariables: type.substitutionDict];
+            
+            NSString* classFileName = [NSString stringWithFormat: @"%@.m", type.targetClassName];
+            NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName];
+            [result writeToURL: classFilePath atomically:TRUE encoding: NSUTF8StringEncoding error: error];
+            if(*error != nil) {
+                return NO;
+            }
+        }
+        
+        // readers
+        if(type.globalElements.count) {
+            if (self.readerHeaderTemplateString != nil) {
+                NSString *result = [engine processTemplate: self.readerHeaderTemplateString
+                                             withVariables: type.substitutionDict];
+                
+                NSString* headerFileName = [NSString stringWithFormat: @"%@+File.h", type.targetClassName];
+                NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName];
+                [result writeToURL: headerFilePath atomically:TRUE encoding: NSUTF8StringEncoding error: error];
+                if(*error != nil) {
+                    return NO;
+                }
+            }
+            
+            if (self.readerClassTemplateString != nil) {
+                NSString *result = [engine processTemplate: self.readerClassTemplateString
+                                             withVariables: type.substitutionDict];
+                
+                NSString* classFileName = [NSString stringWithFormat: @"%@+File.m", type.targetClassName];
+                NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName];
+                [result writeToURL: classFilePath atomically:TRUE encoding: NSUTF8StringEncoding error: error];
+                if(*error != nil) {
+                    return NO;
+                }
+            }
+        }
+    }
+    
+    //copy additional files
+    if(copyAdditionalFiles) {
+        for (NSString *filePath in self.additionalFiles) {
+            NSString *destPath = [destinationFolder.path stringByAppendingPathComponent:filePath.lastPathComponent];
+            [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destPath error:nil];
+        }
+    }
+    
+    //add header
+    if(addUmbrellaHeader) {
+        NSString *fileName = [NSString stringWithFormat:@"%@.h", destinationFolder.lastPathComponent];
+        NSURL *filePath = [destinationFolder URLByAppendingPathComponent:fileName];
+        
+        //unique the fricking name
+        if([[NSFileManager defaultManager] fileExistsAtPath:filePath.path]) {
+            fileName = [NSString stringWithFormat:@"__%@_umbrella.h", destinationFolder.lastPathComponent];
+            filePath = [destinationFolder URLByAppendingPathComponent:fileName];
+            if([[NSFileManager defaultManager] fileExistsAtPath:filePath.path]) {
+                fileName = [NSString stringWithFormat:@"__%@_umbrella_%lf.h", destinationFolder.lastPathComponent, [NSDate date].timeIntervalSince1970];
+                filePath = [destinationFolder URLByAppendingPathComponent:fileName];
+            }
+        }
+        
+        //add includes for all other files
+        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:destinationFolder
+                                                                    includingPropertiesForKeys:@[ NSURLNameKey, NSURLIsDirectoryKey ]
+                                                                                       options:NSDirectoryEnumerationSkipsPackageDescendants| NSDirectoryEnumerationSkipsHiddenFiles
+                                                                                  errorHandler:nil];
+        NSMutableString *includes = [NSMutableString string];
+        for (NSURL *theURL in dirEnumerator) {
+            NSNumber *isDirectory;
+            [theURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+            if (![isDirectory boolValue]) {
+                if([theURL.pathExtension isEqualTo:@"h"]) {
+                    if(includes.length) {
+                        [includes appendString:@"\n"];
+                    }
+                    [includes appendFormat:@"#import \"%@\"", theURL.lastPathComponent];
+                }
+            }
+        }
+
+        BOOL br = [includes writeToURL:filePath atomically:YES encoding:NSUTF8StringEncoding error:error];
+        if(!br) {
+            return NO;
+        }
+    }
+    
+    return YES;
 }
 
 @end

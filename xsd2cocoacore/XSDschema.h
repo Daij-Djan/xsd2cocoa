@@ -47,6 +47,7 @@
 
 - (BOOL) generateInto: (NSURL*) destinationFolder
   copyAdditionalFiles: (BOOL)copyAdditionalFiles
+    addUmbrellaHeader: (BOOL)addUmbrellaHeader
                 error: (NSError**) error;
 
 - (void) addComplexType: (XSDcomplexType*) cType;

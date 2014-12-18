@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B409447F187064FF00CD0C33 /* template-DDFilterableArray in Resources */ = {isa = PBXBuildFile; fileRef = B409447E187064FF00CD0C33 /* template-DDFilterableArray */; };
 		B41C4DAF185854D6007619F5 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B6F10C13895EA400F4CC65 /* libxml2.dylib */; };
 		B41C4DB1185854DD007619F5 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F8D64EEF138EC5D300119E0E /* libicucore.dylib */; };
 		B41C4E63185854FB007619F5 /* XSDall.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C4DB8185854FB007619F5 /* XSDall.m */; };
@@ -71,12 +70,11 @@
 		B41C4F05185854FB007619F5 /* XSSimpleType.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C4E5F185854FB007619F5 /* XSSimpleType.m */; };
 		B41C4F071858554E007619F5 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C4E29185854FB007619F5 /* RegexKitLite.m */; };
 		B41C4F09185855D9007619F5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B41C4F08185855D9007619F5 /* SystemConfiguration.framework */; };
+		B445EB4D1A42E73C00840265 /* template-default.xml in Resources */ = {isa = PBXBuildFile; fileRef = B4F776091A42D8F5008E6410 /* template-default.xml */; };
 		B45720CF1857D487005632B7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F495AE1857BFCA00A6E488 /* Cocoa.framework */; };
 		B45720FD1857D4B1005632B7 /* libRegexKitLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B45720541857D1FA005632B7 /* libRegexKitLite.a */; };
 		B457210B1857D532005632B7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721001857D532005632B7 /* AppDelegate.m */; };
 		B45721101857D532005632B7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721081857D532005632B7 /* main.m */; };
-		B47270AE186CD62000F8E82E /* template-filterable.xml in Resources */ = {isa = PBXBuildFile; fileRef = B47270AB186CD62000F8E82E /* template-filterable.xml */; };
-		B47270AF186CD62000F8E82E /* template-default.xml in Resources */ = {isa = PBXBuildFile; fileRef = B47270AC186CD62000F8E82E /* template-default.xml */; };
 		B47270B0186CD62000F8E82E /* template.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B47270AD186CD62000F8E82E /* template.xsd */; };
 		B49C8A471868C6B300AE2D69 /* XSDPrefixOverride.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C8A461868C6B300AE2D69 /* XSDPrefixOverride.m */; };
 		B4C55C4718707F2A0006D92A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4C55C4618707F2A0006D92A /* MainMenu.xib */; };
@@ -95,7 +93,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B409447E187064FF00CD0C33 /* template-DDFilterableArray */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "template-DDFilterableArray"; sourceTree = "<group>"; };
 		B41C4DB7185854FB007619F5 /* XSDall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = XSDall.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		B41C4DB8185854FB007619F5 /* XSDall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 2; path = XSDall.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B41C4DB9185854FB007619F5 /* XSDannotated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDannotated.h; sourceTree = "<group>"; };
@@ -226,8 +223,6 @@
 		B45721081857D532005632B7 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B45721091857D532005632B7 /* xsd2cocoa-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "xsd2cocoa-Info.plist"; sourceTree = "<group>"; };
 		B457210A1857D532005632B7 /* xsd2cocoa-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "xsd2cocoa-Prefix.pch"; sourceTree = "<group>"; };
-		B47270AB186CD62000F8E82E /* template-filterable.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "template-filterable.xml"; sourceTree = "<group>"; };
-		B47270AC186CD62000F8E82E /* template-default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "template-default.xml"; sourceTree = "<group>"; };
 		B47270AD186CD62000F8E82E /* template.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template.xsd; sourceTree = "<group>"; };
 		B49C8A451868C6B300AE2D69 /* XSDPrefixOverride.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDPrefixOverride.h; sourceTree = "<group>"; };
 		B49C8A461868C6B300AE2D69 /* XSDPrefixOverride.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDPrefixOverride.m; sourceTree = "<group>"; };
@@ -237,7 +232,7 @@
 		B4D65C5A185C9F2D00D1BE85 /* XMLUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLUtils.m; sourceTree = "<group>"; };
 		B4F495AE1857BFCA00A6E488 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		B4F495B71857C10E00A6E488 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		B4F495B91857C10E00A6E488 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		B4F776091A42D8F5008E6410 /* template-default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "template-default.xml"; sourceTree = "<group>"; };
 		F8B6F10C13895EA400F4CC65 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		F8D64EEF138EC5D300119E0E /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -271,11 +266,9 @@
 				B41C4DB4185854FB007619F5 /* Generated */,
 				B41C4E15185854FB007619F5 /* MGTemplateEngine */,
 				B41C4E27185854FB007619F5 /* RegexKitLite */,
-				B409447E187064FF00CD0C33 /* template-DDFilterableArray */,
-				B47270AB186CD62000F8E82E /* template-filterable.xml */,
-				B47270AC186CD62000F8E82E /* template-default.xml */,
 				B47270AD186CD62000F8E82E /* template.xsd */,
 				B41C4E57185854FB007619F5 /* XMLSchema.xsd */,
+				B4F776091A42D8F5008E6410 /* template-default.xml */,
 				B4D65C59185C9F2D00D1BE85 /* XMLUtils.h */,
 				B4D65C5A185C9F2D00D1BE85 /* XMLUtils.m */,
 				B41C4E58185854FB007619F5 /* XSAnnotated.h */,
@@ -462,7 +455,6 @@
 		F8E422B7138834E90047AA8C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B4F495B91857C10E00A6E488 /* UIKit.framework */,
 				F8B6F10C13895EA400F4CC65 /* libxml2.dylib */,
 				F8D64EEF138EC5D300119E0E /* libicucore.dylib */,
 				B4F495AE1857BFCA00A6E488 /* Cocoa.framework */,
@@ -526,7 +518,7 @@
 		F8E422AB138834E90047AA8C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0600;
 			};
 			buildConfigurationList = F8E422AE138834E90047AA8C /* Build configuration list for PBXProject "xsd2cocoa" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -553,13 +545,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B41C4ECD185854FB007619F5 /* Source Code License.rtf in Resources */,
+				B445EB4D1A42E73C00840265 /* template-default.xml in Resources */,
 				B4C55C4918707FEB0006D92A /* AppIcon.icns in Resources */,
-				B47270AF186CD62000F8E82E /* template-default.xml in Resources */,
-				B409447F187064FF00CD0C33 /* template-DDFilterableArray in Resources */,
 				B47270B0186CD62000F8E82E /* template.xsd in Resources */,
 				B41C4EFD185854FB007619F5 /* XMLSchema.xsd in Resources */,
 				B4C55C4718707F2A0006D92A /* MainMenu.xib in Resources */,
-				B47270AE186CD62000F8E82E /* template-filterable.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,6 +658,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -699,6 +690,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
