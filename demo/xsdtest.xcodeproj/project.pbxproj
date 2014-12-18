@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B409448A1870681D00CD0C33 /* DDFilterableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = B40944811870681D00CD0C33 /* DDFilterableArray.m */; };
 		B409448B1870681D00CD0C33 /* WLFavdef.m in Sources */ = {isa = PBXBuildFile; fileRef = B40944831870681D00CD0C33 /* WLFavdef.m */; };
 		B409448C1870681D00CD0C33 /* WLFG.m in Sources */ = {isa = PBXBuildFile; fileRef = B40944851870681D00CD0C33 /* WLFG.m */; };
 		B409448D1870681D00CD0C33 /* WLFG+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B40944871870681D00CD0C33 /* WLFG+File.m */; };
@@ -30,8 +29,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B40944801870681D00CD0C33 /* DDFilterableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFilterableArray.h; sourceTree = "<group>"; };
-		B40944811870681D00CD0C33 /* DDFilterableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFilterableArray.m; sourceTree = "<group>"; };
 		B40944821870681D00CD0C33 /* WLFavdef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFavdef.h; sourceTree = "<group>"; };
 		B40944831870681D00CD0C33 /* WLFavdef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLFavdef.m; sourceTree = "<group>"; };
 		B40944841870681D00CD0C33 /* WLFG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFG.h; sourceTree = "<group>"; };
@@ -64,8 +61,6 @@
 		B48A9BA5185E5EBA00A4C3D2 /* xsdtest */ = {
 			isa = PBXGroup;
 			children = (
-				B40944801870681D00CD0C33 /* DDFilterableArray.h */,
-				B40944811870681D00CD0C33 /* DDFilterableArray.m */,
 				B40944821870681D00CD0C33 /* WLFavdef.h */,
 				B40944831870681D00CD0C33 /* WLFavdef.m */,
 				B40944841870681D00CD0C33 /* WLFG.h */,
@@ -163,7 +158,6 @@
 				B409448C1870681D00CD0C33 /* WLFG.m in Sources */,
 				B409448D1870681D00CD0C33 /* WLFG+File.m in Sources */,
 				B409448B1870681D00CD0C33 /* WLFavdef.m in Sources */,
-				B409448A1870681D00CD0C33 /* DDFilterableArray.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

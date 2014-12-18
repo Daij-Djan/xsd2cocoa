@@ -16,6 +16,14 @@ DerivedData
 .idea/
 *.hmap
 *.xccheckout
-
 #CocoaPods
 Pods
+demo/xsdtest/WLFavdef.h
+demo/xsdtest/WLFavdef.m
+demo/xsdtest/WLFG.h
+demo/xsdtest/WLFG.m
+demo/xsdtest/WLFG+File.h
+demo/xsdtest/WLFG+File.m
+demo/xsdtest/WLGroupdef.h
+demo/xsdtest/WLGroupdef.m
+demo/xsdtest/xsdtest.h
