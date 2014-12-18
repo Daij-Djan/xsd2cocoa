@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface XSDboolean : NSObject {
-@private
-    
-}
+@interface XSDboolean : NSObject
 
 @end

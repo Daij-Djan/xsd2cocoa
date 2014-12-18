@@ -10,6 +10,7 @@
 #import "XSSimpleType.h"
 #import "MGTemplateEngine.h"
 #import "ICUTemplateMatcher.h"
+#import "XSDschema.h"
 
 @implementation XSDcomplexType
 
@@ -42,44 +43,44 @@
         engine = [MGTemplateEngine templateEngine];
         [engine setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine]];
         
-        self.name = [XSSchemaNode node: node stringAttribute: @"name"];
-        self.mixed = [XSSchemaNode node: node boolAttribute: @"mixed"];
+        self.name = [XMLUtils node: node stringAttribute: @"name"];
+        self.mixed = [XMLUtils node: node boolAttribute: @"mixed"];
         
         NSMutableArray* newAttributes = [NSMutableArray array];
-        NSArray* attributeTags = [XSSchemaNode node: node childrenWithName: @"attribute"];
+        NSArray* attributeTags = [XMLUtils node: node childrenWithName: @"attribute"];
         for(NSXMLElement* anElement in attributeTags) {
             [newAttributes addObject: [[XSDattribute alloc] initWithNode: anElement schema: schema]];
         }
         self.attributes = newAttributes;
         
-        NSXMLElement *child = [XSSchemaNode node: node childWithName: @"sequence"];
+        NSXMLElement *child = [XMLUtils node: node childWithName: @"sequence"];
         if(!child) {
-            child = [XSSchemaNode node: node childWithName: @"choice"];
+            child = [XMLUtils node: node childWithName: @"choice"];
         }
         if(child) {
             self.sequenceOrChoice = [[XSDexplicitGroup alloc] initWithNode: child schema: schema];
         }
         
-        NSXMLElement* complexContent = [XSSchemaNode node: node childWithName: @"complexContent"];
+        NSXMLElement* complexContent = [XMLUtils node: node childWithName: @"complexContent"];
         //if there is no complex content, there might still be simple content
         if(!complexContent) {
-            complexContent = [XSSchemaNode node: node childWithName: @"simpleContent"];
+            complexContent = [XMLUtils node: node childWithName: @"simpleContent"];
         }
         
-        NSArray* elementTags = [XSSchemaNode node: complexContent childrenWithName: @"extension"];
+        NSArray* elementTags = [XMLUtils node: complexContent childrenWithName: @"extension"];
         for(NSXMLElement* anElement in elementTags) {
-            self.baseType = [XSSchemaNode node: anElement stringAttribute: @"base"];
+            self.baseType = [XMLUtils node: anElement stringAttribute: @"base"];
 
-            child = [XSSchemaNode node: anElement childWithName: @"sequence"];
+            child = [XMLUtils node: anElement childWithName: @"sequence"];
             if(!child) {
-                child = [XSSchemaNode node: anElement childWithName: @"choice"];
+                child = [XMLUtils node: anElement childWithName: @"choice"];
             }
             if(child) {
                 self.sequenceOrChoice = [[XSDexplicitGroup alloc] initWithNode: child schema: schema];
             }
 
             NSMutableArray* newAttributes = [NSMutableArray array];
-            NSArray* attributeTags = [XSSchemaNode node: anElement childrenWithName: @"attribute"];
+            NSArray* attributeTags = [XMLUtils node: anElement childrenWithName: @"attribute"];
             for(NSXMLElement* anElement in attributeTags) {
                 [newAttributes addObject: [[XSDattribute alloc] initWithNode: anElement schema: schema]];
             }
@@ -155,8 +156,12 @@
         range = [vName rangeOfCharacterFromSet: illegalChars];
     }
     
-    NSString *prefix = [self.schema prefixForXMLPrefix:self.schema.classPrefix];
+    NSString *prefix = self.schema.classPrefix;
     return [NSString stringWithFormat: @"%@%@", prefix, vName];
+}
+
+- (NSString*) targetClassFileName {
+    return self.targetClassName;
 }
 
 - (NSString*) arrayType {
@@ -188,6 +193,10 @@
     } else {
         return @"";
     }
+}
+
+- (NSString*) baseClassFileName {
+    return self.baseClassName;
 }
 
 - (NSString*)readSimpleContent {

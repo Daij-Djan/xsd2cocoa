@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface XSDnamespaceList : NSObject {
-@private
-    
-}
+@interface XSDnamespaceList : NSObject
 
 @end

@@ -10,9 +10,6 @@
 #import "XMLUtils.h"
 
 
-@interface XSDanySimpleType : NSObject {
-@private
-    
-}
+@interface XSDanySimpleType : NSObject
 
 @end

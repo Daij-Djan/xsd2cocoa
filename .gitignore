@@ -27,3 +27,12 @@ demo/xsdtest/WLFG+File.m
 demo/xsdtest/WLGroupdef.h
 demo/xsdtest/WLGroupdef.m
 demo/xsdtest/xsdtest.h
+demo2/Address/Address.h
+demo2/Address/MYCOMPANYAddress.h
+demo2/Address/MYCOMPANYAddress.m
+demo2/Address/MYCOMPANYAddress+File.h
+demo2/Address/MYCOMPANYAddress+File.m
+demo2/Address/MYCOMPANYStreetInfo.h
+demo2/Address/MYCOMPANYStreetInfo.m
+demo2/Address/MYCOMPANYUnitInfo.h
+demo2/Address/MYCOMPANYUnitInfo.m

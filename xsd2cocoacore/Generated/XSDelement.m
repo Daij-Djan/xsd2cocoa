@@ -8,6 +8,7 @@
 //#import "XSDlocalComplexType.h"
 #import "XSDcomplexType.h"
 #import "XSDschema.h"
+#import "XMLUtils.h"
 
 //#import "XSDQName.h"
 //#import "XSDstring.h"
@@ -54,25 +55,25 @@
 }
 
 - (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema {
-    self = [super initWithNode: node schema: schema];
+    self = [super initWithSchema:schema];
     if(self) {
         //self.simpleType = [[[XSDlocalSimpleType alloc] initWithNode: [Soap getNode: node withName: @"simpleType"]] object];
         
-        self.type = [XSSchemaNode node: node stringAttribute: @"type"];
-        self.name = [XSSchemaNode node: node stringAttribute: @"name"];
-        self.substitutionGroup = [XSSchemaNode node: node stringAttribute: @"substitutionGroup"];
-        self.defaultValue = [XSSchemaNode node: node stringAttribute:  @"default"];
-        self.fixed = [XSSchemaNode node: node stringAttribute: @"fixed"];
-        self.nillable = [XSSchemaNode node: node stringAttribute: @"nillable"];
-        self.abstractValue = [XSSchemaNode node: node stringAttribute: @"abstract"];
-        self.final = [XSSchemaNode node: node stringAttribute: @"final"];
-        self.block = [XSSchemaNode node: node stringAttribute: @"block"];
-        self.form = [XSSchemaNode node: node stringAttribute: @"form"];
+        self.type = [XMLUtils node: node stringAttribute: @"type"];
+        self.name = [XMLUtils node: node stringAttribute: @"name"];
+        self.substitutionGroup = [XMLUtils node: node stringAttribute: @"substitutionGroup"];
+        self.defaultValue = [XMLUtils node: node stringAttribute:  @"default"];
+        self.fixed = [XMLUtils node: node stringAttribute: @"fixed"];
+        self.nillable = [XMLUtils node: node stringAttribute: @"nillable"];
+        self.abstractValue = [XMLUtils node: node stringAttribute: @"abstract"];
+        self.final = [XMLUtils node: node stringAttribute: @"final"];
+        self.block = [XMLUtils node: node stringAttribute: @"block"];
+        self.form = [XMLUtils node: node stringAttribute: @"form"];
         
         NSNumberFormatter* numFormatter = [[NSNumberFormatter alloc] init];
         numFormatter.numberStyle = NSNumberFormatterDecimalStyle;
         
-        NSString* minOccursValue = [XSSchemaNode node: node stringAttribute: @"minOccurs"];
+        NSString* minOccursValue = [XMLUtils node: node stringAttribute: @"minOccurs"];
         if(minOccursValue == nil) {
             self.minOccurs = [NSNumber numberWithInt: 1];
         } else if([minOccursValue isEqual: @"unbounded"]) {
@@ -80,7 +81,7 @@
         } else {
             self.minOccurs = [numFormatter numberFromString: minOccursValue];
         }
-        NSString* maxOccursValue = [XSSchemaNode node: node stringAttribute: @"maxOccurs"];
+        NSString* maxOccursValue = [XMLUtils node: node stringAttribute: @"maxOccurs"];
         if(maxOccursValue == nil) {
             self.maxOccurs = [NSNumber numberWithInt: 1];
         } else if([maxOccursValue isEqual: @"unbounded"]) {
@@ -90,7 +91,7 @@
         }
         
         if(self.type == nil) {
-            NSXMLElement* complexTypeNode = [XSSchemaNode node: node childWithName: @"complexType"];
+            NSXMLElement* complexTypeNode = [XMLUtils node: node childWithName: @"complexType"];
             if(complexTypeNode != nil) {
                 self.localComplexType = [[XSDcomplexType alloc] initWithNode: complexTypeNode schema: schema];
                 self.localComplexType.name = [self.name stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[self.name substringToIndex:1] uppercaseString]];

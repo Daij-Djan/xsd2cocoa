@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface XSDformChoice : NSObject {
-@private
-    
-}
+@interface XSDformChoice : NSObject
 
 @end

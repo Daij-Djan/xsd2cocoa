@@ -9,9 +9,5 @@
 #import <Foundation/Foundation.h>
 
 
-@interface XSDstring : NSObject {
-@private
-    
-}
-
+@interface XSDstring : NSObject
 @end

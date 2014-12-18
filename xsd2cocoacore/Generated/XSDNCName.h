@@ -9,10 +9,8 @@
 #import "XMLUtils.h"
 
 
-@interface XSDNCName : NSObject {
-@private
-    
-}
+@interface XSDNCName : NSObject
+
 @property(nonatomic, strong) NSString *name;
 - (id) initWithNode: (NSXMLNode*) node;
 

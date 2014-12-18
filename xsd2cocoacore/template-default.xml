@@ -1,7 +1,6 @@
 <template xmlns="http://www.example.com/xsd2cocoa"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
-    <!-- <prefix_override for="namespace" to="DDXSDGenerated"/> -->
     
     <simpletype name="string" objType="NSString" arrayType="NSArray">
 		<read>
@@ -204,7 +203,7 @@
 #import <Foundation/Foundation.h>
 #import <libxml/xmlreader.h>
 
-{% if type.hasComplexBaseClass %}#import "{{ type.baseClassName }}.h"{% /if %}
+{% if type.hasComplexBaseClass %}#import "{{ type.baseClassFileName }}.h"{% /if %}
 
 {% for complexType in type.complexTypesInUse %}@class {{ complexType.targetClassName }};
 {% /for %}
@@ -227,9 +226,9 @@
 @end
 	]]></header>
 	<class><![CDATA[
-#import "{{ type.targetClassName }}.h"
+#import "{{ type.targetClassFileName }}.h"
 
-{% for complexType in type.complexTypesInUse %}#import "{{ complexType.targetClassName }}.h"
+{% for complexType in type.complexTypesInUse %}#import "{{ complexType.targetClassFileName }}.h"
 {% /for %}
 
 @interface {{ type.targetClassName }} ()
@@ -323,7 +322,7 @@
 #import <Foundation/Foundation.h>
 #import <libxml/xmlreader.h>
 
-#import "{{ type.targetClassName }}.h"
+#import "{{ type.targetClassFileName }}.h"
 
 @interface {{ type.targetClassName }} (File)
 
@@ -334,9 +333,9 @@
 @end
 	]]></header>
 	<class><![CDATA[
-#import "{{ type.targetClassName }}+File.h"
+#import "{{ type.targetClassFileName }}+File.h"
         
-@implementation {{ type.targetClassName }} (File)
+@implementation {{ type.targetClassFileName }} (File)
 
 + ({{ type.targetClassName }}*){{ type.name }}FromURL:(NSURL*)url {
     {{ type.targetClassName }}* obj = nil;

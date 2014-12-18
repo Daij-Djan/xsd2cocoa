@@ -5,13 +5,12 @@
  */
 
 
+#import "XSSchemaNode.h"
+
 @class XSDcomplexType;
-#import "XSAnnotated.h"
-//#import "XSDanySimpleType.h"
-//@class XSDannotated;
+@protocol XSType;
 
-
-@interface XSDelement : XSAnnotated
+@interface XSDelement : XSSchemaNode
 {
 //	XSDlocalSimpleType* _simpleType;
 	XSDcomplexType* localComplexType;

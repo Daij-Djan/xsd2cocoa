@@ -64,7 +64,6 @@
 		B41C4ECB185854FB007619F5 /* NSDictionary_DeepMutableCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C4E24185854FB007619F5 /* NSDictionary_DeepMutableCopy.m */; };
 		B41C4ECD185854FB007619F5 /* Source Code License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = B41C4E25185854FB007619F5 /* Source Code License.rtf */; };
 		B41C4EFD185854FB007619F5 /* XMLSchema.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B41C4E57185854FB007619F5 /* XMLSchema.xsd */; };
-		B41C4EFF185854FB007619F5 /* XSAnnotated.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C4E59185854FB007619F5 /* XSAnnotated.m */; };
 		B41C4F01185854FB007619F5 /* XSDschema.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C4E5B185854FB007619F5 /* XSDschema.m */; };
 		B41C4F03185854FB007619F5 /* XSSchemaNode.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C4E5D185854FB007619F5 /* XSSchemaNode.m */; };
 		B41C4F05185854FB007619F5 /* XSSimpleType.m in Sources */ = {isa = PBXBuildFile; fileRef = B41C4E5F185854FB007619F5 /* XSSimpleType.m */; };
@@ -76,7 +75,6 @@
 		B457210B1857D532005632B7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721001857D532005632B7 /* AppDelegate.m */; };
 		B45721101857D532005632B7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721081857D532005632B7 /* main.m */; };
 		B47270B0186CD62000F8E82E /* template.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B47270AD186CD62000F8E82E /* template.xsd */; };
-		B49C8A471868C6B300AE2D69 /* XSDPrefixOverride.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C8A461868C6B300AE2D69 /* XSDPrefixOverride.m */; };
 		B4C55C4718707F2A0006D92A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4C55C4618707F2A0006D92A /* MainMenu.xib */; };
 		B4C55C4918707FEB0006D92A /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = B4C55C4818707FEB0006D92A /* AppIcon.icns */; };
 		B4D65C5B185C9F2D00D1BE85 /* XMLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D65C5A185C9F2D00D1BE85 /* XMLUtils.m */; };
@@ -206,8 +204,6 @@
 		B41C4E28185854FB007619F5 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		B41C4E29185854FB007619F5 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		B41C4E57185854FB007619F5 /* XMLSchema.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = XMLSchema.xsd; sourceTree = "<group>"; };
-		B41C4E58185854FB007619F5 /* XSAnnotated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = XSAnnotated.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		B41C4E59185854FB007619F5 /* XSAnnotated.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XSAnnotated.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B41C4E5A185854FB007619F5 /* XSDschema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDschema.h; sourceTree = "<group>"; };
 		B41C4E5B185854FB007619F5 /* XSDschema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDschema.m; sourceTree = "<group>"; };
 		B41C4E5C185854FB007619F5 /* XSSchemaNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSSchemaNode.h; sourceTree = "<group>"; };
@@ -224,8 +220,6 @@
 		B45721091857D532005632B7 /* xsd2cocoa-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "xsd2cocoa-Info.plist"; sourceTree = "<group>"; };
 		B457210A1857D532005632B7 /* xsd2cocoa-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "xsd2cocoa-Prefix.pch"; sourceTree = "<group>"; };
 		B47270AD186CD62000F8E82E /* template.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template.xsd; sourceTree = "<group>"; };
-		B49C8A451868C6B300AE2D69 /* XSDPrefixOverride.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDPrefixOverride.h; sourceTree = "<group>"; };
-		B49C8A461868C6B300AE2D69 /* XSDPrefixOverride.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDPrefixOverride.m; sourceTree = "<group>"; };
 		B4C55C4618707F2A0006D92A /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		B4C55C4818707FEB0006D92A /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 		B4D65C59185C9F2D00D1BE85 /* XMLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLUtils.h; sourceTree = "<group>"; };
@@ -271,12 +265,8 @@
 				B4F776091A42D8F5008E6410 /* template-default.xml */,
 				B4D65C59185C9F2D00D1BE85 /* XMLUtils.h */,
 				B4D65C5A185C9F2D00D1BE85 /* XMLUtils.m */,
-				B41C4E58185854FB007619F5 /* XSAnnotated.h */,
-				B41C4E59185854FB007619F5 /* XSAnnotated.m */,
 				B41C4E5A185854FB007619F5 /* XSDschema.h */,
 				B41C4E5B185854FB007619F5 /* XSDschema.m */,
-				B49C8A451868C6B300AE2D69 /* XSDPrefixOverride.h */,
-				B49C8A461868C6B300AE2D69 /* XSDPrefixOverride.m */,
 				B41C4E5C185854FB007619F5 /* XSSchemaNode.h */,
 				B41C4E5D185854FB007619F5 /* XSSchemaNode.m */,
 				B41C4E5E185854FB007619F5 /* XSSimpleType.h */,
@@ -595,7 +585,6 @@
 				B457210B1857D532005632B7 /* AppDelegate.m in Sources */,
 				B41C4E6B185854FB007619F5 /* XSDattribute.m in Sources */,
 				B41C4F01185854FB007619F5 /* XSDschema.m in Sources */,
-				B41C4EFF185854FB007619F5 /* XSAnnotated.m in Sources */,
 				B41C4E6F185854FB007619F5 /* XSDattributeGroupRef.m in Sources */,
 				B41C4E95185854FB007619F5 /* XSDnamedGroup.m in Sources */,
 				B41C4E83185854FB007619F5 /* XSDformChoice.m in Sources */,
@@ -625,7 +614,6 @@
 				B41C4ECB185854FB007619F5 /* NSDictionary_DeepMutableCopy.m in Sources */,
 				B41C4EAF185854FB007619F5 /* XSDsimpleExtensionType.m in Sources */,
 				B41C4EBF185854FB007619F5 /* XSDwildcard.m in Sources */,
-				B49C8A471868C6B300AE2D69 /* XSDPrefixOverride.m in Sources */,
 				B41C4E9F185854FB007619F5 /* XSDnonNegativeInteger.m in Sources */,
 				B41C4EC9185854FB007619F5 /* NSArray_DeepMutableCopy.m in Sources */,
 				B41C4EA5185854FB007619F5 /* XSDQName.m in Sources */,

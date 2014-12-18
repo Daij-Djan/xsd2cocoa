@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface XSDnonNegativeInteger : NSObject {
-@private
-    
-}
+@interface XSDnonNegativeInteger : NSObject
 
 @end

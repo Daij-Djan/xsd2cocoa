@@ -6,6 +6,7 @@
 #import "XSDexplicitGroup.h"
 #import "XSDSchema.h"
 #import "XSDelement.h"
+#import "XMLUtils.h"
 
 @implementation XSDexplicitGroup
 @synthesize name = _name;
@@ -26,14 +27,14 @@
 - (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema {
     self = [super initWithSchema: schema];
     if(self) {
-        self.name = [XSSchemaNode node: node stringAttribute: @"name"];
-        self.ref = [XSSchemaNode node: node stringAttribute: @"ref"];
+        self.name = [XMLUtils node: node stringAttribute: @"name"];
+        self.ref = [XMLUtils node: node stringAttribute: @"ref"];
         
         if(!self.name)
             self.name = @"XS";
         
         NSMutableArray* newElements = [NSMutableArray array];
-        NSArray* elementTags = [XSSchemaNode node:node descendantsWithName: @"element"];
+        NSArray* elementTags = [XMLUtils node:node descendantsWithName: @"element"];
         for(NSXMLElement* anElement in elementTags) {
             [newElements addObject: [[XSDelement alloc] initWithNode: anElement schema: schema]];
         }

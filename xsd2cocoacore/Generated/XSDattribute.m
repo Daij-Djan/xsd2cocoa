@@ -7,6 +7,7 @@
 #import "XSSchemaNode.h"
 #import "XSDlocalSimpleType.h"
 #import "XSDschema.h"
+#import "XSType.h"
 
 @implementation XSDattribute
 
@@ -37,13 +38,13 @@
 - (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema{
     if(self = [super initWithNode: node]) {
         self.schema = schema;
-        self.name = [XSSchemaNode node: node stringAttribute:  @"name"];
-        self.simpleType = [XSSchemaNode node: node stringAttribute:  @"simpleType"];
-        self.type = [XSSchemaNode node: node stringAttribute:  @"type"];
-        self.use = [XSSchemaNode node: node stringAttribute:  @"use"];
-        self.defaultValue = [XSSchemaNode node: node stringAttribute: @"default"];
-        self.fixed = [XSSchemaNode node: node stringAttribute:  @"fixed"];
-        self.form = [XSSchemaNode node: node stringAttribute: @"form"];
+        self.name = [XMLUtils node: node stringAttribute:  @"name"];
+        self.simpleType = [XMLUtils node: node stringAttribute:  @"simpleType"];
+        self.type = [XMLUtils node: node stringAttribute:  @"type"];
+        self.use = [XMLUtils node: node stringAttribute:  @"use"];
+        self.defaultValue = [XMLUtils node: node stringAttribute: @"default"];
+        self.fixed = [XMLUtils node: node stringAttribute:  @"fixed"];
+        self.form = [XMLUtils node: node stringAttribute: @"form"];
     }
     return self;
 }

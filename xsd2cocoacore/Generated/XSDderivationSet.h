@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface XSDderivationSet : NSObject {
-@private
-    
-}
+@interface XSDderivationSet : NSObject
 
 @end

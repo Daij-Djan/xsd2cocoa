@@ -96,5 +96,8 @@
     return [engine processTemplate: self.readElementTemplate withVariables: dict];
 }
 
+- (NSString *)targetClassFileName {
+    return self.targetClassName;
+}
 
 @end

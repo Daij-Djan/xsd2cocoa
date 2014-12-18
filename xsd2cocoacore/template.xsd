@@ -7,18 +7,12 @@
   
   <complexType name="template">
     <sequence>
-      <element name="prefix_override" type="xsd2cocoa:prefix_override" minOccurs="0" maxOccurs="unbounded"/>
       <element name="additional_file" type="xsd2cocoa:additional_file" minOccurs="0" maxOccurs="unbounded"/>
       <element name="simpletype" type="xsd2cocoa:simpletype" minOccurs="1" maxOccurs="unbounded"/>
       <element name="complextype" type="xsd2cocoa:complextype" minOccurs="1" maxOccurs="1"/>
       <element name="implementation" type="xsd2cocoa:implementation" minOccurs="1" maxOccurs="1"/>
       <element name="reader" type="xsd2cocoa:reader" minOccurs="1" maxOccurs="1"/>
     </sequence>
-  </complexType>
- 
-  <complexType name="prefix_override">
-    <attribute name="for" type="string" use="required"/>
-    <attribute name="to" type="string" use="required"/>
   </complexType>
   
   <complexType name="additional_file">        

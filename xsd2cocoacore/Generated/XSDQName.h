@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface XSDQName : NSObject {
-@private
-    
-}
+@interface XSDQName : NSObject
 
 @end

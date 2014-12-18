@@ -15,6 +15,7 @@
 
 - (NSString*) name;
 - (NSString*) targetClassName;
+- (NSString*) targetClassFileName;
 - (NSString*) arrayType;
 
 - (NSString*) readCodeForAttribute: (XSDattribute*) attribute;

@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface XSDID : NSObject {
-@private
-    
-}
+@interface XSDID : NSObject
 
 @end

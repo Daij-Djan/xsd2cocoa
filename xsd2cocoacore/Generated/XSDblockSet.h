@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface XSDblockSet : NSObject {
-@private
-    
-}
+@interface XSDblockSet : NSObject 
 
 @end

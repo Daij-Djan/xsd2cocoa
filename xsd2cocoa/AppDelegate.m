@@ -129,14 +129,6 @@
             break;
     }
     
-    //load template
-    [schema loadTemplate: templateUrl error: &error];
-    if(error != nil) {
-        NSString *errorString = ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error";
-        NSRunAlertPanel(@"Error", @"Error while assigning template %@", @"OK", nil, nil, errorString);
-        return;
-    }
-
     //apply custom prefix if set
     if(self.customPrefix.stringValue.length) {
         schema.classPrefix = self.customPrefix.stringValue;
@@ -146,10 +138,10 @@
     BOOL header = (self.writeHeaderCheckbox.state == NSOnState);
     
     //write out data
-    [schema generateInto: outFolder copyAdditionalFiles:YES addUmbrellaHeader:header error: &error];
+    [schema generateInto: outFolder usingTemplate:templateUrl copyAdditionalFiles:YES addUmbrellaHeader:header error: &error];
     if(error != nil) {
         NSString *errorString = ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error";
-        NSRunAlertPanel(@"Error", @"Error while saving %@", @"OK", nil, nil, errorString);
+        NSRunAlertPanel(@"Error", @"Error while generating code. %@", @"OK", nil, nil, errorString);
         return;
     }
     
