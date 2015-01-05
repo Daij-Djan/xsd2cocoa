@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<datatypes>
+
+<!-- string -->
+<type base="string" name="string"/>
+<type base="string" name="ENTITIES"/>
+<type base="string" name="ENTITY"/>
+<type base="string" name="ID"/>
+<type base="string" name="IDREF"/>
+<type base="string" name="IDREFS"/>
+<type base="string" name="language"/>
+<type base="string" name="Name"/>
+<type base="string" name="NCName"/>
+<type base="string" name="NMTOKEN"/>
+<type base="string" name="NMTOKENS"/>
+<type base="string" name="normalizedString"/>
+<type base="string" name="QName"/>
+<type base="string" name="token"/>
+<type base="string" name="NOTATION"/>
+
+<!--integer -->
+<type base="integer" name="byte"/>
+<type base="integer" name="int"/>
+<type base="integer" name="integer"/>
+<type base="integer" name="long"/>
+<type base="integer" name="negativeInteger"/>
+<type base="integer" name="nonNegativeInteger"/>
+<type base="integer" name="nonPositiveInteger"/>
+<type base="integer" name="positiveInteger"/>
+<type base="integer" name="short"/>
+<type base="integer" name="unsignedLong"/>
+<type base="integer" name="unsignedInt"/>
+<type base="integer" name="unsignedShort"/>
+<type base="integer" name="unsignedByte"/>
+<type base="integer" name="gDay"/>
+<type base="integer" name="gMonth"/>
+<type base="integer" name="gMonthDay"/>
+<type base="integer" name="gYear"/>
+<type base="integer" name="gYearMonth"/>
+ 
+<!--decimal-->
+<type base="decimal" name="decimal"/>
+<type base="decimal" name="double"/>
+<type base="decimal" name="float"/>
+<type base="decimal" name="duration"/>
+
+<!--boolean-->
+<type base="boolean" name="decimal"/>
+
+<!-- URLs -->
+<type base="anyURI" name="anyURI"/>
+
+<!-- date time: only base -->
+<type base="dateTime" name="dateTime"/>
+<!--<type base="dateTime" name="date"/> -->
+<!--<type base="dateTime" name="time"/> -->
+
+<!-- base64Binary -->
+<!--<type base="base64Binary" name="base64Binary"/>-->
+
+<!-- hexBinary: doesnt work -->
+<!--<type base="hexBinary" name="hexBinary"/>-->
+
+</datatypes>

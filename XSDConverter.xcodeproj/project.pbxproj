@@ -1,0 +1,946 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B42F9ECD1A48657E0007FC96 /* XSDConverterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B42F9EB61A48657E0007FC96 /* XSDConverterCore.framework */; };
+		B42F9ECE1A48657E0007FC96 /* XSDConverterCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B42F9EB61A48657E0007FC96 /* XSDConverterCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B42F9F061A48663F0007FC96 /* XSDattribute.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EDA1A48663F0007FC96 /* XSDattribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B42F9F071A48663F0007FC96 /* XSDattribute.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EDB1A48663F0007FC96 /* XSDattribute.m */; };
+		B42F9F081A48663F0007FC96 /* XSDcomplexType.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EDC1A48663F0007FC96 /* XSDcomplexType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B42F9F091A48663F0007FC96 /* XSDcomplexType.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EDD1A48663F0007FC96 /* XSDcomplexType.m */; };
+		B42F9F0A1A48663F0007FC96 /* XSDelement.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EDE1A48663F0007FC96 /* XSDelement.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B42F9F0B1A48663F0007FC96 /* XSDelement.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EDF1A48663F0007FC96 /* XSDelement.m */; };
+		B42F9F0C1A48663F0007FC96 /* XSDexplicitGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EE01A48663F0007FC96 /* XSDexplicitGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B42F9F0D1A48663F0007FC96 /* XSDexplicitGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EE11A48663F0007FC96 /* XSDexplicitGroup.m */; };
+		B42F9F0E1A48663F0007FC96 /* XSSchemaNode.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EE21A48663F0007FC96 /* XSSchemaNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B42F9F0F1A48663F0007FC96 /* XSSchemaNode.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EE31A48663F0007FC96 /* XSSchemaNode.m */; };
+		B42F9F101A48663F0007FC96 /* XSSimpleType.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EE41A48663F0007FC96 /* XSSimpleType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B42F9F111A48663F0007FC96 /* XSSimpleType.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EE51A48663F0007FC96 /* XSSimpleType.m */; };
+		B42F9F131A48663F0007FC96 /* DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EE91A48663F0007FC96 /* DeepMutableCopy.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B42F9F141A48663F0007FC96 /* ICUTemplateMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EEA1A48663F0007FC96 /* ICUTemplateMatcher.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B42F9F151A48663F0007FC96 /* ICUTemplateMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EEB1A48663F0007FC96 /* ICUTemplateMatcher.m */; };
+		B42F9F161A48663F0007FC96 /* MGTemplateEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EEC1A48663F0007FC96 /* MGTemplateEngine.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B42F9F171A48663F0007FC96 /* MGTemplateEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EED1A48663F0007FC96 /* MGTemplateEngine.m */; };
+		B42F9F181A48663F0007FC96 /* MGTemplateFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EEE1A48663F0007FC96 /* MGTemplateFilter.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B42F9F191A48663F0007FC96 /* MGTemplateMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EEF1A48663F0007FC96 /* MGTemplateMarker.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B42F9F1A1A48663F0007FC96 /* MGTemplateStandardFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EF01A48663F0007FC96 /* MGTemplateStandardFilters.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B42F9F1B1A48663F0007FC96 /* MGTemplateStandardFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EF11A48663F0007FC96 /* MGTemplateStandardFilters.m */; };
+		B42F9F1C1A48663F0007FC96 /* MGTemplateStandardMarkers.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EF21A48663F0007FC96 /* MGTemplateStandardMarkers.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B42F9F1D1A48663F0007FC96 /* MGTemplateStandardMarkers.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EF31A48663F0007FC96 /* MGTemplateStandardMarkers.m */; };
+		B42F9F1E1A4866400007FC96 /* NSArray_DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EF41A48663F0007FC96 /* NSArray_DeepMutableCopy.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B42F9F1F1A4866400007FC96 /* NSArray_DeepMutableCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EF51A48663F0007FC96 /* NSArray_DeepMutableCopy.m */; };
+		B42F9F201A4866400007FC96 /* NSDictionary_DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EF61A48663F0007FC96 /* NSDictionary_DeepMutableCopy.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B42F9F211A4866400007FC96 /* NSDictionary_DeepMutableCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EF71A48663F0007FC96 /* NSDictionary_DeepMutableCopy.m */; };
+		B42F9F221A4866400007FC96 /* Source Code License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = B42F9EF81A48663F0007FC96 /* Source Code License.rtf */; };
+		B42F9F231A4866400007FC96 /* NSString+RegExKitLiteTransition.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EFA1A48663F0007FC96 /* NSString+RegExKitLiteTransition.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		B42F9F241A4866400007FC96 /* NSString+RegExKitLiteTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9EFB1A48663F0007FC96 /* NSString+RegExKitLiteTransition.m */; };
+		B42F9F251A4866400007FC96 /* template-objc.xml in Resources */ = {isa = PBXBuildFile; fileRef = B42F9EFD1A48663F0007FC96 /* template-objc.xml */; };
+		B42F9F261A4866400007FC96 /* template.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B42F9EFE1A48663F0007FC96 /* template.xsd */; };
+		B42F9F271A4866400007FC96 /* XMLSchema.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B42F9EFF1A48663F0007FC96 /* XMLSchema.xsd */; };
+		B42F9F281A4866400007FC96 /* XMLUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9F001A48663F0007FC96 /* XMLUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B42F9F291A4866400007FC96 /* XMLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9F011A48663F0007FC96 /* XMLUtils.m */; };
+		B42F9F2A1A4866400007FC96 /* XSDConverterCore.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9F021A48663F0007FC96 /* XSDConverterCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B42F9F2B1A4866400007FC96 /* XSDschema.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9F031A48663F0007FC96 /* XSDschema.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B42F9F2C1A4866400007FC96 /* XSDschema.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9F041A48663F0007FC96 /* XSDschema.m */; };
+		B42F9F2D1A4868690007FC96 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F495AE1857BFCA00A6E488 /* Cocoa.framework */; };
+		B42F9F2F1A48686F0007FC96 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B6F10C13895EA400F4CC65 /* libxml2.dylib */; };
+		B42F9F311A487B520007FC96 /* XSType.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9F301A487B520007FC96 /* XSType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B42F9F631A4890CE0007FC96 /* WeblinksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B42F9F591A4890CE0007FC96 /* WeblinksTests.m */; };
+		B42F9F681A4890CE0007FC96 /* weblinks.xml in Resources */ = {isa = PBXBuildFile; fileRef = B42F9F5F1A4890CE0007FC96 /* weblinks.xml */; };
+		B42F9F691A4890CE0007FC96 /* weblinks.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B42F9F601A4890CE0007FC96 /* weblinks.xsd */; };
+		B42F9FA91A48B9610007FC96 /* datatypes.xml in Resources */ = {isa = PBXBuildFile; fileRef = B42F9FA71A48B95B0007FC96 /* datatypes.xml */; };
+		B44ACBF01A5396E90030DFEA /* DDFrameworkWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = B44ACBEE1A5396E90030DFEA /* DDFrameworkWriter.h */; };
+		B44ACBF11A5396E90030DFEA /* DDFrameworkWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = B44ACBEF1A5396E90030DFEA /* DDFrameworkWriter.m */; };
+		B44ACBF51A53992B0030DFEA /* DDRunTask.h in Headers */ = {isa = PBXBuildFile; fileRef = B44ACBF31A53992B0030DFEA /* DDRunTask.h */; };
+		B44ACBF61A53992B0030DFEA /* DDRunTask.m in Sources */ = {isa = PBXBuildFile; fileRef = B44ACBF41A53992B0030DFEA /* DDRunTask.m */; };
+		B45720CF1857D487005632B7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F495AE1857BFCA00A6E488 /* Cocoa.framework */; };
+		B457210B1857D532005632B7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721001857D532005632B7 /* AppDelegate.m */; };
+		B45721101857D532005632B7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721081857D532005632B7 /* main.m */; };
+		B49B8CFC1A4DCFE9001A2D91 /* XSDAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = B49B8CFA1A4DCFE9001A2D91 /* XSDAnnotation.h */; };
+		B49B8CFD1A4DCFE9001A2D91 /* XSDAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B49B8CFB1A4DCFE9001A2D91 /* XSDAnnotation.m */; };
+		B4BB5A231A4AC4710044305B /* XSDTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB5A221A4AC4710044305B /* XSDTestCase.m */; };
+		B4C21F4C1A5B1D74004F12F0 /* weblinks_groups.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B4C21F4B1A5B1D74004F12F0 /* weblinks_groups.xsd */; };
+		B4C21F531A5B2688004F12F0 /* address.xml in Resources */ = {isa = PBXBuildFile; fileRef = B4C21F4F1A5B2688004F12F0 /* address.xml */; };
+		B4C21F541A5B2688004F12F0 /* address.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B4C21F501A5B2688004F12F0 /* address.xsd */; };
+		B4C21F551A5B2688004F12F0 /* address_StreetInfo.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B4C21F511A5B2688004F12F0 /* address_StreetInfo.xsd */; };
+		B4C21F561A5B2688004F12F0 /* address_UnitInfo.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B4C21F521A5B2688004F12F0 /* address_UnitInfo.xsd */; };
+		B4C21F5A1A5B26F7004F12F0 /* AddressTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C21F591A5B26F7004F12F0 /* AddressTests.m */; };
+		B4C55C4718707F2A0006D92A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4C55C4618707F2A0006D92A /* MainMenu.xib */; };
+		B4C55C4918707FEB0006D92A /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = B4C55C4818707FEB0006D92A /* AppIcon.icns */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B42F9ECB1A48657E0007FC96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8E422AB138834E90047AA8C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B42F9EB51A48657E0007FC96;
+			remoteInfo = XSDConverterCore;
+		};
+		B42F9F451A488F830007FC96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8E422AB138834E90047AA8C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B45720CD1857D487005632B7;
+			remoteInfo = XSDConverter;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B42F9ED21A48657E0007FC96 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B42F9ECE1A48657E0007FC96 /* XSDConverterCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		B42F9E701A4850150007FC96 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B42F9EB61A48657E0007FC96 /* XSDConverterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XSDConverterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B42F9ED81A48663F0007FC96 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B42F9EDA1A48663F0007FC96 /* XSDattribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDattribute.h; sourceTree = "<group>"; };
+		B42F9EDB1A48663F0007FC96 /* XSDattribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDattribute.m; sourceTree = "<group>"; };
+		B42F9EDC1A48663F0007FC96 /* XSDcomplexType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDcomplexType.h; sourceTree = "<group>"; };
+		B42F9EDD1A48663F0007FC96 /* XSDcomplexType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDcomplexType.m; sourceTree = "<group>"; };
+		B42F9EDE1A48663F0007FC96 /* XSDelement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDelement.h; sourceTree = "<group>"; };
+		B42F9EDF1A48663F0007FC96 /* XSDelement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDelement.m; sourceTree = "<group>"; };
+		B42F9EE01A48663F0007FC96 /* XSDexplicitGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDexplicitGroup.h; sourceTree = "<group>"; };
+		B42F9EE11A48663F0007FC96 /* XSDexplicitGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDexplicitGroup.m; sourceTree = "<group>"; };
+		B42F9EE21A48663F0007FC96 /* XSSchemaNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSSchemaNode.h; sourceTree = "<group>"; };
+		B42F9EE31A48663F0007FC96 /* XSSchemaNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSSchemaNode.m; sourceTree = "<group>"; };
+		B42F9EE41A48663F0007FC96 /* XSSimpleType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSSimpleType.h; sourceTree = "<group>"; };
+		B42F9EE51A48663F0007FC96 /* XSSimpleType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSSimpleType.m; sourceTree = "<group>"; };
+		B42F9EE91A48663F0007FC96 /* DeepMutableCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepMutableCopy.h; sourceTree = "<group>"; };
+		B42F9EEA1A48663F0007FC96 /* ICUTemplateMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICUTemplateMatcher.h; sourceTree = "<group>"; };
+		B42F9EEB1A48663F0007FC96 /* ICUTemplateMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICUTemplateMatcher.m; sourceTree = "<group>"; };
+		B42F9EEC1A48663F0007FC96 /* MGTemplateEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTemplateEngine.h; sourceTree = "<group>"; };
+		B42F9EED1A48663F0007FC96 /* MGTemplateEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTemplateEngine.m; sourceTree = "<group>"; };
+		B42F9EEE1A48663F0007FC96 /* MGTemplateFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTemplateFilter.h; sourceTree = "<group>"; };
+		B42F9EEF1A48663F0007FC96 /* MGTemplateMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTemplateMarker.h; sourceTree = "<group>"; };
+		B42F9EF01A48663F0007FC96 /* MGTemplateStandardFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTemplateStandardFilters.h; sourceTree = "<group>"; };
+		B42F9EF11A48663F0007FC96 /* MGTemplateStandardFilters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTemplateStandardFilters.m; sourceTree = "<group>"; };
+		B42F9EF21A48663F0007FC96 /* MGTemplateStandardMarkers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTemplateStandardMarkers.h; sourceTree = "<group>"; };
+		B42F9EF31A48663F0007FC96 /* MGTemplateStandardMarkers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTemplateStandardMarkers.m; sourceTree = "<group>"; };
+		B42F9EF41A48663F0007FC96 /* NSArray_DeepMutableCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArray_DeepMutableCopy.h; sourceTree = "<group>"; };
+		B42F9EF51A48663F0007FC96 /* NSArray_DeepMutableCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArray_DeepMutableCopy.m; sourceTree = "<group>"; };
+		B42F9EF61A48663F0007FC96 /* NSDictionary_DeepMutableCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDictionary_DeepMutableCopy.h; sourceTree = "<group>"; };
+		B42F9EF71A48663F0007FC96 /* NSDictionary_DeepMutableCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDictionary_DeepMutableCopy.m; sourceTree = "<group>"; };
+		B42F9EF81A48663F0007FC96 /* Source Code License.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "Source Code License.rtf"; sourceTree = "<group>"; };
+		B42F9EFA1A48663F0007FC96 /* NSString+RegExKitLiteTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RegExKitLiteTransition.h"; sourceTree = "<group>"; };
+		B42F9EFB1A48663F0007FC96 /* NSString+RegExKitLiteTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RegExKitLiteTransition.m"; sourceTree = "<group>"; };
+		B42F9EFD1A48663F0007FC96 /* template-objc.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "template-objc.xml"; sourceTree = "<group>"; };
+		B42F9EFE1A48663F0007FC96 /* template.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = template.xsd; sourceTree = "<group>"; };
+		B42F9EFF1A48663F0007FC96 /* XMLSchema.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = XMLSchema.xsd; sourceTree = "<group>"; };
+		B42F9F001A48663F0007FC96 /* XMLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLUtils.h; sourceTree = "<group>"; };
+		B42F9F011A48663F0007FC96 /* XMLUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLUtils.m; sourceTree = "<group>"; };
+		B42F9F021A48663F0007FC96 /* XSDConverterCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDConverterCore.h; sourceTree = "<group>"; };
+		B42F9F031A48663F0007FC96 /* XSDschema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDschema.h; sourceTree = "<group>"; };
+		B42F9F041A48663F0007FC96 /* XSDschema.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDschema.m; sourceTree = "<group>"; };
+		B42F9F301A487B520007FC96 /* XSType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSType.h; sourceTree = "<group>"; };
+		B42F9F411A488F830007FC96 /* XSDConverterCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XSDConverterCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B42F9F581A4890CE0007FC96 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B42F9F591A4890CE0007FC96 /* WeblinksTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeblinksTests.m; sourceTree = "<group>"; };
+		B42F9F5F1A4890CE0007FC96 /* weblinks.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = weblinks.xml; sourceTree = "<group>"; };
+		B42F9F601A4890CE0007FC96 /* weblinks.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = weblinks.xsd; sourceTree = "<group>"; };
+		B42F9FA71A48B95B0007FC96 /* datatypes.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = datatypes.xml; sourceTree = "<group>"; };
+		B44ACBEE1A5396E90030DFEA /* DDFrameworkWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFrameworkWriter.h; sourceTree = "<group>"; };
+		B44ACBEF1A5396E90030DFEA /* DDFrameworkWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFrameworkWriter.m; sourceTree = "<group>"; };
+		B44ACBF31A53992B0030DFEA /* DDRunTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDRunTask.h; sourceTree = "<group>"; };
+		B44ACBF41A53992B0030DFEA /* DDRunTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDRunTask.m; sourceTree = "<group>"; };
+		B45720CE1857D487005632B7 /* XSDConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XSDConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B45720FF1857D532005632B7 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		B45721001857D532005632B7 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		B45721081857D532005632B7 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B49B8CFA1A4DCFE9001A2D91 /* XSDAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDAnnotation.h; sourceTree = "<group>"; };
+		B49B8CFB1A4DCFE9001A2D91 /* XSDAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDAnnotation.m; sourceTree = "<group>"; };
+		B4BB5A211A4AC4710044305B /* XSDTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDTestCase.h; sourceTree = "<group>"; };
+		B4BB5A221A4AC4710044305B /* XSDTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDTestCase.m; sourceTree = "<group>"; };
+		B4C21F4B1A5B1D74004F12F0 /* weblinks_groups.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = weblinks_groups.xsd; sourceTree = "<group>"; };
+		B4C21F4F1A5B2688004F12F0 /* address.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = address.xml; sourceTree = "<group>"; };
+		B4C21F501A5B2688004F12F0 /* address.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = address.xsd; sourceTree = "<group>"; };
+		B4C21F511A5B2688004F12F0 /* address_StreetInfo.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = address_StreetInfo.xsd; sourceTree = "<group>"; };
+		B4C21F521A5B2688004F12F0 /* address_UnitInfo.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = address_UnitInfo.xsd; sourceTree = "<group>"; };
+		B4C21F591A5B26F7004F12F0 /* AddressTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressTests.m; sourceTree = "<group>"; };
+		B4C55C4618707F2A0006D92A /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		B4C55C4818707FEB0006D92A /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
+		B4F495AE1857BFCA00A6E488 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		F8B6F10C13895EA400F4CC65 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B42F9EB21A48657E0007FC96 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B42F9F2D1A4868690007FC96 /* Cocoa.framework in Frameworks */,
+				B42F9F2F1A48686F0007FC96 /* libxml2.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B42F9F3E1A488F830007FC96 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B45720CB1857D487005632B7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B42F9ECD1A48657E0007FC96 /* XSDConverterCore.framework in Frameworks */,
+				B45720CF1857D487005632B7 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B42F9ED71A48663F0007FC96 /* framework */ = {
+			isa = PBXGroup;
+			children = (
+				B42F9F001A48663F0007FC96 /* XMLUtils.h */,
+				B42F9F021A48663F0007FC96 /* XSDConverterCore.h */,
+				B42F9F031A48663F0007FC96 /* XSDschema.h */,
+				B42F9F301A487B520007FC96 /* XSType.h */,
+				B42F9F011A48663F0007FC96 /* XMLUtils.m */,
+				B42F9F041A48663F0007FC96 /* XSDschema.m */,
+				B42F9ED81A48663F0007FC96 /* Info.plist */,
+				B42F9ED91A48663F0007FC96 /* objects */,
+				B42F9EE71A48663F0007FC96 /* vendor */,
+				B42F9EFC1A48663F0007FC96 /* xmls */,
+			);
+			path = framework;
+			sourceTree = "<group>";
+		};
+		B42F9ED91A48663F0007FC96 /* objects */ = {
+			isa = PBXGroup;
+			children = (
+				B42F9EDA1A48663F0007FC96 /* XSDattribute.h */,
+				B42F9EDC1A48663F0007FC96 /* XSDcomplexType.h */,
+				B42F9EDE1A48663F0007FC96 /* XSDelement.h */,
+				B42F9EE01A48663F0007FC96 /* XSDexplicitGroup.h */,
+				B42F9EE21A48663F0007FC96 /* XSSchemaNode.h */,
+				B42F9EE41A48663F0007FC96 /* XSSimpleType.h */,
+				B42F9EDB1A48663F0007FC96 /* XSDattribute.m */,
+				B42F9EDD1A48663F0007FC96 /* XSDcomplexType.m */,
+				B42F9EDF1A48663F0007FC96 /* XSDelement.m */,
+				B42F9EE11A48663F0007FC96 /* XSDexplicitGroup.m */,
+				B42F9EE31A48663F0007FC96 /* XSSchemaNode.m */,
+				B42F9EE51A48663F0007FC96 /* XSSimpleType.m */,
+				B49B8CFA1A4DCFE9001A2D91 /* XSDAnnotation.h */,
+				B49B8CFB1A4DCFE9001A2D91 /* XSDAnnotation.m */,
+			);
+			path = objects;
+			sourceTree = "<group>";
+		};
+		B42F9EE71A48663F0007FC96 /* vendor */ = {
+			isa = PBXGroup;
+			children = (
+				B44ACBED1A5396E90030DFEA /* DDFrameworkWriter */,
+				B44ACBF21A53992B0030DFEA /* DDRunTask */,
+				B42F9EE81A48663F0007FC96 /* MGTemplateEngine */,
+				B42F9EF91A48663F0007FC96 /* NSString+RegExKitLiteTransition */,
+			);
+			path = vendor;
+			sourceTree = "<group>";
+		};
+		B42F9EE81A48663F0007FC96 /* MGTemplateEngine */ = {
+			isa = PBXGroup;
+			children = (
+				B42F9EE91A48663F0007FC96 /* DeepMutableCopy.h */,
+				B42F9EEA1A48663F0007FC96 /* ICUTemplateMatcher.h */,
+				B42F9EEB1A48663F0007FC96 /* ICUTemplateMatcher.m */,
+				B42F9EEC1A48663F0007FC96 /* MGTemplateEngine.h */,
+				B42F9EED1A48663F0007FC96 /* MGTemplateEngine.m */,
+				B42F9EEE1A48663F0007FC96 /* MGTemplateFilter.h */,
+				B42F9EEF1A48663F0007FC96 /* MGTemplateMarker.h */,
+				B42F9EF01A48663F0007FC96 /* MGTemplateStandardFilters.h */,
+				B42F9EF11A48663F0007FC96 /* MGTemplateStandardFilters.m */,
+				B42F9EF21A48663F0007FC96 /* MGTemplateStandardMarkers.h */,
+				B42F9EF31A48663F0007FC96 /* MGTemplateStandardMarkers.m */,
+				B42F9EF41A48663F0007FC96 /* NSArray_DeepMutableCopy.h */,
+				B42F9EF51A48663F0007FC96 /* NSArray_DeepMutableCopy.m */,
+				B42F9EF61A48663F0007FC96 /* NSDictionary_DeepMutableCopy.h */,
+				B42F9EF71A48663F0007FC96 /* NSDictionary_DeepMutableCopy.m */,
+				B42F9EF81A48663F0007FC96 /* Source Code License.rtf */,
+			);
+			path = MGTemplateEngine;
+			sourceTree = "<group>";
+		};
+		B42F9EF91A48663F0007FC96 /* NSString+RegExKitLiteTransition */ = {
+			isa = PBXGroup;
+			children = (
+				B42F9EFA1A48663F0007FC96 /* NSString+RegExKitLiteTransition.h */,
+				B42F9EFB1A48663F0007FC96 /* NSString+RegExKitLiteTransition.m */,
+			);
+			path = "NSString+RegExKitLiteTransition";
+			sourceTree = "<group>";
+		};
+		B42F9EFC1A48663F0007FC96 /* xmls */ = {
+			isa = PBXGroup;
+			children = (
+				B42F9EFD1A48663F0007FC96 /* template-objc.xml */,
+				B42F9EFE1A48663F0007FC96 /* template.xsd */,
+				B42F9EFF1A48663F0007FC96 /* XMLSchema.xsd */,
+				B42F9FA71A48B95B0007FC96 /* datatypes.xml */,
+			);
+			path = xmls;
+			sourceTree = "<group>";
+		};
+		B42F9F561A4890CE0007FC96 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				B42F9F5A1A4890CE0007FC96 /* xmls */,
+				B42F9F581A4890CE0007FC96 /* Info.plist */,
+				B4BB5A211A4AC4710044305B /* XSDTestCase.h */,
+				B4BB5A221A4AC4710044305B /* XSDTestCase.m */,
+				B42F9F591A4890CE0007FC96 /* WeblinksTests.m */,
+				B4C21F591A5B26F7004F12F0 /* AddressTests.m */,
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
+		B42F9F5A1A4890CE0007FC96 /* xmls */ = {
+			isa = PBXGroup;
+			children = (
+				B42F9F5F1A4890CE0007FC96 /* weblinks.xml */,
+				B42F9F601A4890CE0007FC96 /* weblinks.xsd */,
+				B4C21F4B1A5B1D74004F12F0 /* weblinks_groups.xsd */,
+				B4C21F4F1A5B2688004F12F0 /* address.xml */,
+				B4C21F501A5B2688004F12F0 /* address.xsd */,
+				B4C21F511A5B2688004F12F0 /* address_StreetInfo.xsd */,
+				B4C21F521A5B2688004F12F0 /* address_UnitInfo.xsd */,
+			);
+			path = xmls;
+			sourceTree = "<group>";
+		};
+		B44ACBED1A5396E90030DFEA /* DDFrameworkWriter */ = {
+			isa = PBXGroup;
+			children = (
+				B44ACBEE1A5396E90030DFEA /* DDFrameworkWriter.h */,
+				B44ACBEF1A5396E90030DFEA /* DDFrameworkWriter.m */,
+			);
+			path = DDFrameworkWriter;
+			sourceTree = "<group>";
+		};
+		B44ACBF21A53992B0030DFEA /* DDRunTask */ = {
+			isa = PBXGroup;
+			children = (
+				B44ACBF31A53992B0030DFEA /* DDRunTask.h */,
+				B44ACBF41A53992B0030DFEA /* DDRunTask.m */,
+			);
+			path = DDRunTask;
+			sourceTree = "<group>";
+		};
+		B45720FE1857D532005632B7 /* app */ = {
+			isa = PBXGroup;
+			children = (
+				B45720FF1857D532005632B7 /* AppDelegate.h */,
+				B45721001857D532005632B7 /* AppDelegate.m */,
+				B45721081857D532005632B7 /* main.m */,
+				B4C55C4818707FEB0006D92A /* AppIcon.icns */,
+				B4C55C4618707F2A0006D92A /* MainMenu.xib */,
+				B42F9E701A4850150007FC96 /* Info.plist */,
+			);
+			path = app;
+			sourceTree = "<group>";
+		};
+		F8E422A9138834E90047AA8C = {
+			isa = PBXGroup;
+			children = (
+				B45720FE1857D532005632B7 /* app */,
+				B42F9ED71A48663F0007FC96 /* framework */,
+				B42F9F561A4890CE0007FC96 /* tests */,
+				F8E422B7138834E90047AA8C /* External Frameworks */,
+				F8E422B5138834E90047AA8C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F8E422B5138834E90047AA8C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B45720CE1857D487005632B7 /* XSDConverter.app */,
+				B42F9EB61A48657E0007FC96 /* XSDConverterCore.framework */,
+				B42F9F411A488F830007FC96 /* XSDConverterCoreTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F8E422B7138834E90047AA8C /* External Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F8B6F10C13895EA400F4CC65 /* libxml2.dylib */,
+				B4F495AE1857BFCA00A6E488 /* Cocoa.framework */,
+			);
+			name = "External Frameworks";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B42F9EB31A48657E0007FC96 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B42F9F2B1A4866400007FC96 /* XSDschema.h in Headers */,
+				B42F9F101A48663F0007FC96 /* XSSimpleType.h in Headers */,
+				B44ACBF01A5396E90030DFEA /* DDFrameworkWriter.h in Headers */,
+				B42F9F081A48663F0007FC96 /* XSDcomplexType.h in Headers */,
+				B42F9F061A48663F0007FC96 /* XSDattribute.h in Headers */,
+				B49B8CFC1A4DCFE9001A2D91 /* XSDAnnotation.h in Headers */,
+				B42F9F231A4866400007FC96 /* NSString+RegExKitLiteTransition.h in Headers */,
+				B42F9F181A48663F0007FC96 /* MGTemplateFilter.h in Headers */,
+				B42F9F141A48663F0007FC96 /* ICUTemplateMatcher.h in Headers */,
+				B42F9F1E1A4866400007FC96 /* NSArray_DeepMutableCopy.h in Headers */,
+				B42F9F311A487B520007FC96 /* XSType.h in Headers */,
+				B42F9F131A48663F0007FC96 /* DeepMutableCopy.h in Headers */,
+				B42F9F1A1A48663F0007FC96 /* MGTemplateStandardFilters.h in Headers */,
+				B42F9F0C1A48663F0007FC96 /* XSDexplicitGroup.h in Headers */,
+				B42F9F2A1A4866400007FC96 /* XSDConverterCore.h in Headers */,
+				B42F9F1C1A48663F0007FC96 /* MGTemplateStandardMarkers.h in Headers */,
+				B42F9F0E1A48663F0007FC96 /* XSSchemaNode.h in Headers */,
+				B42F9F161A48663F0007FC96 /* MGTemplateEngine.h in Headers */,
+				B44ACBF51A53992B0030DFEA /* DDRunTask.h in Headers */,
+				B42F9F201A4866400007FC96 /* NSDictionary_DeepMutableCopy.h in Headers */,
+				B42F9F191A48663F0007FC96 /* MGTemplateMarker.h in Headers */,
+				B42F9F0A1A48663F0007FC96 /* XSDelement.h in Headers */,
+				B42F9F281A4866400007FC96 /* XMLUtils.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		B42F9EB51A48657E0007FC96 /* XSDConverterCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B42F9ECF1A48657E0007FC96 /* Build configuration list for PBXNativeTarget "XSDConverterCore" */;
+			buildPhases = (
+				B42F9EB11A48657E0007FC96 /* Sources */,
+				B42F9EB21A48657E0007FC96 /* Frameworks */,
+				B42F9EB31A48657E0007FC96 /* Headers */,
+				B42F9EB41A48657E0007FC96 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XSDConverterCore;
+			productName = XSDConverterCore;
+			productReference = B42F9EB61A48657E0007FC96 /* XSDConverterCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B42F9F401A488F830007FC96 /* XSDConverterCoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B42F9F531A488F830007FC96 /* Build configuration list for PBXNativeTarget "XSDConverterCoreTests" */;
+			buildPhases = (
+				B42F9F3D1A488F830007FC96 /* Sources */,
+				B42F9F3E1A488F830007FC96 /* Frameworks */,
+				B42F9F3F1A488F830007FC96 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B42F9F461A488F830007FC96 /* PBXTargetDependency */,
+			);
+			name = XSDConverterCoreTests;
+			productName = ASDATests;
+			productReference = B42F9F411A488F830007FC96 /* XSDConverterCoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B45720CD1857D487005632B7 /* XSDConverter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B45720F51857D487005632B7 /* Build configuration list for PBXNativeTarget "XSDConverter" */;
+			buildPhases = (
+				B45720CA1857D487005632B7 /* Sources */,
+				B45720CB1857D487005632B7 /* Frameworks */,
+				B45720CC1857D487005632B7 /* Resources */,
+				B42F9ED21A48657E0007FC96 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B42F9ECC1A48657E0007FC96 /* PBXTargetDependency */,
+			);
+			name = XSDConverter;
+			productName = app;
+			productReference = B45720CE1857D487005632B7 /* XSDConverter.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F8E422AB138834E90047AA8C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				TargetAttributes = {
+					B42F9EB51A48657E0007FC96 = {
+						CreatedOnToolsVersion = 6.2;
+					};
+					B42F9F401A488F830007FC96 = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = B45720CD1857D487005632B7;
+					};
+				};
+			};
+			buildConfigurationList = F8E422AE138834E90047AA8C /* Build configuration list for PBXProject "XSDConverter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F8E422A9138834E90047AA8C;
+			productRefGroup = F8E422B5138834E90047AA8C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B45720CD1857D487005632B7 /* XSDConverter */,
+				B42F9EB51A48657E0007FC96 /* XSDConverterCore */,
+				B42F9F401A488F830007FC96 /* XSDConverterCoreTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B42F9EB41A48657E0007FC96 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B42F9F221A4866400007FC96 /* Source Code License.rtf in Resources */,
+				B42F9F261A4866400007FC96 /* template.xsd in Resources */,
+				B42F9FA91A48B9610007FC96 /* datatypes.xml in Resources */,
+				B42F9F251A4866400007FC96 /* template-objc.xml in Resources */,
+				B42F9F271A4866400007FC96 /* XMLSchema.xsd in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B42F9F3F1A488F830007FC96 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B4C21F531A5B2688004F12F0 /* address.xml in Resources */,
+				B42F9F691A4890CE0007FC96 /* weblinks.xsd in Resources */,
+				B4C21F551A5B2688004F12F0 /* address_StreetInfo.xsd in Resources */,
+				B42F9F681A4890CE0007FC96 /* weblinks.xml in Resources */,
+				B4C21F541A5B2688004F12F0 /* address.xsd in Resources */,
+				B4C21F4C1A5B1D74004F12F0 /* weblinks_groups.xsd in Resources */,
+				B4C21F561A5B2688004F12F0 /* address_UnitInfo.xsd in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B45720CC1857D487005632B7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B4C55C4918707FEB0006D92A /* AppIcon.icns in Resources */,
+				B4C55C4718707F2A0006D92A /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B42F9EB11A48657E0007FC96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B42F9F1D1A48663F0007FC96 /* MGTemplateStandardMarkers.m in Sources */,
+				B42F9F0B1A48663F0007FC96 /* XSDelement.m in Sources */,
+				B42F9F091A48663F0007FC96 /* XSDcomplexType.m in Sources */,
+				B42F9F111A48663F0007FC96 /* XSSimpleType.m in Sources */,
+				B49B8CFD1A4DCFE9001A2D91 /* XSDAnnotation.m in Sources */,
+				B42F9F171A48663F0007FC96 /* MGTemplateEngine.m in Sources */,
+				B42F9F151A48663F0007FC96 /* ICUTemplateMatcher.m in Sources */,
+				B42F9F211A4866400007FC96 /* NSDictionary_DeepMutableCopy.m in Sources */,
+				B42F9F071A48663F0007FC96 /* XSDattribute.m in Sources */,
+				B42F9F0F1A48663F0007FC96 /* XSSchemaNode.m in Sources */,
+				B44ACBF61A53992B0030DFEA /* DDRunTask.m in Sources */,
+				B42F9F291A4866400007FC96 /* XMLUtils.m in Sources */,
+				B42F9F241A4866400007FC96 /* NSString+RegExKitLiteTransition.m in Sources */,
+				B42F9F0D1A48663F0007FC96 /* XSDexplicitGroup.m in Sources */,
+				B42F9F1F1A4866400007FC96 /* NSArray_DeepMutableCopy.m in Sources */,
+				B42F9F2C1A4866400007FC96 /* XSDschema.m in Sources */,
+				B42F9F1B1A48663F0007FC96 /* MGTemplateStandardFilters.m in Sources */,
+				B44ACBF11A5396E90030DFEA /* DDFrameworkWriter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B42F9F3D1A488F830007FC96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B4BB5A231A4AC4710044305B /* XSDTestCase.m in Sources */,
+				B42F9F631A4890CE0007FC96 /* WeblinksTests.m in Sources */,
+				B4C21F5A1A5B26F7004F12F0 /* AddressTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B45720CA1857D487005632B7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B45721101857D532005632B7 /* main.m in Sources */,
+				B457210B1857D532005632B7 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B42F9ECC1A48657E0007FC96 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B42F9EB51A48657E0007FC96 /* XSDConverterCore */;
+			targetProxy = B42F9ECB1A48657E0007FC96 /* PBXContainerItemProxy */;
+		};
+		B42F9F461A488F830007FC96 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B45720CD1857D487005632B7 /* XSDConverter */;
+			targetProxy = B42F9F451A488F830007FC96 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B42F9ED01A48657E0007FC96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B42F9ED11A48657E0007FC96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = framework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B42F9F541A488F830007FC96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XSDConverter.app/Contents/MacOS/XSDConverter";
+			};
+			name = Debug;
+		};
+		B42F9F551A488F830007FC96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XSDConverter.app/Contents/MacOS/XSDConverter";
+			};
+			name = Release;
+		};
+		B45720F61857D487005632B7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = app/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = XSDConverter;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B45720F71857D487005632B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = app/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = XSDConverter;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		F8E422C5138834E90047AA8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = x86_64;
+			};
+			name = Debug;
+		};
+		F8E422C6138834E90047AA8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = x86_64;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B42F9ECF1A48657E0007FC96 /* Build configuration list for PBXNativeTarget "XSDConverterCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B42F9ED01A48657E0007FC96 /* Debug */,
+				B42F9ED11A48657E0007FC96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B42F9F531A488F830007FC96 /* Build configuration list for PBXNativeTarget "XSDConverterCoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B42F9F541A488F830007FC96 /* Debug */,
+				B42F9F551A488F830007FC96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B45720F51857D487005632B7 /* Build configuration list for PBXNativeTarget "XSDConverter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B45720F61857D487005632B7 /* Debug */,
+				B45720F71857D487005632B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F8E422AE138834E90047AA8C /* Build configuration list for PBXProject "XSDConverter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8E422C5138834E90047AA8C /* Debug */,
+				F8E422C6138834E90047AA8C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F8E422AB138834E90047AA8C /* Project object */;
+}

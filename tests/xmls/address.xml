@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mycompany:address
+    xmlns:mycompany="http://www.mycompany.com">
+    <addressLine1>adasdLine1</addressLine1>
+    <addressLine2>tempLine2</addressLine2>
+    <addressMatch>true</addressMatch>
+    <city>megacity</city>
+    <country>lalacountry</country>
+    <postOfficeBox>leleleoffice</postOfficeBox>
+    <state>lelelestate</state>
+    <streetInfo>
+            <direction>SouthBySouthWest</direction>
+            <name>homeStreet</name>
+            <number>10b</number>
+            <trailingDirection>stringforDirect</trailingDirection>
+    </streetInfo>
+    <streetName>sname</streetName>
+    <unitInfo>
+        <number>0123123123</number>
+        <type>typeT</type>
+    </unitInfo>
+    <zipCode>123-va-123</zipCode>
+</mycompany:address>

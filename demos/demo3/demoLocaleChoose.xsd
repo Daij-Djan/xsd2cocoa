@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/DemoConfig"
+	xmlns:Demo="http://www.example.org/DemoConfig" elementFormDefault="qualified">
+
+	<element name="availableConfigs" type="Demo:availableConfigs"></element>
+
+	<complexType name="availableConfigs">
+		<sequence>
+			<element name="country" type="Demo:country" maxOccurs="unbounded" minOccurs="1"></element>
+		</sequence>
+
+		<attribute name="base" type="anyURI"></attribute>
+    </complexType>
+
+	<complexType name="country">
+		<sequence>
+			<element name="language" type="Demo:language" maxOccurs="unbounded" minOccurs="1">
+			</element>
+		</sequence>
+		<attribute name="iso" type="Demo:isoCode" use="required"></attribute>
+	</complexType>
+
+	<complexType name="language">
+		<sequence>
+			<element name="strings" type="Demo:strings" maxOccurs="unbounded" minOccurs="1">
+			</element>
+		</sequence>
+		<attribute name="iso" type="Demo:isoCode" use="required"></attribute>
+	</complexType>
+
+
+	<complexType name="namedString">
+		<simpleContent>
+			<extension base="string">
+				<attribute name="id" type="Demo:stringId" use="required"></attribute>
+			</extension>
+		</simpleContent>
+	</complexType>
+
+	<complexType name="strings">
+		<sequence>
+			<element name="string" type="Demo:namedString" maxOccurs="8" minOccurs="8"></element>
+		</sequence>
+	</complexType>
+
+	<simpleType name="stringId">
+		<restriction base="string">
+			<enumeration value="overlay_headline"></enumeration>
+			<enumeration value="overlay_description"></enumeration>
+			
+            <enumeration value="overlay_title"></enumeration>
+			<enumeration value="overlay_button"></enumeration>
+			<enumeration value="overlay_country"></enumeration>
+			<enumeration value="overlay_language"></enumeration>
+            
+			<enumeration value="error_title"></enumeration>
+			<enumeration value="error_description"></enumeration>
+		</restriction>
+	</simpleType>
+
+
+	<simpleType name="isoCode">
+		<restriction base="string">
+			<length value="2"></length>
+		</restriction>
+	</simpleType>
+</schema>

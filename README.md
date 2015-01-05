@@ -5,25 +5,46 @@ Parses XSD files and generates Objective-C classes for IOS (or OSX) -- uses libx
 
 For every Complex Type in your schema file, a corresponding Objective-C class is generated with its attributes and elements as Objective-C properties and an init method taking an libxml2 TextReader is generated.
 
-The code is generated according to a template that you can easily customize if you need to generate specific/exotic code. For most folks the standard template included should work just fine
+The code is generated according to a template that you can easily customize if you need to generate specific/exotic code. For most folks the standard template included should work just fine.
 
-Following standard simple types are currently supported:
+The generator is a framework that is completely seperate from the GUI. And thus it can be embedded in any cocoa app.
 
-<table>
-<tr><td><b>XSD Type</b></td><td><b>Cocoa Type</b></td></tr>
-<tr><td>string</td><td>NSString</td></tr>
-<tr><td>int</td><td>NSNumber</td></tr>
-<tr><td>integer</td><td>NSNumber</td></tr>
-<tr><td>decimal</td><td>NSNumber</td></tr>
-<tr><td>boolean</td><td>NSNumber</td></tr>
-<tr><td>dateTime</td><td>NSDate</td></tr>
-<tr><td>anyURI</td><td>NSURL</td></tr>
-</table>
+**The generator is checked which unit tests that read specific xsds, generate code for it, compile it using clang and then see if they can parse an according xml**<br/>
+(so IF you find bugs / missing features - please provide a xsd & a xml file so I can fix it / add it to the generator)
+
+###What works already: (1.2)
+##### (the key points I remember)
+
+- Complex type elements (except local anonymous complex types)
+
+- Simple type elements/attributes (standard and custom)
+	- **40/44 types defined by the w3c work**<br/> 
+	outstanding: date, time, base64Binary, hexBinary
+
+- Inheritance by extension
+- Static parsing methods for global elements (a category is generated for a complex type that is used as the root element)
+- Mapping xml namespaces to class name prefixes via a specific tag in a template. (without it, namespaces are mapped 1 : 1 to Class prefixes)
+- referencing external files to copy to the destination folder when generating code
+- nested sequences & choices
+- includes of other XSD files
+- annotations of  elements 
+
+the **generated parser** only requires libxml and I have tested it on **IOS as well as OSX**
+- **(Remember: to use the classes, link your target against libxml2 (!))**
+
+The generator itself uses the NSXML* tree based API and is for OSX only.
+
+###Biggest pain points
+1. So far the generator does NOT handle references to elements/attributes via the ref= attribute.
+2. The min & maxOccurances of elements inside a sequence/choice must be specified on element itself as opposed to the sequence itself
+3. The generator doesnt do xs:enums. the resitrictions of the base type is just ignored and the base type is used. It would be cool if the generator genereated real enums from the values
+
+---
 
 The Project is still in alpha phase, BUT real world usage is already be possible. *and practiced* <br/>
 **A demo project is included** and I used it to generate XML Parsers for **two commercial projects already** (Ill merge back fixes as I find the time).
 
-###how-to
+###how-to (based on 1.0)
 ##### (very brief ;))
 1. download the sourcecode and use XCode 5+ to build the xsd2cocoa mac app. (At this point, Im not providing a binary)
 2. Upon starting the app you see a window 
@@ -38,49 +59,7 @@ The Project is still in alpha phase, BUT real world usage is already be possible
 3. After specifying the in- and output paths you hit 'write code' and you get ready to use .h/.m files. **(Remember: to use the classes, link against libxml2 (!))**
 ![3](https://raw.github.com/Daij-Djan/xsd2cocoa/master/README-files/3.png)
 
-###What works already:
-##### (the key points I remember)
-
-- Complex type elements (except local anonymous complex types)
-- Simple type elements/attributes (standard and custom)
-- Inheritance by extension
-- Static parsing methods for global elements (a category is generated for a complex type that is used the root element)
-- Mapping xml namespaces to class name prefixes via a specific tag in a template. (without it, namespaces are mapped 1 : 1 to Class prefixes)
-- referencing external files to copy to the destination folder when generating code
-- nested sequences&choices
-
-the **generated parser** only requires libxml and I have tested it on **IOS as well as OSX**
-- **(Remember: to use the classes, link your target against libxml2 (!))**
-
-The generator itself uses the NSXML* tree based API and is for OSX only.
-
-###Biggest pain points
-1. So far the generator does NOT handle references to elements/attributes via the ref= attribute.
-2. The min & maxOccurances of elements inside a sequence/choice must be specified on element itself as opposed to the sequence itself
-3. The generator doesnt do xs:enums. the resitrictions of the base type is just ignored and the base type is used. It would be cool if the generator genereated real enums from the values
-4. the generator doesnt support includes/imports
-5. the generator doesnt support annotations (will be added soonish)
-###Filterable arrays
-In the screenshot above I show you that the app has 2 built-in objective C templates. One that uses NSArrays for collections of objects, one that uses DDFilterableArrays...
-
-#####So ... why? Because of convenience! :D
-DDFilterableArrays allow you to use the modern objC brackets to filter the Array.
-
-so instead of:
-
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"color.name BEGINSWITH 'b'"];
-	NSArray *subArray = [myArray filteredArrayUsingPredicate:predicate];
-
-you just write:
-
-	DDFilterableArray *subArray = myArray[@"color.name BEGINSWITH 'b'"];
-	
-this is very nice for parsing especially combined with KVC. e.g.:
-
-	myBooks = [rootElement valueForKeyPath:@"stores.books"][@"owned=YES"]
-
 ###credits
-##### (the key points I remember)
 The basic code was on google projects. **The original xsd2cocoa was written by Stefan Winter** in 2011 and even if not really usable, it was **already quite awesome**
 
 I made numerous fixes and improvements to the generator.
