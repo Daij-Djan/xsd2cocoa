@@ -88,7 +88,11 @@
             return [self.localComplexType targetClassName];
         }
     } else {
-        return [[self.schema typeForName: self.type] arrayType];
+        if(self.type != nil) {
+            return [[self.schema typeForName: self.type] arrayType];
+        } else {
+            return self.localComplexType.arrayType;
+        }
     }
 }
 

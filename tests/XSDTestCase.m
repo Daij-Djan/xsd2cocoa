@@ -13,7 +13,7 @@
 #import <objc/runtime.h>
 #import <dlfcn.h>
 
-#define KEEP_AND_SHOW 0
+#define KEEP_AND_SHOW 1
 
 @interface XSDTestCase ()
 

@@ -113,9 +113,11 @@
     }
     
     for (XSDelement* anElement in [self elements]) {
-        id<XSType> aType = [self.schema typeForName: anElement.type];
-        if([aType isKindOfClass: [XSSimpleType class]]) {
-            [simpleTypes addObject: aType];
+        if(anElement.type) {
+            id<XSType> aType = [self.schema typeForName: anElement.type];
+            if([aType isKindOfClass: [XSSimpleType class]]) {
+                [simpleTypes addObject: aType];
+            }
         }
     }
     

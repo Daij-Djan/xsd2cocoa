@@ -227,20 +227,20 @@
 		B42F9ED91A48663F0007FC96 /* objects */ = {
 			isa = PBXGroup;
 			children = (
-				B42F9EDA1A48663F0007FC96 /* XSDattribute.h */,
-				B42F9EDC1A48663F0007FC96 /* XSDcomplexType.h */,
-				B42F9EDE1A48663F0007FC96 /* XSDelement.h */,
-				B42F9EE01A48663F0007FC96 /* XSDexplicitGroup.h */,
-				B42F9EE21A48663F0007FC96 /* XSSchemaNode.h */,
-				B42F9EE41A48663F0007FC96 /* XSSimpleType.h */,
-				B42F9EDB1A48663F0007FC96 /* XSDattribute.m */,
-				B42F9EDD1A48663F0007FC96 /* XSDcomplexType.m */,
-				B42F9EDF1A48663F0007FC96 /* XSDelement.m */,
-				B42F9EE11A48663F0007FC96 /* XSDexplicitGroup.m */,
-				B42F9EE31A48663F0007FC96 /* XSSchemaNode.m */,
-				B42F9EE51A48663F0007FC96 /* XSSimpleType.m */,
 				B49B8CFA1A4DCFE9001A2D91 /* XSDAnnotation.h */,
 				B49B8CFB1A4DCFE9001A2D91 /* XSDAnnotation.m */,
+				B42F9EDA1A48663F0007FC96 /* XSDattribute.h */,
+				B42F9EDB1A48663F0007FC96 /* XSDattribute.m */,
+				B42F9EDC1A48663F0007FC96 /* XSDcomplexType.h */,
+				B42F9EDD1A48663F0007FC96 /* XSDcomplexType.m */,
+				B42F9EDE1A48663F0007FC96 /* XSDelement.h */,
+				B42F9EDF1A48663F0007FC96 /* XSDelement.m */,
+				B42F9EE01A48663F0007FC96 /* XSDexplicitGroup.h */,
+				B42F9EE11A48663F0007FC96 /* XSDexplicitGroup.m */,
+				B42F9EE21A48663F0007FC96 /* XSSchemaNode.h */,
+				B42F9EE31A48663F0007FC96 /* XSSchemaNode.m */,
+				B42F9EE41A48663F0007FC96 /* XSSimpleType.h */,
+				B42F9EE51A48663F0007FC96 /* XSSimpleType.m */,
 			);
 			path = objects;
 			sourceTree = "<group>";
