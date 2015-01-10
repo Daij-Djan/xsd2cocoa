@@ -1,0 +1,31 @@
+<xs:schema xmlns="http://www.w3.org/2001/XMLSchema"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema" 	
+ targetNamespace="http://www.example.com/xsdWebLinksTest"
+ xmlns:test="http://www.example.com/xsdWebLinksTest">
+
+  <xs:annotation>
+	<xs:documentation>
+		weblinks_test.xsd extends a format for saving links defined by weblinks.xsd by adding support for descriptions of groups (mainly to test import)
+	</xs:documentation>
+  </xs:annotation>
+
+  <xs:complexType name="description">
+	<xs:annotation>
+		<xs:documentation>
+			this type defines an annotation
+        </xs:documentation>
+	</xs:annotation>  
+    <xs:simpleContent>
+        <xs:extension base="xs:string">
+            <xs:attribute name="id" type="xs:string" use="optional">
+                <xs:annotation>
+                    <xs:documentation>
+                        this attribute is required and stores an user-defined identifier for this note
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+</xs:schema>

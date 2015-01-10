@@ -63,6 +63,8 @@
 		B45721101857D532005632B7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721081857D532005632B7 /* main.m */; };
 		B49B8CFC1A4DCFE9001A2D91 /* XSDAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = B49B8CFA1A4DCFE9001A2D91 /* XSDAnnotation.h */; };
 		B49B8CFD1A4DCFE9001A2D91 /* XSDAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B49B8CFB1A4DCFE9001A2D91 /* XSDAnnotation.m */; };
+		B4BAB2511A6147A50073C821 /* weblinks_test.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B4BAB24F1A61411F0073C821 /* weblinks_test.xsd */; };
+		B4BAB2551A6174FC0073C821 /* nameChanges.xml in Resources */ = {isa = PBXBuildFile; fileRef = B4BAB2531A614C7E0073C821 /* nameChanges.xml */; };
 		B4BB5A231A4AC4710044305B /* XSDTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB5A221A4AC4710044305B /* XSDTestCase.m */; };
 		B4C21F4C1A5B1D74004F12F0 /* weblinks_groups.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B4C21F4B1A5B1D74004F12F0 /* weblinks_groups.xsd */; };
 		B4C21F531A5B2688004F12F0 /* address.xml in Resources */ = {isa = PBXBuildFile; fileRef = B4C21F4F1A5B2688004F12F0 /* address.xml */; };
@@ -164,6 +166,8 @@
 		B45721081857D532005632B7 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B49B8CFA1A4DCFE9001A2D91 /* XSDAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDAnnotation.h; sourceTree = "<group>"; };
 		B49B8CFB1A4DCFE9001A2D91 /* XSDAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDAnnotation.m; sourceTree = "<group>"; };
+		B4BAB24F1A61411F0073C821 /* weblinks_test.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = weblinks_test.xsd; sourceTree = "<group>"; };
+		B4BAB2531A614C7E0073C821 /* nameChanges.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = nameChanges.xml; sourceTree = "<group>"; };
 		B4BB5A211A4AC4710044305B /* XSDTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDTestCase.h; sourceTree = "<group>"; };
 		B4BB5A221A4AC4710044305B /* XSDTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDTestCase.m; sourceTree = "<group>"; };
 		B4C21F4B1A5B1D74004F12F0 /* weblinks_groups.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = weblinks_groups.xsd; sourceTree = "<group>"; };
@@ -291,9 +295,9 @@
 		B42F9EFC1A48663F0007FC96 /* xmls */ = {
 			isa = PBXGroup;
 			children = (
+				B4BAB2521A614C440073C821 /* Schema */,
 				B42F9EFD1A48663F0007FC96 /* template-objc.xml */,
-				B42F9EFE1A48663F0007FC96 /* template.xsd */,
-				B42F9EFF1A48663F0007FC96 /* XMLSchema.xsd */,
+				B4BAB2531A614C7E0073C821 /* nameChanges.xml */,
 				B42F9FA71A48B95B0007FC96 /* datatypes.xml */,
 			);
 			path = xmls;
@@ -318,6 +322,7 @@
 				B42F9F5F1A4890CE0007FC96 /* weblinks.xml */,
 				B42F9F601A4890CE0007FC96 /* weblinks.xsd */,
 				B4C21F4B1A5B1D74004F12F0 /* weblinks_groups.xsd */,
+				B4BAB24F1A61411F0073C821 /* weblinks_test.xsd */,
 				B4C21F4F1A5B2688004F12F0 /* address.xml */,
 				B4C21F501A5B2688004F12F0 /* address.xsd */,
 				B4C21F511A5B2688004F12F0 /* address_StreetInfo.xsd */,
@@ -355,6 +360,15 @@
 				B42F9E701A4850150007FC96 /* Info.plist */,
 			);
 			path = app;
+			sourceTree = "<group>";
+		};
+		B4BAB2521A614C440073C821 /* Schema */ = {
+			isa = PBXGroup;
+			children = (
+				B42F9EFF1A48663F0007FC96 /* XMLSchema.xsd */,
+				B42F9EFE1A48663F0007FC96 /* template.xsd */,
+			);
+			name = Schema;
 			sourceTree = "<group>";
 		};
 		F8E422A9138834E90047AA8C = {
@@ -520,6 +534,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4BAB2551A6174FC0073C821 /* nameChanges.xml in Resources */,
 				B42F9F221A4866400007FC96 /* Source Code License.rtf in Resources */,
 				B42F9F261A4866400007FC96 /* template.xsd in Resources */,
 				B42F9FA91A48B9610007FC96 /* datatypes.xml in Resources */,
@@ -536,6 +551,7 @@
 				B42F9F691A4890CE0007FC96 /* weblinks.xsd in Resources */,
 				B4C21F551A5B2688004F12F0 /* address_StreetInfo.xsd in Resources */,
 				B42F9F681A4890CE0007FC96 /* weblinks.xml in Resources */,
+				B4BAB2511A6147A50073C821 /* weblinks_test.xsd in Resources */,
 				B4C21F541A5B2688004F12F0 /* address.xsd in Resources */,
 				B4C21F4C1A5B1D74004F12F0 /* weblinks_groups.xsd in Resources */,
 				B4C21F561A5B2688004F12F0 /* address_UnitInfo.xsd in Resources */,

@@ -15,6 +15,7 @@
 #import "MGTemplateEngine.h"
 #import "ICUTemplateMatcher.h"
 #import "DDFrameworkWriter.h"
+#import "XMLUtils.h"
 
 @interface XSDcomplexType (privateAccessors)
 @property (strong, nonatomic) NSArray* globalElements;
@@ -38,8 +39,7 @@
 @property (strong, nonatomic) NSString* classTemplateString;
 @property (strong, nonatomic) NSString* headerTemplateString;
 @property (strong, nonatomic) NSArray* additionalFiles;
-@property (strong, nonatomic) NSString* classPrefix;
-
+@property (strong, nonatomic) NSString *targetNamespacePrefix;
 @end
 
 @implementation XSDschema {
@@ -48,13 +48,13 @@
 }
 
 // Called when initializing the object from a node
-- (id) initWithNode: (NSXMLElement*) node prefix: (NSString*) prefix error: (NSError**) error  {
+- (id) initWithNode: (NSXMLElement*) node targetNamespacePrefix: (NSString*) prefix error: (NSError**) error  {
 	self = [super initWithNode:node schema:nil];
     if(self) {
         //get namespaces and set derived class prefix
         self.targetNamespace = [[node attributeForName: @"targetNamespace"] stringValue];
         self.allNamespaces = [node namespaces];
-        [self setPrefixFromNamespaceWithOverride:prefix];
+        [self setTargetNamespacePrefixOverride:prefix];
         
         
         //add basic simple types
@@ -101,7 +101,7 @@
 	return self;
 }
 
-- (id) initWithUrl: (NSURL*) schemaUrl prefix: (NSString*) prefix error: (NSError**) error {
+- (id) initWithUrl: (NSURL*) schemaUrl targetNamespacePrefix: (NSString*) prefix error: (NSError**) error {
     NSData* data = [NSData dataWithContentsOfURL: schemaUrl];
     if(!data) {
         *error = [NSError errorWithDomain:@"XSDschema" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:@"Cant open xsd file at %@", schemaUrl]}];
@@ -112,18 +112,27 @@
         return nil;
     }
     
-    self = [self initWithNode: [doc rootElement] prefix: prefix error: error];
+    self = [self initWithNode: [doc rootElement] targetNamespacePrefix: prefix error: error];
     if(self) {
         self.schemaUrl = schemaUrl;
         
-        //handle includes
+        //handle includes & imports
         NSArray* iNodes = [[doc rootElement] nodesForXPath: @"/schema/include" error: error];
+        NSArray* iNodes2 = [[doc rootElement] nodesForXPath: @"/schema/import" error: error];
+        if(iNodes2.count) {
+            NSMutableArray *newNodes = [iNodes2 mutableCopy];
+            if(iNodes.count) {
+                [newNodes addObjectsFromArray:iNodes];
+            }
+            iNodes = newNodes;
+        }
+        
         self.includedSchemas = [NSMutableArray array];
         for (NSXMLElement* aChild in iNodes) {
 
             id schemaLocation = [aChild attributeForName:@"schemaLocation"].stringValue;
             NSURL *url = [NSURL URLWithString:schemaLocation relativeToURL:schemaUrl];
-            XSDschema *xsd = [[self.class alloc] initWithUrl:url prefix:prefix error:error];
+            XSDschema *xsd = [[self.class alloc] initWithUrl:url targetNamespacePrefix:prefix error:error];
             if(!xsd) {
                 return nil;
             }
@@ -149,26 +158,26 @@
 
 #pragma mark -
 
-- (void)setPrefixFromNamespaceWithOverride:(NSString*)prefix {
+- (void)setTargetNamespacePrefixOverride:(NSString*)prefix {
     //set class prefix
     if(prefix != nil) {
-        self.classPrefix = prefix;
+        self.targetNamespacePrefix = prefix;
     } else {
         for (NSXMLNode *node in self.allNamespaces) {
             NSString* nsURI = node.stringValue;
             
             if([nsURI isEqualTo: self.targetNamespace]) {
-                self.classPrefix = node.name;
+                self.targetNamespacePrefix = node.name;
             }
         }
     }
     
     //fix prefix so it is empty or uppercase
-    if(!self.classPrefix) {
-        self.classPrefix = @"";
+    if(!self.targetNamespacePrefix) {
+        self.targetNamespacePrefix = @"";
     }
     else {
-        self.classPrefix = [self.classPrefix uppercaseString];
+        self.targetNamespacePrefix = [self.targetNamespacePrefix uppercaseString];
     }
 }
 
@@ -328,6 +337,30 @@
     return retType;
 }
 
+- (NSString*)classPrefixForType:(id<XSType>)type {
+    if(self.parentSchema) {
+        //defer
+        return [self.parentSchema classPrefixForType:type];
+    }
+
+    NSString *qName = [type name];
+    NSParameterAssert(qName.length); //EVERYTHING has a type name
+    
+    NSArray* splitPrefix = [qName componentsSeparatedByCharactersInSet: [NSCharacterSet characterSetWithCharactersInString: @":"]];
+    
+    NSString *namespace;
+    if(splitPrefix.count > 1) {
+        namespace = (NSString*) [splitPrefix objectAtIndex: 0];
+    }
+    
+    if(!namespace || [namespace isEqualTo:self.targetNamespace]) {
+        return self.targetNamespacePrefix;
+    }
+    else {
+        return [self.targetNamespacePrefix stringByAppendingString:namespace.capitalizedString];
+    }
+}
+
 + (NSString*) variableNameFromName:(NSString*)vName multiple:(BOOL)multiple {
     NSParameterAssert(vName.length);
     
@@ -354,21 +387,42 @@
             }
         }
     }
-    //id fix
-    if([vName caseInsensitiveCompare:@"id"]==NSOrderedSame) {
-        vName = @"identifier";
-    }
-    //copy fix
-    if([vName caseInsensitiveCompare:@"copy"]==NSOrderedSame) {
-        vName = @"textCopy";
-    }
-    //class fix
-    if([vName caseInsensitiveCompare:@"class"]==NSOrderedSame) {
-        vName = @"typeClass";
+    
+    //name fixes
+    id newName = [[self.class knownNameChanges] objectForKey:vName];
+    if(newName) {
+        vName = newName;
     }
     
     assert(vName.length); //EVERYTHING has a name
     return vName;
+}
+
+#pragma mark
+
++ (NSDictionary *)knownNameChanges {
+    static NSDictionary* knownNameChanges;
+    if(!knownNameChanges) {
+        NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"nameChanges" withExtension:@"xml"];
+        NSData* data = [NSData dataWithContentsOfURL: url];
+        NSXMLDocument* doc = [[NSXMLDocument alloc] initWithData: data options: 0 error: nil];
+        if(!doc) {
+            return nil;
+        }
+        
+        NSArray* iNodes = [[doc rootElement] nodesForXPath: @"/nameChanges/nameChange" error: nil];
+//        if(!iNodes) {
+//            return nil;
+//        }
+        
+        knownNameChanges  = [NSMutableDictionary dictionaryWithCapacity:iNodes.count];
+        for (NSXMLElement *element in iNodes) {
+            id from = [XMLUtils node:element stringAttribute:@"from"];
+            id to = [XMLUtils node:element stringAttribute:@"to"];
+            [(NSMutableDictionary*)knownNameChanges setObject:to forKey:from];             
+        }
+    }
+    return knownNameChanges;
 }
 
 #pragma mark - generator

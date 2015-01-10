@@ -113,7 +113,7 @@
 
     //open scheme
     NSError* error = nil;
-    XSDschema* schema = [[XSDschema alloc] initWithUrl: schemaURL prefix: classPrefix error: &error];
+    XSDschema* schema = [[XSDschema alloc] initWithUrl: schemaURL targetNamespacePrefix: classPrefix error: &error];
     if(error != nil) {
         NSString *errorString = [error localizedDescription] ? [error localizedDescription] : @"Unknown Error";
         NSRunAlertPanel(@"Error", @"Error while reading XSD %@", @"OK", nil, nil, errorString);

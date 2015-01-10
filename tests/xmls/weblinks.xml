@@ -8,15 +8,19 @@
     <group name="ASP Programming">
       <favitem link="www.asp.net">Offical Mircrosoft ASP.Net site</favitem>
       <favitem link="www.411asp.com">Portal for ASP Sites</favitem>
-    </group>  
+      <description>Group description</description>
+    </group>
+    <description>Group description</description>
   </group>
   <group name="News">
     <favitem link="www.bbc.com">BBC World News</favitem>
     <favitem link="www.thisislondon.com">Evening Standard on London</favitem>
+    <description>Group description</description>
   </group>
   <group name="Travel">
     <favitem link="www.britishairways.com">British Airways</favitem>
     <favitem link="www.bcn.es">Barcelona City Guide</favitem>
     <favitem link="www.lastminute.com">Last Minute Travel Deals</favitem>
-  </group>   
+    <description>Group description</description>
+  </group>
 </wl:favourites>

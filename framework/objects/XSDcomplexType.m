@@ -164,7 +164,7 @@
         range = [vName rangeOfCharacterFromSet: illegalChars];
     }
     
-    NSString *prefix = self.schema.classPrefix;
+    NSString *prefix = [self.schema classPrefixForType:self];
     return [NSString stringWithFormat: @"%@%@", prefix, vName];
 }
 

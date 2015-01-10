@@ -1,4 +1,4 @@
-xsd2cocoa
+XSDConverter
 =========
 
 Parses XSD files and generates Objective-C classes for IOS (or OSX) -- uses libxml only
@@ -12,11 +12,10 @@ The generator is a framework that is completely seperate from the GUI. And thus 
 **The generator is checked which unit tests that read specific xsds, generate code for it, compile it using clang and then see if they can parse an according xml**<br/>
 (so IF you find bugs / missing features - please provide a xsd & a xml file so I can fix it / add it to the generator)
 
-###What works already: (1.2)
+###What works already: (1.3)
 ##### (the key points I remember)
 
-- Complex type elements (except local anonymous complex types)
-
+- Complex type elements
 - Simple type elements/attributes (standard and custom)
 	- **40/44 types defined by the w3c work**<br/> 
 	outstanding: date, time, base64Binary, hexBinary
@@ -26,7 +25,7 @@ The generator is a framework that is completely seperate from the GUI. And thus 
 - Mapping xml namespaces to class name prefixes via a specific tag in a template. (without it, namespaces are mapped 1 : 1 to Class prefixes)
 - referencing external files to copy to the destination folder when generating code
 - nested sequences & choices
-- includes of other XSD files
+- includes and imports of other XSD files
 - annotations of  elements 
 
 the **generated parser** only requires libxml and I have tested it on **IOS as well as OSX**

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<nameChanges>
+    
+    <nameChange from="id" to="identifier"/>
+    <nameChange from="copy" to="textCopy"/>
+    <nameChange from="class" to="typeClass"/>
+    <nameChange from="description" to="elementDescription"/>
+
+</nameChanges>

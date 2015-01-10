@@ -69,7 +69,7 @@
 }
 
 - (void)helpTestCorrectnessParsingSchema {
-    __block XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl prefix:nil error:nil];
+    __block XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     XCTAssert(schema);
     
     [self assertSchema:schema];
@@ -82,7 +82,7 @@
 }
 
 - (void)helpTestCorrectnessGeneratingParserObjC {
-    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl prefix:nil error:nil];
+    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     XCTAssert(schema);
     
     NSError *error;
@@ -141,13 +141,13 @@
 - (void)helpTestPerformanceParsingSchema {
     __block XSDschema *schema;
     [self measureBlock:^{
-        schema = [[XSDschema alloc] initWithUrl:self.schemaUrl prefix:nil error:nil];
+        schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     }];
     XCTAssert(schema);
 }
 
 - (void)helpTestPerformanceLoadingTemplateObjC {
-    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl prefix:nil error:nil];
+    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     XCTAssert(schema);
     
     __block BOOL bLoaded;
@@ -159,7 +159,7 @@
 }
 
 - (void)helpTestPerformanceGeneratingParserObjC {
-    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl prefix:nil error:nil];
+    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     XCTAssert(schema);
     
     NSError *error;
@@ -177,7 +177,7 @@
 }
 
 - (void)helpTestPerformanceParsingXMLObjC {
-    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl prefix:nil error:nil];
+    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     XCTAssert(schema);
     
     NSError *error;

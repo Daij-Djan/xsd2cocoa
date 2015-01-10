@@ -142,10 +142,10 @@
     }
     
     NSArray* iNodes = [[doc rootElement] nodesForXPath: @"/datatypes/type" error: nil];
-    if(iNodes) {
-        return nil;
-    }
-        
+//    if(iNodes) {
+//        return nil;
+//    }
+    
     NSMutableArray *types = [NSMutableArray arrayWithCapacity:iNodes.count];
     for (NSXMLElement *element in iNodes) {
         id base = [XMLUtils node:element stringAttribute:@"base"];

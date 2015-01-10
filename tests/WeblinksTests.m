@@ -26,6 +26,8 @@
                            @"WLFG+File.m",
                            @"WLGroupdef.h",
                            @"WLGroupdef.m",
+                           @"WLDescription.m",
+                           @"WLDescription.h",
                            @"weblinks.h"];
     self.rootClassName = @"WLFG";
     self.parseMethodName = @"FGFromURL:";
@@ -55,6 +57,12 @@
     XCTAssert(ct);
     XCTAssert([[schema typeForName:ct.baseType].name isEqualTo:@"FG"]);
     XCTAssert([[ct.attributes valueForKeyPath:@"name"] containsObject:@"name"]);
+    XCTAssert([[ct.sequenceOrChoice.elements valueForKeyPath:@"name"] containsObject:@"description"]);
+    XCTAssert(ct.hasAnnotations);
+
+    ct = [schema typeForName:@"description"];
+    XCTAssert(ct);
+    XCTAssert([[ct.attributes valueForKeyPath:@"name"] containsObject:@"id"]);
     XCTAssert(ct.hasAnnotations);
 }
 
