@@ -51,69 +51,82 @@
 - (id) initWithNode: (NSXMLElement*) node targetNamespacePrefix: (NSString*) prefix error: (NSError**) error  {
 	self = [super initWithNode:node schema:nil];
     if(self) {
-        //get namespaces and set derived class prefix
+        /* Get namespaces and set derived class prefix */
         self.targetNamespace = [[node attributeForName: @"targetNamespace"] stringValue];
         self.allNamespaces = [node namespaces];
         [self setTargetNamespacePrefixOverride:prefix];
         
         
-        //add basic simple types
+        /* Add basic simple types known in the built-in types */
         _knownSimpleTypeDict = [NSMutableDictionary dictionary];
         for(XSSimpleType *aSimpleType in [XSSimpleType knownSimpleTypes]) {
             [_knownSimpleTypeDict setValue: aSimpleType forKey: aSimpleType.name];
         }
         
-        //add custom simple types
+        /* Add custom simple types */
         self.simpleTypes = [NSMutableArray array];
         NSArray* stNodes = [node nodesForXPath: @"/schema/simpleType" error: error];
+        NSLog(@"Simple Types Length: %ld", [stNodes count]);
         for (NSXMLElement* aChild in stNodes) {
             XSSimpleType* aCT = [[XSSimpleType alloc] initWithNode: aChild schema: self];
             [((NSMutableDictionary*)_knownSimpleTypeDict) setObject:aCT forKey:aCT.name];
             [((NSMutableArray*)self.simpleTypes) addObject: aCT];
         }
 
-        //add complex types, collect global elements
+        /* Add complex types, collect global elements */
         _knownComplexTypeDict = [NSMutableDictionary dictionary];
         self.complexTypes = [NSMutableArray array];
         NSArray* ctNodes = [node nodesForXPath: @"/schema/complexType" error: error];
+        NSLog(@"Complex Types Length: %ld", [ctNodes count]);
         for (NSXMLElement* aChild in ctNodes) {
             XSDcomplexType* aCT = [[XSDcomplexType alloc] initWithNode: aChild schema: self];
             [((NSMutableDictionary*)_knownComplexTypeDict) setObject:aCT forKey:aCT.name];
             [((NSMutableArray*)self.complexTypes) addObject: aCT];
         }
 
-        //Find globals
+        /* Add the globals elements */
         NSMutableArray* globalElements = [NSMutableArray array];
         NSArray* geNodes = [node nodesForXPath: @"/schema/element" error: error];
+        NSLog(@"Elements Length: %ld", [geNodes count]);
         for (NSXMLElement* aChild in geNodes) {
             XSDelement* anElement = [[XSDelement alloc] initWithNode: aChild schema: self];
             [globalElements addObject: anElement];
         }
 
-        //connect types and globals
+        /* For each global element found, connect the type */
         for (XSDelement* anElement in globalElements) {
             id<XSType> aType = [anElement schemaType];
+            NSLog(@"Type Name: %@", anElement.type);
+            /* For the type check if it is in our found complex types */
             if( [aType isMemberOfClass: [XSDcomplexType class]]) {
                 ((XSDcomplexType*)aType).globalElements = [((XSDcomplexType*)aType).globalElements arrayByAddingObject: anElement];
             }
         }
 	}
+    
+    /* Return our created object with all the elements and generated types */
 	return self;
 }
 
 - (id) initWithUrl: (NSURL*) schemaUrl targetNamespacePrefix: (NSString*) prefix error: (NSError**) error {
     NSData* data = [NSData dataWithContentsOfURL: schemaUrl];
+    NSLog(@"Data: %@", [NSString stringWithUTF8String:[data bytes]]);
+    /* If we do not have data present an instance error that we cannot open the xsd file at the given location */
     if(!data) {
         *error = [NSError errorWithDomain:@"XSDschema" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:@"Cant open xsd file at %@", schemaUrl]}];
         return nil;
     }
+    /* Create a document tree structure */
     NSXMLDocument* doc = [[NSXMLDocument alloc] initWithData: data options: 0 error: error];
     if(!doc) {
         return nil;
     }
     
+    /* From the root element, grab the complex, simple, and elements */
     self = [self initWithNode: [doc rootElement] targetNamespacePrefix: prefix error: error];
+
     if(self) {
+        /* The location of where our schema is located */
         self.schemaUrl = schemaUrl;
         
         //handle includes & imports
@@ -127,6 +140,7 @@
             iNodes = newNodes;
         }
         
+        /* For the imported schemas, grab their complex and simple types of their elements */
         self.includedSchemas = [NSMutableArray array];
         for (NSXMLElement* aChild in iNodes) {
 
@@ -199,6 +213,8 @@
     NSXMLDocument* xmlDoc = [[NSXMLDocument alloc] initWithContentsOfURL: templateUrl
                                                                  options:(NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA)
                                                                    error: error];
+    NSLog(@"%@", xmlDoc);
+    
     if(*error != nil) {
         return NO;
     }
@@ -230,13 +246,18 @@
         return NO;
     }
     
+    /* Iterate through the simple types within the document */
     for(NSXMLElement* aSimpleTypeNode in simpleTypeNodes) {
-        //check if we can find that type or we have to add it
+        /* Check if we can find that type or we have to add it */
         XSSimpleType* aSimpleType = [[XSSimpleType alloc] initWithNode:aSimpleTypeNode schema:self];//should happen earlier
+        NSLog(@"Simple Type Name: %@", aSimpleType.name);
+        
+        /* Try to fetch the simple type within our dictionary */
         XSSimpleType *existingSimpleType = _knownSimpleTypeDict[aSimpleType.name];
+        
+        /* Check if that simple type exists */
         if(existingSimpleType) {
             [existingSimpleType supplyTemplates:aSimpleTypeNode error:error];
-        
         }
         else {
             [aSimpleType  supplyTemplates:aSimpleTypeNode error:error];
@@ -313,7 +334,15 @@
 - (id<XSType>) typeForName: (NSString*) qName {
     if(self.parentSchema) {
         //defer
+        if(qName == nil){
+            NSLog(@"More Issues Still");
+        }
         return [self.parentSchema typeForName:qName];
+    }
+    
+    if(qName == nil){
+        NSLog(@"More Issues");
+        return nil;
     }
     
     NSParameterAssert(qName.length); //EVERYTHING has a type name
@@ -325,10 +354,16 @@
         typeName = (NSString*) [splitPrefix objectAtIndex: 1];
     }
     
-    //search ct
+    if([typeName isEqualToString:@"BookConditionType"]){
+        NSLog(@"Match");
+        NSLog(@"Match");
+        
+    }
+    
+    /* Search the complexType dictionary for the type name */
     id<XSType> retType = [_knownComplexTypeDict objectForKey: typeName];
     
-    //search st
+    /* Search the simpleType dictionary for the type name */
     if(!retType) {
         retType = [_knownSimpleTypeDict objectForKey: typeName];
     }
@@ -344,6 +379,9 @@
     }
 
     NSString *qName = [type name];
+    if(qName == nil){
+        NSLog(@"Issues");
+    }
     NSParameterAssert(qName.length); //EVERYTHING has a type name
     
     NSArray* splitPrefix = [qName componentsSeparatedByCharactersInSet: [NSCharacterSet characterSetWithCharactersInString: @":"]];
@@ -433,22 +471,26 @@
     NSParameterAssert(destinationFolder);
     NSParameterAssert(error);
     
-    //write code
+    /* SOURCE CODE - If we want to write source code */
     if (options & XSDschemaGeneratorOptionSourceCode) {
+        /* Create the path that will contain all the code */
         NSURL *srcFolderUrl = [destinationFolder URLByAppendingPathComponent:@"Sources" isDirectory:YES];
         
+        /* Create the actual directory at the location defined above */
         if(![[NSFileManager defaultManager] createDirectoryAtURL:srcFolderUrl withIntermediateDirectories:NO attributes:nil error:error]) {
             BOOL isDir;
+            /* Ensure that the item was created */
             if(![[NSFileManager defaultManager] fileExistsAtPath:srcFolderUrl.path isDirectory:&isDir] || !isDir) {
                 return NO;
             }
         }
+        /* If all is well, start writing the code into the directory we created */
         if(![self writeCodeInto:srcFolderUrl error:error]) {
             return NO;
         }
     }
 
-    //write Framework
+    /* FRAMEWORK - If we want to write a framework */
     if (options & XSDschemaGeneratorOptionDynamicFramework) {
         NSURL *productsFolderUrl = [destinationFolder URLByAppendingPathComponent:@"Products" isDirectory:YES];
         NSURL *osxFolderUrl = [productsFolderUrl URLByAppendingPathComponent:@"OSX" isDirectory:YES];
@@ -481,21 +523,33 @@
     return YES;
 }
 
+/**
+ *
+ *
+ *
+ *
+ */
 - (BOOL) writeCodeInto: (NSURL*) destinationFolder
                  error: (NSError**) error {
     *error = nil;
     
-    //if there is no template, we quit
+    /* If there is no template, return that is failed */
     if(!self.complexTypeArrayType) {
         return NO;
     }
     
-    // Set up template engine with your chosen matcher.
+    /* Set up template engine with your chosen matcher. */
     MGTemplateEngine *engine = [MGTemplateEngine templateEngine];
     [engine setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine]];
     
-    //write classes
+    /* Start writing our classes for the complex types */
     for(XSDcomplexType* type in self.complexTypes) {
+        NSLog(@"-------------");
+        NSLog(@"Element Name: %@", type.name);
+        NSLog(@"Element Type: %@", type.baseType);
+        NSLog(@"Element Attributes: %@", type.attributes);
+        
+        
         if (self.headerTemplateString != nil) {
             NSString *result = [engine processTemplate: self.headerTemplateString
                                          withVariables: type.substitutionDict];
@@ -507,6 +561,7 @@
                 return NO;
             }
         }
+        
         
         if (self.classTemplateString != nil) {
             NSString *result = [engine processTemplate: self.classTemplateString

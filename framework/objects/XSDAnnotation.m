@@ -7,7 +7,7 @@
 //
 
 #import "XSDAnnotation.h"
-#import "XMLUtils.h"
+
 
 @interface XSDAnnotation ()
 

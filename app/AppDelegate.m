@@ -111,8 +111,10 @@
     }
     
 
-    //open scheme
+    /* Open the schema specified by the user */
     NSError* error = nil;
+    
+    /* Build the schemea with simple types, complex types, and elements with imported schemas */
     XSDschema* schema = [[XSDschema alloc] initWithUrl: schemaURL targetNamespacePrefix: classPrefix error: &error];
     if(error != nil) {
         NSString *errorString = [error localizedDescription] ? [error localizedDescription] : @"Unknown Error";
@@ -120,13 +122,13 @@
         return;
     }
 
-    //get out folder
+    /* Escape out of the file path to get to the containing direrctory */
     NSURL* outFolder = [NSURL fileURLWithPath: [fm currentDirectoryPath]];
     if([options objectForKey: @"-out"] != nil) {
         outFolder = [NSURL fileURLWithPath: [options objectForKey:@"-out"]];
     }
 
-    //find template path
+    /* Specify the template, the default is the objective-c file defined in our project*/
     NSURL *templateUrl;
     switch (self.templateStyleMatrix.selectedTag) {
         case 2:
@@ -141,7 +143,7 @@
             break;
     }
     
-    //load template
+    /* Load the specified template (for the language to translate into) and check if there was an error */
     [schema loadTemplate:templateUrl error:&error];
     if(error != nil) {
         NSString *errorString = ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error";
@@ -149,6 +151,7 @@
         return;
     }
     
+    /* Select the type of code that we want to generate (Framework, Library, or Source Code -- Default for us is source code) */
     XSDschemaGeneratorOptions productTypes = 0;
     if(self.productTypeDynamicFramework.state==NSOnState) {
         productTypes |= XSDschemaGeneratorOptionDynamicFramework;
@@ -160,7 +163,7 @@
         productTypes |= XSDschemaGeneratorOptionSourceCode;
     }
     
-    //write out files
+    /* Write the filtes for the types that are currently in use */
     [schema generateInto:outFolder products:productTypes error:&error];
     if(error != nil) {
         NSString *errorString = ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error";

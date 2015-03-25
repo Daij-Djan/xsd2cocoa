@@ -11,14 +11,18 @@
 #import "MGTemplateEngine.h"
 #import "ICUTemplateMatcher.h"
 #import "XSDattribute.h"
+#import "XSDenumeration.h"
+
 
 @interface XSSimpleType ()
 @property (strong, nonatomic) NSString* name;
 @property (strong, nonatomic) NSString* baseType;
 @property (strong, nonatomic) NSArray* attributes;
+@property (strong, nonatomic) NSArray* enumerations;
 //@property (strong, nonatomic) NSArray* globalElements;
 @property (strong, nonatomic) NSString* targetClassName;
 @property (strong, nonatomic) NSString* arrayType;
+//@property (strong, nonatomic) NSString* readEnumerationTemplate;
 @property (strong, nonatomic) NSString* readAttributeTemplate;
 @property (strong, nonatomic) NSString* readElementTemplate;
 @property (strong, nonatomic) NSString* readValueCode;
@@ -33,27 +37,46 @@
 - (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema {
     self = [super initWithNode:node schema:schema];
     if (self) {
+        /* Setup the engine for the templating */
         engine = [MGTemplateEngine templateEngine];
         [engine setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine]];
-
+        
+        /* Grab the name from the current element */
         self.name = [XMLUtils node:node stringAttribute:@"name"];
-
+        
+        /* Check if the element is an extension or a restriction */
         NSArray* elementTags = [XMLUtils node: node childrenWithName: @"extension"];
-        if(!elementTags)  {
+        if([elementTags count] == 0)  {
             elementTags = [XMLUtils node: node childrenWithName: @"restriction"];
         }
         
+        /* Iterate through the children of the element tag (if there are any)*/
         for(NSXMLElement* anElement in elementTags) {
-            self.baseType = [XMLUtils node: anElement stringAttribute: @"base"];
-            
+            /* Set the baseType here */
+            self.baseType = [XMLUtils node:anElement stringAttribute:@"base"];
+
+            /* Check if we have attributes for this element and assign it to the element */
             NSMutableArray* newAttributes = [NSMutableArray array];
-            NSArray* attributeTags = [XMLUtils node: anElement childrenWithName: @"attribute"];
+            NSArray* attributeTags = [XMLUtils node:anElement childrenWithName:@"attribute"];
             for(NSXMLElement* anElement in attributeTags) {
                 [newAttributes addObject: [[XSDattribute alloc] initWithNode: anElement schema: schema]];
             }
+    
             self.attributes = newAttributes;
+            
+            /* Check if we have an enumeration and assign it to our simpleType object */
+            NSMutableArray* newEnumerations = [NSMutableArray array];
+            NSArray* enumerationTags = [XMLUtils node:anElement childrenWithName:@"enumeration"];
+            for(NSXMLElement* anElement in enumerationTags) {
+                [newEnumerations addObject: [[XSDenumeration alloc] initWithNode:anElement schema:schema]];
+            }
+            
+            self.enumerations = newEnumerations;
         }
     }
+    
+    NSLog(@"Name: %@", self.name);
+    NSLog(@"Type: %@", self.baseType);
     
     return self;
 } 
@@ -67,6 +90,8 @@
 - (BOOL)supplyTemplates:(NSXMLElement *)element error:(NSError *__autoreleasing *)error {
     engine = [MGTemplateEngine templateEngine];
     [engine setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine]];
+    NSLog(@"Target Class Name: %@", [[element attributeForName: @"baseType"] stringValue]);
+    NSLog(@"Target Class Name: %@", [[element attributeForName: @"objType"] stringValue]);
     
     self.targetClassName = [[element attributeForName: @"baseType"] stringValue];
     self.targetClassName = [[element attributeForName: @"objType"] stringValue];
@@ -86,7 +111,8 @@
         return NO;
     }
     if(readAttributeNodes.count > 0) {
-        self.readAttributeTemplate = [[readAttributeNodes objectAtIndex: 0] stringValue];
+        NSString* temp  = [[readAttributeNodes objectAtIndex: 0] stringValue];
+        self.readAttributeTemplate = temp;
     }
     
     NSArray* readElementNodes = [element nodesForXPath:@"read[1]/element[1]" error: error];
@@ -120,37 +146,52 @@
     return YES;
 }
 
+//- (NSString *) readCodeForEnumeration:(XSDenumeration *)enumeration{
+//    NSString *rtn;
+//    NSDictionary* dict = [NSDictionary dictionaryWithObject:enumeration forKey:@"enumeration"];
+//    rtn =  [engine processTemplate:self.readEnumerationTemplate withVariables: dict];
+//    return rtn;
+//}
+
 - (NSString*) readCodeForAttribute: (XSDattribute*) attribute {
-    NSDictionary* dict = [NSDictionary dictionaryWithObject: attribute forKey: @"attribute"];
-    return [engine processTemplate: self.readAttributeTemplate withVariables: dict];
+    NSString *rtn;
+    NSDictionary* dict = [NSDictionary dictionaryWithObject:attribute forKey:@"attribute"];
+    rtn = [engine processTemplate:self.readAttributeTemplate withVariables: dict];
+    return rtn;
 }
 
 
 - (NSString*) readCodeForElement: (XSDelement*) element {
-    NSDictionary* dict = [NSDictionary dictionaryWithObject: element forKey: @"element"];
-    return [engine processTemplate: self.readElementTemplate withVariables: dict];
+    NSDictionary* dict = [NSDictionary dictionaryWithObject:element forKey:@"element"];
+    return [engine processTemplate:self.readElementTemplate withVariables: dict];
 }
 
 #pragma mark
-
+/**
+ * Name:        knownSimpleTypes
+ * Parameters:  None
+ * Returns:     A list of xml data simple types defined in http://www.w3.org/TR/xmlschema-2/#built-in-datatypes
+ * Details:     This public method will generate a list of known simple data
+ *              types listed in the datatypes.xml file in our project.
+ */
 + (NSArray *)knownSimpleTypes {
     NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"datatypes" withExtension:@"xml"];
     NSData* data = [NSData dataWithContentsOfURL: url];
-    NSXMLDocument* doc = [[NSXMLDocument alloc] initWithData: data options: 0 error: nil];
+    NSXMLDocument* doc = [[NSXMLDocument alloc] initWithData:data options:0 error:nil];
     if(!doc) {
         return nil;
     }
     
-    NSArray* iNodes = [[doc rootElement] nodesForXPath: @"/datatypes/type" error: nil];
-//    if(iNodes) {
-//        return nil;
-//    }
+    /* Select all element types of the root element datatype */
+    NSArray* iNodes = [[doc rootElement] nodesForXPath:@"/datatypes/type" error:nil];
+
     
     NSMutableArray *types = [NSMutableArray arrayWithCapacity:iNodes.count];
     for (NSXMLElement *element in iNodes) {
         id base = [XMLUtils node:element stringAttribute:@"base"];
         id name = [XMLUtils node:element stringAttribute:@"name"];
         XSSimpleType *st = [[[self class] alloc] init];
+
         st.baseType = base;
         st.name = name;
         [types addObject:st];

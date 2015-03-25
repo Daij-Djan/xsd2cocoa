@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49D413D91AC33F6900A2C3F6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721001857D532005632B7 /* AppDelegate.m */; };
+		49D413DA1AC33F6900A2C3F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721081857D532005632B7 /* main.m */; };
+		49D413DD1AC3419200A2C3F6 /* XSDenumeration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D413DC1AC3419200A2C3F6 /* XSDenumeration.m */; };
+		49D413DE1AC342A000A2C3F6 /* XSDenumeration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D413DC1AC3419200A2C3F6 /* XSDenumeration.m */; };
 		B42F9ECD1A48657E0007FC96 /* XSDConverterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B42F9EB61A48657E0007FC96 /* XSDConverterCore.framework */; };
 		B42F9ECE1A48657E0007FC96 /* XSDConverterCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B42F9EB61A48657E0007FC96 /* XSDConverterCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B42F9F061A48663F0007FC96 /* XSDattribute.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EDA1A48663F0007FC96 /* XSDattribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -59,8 +63,6 @@
 		B44ACBF51A53992B0030DFEA /* DDRunTask.h in Headers */ = {isa = PBXBuildFile; fileRef = B44ACBF31A53992B0030DFEA /* DDRunTask.h */; };
 		B44ACBF61A53992B0030DFEA /* DDRunTask.m in Sources */ = {isa = PBXBuildFile; fileRef = B44ACBF41A53992B0030DFEA /* DDRunTask.m */; };
 		B45720CF1857D487005632B7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F495AE1857BFCA00A6E488 /* Cocoa.framework */; };
-		B457210B1857D532005632B7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721001857D532005632B7 /* AppDelegate.m */; };
-		B45721101857D532005632B7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721081857D532005632B7 /* main.m */; };
 		B49B8CFC1A4DCFE9001A2D91 /* XSDAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = B49B8CFA1A4DCFE9001A2D91 /* XSDAnnotation.h */; };
 		B49B8CFD1A4DCFE9001A2D91 /* XSDAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B49B8CFB1A4DCFE9001A2D91 /* XSDAnnotation.m */; };
 		B4BAB2511A6147A50073C821 /* weblinks_test.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B4BAB24F1A61411F0073C821 /* weblinks_test.xsd */; };
@@ -108,6 +110,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		49D413DB1AC3419200A2C3F6 /* XSDenumeration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDenumeration.h; sourceTree = "<group>"; };
+		49D413DC1AC3419200A2C3F6 /* XSDenumeration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDenumeration.m; sourceTree = "<group>"; };
 		B42F9E701A4850150007FC96 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B42F9EB61A48657E0007FC96 /* XSDConverterCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XSDConverterCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B42F9ED81A48663F0007FC96 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -214,10 +218,10 @@
 		B42F9ED71A48663F0007FC96 /* framework */ = {
 			isa = PBXGroup;
 			children = (
-				B42F9F001A48663F0007FC96 /* XMLUtils.h */,
 				B42F9F021A48663F0007FC96 /* XSDConverterCore.h */,
 				B42F9F031A48663F0007FC96 /* XSDschema.h */,
 				B42F9F301A487B520007FC96 /* XSType.h */,
+				B42F9F001A48663F0007FC96 /* XMLUtils.h */,
 				B42F9F011A48663F0007FC96 /* XMLUtils.m */,
 				B42F9F041A48663F0007FC96 /* XSDschema.m */,
 				B42F9ED81A48663F0007FC96 /* Info.plist */,
@@ -235,6 +239,8 @@
 				B49B8CFB1A4DCFE9001A2D91 /* XSDAnnotation.m */,
 				B42F9EDA1A48663F0007FC96 /* XSDattribute.h */,
 				B42F9EDB1A48663F0007FC96 /* XSDattribute.m */,
+				49D413DB1AC3419200A2C3F6 /* XSDenumeration.h */,
+				49D413DC1AC3419200A2C3F6 /* XSDenumeration.m */,
 				B42F9EDC1A48663F0007FC96 /* XSDcomplexType.h */,
 				B42F9EDD1A48663F0007FC96 /* XSDcomplexType.m */,
 				B42F9EDE1A48663F0007FC96 /* XSDelement.h */,
@@ -574,6 +580,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49D413DE1AC342A000A2C3F6 /* XSDenumeration.m in Sources */,
 				B42F9F1D1A48663F0007FC96 /* MGTemplateStandardMarkers.m in Sources */,
 				B42F9F0B1A48663F0007FC96 /* XSDelement.m in Sources */,
 				B42F9F091A48663F0007FC96 /* XSDcomplexType.m in Sources */,
@@ -609,8 +616,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B45721101857D532005632B7 /* main.m in Sources */,
-				B457210B1857D532005632B7 /* AppDelegate.m in Sources */,
+				49D413DD1AC3419200A2C3F6 /* XSDenumeration.m in Sources */,
+				49D413D91AC33F6900A2C3F6 /* AppDelegate.m in Sources */,
+				49D413DA1AC33F6900A2C3F6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

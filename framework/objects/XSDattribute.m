@@ -39,14 +39,14 @@
 
 
 - (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema{
-    if(self = [super initWithNode: node schema:schema]) {
-        self.name = [XMLUtils node: node stringAttribute:  @"name"];
-        self.simpleType = [XMLUtils node: node stringAttribute:  @"simpleType"];
-        self.type = [XMLUtils node: node stringAttribute:  @"type"];
-        self.use = [XMLUtils node: node stringAttribute:  @"use"];
-        self.defaultValue = [XMLUtils node: node stringAttribute: @"default"];
-        self.fixed = [XMLUtils node: node stringAttribute:  @"fixed"];
-        self.form = [XMLUtils node: node stringAttribute: @"form"];
+    if(self = [super initWithNode:node schema:schema]) {
+        self.name = [XMLUtils node:node stringAttribute:@"name"];
+        self.simpleType = [XMLUtils node:node stringAttribute:@"simpleType"];
+        self.type = [XMLUtils node:node stringAttribute:@"type"];
+        self.use = [XMLUtils node:node stringAttribute:@"use"];
+        self.defaultValue = [XMLUtils node:node stringAttribute:@"default"];
+        self.fixed = [XMLUtils node:node stringAttribute:@"fixed"];
+        self.form = [XMLUtils node:node stringAttribute:@"form"];
     }
     return self;
 }

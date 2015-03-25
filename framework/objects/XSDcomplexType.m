@@ -40,9 +40,10 @@
         self.attributes = nil;
         self.globalElements = [NSMutableArray array];
     }
+    
     return self;
 }
-
+/* TODO: ADD SIMPLE TYPE TO THIS - ANONYMOUS TYPE */
 - (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema {
     if(node == nil || schema == nil) { return nil; }
     self = [super initWithNode:node schema: schema];
@@ -60,39 +61,58 @@
         }
         self.attributes = newAttributes;
         
-        NSXMLElement *child = [XMLUtils node: node childWithName: @"sequence"];
+        NSXMLElement *child = [XMLUtils node:node childWithName:@"sequence"];
         if(!child) {
-            child = [XMLUtils node: node childWithName: @"choice"];
+            child = [XMLUtils node:node childWithName:@"choice"];
         }
         if(child) {
             self.sequenceOrChoice = [[XSDexplicitGroup alloc] initWithNode: child schema: schema];
         }
         
-        NSXMLElement* content = [XMLUtils node: node childWithName: @"complexContent"];
-        //if there is no complex content, there might still be simple content
+        /* Check if there is complexContent */
+        NSXMLElement* content = [XMLUtils node:node childWithName:@"complexContent"];
+       
+        /* If there is no complex content, check if there thereis simple content */
         if(!content) {
-            content = [XMLUtils node: node childWithName: @"simpleContent"];
+            content = [XMLUtils node:node childWithName:@"simpleContent"];
         }
         
-        NSArray* elementTags = [XMLUtils node: content childrenWithName: @"extension"];
+        /* Iterate through the child elements of the content element */
+        NSArray* elementTags = [XMLUtils node:content childrenWithName:@"extension"];
+        
+        /* If we do not have any extensions, check if we have any restrictions */
+        if([elementTags count] == 0){
+            elementTags = [XMLUtils node:content childrenWithName:@"restriction"];
+        }
+        
+        /* For the element tags found that was an extension|restriction */
         for(NSXMLElement* anElement in elementTags) {
             self.baseType = [XMLUtils node: anElement stringAttribute: @"base"];
 
-            child = [XMLUtils node: anElement childWithName: @"sequence"];
+            /* Check for compositors */
+            child = [XMLUtils node:anElement childWithName:@"sequence"];
             if(!child) {
-                child = [XMLUtils node: anElement childWithName: @"choice"];
-            }
+                child = [XMLUtils node:anElement childWithName:@"choice"];
+            }            
+            
             if(child) {
-                self.sequenceOrChoice = [[XSDexplicitGroup alloc] initWithNode: child schema: schema];
+                self.sequenceOrChoice = [[XSDexplicitGroup alloc] initWithNode:child schema:schema];
             }
 
             NSMutableArray* newAttributes = [NSMutableArray array];
-            NSArray* attributeTags = [XMLUtils node: anElement childrenWithName: @"attribute"];
+            NSArray* attributeTags = [XMLUtils node:anElement childrenWithName:@"attribute"];
             for(NSXMLElement* anElement in attributeTags) {
-                [newAttributes addObject: [[XSDattribute alloc] initWithNode: anElement schema: schema]];
+                [newAttributes addObject: [[XSDattribute alloc] initWithNode:anElement schema:schema]];
             }
             self.attributes = newAttributes;
         }
+        
+        
+        
+        NSLog(@"Name: %@", self.name);
+        NSLog(@"Sequence or Choice: %@", self.sequenceOrChoice);
+        NSLog(@"Type: %@", self.baseType);
+        
     }
     return self;
 }
@@ -107,12 +127,25 @@
 - (NSArray*) simpleTypesInUse {
     NSMutableSet* simpleTypes = [NSMutableSet set];
     
-    for (XSDattribute *anAttr in self.attributes) {
+    for (XSDattribute *anAttr in [self attributes]) {
+        NSLog(@"Attribute Type ");
+        NSLog(@"Name: %@", anAttr.name);
+        NSLog(@"Type: %@", anAttr.type);
+        NSLog(@"SimpleType: %@", anAttr.simpleType);
+        NSLog(@" ");
+
         id type = [self.schema typeForName: anAttr.type];
         [simpleTypes addObject:type];
     }
     
     for (XSDelement* anElement in [self elements]) {
+        NSLog(@"Simple Type ");
+        NSLog(@"Name: %@", anElement.name);
+        NSLog(@"Type: %@", anElement.type);
+        NSLog(@"Base Type: %@", self.baseType);
+        NSLog(@" ");
+        
+        /* If the current element has a type, then grab the type */
         if(anElement.type) {
             id<XSType> aType = [self.schema typeForName: anElement.type];
             if([aType isKindOfClass: [XSSimpleType class]]) {
@@ -137,9 +170,17 @@
     NSMutableSet* complexTypes = [NSMutableSet set];
     
     for (XSDelement* anElement in [self elements]) {
-        if( anElement.localComplexType != nil) {
+        NSLog(@"Complex Type ");
+        NSLog(@"Name: %@", anElement.name);
+        NSLog(@"Type: %@", anElement.type);
+        NSLog(@" ");
+        
+
+        
+        if(anElement.localComplexType != nil) {
             [complexTypes addObject: anElement.localComplexType];
         } else {
+            /* TODO - FIX THIS PASSES EMPTY*/
             id<XSType> aType = [self.schema typeForName: anElement.type];
             if(aType!=self && [aType isKindOfClass: [XSDcomplexType class]]) {
                 [complexTypes addObject: aType];
@@ -165,7 +206,8 @@
     }
     
     NSString *prefix = [self.schema classPrefixForType:self];
-    return [NSString stringWithFormat: @"%@%@", prefix, vName];
+    NSString *rtn = [NSString stringWithFormat: @"%@%@", prefix, vName];
+    return rtn;
 }
 
 - (BOOL) hasSimpleBaseClass {
@@ -197,16 +239,20 @@
 }
 
 - (NSString*) baseClassName {
+    NSString * rtn;
     id baseType = self.baseType;
     if(baseType != nil) {
-        return [[self.schema typeForName: baseType] targetClassName];
+        rtn = [[self.schema typeForName:baseType] targetClassName];
     } else {
-        return @"";
+        rtn = @"";
     }
+    
+    return rtn;
 }
 
 - (NSString*) baseClassFileName {
-    return self.baseClassName;
+    NSString *rtn = self.baseClassName;
+    return rtn;
 }
 
 

@@ -81,19 +81,28 @@
 }
 
 - (NSString*) objcType {
+    NSString* rtn;
+    NSLog(@"Objective-C Type: %@, Name: %@", self.type, self.name);
+    if([self.name isEqualToString:@"bookCondition"]){
+        NSLog(@"This is the match");
+        NSLog(@"Stop here!");
+    }
     if([self isSingleValue]) {
         if(self.type != nil) {
-            return [[self.schema typeForName: self.type] targetClassName];
+            id<XSType> type =[self.schema typeForName: self.type];
+            rtn = [type targetClassName];
         } else {
-            return [self.localComplexType targetClassName];
+            rtn = [self.localComplexType targetClassName];
         }
     } else {
         if(self.type != nil) {
-            return [[self.schema typeForName: self.type] arrayType];
+            rtn = [[self.schema typeForName: self.type] arrayType];
         } else {
-            return self.localComplexType.arrayType;
+            rtn = self.localComplexType.arrayType;
         }
     }
+    
+    return rtn;
 }
 
 - (id<XSType>) schemaType {
