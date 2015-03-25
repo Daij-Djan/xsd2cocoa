@@ -54,6 +54,15 @@
         for(NSXMLElement* anElement in elementTags) {
             /* Set the baseType here */
             self.baseType = [XMLUtils node:anElement stringAttribute:@"base"];
+            
+            /* Check if we have an enumeration and assign it to our simpleType object */
+            NSMutableArray* newEnumerations = [NSMutableArray array];
+            NSArray* enumerationTags = [XMLUtils node:anElement childrenWithName:@"enumeration"];
+            for(NSXMLElement* anElement in enumerationTags) {
+                [newEnumerations addObject: [[XSDenumeration alloc] initWithNode:anElement schema:schema]];
+            }
+            
+            self.enumerations = newEnumerations;
 
             /* Check if we have attributes for this element and assign it to the element */
             NSMutableArray* newAttributes = [NSMutableArray array];
@@ -64,19 +73,12 @@
     
             self.attributes = newAttributes;
             
-            /* Check if we have an enumeration and assign it to our simpleType object */
-            NSMutableArray* newEnumerations = [NSMutableArray array];
-            NSArray* enumerationTags = [XMLUtils node:anElement childrenWithName:@"enumeration"];
-            for(NSXMLElement* anElement in enumerationTags) {
-                [newEnumerations addObject: [[XSDenumeration alloc] initWithNode:anElement schema:schema]];
-            }
             
-            self.enumerations = newEnumerations;
         }
     }
     
     NSLog(@"Name: %@", self.name);
-    NSLog(@"Type: %@", self.baseType);
+    NSLog(@"Base Type: %@", self.baseType);
     
     return self;
 } 
@@ -86,18 +88,28 @@
 }
 
 #pragma mark template matching
-
+/**
+ * Name: supplyTemplate
+ * Parameters:  (NSXMLElement *) - the element from the template that is used in the XSD. (NSError *) - For error handling
+ * Returns:     If it was successful in writing the items to the object
+ * Description: When given the template value, iterate through the simpleType in the template
+ *              and grab the values about the element type that will define the Objective-C code
+ *              and assign it to the object that it is pointed at
+ */
 - (BOOL)supplyTemplates:(NSXMLElement *)element error:(NSError *__autoreleasing *)error {
     engine = [MGTemplateEngine templateEngine];
     [engine setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine]];
-    NSLog(@"Target Class Name: %@", [[element attributeForName: @"baseType"] stringValue]);
-    NSLog(@"Target Class Name: %@", [[element attributeForName: @"objType"] stringValue]);
     
     self.targetClassName = [[element attributeForName: @"baseType"] stringValue];
     self.targetClassName = [[element attributeForName: @"objType"] stringValue];
     self.arrayType = [[element attributeForName: @"arrayType"] stringValue];
     self.name = [[element attributeForName: @"name"] stringValue];
     
+    NSLog(@"Target Class Name: %@", self.targetClassName);
+    NSLog(@"Arrat Type: %@", self.arrayType);
+    NSLog(@"Element Name: %@", self.name);
+    
+    /* Start assigning values to the values that we see in our XSD */
     NSArray* readPrefixNodes = [element nodesForXPath:@"read[1]/prefix[1]" error: error];
     if(*error != nil) {
         return NO;

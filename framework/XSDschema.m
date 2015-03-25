@@ -205,24 +205,32 @@
         [((NSMutableArray*)self.simpleTypes) addObject: cType];
     }
 }
+/**
+ *
+ *
+ */
 
 - (BOOL) loadTemplate: (NSURL*) templateUrl error: (NSError**) error {
     NSParameterAssert(templateUrl);
     NSParameterAssert(error);
+    NSLog(@"Url: %@", templateUrl);
     
+    /* Load the template xml document */
     NSXMLDocument* xmlDoc = [[NSXMLDocument alloc] initWithContentsOfURL: templateUrl
                                                                  options:(NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA)
                                                                    error: error];
-    NSLog(@"%@", xmlDoc);
-    
+    /* Ensure that there wasn't errors */
     if(*error != nil) {
         return NO;
     }
-    
+
+    /* Check for additional file notes off of the template. */
     NSArray* additionalFileNodes = [xmlDoc nodesForXPath:@"/template[1]/additional_file" error: error];
     if(*error != nil) {
         return NO;
     }
+    
+    /* Fetch the additional filter defined in the additionfield fields above */
     NSMutableArray *mAdditionalFiles = [NSMutableArray arrayWithCapacity:additionalFileNodes.count];
     for(NSXMLElement* fileNode in additionalFileNodes) {
         NSString *path = [[[NSBundle bundleForClass:[XSDschema class]] resourcePath] stringByAppendingPathComponent:[fileNode attributeForName:@"path"].stringValue];
@@ -237,26 +245,34 @@
             [mAdditionalFiles addObject:path];
         }
     }
+    /* If we have additonal files, add them to the schema */
     if(mAdditionalFiles.count) {
         self.additionalFiles = [NSArray arrayWithArray:mAdditionalFiles];
     }
     
+    /* From the template, grab all the simple type elements and ensure that there wasn't an error */
     NSArray* simpleTypeNodes = [xmlDoc nodesForXPath:@"/template[1]/simpletype" error: error];
     if(*error != nil) {
         return NO;
     }
     
-    /* Iterate through the simple types within the document */
+    
+    /* Iterate through the simple types found within the template */
     for(NSXMLElement* aSimpleTypeNode in simpleTypeNodes) {
-        /* Check if we can find that type or we have to add it */
-        XSSimpleType* aSimpleType = [[XSSimpleType alloc] initWithNode:aSimpleTypeNode schema:self];//should happen earlier
-        NSLog(@"Simple Type Name: %@", aSimpleType.name);
+        NSLog(@"Template SimpleType Name: %@", aSimpleTypeNode.name);
         
-        /* Try to fetch the simple type within our dictionary */
+        /* Build the node for the item found in the template */
+        XSSimpleType* aSimpleType = [[XSSimpleType alloc] initWithNode:aSimpleTypeNode schema:self];
+        NSLog(@"Template SimpleType Name: %@", aSimpleType.name);
+        NSLog(@"Template SimpleType BaseType: %@", aSimpleType.baseType);
+        NSLog(@"Template SimpleType Target Class: %@", aSimpleType.targetClassName);
+        
+        /* For the name of the node found, check if we have that item created in our known types of the XSD*/
         XSSimpleType *existingSimpleType = _knownSimpleTypeDict[aSimpleType.name];
         
-        /* Check if that simple type exists */
+        /* Check if we have that node within out XSD provided */
         if(existingSimpleType) {
+            /* For our XSD value, define the values from the template */
             [existingSimpleType supplyTemplates:aSimpleTypeNode error:error];
         }
         else {
@@ -547,55 +563,73 @@
         NSLog(@"-------------");
         NSLog(@"Element Name: %@", type.name);
         NSLog(@"Element Type: %@", type.baseType);
-        NSLog(@"Element Attributes: %@", type.attributes);
+        NSLog(@"Items to be substituted: %@", type.substitutionDict);
         
-        
+        /* Create the items for the header file */
         if (self.headerTemplateString != nil) {
-            NSString *result = [engine processTemplate: self.headerTemplateString
-                                         withVariables: type.substitutionDict];
+            /* Generate the code from the template and from the variables */
+            NSString *result = [engine processTemplate:self.headerTemplateString
+                                         withVariables:type.substitutionDict];
             
+            NSLog(@"Header result: %@", result);
+
+            /* Create the header file path and write the results to it */
             NSString* headerFileName = [NSString stringWithFormat: @"%@.h", type.targetClassFileName];
             NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName];
             [result writeToURL: headerFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+
+            /* Ensure that there was no errors for writing */
             if(*error != nil) {
                 return NO;
             }
         }
         
-        
+        /* Create the items for the class file */
         if (self.classTemplateString != nil) {
+            /* Generate the code from the template and the variables */
             NSString *result = [engine processTemplate: self.classTemplateString
                                          withVariables: type.substitutionDict];
             
+            NSLog(@"Class result: %@", result);
+            
+            /* Create the class file path and write the results to it */
             NSString* classFileName = [NSString stringWithFormat: @"%@.m", type.targetClassFileName];
             NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName];
-            [result writeToURL: classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+            [result writeToURL:classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+            
+            /* Ensure that there was no errors for writing */
             if(*error != nil) {
                 return NO;
             }
         }
         
-        // reader for type
+        /* Create the files for the global elements */
         if(type.globalElements.count) {
             if (self.readerHeaderTemplateString != nil) {
+                /* Generate the code from the template and the variables */
                 NSString *result = [engine processTemplate: self.readerHeaderTemplateString
                                              withVariables: type.substitutionDict];
-                
+                /* Create the header file path and write the results to it */
                 NSString* headerFileName = [NSString stringWithFormat: @"%@+File.h", type.targetClassFileName];
                 NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName];
                 [result writeToURL: headerFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+
+                /* Ensure that there was no errors for writing */
                 if(*error != nil) {
                     return NO;
                 }
             }
             
             if (self.readerClassTemplateString != nil) {
+                /* Generate the code from the template and the variables */
                 NSString *result = [engine processTemplate: self.readerClassTemplateString
                                              withVariables: type.substitutionDict];
-                
+                /* Create the class file path and write the results to it */
                 NSString* classFileName = [NSString stringWithFormat: @"%@+File.m", type.targetClassFileName];
                 NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName];
                 [result writeToURL: classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+                
+                /* Ensure that there was no errors for writing */
                 if(*error != nil) {
                     return NO;
                 }

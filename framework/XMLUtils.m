@@ -114,7 +114,6 @@
  */
 + (NSXMLElement*) node:(NSXMLElement*) element childWithName:(NSString*) name {
     for(NSXMLNode* child in [element children]) {
-        NSLog(@"Child Name: %@", child.name);
         if([child respondsToSelector:@selector(localName)] && [[child localName] isEqual: name]) {
             return (NSXMLElement*)child;
         }
@@ -136,7 +135,6 @@
 + (NSArray*) node:(NSXMLElement*) element childrenWithName:(NSString*) name {
     NSMutableArray* children = [NSMutableArray array];
     for(NSXMLNode* child in [element children]) {
-        NSLog(@"Child Name: %@", child.name);
         if([child respondsToSelector:@selector(localName)] && [[child localName] isEqual: name]) {
             [children addObject: child];
         }

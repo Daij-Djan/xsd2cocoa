@@ -82,7 +82,6 @@
 
 - (NSString*) objcType {
     NSString* rtn;
-    NSLog(@"Objective-C Type: %@, Name: %@", self.type, self.name);
     if([self.name isEqualToString:@"bookCondition"]){
         NSLog(@"This is the match");
         NSLog(@"Stop here!");
