@@ -18,22 +18,39 @@
 
 @implementation XSDexplicitGroup
 
-- (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema {
+/**
+ * Name:        initWithNode (NSXMLElement *) (XSDschema *)
+ * Parameters:  (NSXMLElement *) - the current parent xml element (sequence or choice) containing the elements
+ *              (XSDschema *) - the current schema that this item is contain within
+ * Returns:     The object that is generated that contains the child elements
+ * Description: Will define
+ */
+- (id) initWithNode:(NSXMLElement *)node schema:(XSDschema *)schema {
+    /* Generate the schema node for the current item */
     self = [super initWithNode:node schema: schema];
+    
+    /* Continue to extend the class by adding the specific explicitGroup elements */
     if(self) {
-        self.name = [XMLUtils node: node stringAttribute: @"name"];
-        self.ref = [XMLUtils node: node stringAttribute: @"ref"];
+        /* For the containing object, grab the name and the reference */
+        self.name = [XMLUtils node:node stringAttribute:@"name"];
+        self.ref = [XMLUtils node:node stringAttribute:@"ref"];
         
+        /* If no name is defined, do a standard name */
         if(!self.name)
             self.name = @"XS";
         
+        /* Grab the elements that are contained within this object and append them to the current object's element list */
         NSMutableArray* newElements = [NSMutableArray array];
         NSArray* elementTags = [XMLUtils node:node descendantsWithName: @"element"];
         for(NSXMLElement* anElement in elementTags) {
-            [newElements addObject: [[XSDelement alloc] initWithNode: anElement schema: schema]];
+            /* Create a standard element type and append it to the list of elements */
+            [newElements addObject:[[XSDelement alloc] initWithNode:anElement schema:schema]];
         }
+        /* Assign the new list to the object's list */
         self.elements = newElements;
     }
+    
+    /* Return the created object */
     return self;
 }
 

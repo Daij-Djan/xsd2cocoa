@@ -9,7 +9,9 @@
 #import "XSSchemaNode.h"
 #import "XSType.h"
 
-@interface XSSimpleType : XSSchemaNode < XSType >
+@interface XSSimpleType : XSSchemaNode < XSType >{
+    
+}
 
 @property (readonly, nonatomic) NSString* name;
 @property (readonly, nonatomic) NSString* baseType;
@@ -23,6 +25,7 @@
 @property (readonly, nonatomic) NSString* readValueCode;
 @property (readonly, nonatomic) NSString* readPrefixCode;
 @property (readonly, nonatomic) NSArray* includes;
+@property (strong, nonatomic) NSArray* enumerations;
 
 - (BOOL)supplyTemplates:(NSXMLNode*)node error:(NSError**)error;
 

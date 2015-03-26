@@ -9,10 +9,13 @@
 #import "AppDelegate.h"
 #import <XSDConverterCore/XSDConverterCore.h>
 
-@interface AppDelegate () <NSOpenSavePanelDelegate, NSApplicationDelegate>
+@interface AppDelegate () <NSOpenSavePanelDelegate, NSApplicationDelegate>{
+    
+}
 @end
 
 @implementation AppDelegate
+
 
 - (IBAction)toggleAdvancedOptions:(id)sender {
     //toggle
@@ -142,9 +145,13 @@
             templateUrl = [[NSBundle bundleForClass:[XSDschema class]] URLForResource:@"template-objc" withExtension:@"xml"];
             break;
     }
-    
-    /* Load the specified template (for the language to translate into) and check if there was an error */
+    /*************************************************************************************************************************
+     *      LOAD THE TEMPLATES USED FOR THE HEADER/CLASS FILES
+     *
+     *************************************************************************************************************************/
     [schema loadTemplate:templateUrl error:&error];
+
+    /* Ensure that there wasn't an error */
     if(error != nil) {
         NSString *errorString = ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error";
         NSRunAlertPanel(@"Error", @"Error while loading template. %@", @"OK", nil, nil, errorString);
@@ -163,7 +170,10 @@
         productTypes |= XSDschemaGeneratorOptionSourceCode;
     }
     
-    /* Write the filtes for the types that are currently in use */
+    /*  
+     *  Write the code for the types that are currently in use... All the simple types
+     *  that are used in the template and generated for our code will be used here
+     */
     [schema generateInto:outFolder products:productTypes error:&error];
     if(error != nil) {
         NSString *errorString = ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error";
@@ -171,7 +181,7 @@
         return;
     }
     
-    //success
+    /* Success - everything finished without an exception, so show that as an alert to the user */
     NSInteger ret = NSRunAlertPanel(@"Success", @"Generated Code for specified xsd", @"OK", @"Reveal", nil);
     if(ret == NSAlertAlternateReturn) {
         [[NSWorkspace sharedWorkspace] selectFile:nil inFileViewerRootedAtPath:outFolder.path];

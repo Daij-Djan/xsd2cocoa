@@ -10,7 +10,9 @@
 @class XSDcomplexType;
 @protocol XSType;
 
-@interface XSDelement : XSSchemaNode
+@interface XSDelement : XSSchemaNode{
+    
+}
 
 @property (readonly, nonatomic) XSDcomplexType* localComplexType;
 @property (readonly, nonatomic) NSString* name;
@@ -26,6 +28,8 @@
 @property (readonly, nonatomic) NSNumber* minOccurs;
 @property (readonly, nonatomic) NSNumber* maxOccurs;
 
+
+
 - (NSString*) readCodeForContent;
 - (NSString*) variableName; //in generated code
 
@@ -33,5 +37,7 @@
 
 - (id<XSType>) schemaType;
 - (NSString*) objcType;
-
+- (BOOL) hasEnumeration;
+- (NSArray *) enumerationValues;
+- (NSString *) buildEnumerationValues;
 @end

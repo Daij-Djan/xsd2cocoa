@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 
 @interface XMLUtils : NSObject {
-	
+    
 }
 
 // Gets the node from another node by local name / name

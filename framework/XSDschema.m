@@ -48,7 +48,7 @@
 }
 
 // Called when initializing the object from a node
-- (id) initWithNode: (NSXMLElement*) node targetNamespacePrefix: (NSString*) prefix error: (NSError**) error  {
+- (id) initWithNode:(NSXMLElement*)node targetNamespacePrefix:(NSString*)prefix error:(NSError**)error  {
 	self = [super initWithNode:node schema:nil];
     if(self) {
         /* Get namespaces and set derived class prefix */
@@ -60,26 +60,30 @@
         /* Add basic simple types known in the built-in types */
         _knownSimpleTypeDict = [NSMutableDictionary dictionary];
         for(XSSimpleType *aSimpleType in [XSSimpleType knownSimpleTypes]) {
-            [_knownSimpleTypeDict setValue: aSimpleType forKey: aSimpleType.name];
+            [_knownSimpleTypeDict setValue:aSimpleType forKey:aSimpleType.name];
         }
         
         /* Add custom simple types */
         self.simpleTypes = [NSMutableArray array];
+        
+        /* Grab all elements that are in the schema base with the simpleType element tag */
         NSArray* stNodes = [node nodesForXPath: @"/schema/simpleType" error: error];
-        NSLog(@"Simple Types Length: %ld", [stNodes count]);
+
+        /* Iterate through the found elements */
         for (NSXMLElement* aChild in stNodes) {
-            XSSimpleType* aCT = [[XSSimpleType alloc] initWithNode: aChild schema: self];
-            [((NSMutableDictionary*)_knownSimpleTypeDict) setObject:aCT forKey:aCT.name];
-            [((NSMutableArray*)self.simpleTypes) addObject: aCT];
+            XSSimpleType* aST = [[XSSimpleType alloc] initWithNode:aChild schema:self];
+            [((NSMutableDictionary*)_knownSimpleTypeDict) setObject:aST forKey:aST.name];
+            [((NSMutableArray*)self.simpleTypes) addObject:aST];
         }
 
-        /* Add complex types, collect global elements */
+        /* Add complex types */
         _knownComplexTypeDict = [NSMutableDictionary dictionary];
         self.complexTypes = [NSMutableArray array];
         NSArray* ctNodes = [node nodesForXPath: @"/schema/complexType" error: error];
         NSLog(@"Complex Types Length: %ld", [ctNodes count]);
+        /* Iterate through the complex types found and create node elements for them */
         for (NSXMLElement* aChild in ctNodes) {
-            XSDcomplexType* aCT = [[XSDcomplexType alloc] initWithNode: aChild schema: self];
+            XSDcomplexType* aCT = [[XSDcomplexType alloc] initWithNode:aChild schema:self];
             [((NSMutableDictionary*)_knownComplexTypeDict) setObject:aCT forKey:aCT.name];
             [((NSMutableArray*)self.complexTypes) addObject: aCT];
         }
@@ -122,9 +126,9 @@
         return nil;
     }
     
-    /* From the root element, grab the complex, simple, and elements */
+    /* From the root element, grab the complex, simple, and elements into their respective arrays */
     self = [self initWithNode: [doc rootElement] targetNamespacePrefix: prefix error: error];
-
+    /* Continue to setup the schema */
     if(self) {
         /* The location of where our schema is located */
         self.schemaUrl = schemaUrl;
@@ -206,11 +210,17 @@
     }
 }
 /**
- *
- *
+ * Name:        loadTemplate:(NSURL*)(NSError**)
+ * Parameters:  (NSURL*) The specified template URL (location) as to where we are basing our simple types on and code to generate
+ *              (NSError**) Associated error object pointer
+ * Return:      BOOL - YES or NO if there was an error
+ * Description: For each simple type that is defined in our template, fetch the associated elements
+ *              that is within our XSD simpleTypes. Add the associated code that is defined within
+ *              the template that will be used when we generate code for the complex types.
+ *              Also define the header files
  */
 
-- (BOOL) loadTemplate: (NSURL*) templateUrl error: (NSError**) error {
+- (BOOL) loadTemplate:(NSURL*)templateUrl error:(NSError**)error {
     NSParameterAssert(templateUrl);
     NSParameterAssert(error);
     NSLog(@"Url: %@", templateUrl);
@@ -256,13 +266,13 @@
         return NO;
     }
     
-    
     /* Iterate through the simple types found within the template */
     for(NSXMLElement* aSimpleTypeNode in simpleTypeNodes) {
         NSLog(@"Template SimpleType Name: %@", aSimpleTypeNode.name);
         
-        /* Build the node for the item found in the template */
+        /* Build the node for the element found in the template */
         XSSimpleType* aSimpleType = [[XSSimpleType alloc] initWithNode:aSimpleTypeNode schema:self];
+        
         NSLog(@"Template SimpleType Name: %@", aSimpleType.name);
         NSLog(@"Template SimpleType BaseType: %@", aSimpleType.baseType);
         NSLog(@"Template SimpleType Target Class: %@", aSimpleType.targetClassName);
@@ -270,44 +280,51 @@
         /* For the name of the node found, check if we have that item created in our known types of the XSD*/
         XSSimpleType *existingSimpleType = _knownSimpleTypeDict[aSimpleType.name];
         
-        /* Check if we have that node within out XSD provided */
+        /* Check if we have that simpletype within our XSD provided */
         if(existingSimpleType) {
-            /* For our XSD value, define the values from the template */
+            /* For our simple type, define the values from the template */
             [existingSimpleType supplyTemplates:aSimpleTypeNode error:error];
         }
         else {
             [aSimpleType  supplyTemplates:aSimpleTypeNode error:error];
-            [_knownSimpleTypeDict setValue: aSimpleType forKey: aSimpleType.name];
+            [_knownSimpleTypeDict setValue:aSimpleType forKey:aSimpleType.name];
             //not a custom one though
 //            [((NSMutableArray*)self.simpleTypes) addObject: aSimpleType];
         }
     }
     
+    /* Fetch the header file that we will use in the implementation section */
     NSArray* nodes = [xmlDoc nodesForXPath:@"/template[1]/implementation[1]/header" error: error];
     if(*error != nil) {
         return NO;
     }
-    
+    /* Assign the header file text from the fetched section */
     if(nodes != nil && nodes.count > 0) {
-        self.headerTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        NSString *temp = [[nodes objectAtIndex: 0] stringValue];
+        self.headerTemplateString = temp;
     }
     
+    
+    /* Fetch the class file that we will use in the implementation section */
     nodes = [xmlDoc nodesForXPath:@"/template[1]/implementation[1]/class" error: error];
     if(*error != nil) {
         return NO;
     }
-    
+    /* Assign the class file text from the fetched section */
     if(nodes != nil && nodes.count > 0) {
-        self.classTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        NSString *temp = [[nodes objectAtIndex: 0] stringValue];
+        self.classTemplateString = temp;
     }
     
+    /* Fetch the... */
     nodes = [xmlDoc nodesForXPath:@"/template[1]/complextype[1]/read[1]/element[1]" error: error];
     if(*error != nil) {
         return NO;
     }
-    
+    /* Assign the text from the fetched section */
     if(nodes != nil && nodes.count > 0) {
-        self.readComplexTypeElementTemplate = [[nodes objectAtIndex: 0] stringValue];
+        NSString *temp = [[nodes objectAtIndex: 0] stringValue];
+        self.readComplexTypeElementTemplate = temp;
     }
     
     nodes = [xmlDoc nodesForXPath:@"/template[1]/complextype[1]" error: error];
@@ -316,7 +333,8 @@
     }
     
     if(nodes != nil && nodes.count > 0) {
-        self.complexTypeArrayType = [[nodes objectAtIndex: 0] attributeForName:@"arrayType"].stringValue;
+        NSString *temp = [[[nodes objectAtIndex: 0] attributeForName:@"arrayType"] stringValue];
+        self.complexTypeArrayType = temp;
     }
     //
     
@@ -326,7 +344,8 @@
     }
     
     if(nodes != nil && nodes.count > 0) {
-        self.readerHeaderTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        NSString *temp = [[nodes objectAtIndex: 0] stringValue];
+        self.readerHeaderTemplateString = temp;
     }
     
     nodes = [xmlDoc nodesForXPath:@"/template[1]/reader[1]/class" error: error];
@@ -335,7 +354,8 @@
     }
     
     if(nodes != nil && nodes.count > 0) {
-        self.readerClassTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        NSString *temp = [[nodes objectAtIndex: 0] stringValue];
+        self.readerClassTemplateString = temp;
     }
  
     for (XSDschema *s in self.includedSchemas) {
@@ -370,18 +390,12 @@
         typeName = (NSString*) [splitPrefix objectAtIndex: 1];
     }
     
-    if([typeName isEqualToString:@"BookConditionType"]){
-        NSLog(@"Match");
-        NSLog(@"Match");
-        
-    }
-    
     /* Search the complexType dictionary for the type name */
-    id<XSType> retType = [_knownComplexTypeDict objectForKey: typeName];
+    id<XSType> retType = [_knownComplexTypeDict objectForKey:typeName];
     
     /* Search the simpleType dictionary for the type name */
     if(!retType) {
-        retType = [_knownSimpleTypeDict objectForKey: typeName];
+        retType = [_knownSimpleTypeDict objectForKey:typeName];
     }
     
     assert(retType); //EVERYTHING has to have a type
@@ -480,10 +494,19 @@
 }
 
 #pragma mark - generator
-
-- (BOOL) generateInto: (NSURL*) destinationFolder
-             products: (XSDschemaGeneratorOptions)options
-                error: (NSError**) error {
+/**
+ * Name:        generateInto (NSURL*)(XSDschemaGeneratorOptions)(NSError**)
+ * Parameters:  (NSURL*)destinationFolder - the location where we will be writing the documents to
+ *              (XSDschemaGeneratorOptions) - the options that the user selected and the type of code to write
+ *              (NSError**) - error pointing object
+ * Return:      BOOL - YES or NO if there was an error
+ * Description: Will generate the code for the complex types that are used within the schema into objective-c
+ *              by using the templates for the simple types (loadTemplates). This will render the template code
+ *              and insert the proper values into the template space. Will return if there is an error
+ */
+- (BOOL) generateInto:(NSURL*)destinationFolder
+             products:(XSDschemaGeneratorOptions)options
+                error:(NSError**)error {
     NSParameterAssert(destinationFolder);
     NSParameterAssert(error);
     
@@ -540,9 +563,11 @@
 }
 
 /**
- *
- *
- *
+ * Name:        writeCodeInto (NSURL*)(NSError**)
+ * Parameters:  (NSURL*)destinationFolder - the location where we will be writing the documents to
+ *              (NSError**) - error pointing object
+ * Return:      BOOL - YES or NO if there was an error
+ * Description: Will consume the complex types
  *
  */
 - (BOOL) writeCodeInto: (NSURL*) destinationFolder

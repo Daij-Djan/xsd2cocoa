@@ -18,7 +18,6 @@
 @property (strong, nonatomic) NSString* name;
 @property (strong, nonatomic) NSString* baseType;
 @property (strong, nonatomic) NSArray* attributes;
-@property (strong, nonatomic) NSArray* enumerations;
 //@property (strong, nonatomic) NSArray* globalElements;
 @property (strong, nonatomic) NSString* targetClassName;
 @property (strong, nonatomic) NSString* arrayType;
@@ -28,14 +27,17 @@
 @property (strong, nonatomic) NSString* readValueCode;
 @property (strong, nonatomic) NSString* readPrefixCode;
 @property (strong, nonatomic) NSArray* includes;
+
+
 @end
 
 @implementation XSSimpleType {
     MGTemplateEngine *engine;
 }
 
-- (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema {
+- (id) initWithNode:(NSXMLElement*)node schema:(XSDschema*)schema {
     self = [super initWithNode:node schema:schema];
+    /* Continute to add items to the extended XSSchemaNode class */
     if (self) {
         /* Setup the engine for the templating */
         engine = [MGTemplateEngine templateEngine];
@@ -47,7 +49,7 @@
         /* Check if the element is an extension or a restriction */
         NSArray* elementTags = [XMLUtils node: node childrenWithName: @"extension"];
         if([elementTags count] == 0)  {
-            elementTags = [XMLUtils node: node childrenWithName: @"restriction"];
+            elementTags = [XMLUtils node:node childrenWithName: @"restriction"];
         }
         
         /* Iterate through the children of the element tag (if there are any)*/
@@ -61,7 +63,7 @@
             for(NSXMLElement* anElement in enumerationTags) {
                 [newEnumerations addObject: [[XSDenumeration alloc] initWithNode:anElement schema:schema]];
             }
-            
+            /* Assign the list of enumerations that we have found to the simply type element */
             self.enumerations = newEnumerations;
 
             /* Check if we have attributes for this element and assign it to the element */
@@ -70,10 +72,8 @@
             for(NSXMLElement* anElement in attributeTags) {
                 [newAttributes addObject: [[XSDattribute alloc] initWithNode: anElement schema: schema]];
             }
-    
+            /* Assign the list of attributes that we have found to the simply type element */
             self.attributes = newAttributes;
-            
-            
         }
     }
     
@@ -103,21 +103,23 @@
     self.targetClassName = [[element attributeForName: @"baseType"] stringValue];
     self.targetClassName = [[element attributeForName: @"objType"] stringValue];
     self.arrayType = [[element attributeForName: @"arrayType"] stringValue];
+    NSLog(@"Current SimpleType Element Name: %@", self.name);
     self.name = [[element attributeForName: @"name"] stringValue];
     
-    NSLog(@"Target Class Name: %@", self.targetClassName);
-    NSLog(@"Arrat Type: %@", self.arrayType);
-    NSLog(@"Element Name: %@", self.name);
+    NSLog(@"Purposed Target Class Name: %@", self.targetClassName);
+    NSLog(@"Purposed Array Type: %@", self.arrayType);
+    NSLog(@"Purposed Element Name: %@", self.name);
     
-    /* Start assigning values to the values that we see in our XSD */
+    /* Grab the prefix from the matching element type in our template to the current simple type in our XSD */
     NSArray* readPrefixNodes = [element nodesForXPath:@"read[1]/prefix[1]" error: error];
     if(*error != nil) {
         return NO;
     }
     if(readPrefixNodes.count > 0) {
-        self.readPrefixCode = [[readPrefixNodes objectAtIndex: 0] stringValue];
+        NSString *temp = [[readPrefixNodes objectAtIndex: 0] stringValue];
+        self.readPrefixCode = temp;
     }
-    
+    /*  */
     NSArray* readAttributeNodes = [element nodesForXPath:@"read[1]/attribute[1]" error: error];
     if(*error != nil) {
         return NO;
@@ -126,23 +128,25 @@
         NSString* temp  = [[readAttributeNodes objectAtIndex: 0] stringValue];
         self.readAttributeTemplate = temp;
     }
-    
+    /*  */
     NSArray* readElementNodes = [element nodesForXPath:@"read[1]/element[1]" error: error];
     if(*error != nil) {
         return NO;
     }
     if(readElementNodes.count > 0) {
-        self.readElementTemplate = [[readElementNodes objectAtIndex: 0] stringValue];
+        NSString *temp = [[readPrefixNodes objectAtIndex: 0] stringValue];
+        self.readElementTemplate = temp;
     }
-    
+    /*  */
     NSArray* valueElementNodes = [element nodesForXPath:@"read[1]/value[1]" error: error];
     if(*error != nil) {
         return NO;
     }
     if(valueElementNodes.count > 0) {
-        self.readValueCode = [[valueElementNodes objectAtIndex: 0] stringValue];
+        NSString *temp = [[readPrefixNodes objectAtIndex: 0] stringValue];
+        self.readValueCode = temp;
     }
-    
+    /*  */
     NSArray* includeElementNodes = [element nodesForXPath:@"/read[1]/include" error: error];
     if(*error != nil) {
         return NO;
@@ -150,9 +154,11 @@
     if(includeElementNodes.count > 0) {
         NSMutableArray *mIncludes = [NSMutableArray array];
         for (NSXMLElement *elem in includeElementNodes) {
-            [mIncludes addObject:elem.stringValue];
+            NSString *temp = elem.stringValue;
+            [mIncludes addObject:temp];
         }
         self.includes = [NSArray arrayWithArray:mIncludes];
+        
     }
     
     return YES;

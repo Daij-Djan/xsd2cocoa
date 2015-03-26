@@ -11,6 +11,7 @@
 		49D413DA1AC33F6900A2C3F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721081857D532005632B7 /* main.m */; };
 		49D413DD1AC3419200A2C3F6 /* XSDenumeration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D413DC1AC3419200A2C3F6 /* XSDenumeration.m */; };
 		49D413DE1AC342A000A2C3F6 /* XSDenumeration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D413DC1AC3419200A2C3F6 /* XSDenumeration.m */; };
+		49D413DF1AC46FC000A2C3F6 /* XSDenumeration.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D413DB1AC3419200A2C3F6 /* XSDenumeration.h */; };
 		B42F9ECD1A48657E0007FC96 /* XSDConverterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B42F9EB61A48657E0007FC96 /* XSDConverterCore.framework */; };
 		B42F9ECE1A48657E0007FC96 /* XSDConverterCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B42F9EB61A48657E0007FC96 /* XSDConverterCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B42F9F061A48663F0007FC96 /* XSDattribute.h in Headers */ = {isa = PBXBuildFile; fileRef = B42F9EDA1A48663F0007FC96 /* XSDattribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -434,6 +435,7 @@
 				B42F9F161A48663F0007FC96 /* MGTemplateEngine.h in Headers */,
 				B44ACBF51A53992B0030DFEA /* DDRunTask.h in Headers */,
 				B42F9F201A4866400007FC96 /* NSDictionary_DeepMutableCopy.h in Headers */,
+				49D413DF1AC46FC000A2C3F6 /* XSDenumeration.h in Headers */,
 				B42F9F191A48663F0007FC96 /* MGTemplateMarker.h in Headers */,
 				B42F9F0A1A48663F0007FC96 /* XSDelement.h in Headers */,
 				B42F9F281A4866400007FC96 /* XMLUtils.h in Headers */,

@@ -80,65 +80,92 @@
                 self.value = [dateFormatter dateFromString: value];</value>
 		</read>
 	</simpletype>
+    <simpletype name="string" objType="NSString" arrayType="NSArray">
+        <read>
+            <!-- Prefix: -->
+            <prefix></prefix>
+            <!-- Attribute:  -->
+            <attribute>self.{{ attribute.variableName }} = [NSString stringWithCString: {{ attribute.name }}AttrValue encoding: NSUTF8StringEncoding];</attribute>
+            <!-- Element: -->
+            <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
+                {% if element.isSingleValue %}self.{{ element.variableName }} = [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding];{% else %}[{{ element.variableName }}Array addObject: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];{% /if %}
+                _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
+            <!-- Value: -->
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = value;</value>
+        </read>
+    </simpletype>
     
     <!--complex type-->
     <complextype arrayType="NSArray">
         <read>
-            <element><![CDATA[{% if element.isSingleValue %}self.{{ element.variableName }} = [[{{ element.objcType }} alloc] initWithReader: reader];{% else %}[{{ element.variableName }}Array addObject: [[{{ element.schemaType.targetClassName }} alloc] initWithReader: reader]];{% /if %}]]></element>
+            <element><![CDATA[
+                {% if element.isSingleValue %}
+                    self.{{ element.variableName }} = [[{{ element.objcType }} alloc] initWithReader: reader];
+                {% else %}
+                    [{{ element.variableName }}Array addObject: [[{{ element.schemaType.targetClassName }} alloc] initWithReader: reader]];
+                {% /if %}]]>
+            </element>
         </read>
     </complextype>
 
     <implementation>
+        <!-- 
+         Name:          Header
+         Parameters:    type - the current complex type (which is essentially an object)
+         
+         Description:
+         
+         -->
         <header><![CDATA[
 /**
 {{  type.targetClassFileName }}.h
-{% if type.schema.hasAnnotations %}
-{{ type.schema.comment }}
-{% /if %}*/
+{% if type.schema.hasAnnotations %}{{ type.schema.comment }}{% /if %}
+*/
 #import <Foundation/Foundation.h>
-
-{% if type.hasComplexBaseClass %}#import "{{ type.baseClassFileName }}.h"{% /if %}
-
-{% for complexType in type.complexTypesInUse %}@class {{ complexType.targetClassName }};
-{% /for %}
-
+{% if type.hasComplexBaseClass %}
+#import "{{ type.baseClassFileName }}.h"
+{% /if %}
+{% for complexType in type.complexTypesInUse %}@class {{ complexType.targetClassName }};{% /for %}
 {% if type.hasAnnotations %}/**
 {{ type.comment }}
 */{% /if %}
-@interface {{ type.targetClassName }} : {% if type.hasComplexBaseClass %}{{ type.baseClassName }}{% else %}NSObject{% /if %}
 
-{% for attribute in type.attributes %}{% if attribute.hasAnnotations %}/**
+{% for element in type.elements %}{% if element.hasEnumeration %}typedef NS_ENUM(NSInteger, {{ element.variableName }}){ {{ element.buildEnumerationValues }} }{% /if %}{% /for %}
+
+@interface {{ type.targetClassName }} : {% if type.hasComplexBaseClass %}{{ type.baseClassName }}{% else %}NSObject{% /if %}
+{% for attribute in type.attributes %}
+{% if attribute.hasAnnotations %}
+/**
 {{ attribute.comment }}
 */{% /if %}
-@property (nonatomic, readonly) {{ attribute.objcType }}* {{ attribute.variableName }};
+@property (nonatomic, readonly) {{ attribute.objcType }}* {{ attribute.variableName }};{% /for %}
 
-{% /for %}{% for element in type.elements %}{% if element.hasAnnotations %}/**
+{% for element in type.elements %}
+{% if element.hasAnnotations %}/**
 {{ element.comment }}
 */{% /if %}
-@property (nonatomic, readonly) {{ element.objcType }}* {{ element.variableName }};
+{% if element.hasEnumeration %}{% else %}@property (nonatomic, readonly) {{ element.objcType }}* {{ element.variableName }};{% /if %}
+{% /for %}
 
-{% /for %}{% if type.hasSimpleBaseClass %}/**
-the type's main {{ type.baseClassName }} value
-*/
-@property (nonatomic, readonly) {{ type.baseClassName }}* value;{% /if %}
+{% if type.hasSimpleBaseClass %}
+/* The type's main {{ type.baseClassName }} value */
 
-/**
-returns a dictionary representation of this class (recursivly making dictionaries of properties)
-*/
+@property (nonatomic, readonly) {{ type.baseClassName }}* value;
+{% /if %}
+
+/* Returns a dictionary representation of this class (recursivly making dictionaries of properties) */
 @property (nonatomic, readonly) NSDictionary* dictionary;
 
 @end
 
 @interface {{ type.targetClassName }} (Reading)
 
-/**
-the class's initializer used by the reader to build the object structure during parsing (xmlTextReaderPtr at the moment)
-*/
+/* The class's initializer used by the reader to build the object structure during parsing (xmlTextReaderPtr at the moment) */
 - (id) initWithReader: (void*) reader;
 
-/**
-Method that is overidden by subclasses that want to extend the base type (xmlTextReaderPtr at the moment)
-*/
+/*  Method that is overidden by subclasses that want to extend the base type (xmlTextReaderPtr at the moment) */
 - (void) readAttributes: (void*) reader;
 
 @end
