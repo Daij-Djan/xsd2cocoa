@@ -7,11 +7,9 @@
 
 #import "NSDictionary_DeepMutableCopy.h"
 
-
 @implementation NSDictionary (DeepMutableCopy)
 
-
-- (NSMutableDictionary *)deepMutableCopy;
+- (NSMutableDictionary *)deepMutableCopy
 {
     NSMutableDictionary *newDictionary;
     NSEnumerator *keyEnumerator;
@@ -36,6 +34,5 @@
 	
     return newDictionary;
 }
-
 
 @end

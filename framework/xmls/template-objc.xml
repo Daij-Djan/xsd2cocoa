@@ -132,7 +132,13 @@
 {{ type.comment }}
 */{% /if %}
 
-{% for element in type.elements %}{% if element.hasEnumeration %}typedef NS_ENUM(NSInteger, {{ element.variableName }}){ {{ element.buildEnumerationValues }} }{% /if %}{% /for %}
+{% for element in type.elements %}{% if element.hasEnumeration %}
+typedef NS_ENUM(NSInteger, {{ element.variableName }}){
+    {% for value in element.enumerationValues %}
+    {{ value }},
+    {% /for %}
+}
+{% /if %}{% /for %}
 
 @interface {{ type.targetClassName }} : {% if type.hasComplexBaseClass %}{{ type.baseClassName }}{% else %}NSObject{% /if %}
 {% for attribute in type.attributes %}

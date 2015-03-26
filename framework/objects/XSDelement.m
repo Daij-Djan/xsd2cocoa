@@ -167,7 +167,7 @@
     /* Return the populated array of values */
     return rtn;
 }
-
+//http://stackoverflow.com/questions/6331762/enum-values-to-nsstring-ios
 - (NSString *) buildEnumerationValues{
     NSString *rtn = [[self enumerationValues] componentsJoinedByString:@", "];
     return rtn;
