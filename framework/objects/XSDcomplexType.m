@@ -127,9 +127,6 @@
             self.attributes = newAttributes;
         }
         
-        NSLog(@"Name: %@", self.name);
-        NSLog(@"Sequence/Choice length: %ld", self.sequenceOrChoice.elements.count);
-        NSLog(@"Type: %@", self.baseType);
     }
     
     return self;
@@ -146,23 +143,11 @@
     NSMutableSet* simpleTypes = [NSMutableSet set];
     
     for (XSDattribute *anAttr in [self attributes]) {
-        NSLog(@"Attribute Type ");
-        NSLog(@"Name: %@", anAttr.name);
-        NSLog(@"Type: %@", anAttr.type);
-        NSLog(@"SimpleType: %@", anAttr.simpleType);
-        NSLog(@" ");
-
         id type = [self.schema typeForName: anAttr.type];
         [simpleTypes addObject:type];
     }
     
     for (XSDelement* anElement in [self elements]) {
-        NSLog(@"Simple Type ");
-        NSLog(@"Name: %@", anElement.name);
-        NSLog(@"Type: %@", anElement.type);
-        NSLog(@"Base Type: %@", self.baseType);
-        NSLog(@" ");
-        
         /* If the current element has a type, then grab the type */
         if(anElement.type) {
             id<XSType> aType = [self.schema typeForName: anElement.type];
@@ -188,13 +173,6 @@
     NSMutableSet* complexTypes = [NSMutableSet set];
     
     for (XSDelement* anElement in [self elements]) {
-        NSLog(@"Complex Type ");
-        NSLog(@"Name: %@", anElement.name);
-        NSLog(@"Type: %@", anElement.type);
-        NSLog(@" ");
-        
-
-        
         if(anElement.localComplexType != nil) {
             [complexTypes addObject: anElement.localComplexType];
         } else {

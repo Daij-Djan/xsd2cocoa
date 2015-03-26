@@ -77,9 +77,6 @@
         }
     }
     
-    NSLog(@"Name: %@", self.name);
-    NSLog(@"Base Type: %@", self.baseType);
-    
     return self;
 } 
 
@@ -103,12 +100,7 @@
     self.targetClassName = [[element attributeForName: @"baseType"] stringValue];
     self.targetClassName = [[element attributeForName: @"objType"] stringValue];
     self.arrayType = [[element attributeForName: @"arrayType"] stringValue];
-    NSLog(@"Current SimpleType Element Name: %@", self.name);
     self.name = [[element attributeForName: @"name"] stringValue];
-    
-    NSLog(@"Purposed Target Class Name: %@", self.targetClassName);
-    NSLog(@"Purposed Array Type: %@", self.arrayType);
-    NSLog(@"Purposed Element Name: %@", self.name);
     
     /* Grab the prefix from the matching element type in our template to the current simple type in our XSD */
     NSArray* readPrefixNodes = [element nodesForXPath:@"read[1]/prefix[1]" error: error];

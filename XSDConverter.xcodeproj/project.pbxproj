@@ -9,23 +9,22 @@
 /* Begin PBXBuildFile section */
 		49D413D91AC33F6900A2C3F6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721001857D532005632B7 /* AppDelegate.m */; };
 		49D413DA1AC33F6900A2C3F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B45721081857D532005632B7 /* main.m */; };
-		49D413DD1AC3419200A2C3F6 /* XSDenumeration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D413DC1AC3419200A2C3F6 /* XSDenumeration.m */; };
 		49D413DE1AC342A000A2C3F6 /* XSDenumeration.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D413DC1AC3419200A2C3F6 /* XSDenumeration.m */; };
-		49D413DF1AC46FC000A2C3F6 /* XSDenumeration.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D413DB1AC3419200A2C3F6 /* XSDenumeration.h */; };
-		49D414811AC4A3C100A2C3F6 /* DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414721AC4A3C100A2C3F6 /* DeepMutableCopy.h */; };
-		49D414821AC4A3C100A2C3F6 /* ICUTemplateMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414731AC4A3C100A2C3F6 /* ICUTemplateMatcher.h */; };
+		49D413DF1AC46FC000A2C3F6 /* XSDenumeration.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D413DB1AC3419200A2C3F6 /* XSDenumeration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		49D414811AC4A3C100A2C3F6 /* DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414721AC4A3C100A2C3F6 /* DeepMutableCopy.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		49D414821AC4A3C100A2C3F6 /* ICUTemplateMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414731AC4A3C100A2C3F6 /* ICUTemplateMatcher.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		49D414831AC4A3C100A2C3F6 /* ICUTemplateMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D414741AC4A3C100A2C3F6 /* ICUTemplateMatcher.m */; };
-		49D414841AC4A3C100A2C3F6 /* MGTemplateEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414751AC4A3C100A2C3F6 /* MGTemplateEngine.h */; };
+		49D414841AC4A3C100A2C3F6 /* MGTemplateEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414751AC4A3C100A2C3F6 /* MGTemplateEngine.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		49D414851AC4A3C100A2C3F6 /* MGTemplateEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D414761AC4A3C100A2C3F6 /* MGTemplateEngine.m */; };
-		49D414861AC4A3C100A2C3F6 /* MGTemplateFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414771AC4A3C100A2C3F6 /* MGTemplateFilter.h */; };
-		49D414871AC4A3C100A2C3F6 /* MGTemplateMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414781AC4A3C100A2C3F6 /* MGTemplateMarker.h */; };
-		49D414881AC4A3C100A2C3F6 /* MGTemplateStandardFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414791AC4A3C100A2C3F6 /* MGTemplateStandardFilters.h */; };
+		49D414861AC4A3C100A2C3F6 /* MGTemplateFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414771AC4A3C100A2C3F6 /* MGTemplateFilter.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		49D414871AC4A3C100A2C3F6 /* MGTemplateMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414781AC4A3C100A2C3F6 /* MGTemplateMarker.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		49D414881AC4A3C100A2C3F6 /* MGTemplateStandardFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D414791AC4A3C100A2C3F6 /* MGTemplateStandardFilters.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		49D414891AC4A3C100A2C3F6 /* MGTemplateStandardFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D4147A1AC4A3C100A2C3F6 /* MGTemplateStandardFilters.m */; };
-		49D4148A1AC4A3C100A2C3F6 /* MGTemplateStandardMarkers.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D4147B1AC4A3C100A2C3F6 /* MGTemplateStandardMarkers.h */; };
+		49D4148A1AC4A3C100A2C3F6 /* MGTemplateStandardMarkers.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D4147B1AC4A3C100A2C3F6 /* MGTemplateStandardMarkers.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		49D4148B1AC4A3C100A2C3F6 /* MGTemplateStandardMarkers.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D4147C1AC4A3C100A2C3F6 /* MGTemplateStandardMarkers.m */; };
-		49D4148C1AC4A3C100A2C3F6 /* NSArray_DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D4147D1AC4A3C100A2C3F6 /* NSArray_DeepMutableCopy.h */; };
+		49D4148C1AC4A3C100A2C3F6 /* NSArray_DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D4147D1AC4A3C100A2C3F6 /* NSArray_DeepMutableCopy.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		49D4148D1AC4A3C100A2C3F6 /* NSArray_DeepMutableCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D4147E1AC4A3C100A2C3F6 /* NSArray_DeepMutableCopy.m */; };
-		49D4148E1AC4A3C100A2C3F6 /* NSDictionary_DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D4147F1AC4A3C100A2C3F6 /* NSDictionary_DeepMutableCopy.h */; };
+		49D4148E1AC4A3C100A2C3F6 /* NSDictionary_DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = 49D4147F1AC4A3C100A2C3F6 /* NSDictionary_DeepMutableCopy.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		49D4148F1AC4A3C100A2C3F6 /* NSDictionary_DeepMutableCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D414801AC4A3C100A2C3F6 /* NSDictionary_DeepMutableCopy.m */; };
 		49D414911AC4A4FD00A2C3F6 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49D414901AC4A4FD00A2C3F6 /* AppKit.framework */; };
 		B42F9ECD1A48657E0007FC96 /* XSDConverterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B42F9EB61A48657E0007FC96 /* XSDConverterCore.framework */; };
@@ -62,7 +61,7 @@
 		B44ACBF51A53992B0030DFEA /* DDRunTask.h in Headers */ = {isa = PBXBuildFile; fileRef = B44ACBF31A53992B0030DFEA /* DDRunTask.h */; };
 		B44ACBF61A53992B0030DFEA /* DDRunTask.m in Sources */ = {isa = PBXBuildFile; fileRef = B44ACBF41A53992B0030DFEA /* DDRunTask.m */; };
 		B45720CF1857D487005632B7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4F495AE1857BFCA00A6E488 /* Cocoa.framework */; };
-		B49B8CFC1A4DCFE9001A2D91 /* XSDAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = B49B8CFA1A4DCFE9001A2D91 /* XSDAnnotation.h */; };
+		B49B8CFC1A4DCFE9001A2D91 /* XSDAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = B49B8CFA1A4DCFE9001A2D91 /* XSDAnnotation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B49B8CFD1A4DCFE9001A2D91 /* XSDAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B49B8CFB1A4DCFE9001A2D91 /* XSDAnnotation.m */; };
 		B4BAB2511A6147A50073C821 /* weblinks_test.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B4BAB24F1A61411F0073C821 /* weblinks_test.xsd */; };
 		B4BAB2551A6174FC0073C821 /* nameChanges.xml in Resources */ = {isa = PBXBuildFile; fileRef = B4BAB2531A614C7E0073C821 /* nameChanges.xml */; };
@@ -403,26 +402,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				B42F9F2B1A4866400007FC96 /* XSDschema.h in Headers */,
-				49D4148A1AC4A3C100A2C3F6 /* MGTemplateStandardMarkers.h in Headers */,
-				49D414861AC4A3C100A2C3F6 /* MGTemplateFilter.h in Headers */,
 				B42F9F101A48663F0007FC96 /* XSSimpleType.h in Headers */,
 				B44ACBF01A5396E90030DFEA /* DDFrameworkWriter.h in Headers */,
-				49D4148E1AC4A3C100A2C3F6 /* NSDictionary_DeepMutableCopy.h in Headers */,
 				B42F9F081A48663F0007FC96 /* XSDcomplexType.h in Headers */,
 				B42F9F061A48663F0007FC96 /* XSDattribute.h in Headers */,
-				B49B8CFC1A4DCFE9001A2D91 /* XSDAnnotation.h in Headers */,
 				B42F9F311A487B520007FC96 /* XSType.h in Headers */,
+				49D4148A1AC4A3C100A2C3F6 /* MGTemplateStandardMarkers.h in Headers */,
+				49D414861AC4A3C100A2C3F6 /* MGTemplateFilter.h in Headers */,
+				49D4148E1AC4A3C100A2C3F6 /* NSDictionary_DeepMutableCopy.h in Headers */,
+				49D413DF1AC46FC000A2C3F6 /* XSDenumeration.h in Headers */,
+				B49B8CFC1A4DCFE9001A2D91 /* XSDAnnotation.h in Headers */,
 				49D414841AC4A3C100A2C3F6 /* MGTemplateEngine.h in Headers */,
-				B42F9F0C1A48663F0007FC96 /* XSDexplicitGroup.h in Headers */,
-				B42F9F2A1A4866400007FC96 /* XSDConverterCore.h in Headers */,
 				49D414811AC4A3C100A2C3F6 /* DeepMutableCopy.h in Headers */,
 				49D414821AC4A3C100A2C3F6 /* ICUTemplateMatcher.h in Headers */,
 				49D414881AC4A3C100A2C3F6 /* MGTemplateStandardFilters.h in Headers */,
 				49D414871AC4A3C100A2C3F6 /* MGTemplateMarker.h in Headers */,
+				49D4148C1AC4A3C100A2C3F6 /* NSArray_DeepMutableCopy.h in Headers */,
+				B42F9F0C1A48663F0007FC96 /* XSDexplicitGroup.h in Headers */,
+				B42F9F2A1A4866400007FC96 /* XSDConverterCore.h in Headers */,
 				B42F9F0E1A48663F0007FC96 /* XSSchemaNode.h in Headers */,
 				B44ACBF51A53992B0030DFEA /* DDRunTask.h in Headers */,
-				49D4148C1AC4A3C100A2C3F6 /* NSArray_DeepMutableCopy.h in Headers */,
-				49D413DF1AC46FC000A2C3F6 /* XSDenumeration.h in Headers */,
 				B42F9F0A1A48663F0007FC96 /* XSDelement.h in Headers */,
 				B42F9F281A4866400007FC96 /* XMLUtils.h in Headers */,
 			);
@@ -602,7 +601,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49D413DD1AC3419200A2C3F6 /* XSDenumeration.m in Sources */,
 				49D413D91AC33F6900A2C3F6 /* AppDelegate.m in Sources */,
 				49D413DA1AC33F6900A2C3F6 /* main.m in Sources */,
 			);
