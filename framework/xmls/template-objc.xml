@@ -124,43 +124,28 @@
 {% if type.schema.hasAnnotations %}{{ type.schema.comment }}{% /if %}
 */
 #import <Foundation/Foundation.h>
-{% if type.hasComplexBaseClass %}
-#import "{{ type.baseClassFileName }}.h"
-{% /if %}
+{% if type.hasComplexBaseClass %}#import "{{ type.baseClassFileName }}.h"{% /if %}
 {% for complexType in type.complexTypesInUse %}@class {{ complexType.targetClassName }};{% /for %}
 {% if type.hasAnnotations %}/**
 {{ type.comment }}
 */{% /if %}
+{% for element in type.elements %}{% if element.hasEnumeration %}typedef NS_ENUM(NSInteger, {{ element.variableName }}){
+    {{ element.buildEnumerationValues }}
+}{% /if %}{% /for %}
 
-{% for element in type.elements %}{% if element.hasEnumeration %}
-typedef NS_ENUM(NSInteger, {{ element.variableName }}){
-    {% for value in element.enumerationValues %}
-    {{ value }},
-    {% /for %}
-}
-{% /if %}{% /for %}
-
-@interface {{ type.targetClassName }} : {% if type.hasComplexBaseClass %}{{ type.baseClassName }}{% else %}NSObject{% /if %}
-{% for attribute in type.attributes %}
-{% if attribute.hasAnnotations %}
+@interface {{ type.targetClassName }} : {% if type.hasComplexBaseClass %}{{ type.baseClassName }}{% else %}NSObject{% /if %}{% for attribute in type.attributes %}{% if attribute.hasAnnotations %}
 /**
 {{ attribute.comment }}
 */{% /if %}
 @property (nonatomic, readonly) {{ attribute.objcType }}* {{ attribute.variableName }};{% /for %}
 
-{% for element in type.elements %}
-{% if element.hasAnnotations %}/**
+{% for element in type.elements %}{% if element.hasAnnotations %}/**
 {{ element.comment }}
 */{% /if %}
-{% if element.hasEnumeration %}{% else %}@property (nonatomic, readonly) {{ element.objcType }}* {{ element.variableName }};{% /if %}
-{% /for %}
-
-{% if type.hasSimpleBaseClass %}
-/* The type's main {{ type.baseClassName }} value */
-
+{% if element.hasEnumeration %}{% else %}@property (nonatomic, readonly) {{ element.objcType }}* {{ element.variableName }};{% /if %}{% /for %}
+{% if type.hasSimpleBaseClass %}/* The type's main {{ type.baseClassName }} value */
 @property (nonatomic, readonly) {{ type.baseClassName }}* value;
 {% /if %}
-
 /* Returns a dictionary representation of this class (recursivly making dictionaries of properties) */
 @property (nonatomic, readonly) NSDictionary* dictionary;
 
