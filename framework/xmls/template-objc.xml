@@ -178,7 +178,7 @@ typedef NS_ENUM(NSInteger, {{ element.variableClassName }}){
 
 /**
  * Name:        readAttributes
- * Parameters:  (void *) - the XML reader
+ * Parameters:  (void *) - the Libxml's xmlTextReader pointer
  * Returns:     (void)
  * Description: Read the attributes for the current XML element
  */
@@ -192,7 +192,7 @@ typedef NS_ENUM(NSInteger, {{ element.variableClassName }}){
 
 /**
  * Name:        initWithReader
- * Parameters:  (void *) - the XML reader
+ * Parameters:  (void *) - the Libxml's xmlTextReader pointer
  * Returns:     returns the classes created object
  * Description: Iterate through the XML and create the {{ type.targetClassFileName }} object
  */
