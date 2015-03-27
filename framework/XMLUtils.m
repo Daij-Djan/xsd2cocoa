@@ -18,7 +18,7 @@
  * Returns:
  * Details:
  */
-+ (NSXMLNode*) getNode: (NSXMLNode*) element withName: (NSString*) name {
++ (NSXMLNode*) getNode:(NSXMLNode*) element withName:(NSString*) name {
 	for(NSXMLNode* child in [element children]) {
 		if([child respondsToSelector:@selector(localName)] && [[child localName] isEqual: name]) {
 			return (NSXMLNode*)child;
@@ -40,7 +40,7 @@
  * Returns:
  * Details:
  */
-+ (NSString*)rootNodeNameFromURL:(NSURL*)url {
++ (NSString*)rootNodeNameFromURL:(NSURL*) url {
     NSString* obj = nil;
     xmlTextReaderPtr reader = xmlReaderForFile( url.absoluteString.UTF8String,
                                                NULL,
@@ -64,7 +64,7 @@
  * Returns:
  * Details:
  */
-+ (NSNumber*) node: (NSXMLElement*) node boolAttribute: (NSString*) attribute {
++ (NSNumber*) node:(NSXMLElement*) node boolAttribute:(NSString*) attribute {
     NSXMLNode* attrNode = [node attributeForName: attribute];
     
     if(attrNode) {
@@ -80,7 +80,7 @@
  * Returns:
  * Details:
  */
-+ (NSString*) node: (NSXMLElement*) node stringAttribute: (NSString*) attribute {
++ (NSString*) node:(NSXMLElement*) node stringAttribute:(NSString*) attribute {
     NSXMLNode* attrNode = [node attributeForName: attribute];
     NSString *rtn = nil;
     
@@ -96,7 +96,7 @@
  * Returns:
  * Details:
  */
-+ (NSNumber*) node: (NSXMLElement*) node intAttribute: (NSString*) attribute {
++ (NSNumber*) node:(NSXMLElement*) node intAttribute:(NSString*) attribute {
     NSXMLNode* attrNode = [node attributeForName: attribute];
     
     if(attrNode) {
@@ -152,7 +152,7 @@
  * Returns:
  * Details:
  */
-+ (NSArray*) node: (NSXMLElement*) element descendantsWithName: (NSString*) name {
++ (NSArray*) node:(NSXMLElement*) element descendantsWithName:(NSString*) name {
     NSMutableArray* children = [NSMutableArray array];
     for(NSXMLNode* child in [element children]) {
         if([child respondsToSelector:@selector(localName)] && [[child localName] isEqual: name]) {
