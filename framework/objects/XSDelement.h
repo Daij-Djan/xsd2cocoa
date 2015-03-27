@@ -10,9 +10,7 @@
 @class XSDcomplexType;
 @protocol XSType;
 
-@interface XSDelement : XSSchemaNode{
-    
-}
+@interface XSDelement : XSSchemaNode
 
 @property (readonly, nonatomic) XSDcomplexType* localComplexType;
 @property (readonly, nonatomic) NSString* name;
@@ -27,8 +25,6 @@
 @property (readonly, nonatomic) NSString* form;
 @property (readonly, nonatomic) NSNumber* minOccurs;
 @property (readonly, nonatomic) NSNumber* maxOccurs;
-
-
 
 - (NSString*) readCodeForContent;
 - (NSString*) variableName; //in generated code

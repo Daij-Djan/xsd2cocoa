@@ -9,9 +9,7 @@
 #import "XSSchemaNode.h"
 #import "XSType.h"
 
-@interface XSSimpleType : XSSchemaNode < XSType >{
-    
-}
+@interface XSSimpleType : XSSchemaNode < XSType >
 
 @property (readonly, nonatomic) NSString* name;
 @property (readonly, nonatomic) NSString* baseType;

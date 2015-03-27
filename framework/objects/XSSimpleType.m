@@ -108,8 +108,7 @@
         return NO;
     }
     if(readPrefixNodes.count > 0) {
-        NSString *temp = [[readPrefixNodes objectAtIndex: 0] stringValue];
-        self.readPrefixCode = temp;
+        self.readPrefixCode = [[readPrefixNodes objectAtIndex: 0] stringValue];
     }
     /*  */
     NSArray* readAttributeNodes = [element nodesForXPath:@"read[1]/attribute[1]" error: error];
@@ -126,8 +125,7 @@
         return NO;
     }
     if(readElementNodes.count > 0) {
-        NSString *temp = [[readPrefixNodes objectAtIndex: 0] stringValue];
-        self.readElementTemplate = temp;
+        self.readElementTemplate = [[readElementNodes objectAtIndex: 0] stringValue];
     }
     /*  */
     NSArray* valueElementNodes = [element nodesForXPath:@"read[1]/value[1]" error: error];
@@ -135,8 +133,7 @@
         return NO;
     }
     if(valueElementNodes.count > 0) {
-        NSString *temp = [[readPrefixNodes objectAtIndex: 0] stringValue];
-        self.readValueCode = temp;
+        self.readValueCode = [[valueElementNodes objectAtIndex: 0] stringValue];
     }
     /*  */
     NSArray* includeElementNodes = [element nodesForXPath:@"/read[1]/include" error: error];
@@ -146,8 +143,7 @@
     if(includeElementNodes.count > 0) {
         NSMutableArray *mIncludes = [NSMutableArray array];
         for (NSXMLElement *elem in includeElementNodes) {
-            NSString *temp = elem.stringValue;
-            [mIncludes addObject:temp];
+            [mIncludes addObject:elem.stringValue];
         }
         self.includes = [NSArray arrayWithArray:mIncludes];
         

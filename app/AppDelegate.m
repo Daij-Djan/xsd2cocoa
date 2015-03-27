@@ -9,13 +9,10 @@
 #import "AppDelegate.h"
 #import <XSDConverterCore/XSDConverterCore.h>
 
-@interface AppDelegate () <NSOpenSavePanelDelegate, NSApplicationDelegate>{
-    
-}
+@interface AppDelegate () <NSOpenSavePanelDelegate, NSApplicationDelegate>
 @end
 
 @implementation AppDelegate
-
 
 - (IBAction)toggleAdvancedOptions:(id)sender {
     //toggle

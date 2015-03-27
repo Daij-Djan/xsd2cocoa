@@ -288,8 +288,7 @@
     }
     /* Assign the header file text from the fetched section */
     if(nodes != nil && nodes.count > 0) {
-        NSString *temp = [[nodes objectAtIndex: 0] stringValue];
-        self.headerTemplateString = temp;
+        self.headerTemplateString = [[nodes objectAtIndex: 0] stringValue];
     }
     
     
@@ -300,8 +299,7 @@
     }
     /* Assign the class file text from the fetched section */
     if(nodes != nil && nodes.count > 0) {
-        NSString *temp = [[nodes objectAtIndex: 0] stringValue];
-        self.classTemplateString = temp;
+        self.classTemplateString = [[nodes objectAtIndex: 0] stringValue];
     }
     
     /* Fetch the... */
@@ -311,8 +309,7 @@
     }
     /* Assign the text from the fetched section */
     if(nodes != nil && nodes.count > 0) {
-        NSString *temp = [[nodes objectAtIndex: 0] stringValue];
-        self.readComplexTypeElementTemplate = temp;
+        self.readComplexTypeElementTemplate = [[nodes objectAtIndex: 0] stringValue];
     }
     
     nodes = [xmlDoc nodesForXPath:@"/template[1]/complextype[1]" error: error];
@@ -321,8 +318,7 @@
     }
     
     if(nodes != nil && nodes.count > 0) {
-        NSString *temp = [[[nodes objectAtIndex: 0] attributeForName:@"arrayType"] stringValue];
-        self.complexTypeArrayType = temp;
+        self.complexTypeArrayType = [[nodes objectAtIndex: 0] attributeForName:@"arrayType"].stringValue;
     }
     //
     
@@ -332,8 +328,7 @@
     }
     
     if(nodes != nil && nodes.count > 0) {
-        NSString *temp = [[nodes objectAtIndex: 0] stringValue];
-        self.readerHeaderTemplateString = temp;
+        self.readerHeaderTemplateString = [[nodes objectAtIndex: 0] stringValue];
     }
     
     nodes = [xmlDoc nodesForXPath:@"/template[1]/reader[1]/class" error: error];
@@ -342,8 +337,7 @@
     }
     
     if(nodes != nil && nodes.count > 0) {
-        NSString *temp = [[nodes objectAtIndex: 0] stringValue];
-        self.readerClassTemplateString = temp;
+        self.readerClassTemplateString = [[nodes objectAtIndex: 0] stringValue];
     }
  
     for (XSDschema *s in self.includedSchemas) {
