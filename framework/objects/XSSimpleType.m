@@ -12,7 +12,7 @@
 #import "ICUTemplateMatcher.h"
 #import "XSDattribute.h"
 #import "XSDenumeration.h"
-
+#import "XSDschema.h"
 
 @interface XSSimpleType ()
 @property (strong, nonatomic) NSString* name;
@@ -63,6 +63,7 @@
             for(NSXMLElement* anElement in enumerationTags) {
                 [newEnumerations addObject: [[XSDenumeration alloc] initWithNode:anElement schema:schema]];
             }
+            
             /* Assign the list of enumerations that we have found to the simply type element */
             self.enumerations = newEnumerations;
 
@@ -70,8 +71,9 @@
             NSMutableArray* newAttributes = [NSMutableArray array];
             NSArray* attributeTags = [XMLUtils node:anElement childrenWithName:@"attribute"];
             for(NSXMLElement* anElement in attributeTags) {
-                [newAttributes addObject: [[XSDattribute alloc] initWithNode: anElement schema: schema]];
+                [newAttributes addObject: [[XSDattribute alloc] initWithNode:anElement schema:schema]];
             }
+            
             /* Assign the list of attributes that we have found to the simply type element */
             self.attributes = newAttributes;
         }
@@ -159,7 +161,7 @@
 //    return rtn;
 //}
 
-- (NSString*) readCodeForAttribute: (XSDattribute*) attribute {
+- (NSString*) readCodeForAttribute:(XSDattribute*) attribute {
     NSString *rtn;
     NSDictionary* dict = [NSDictionary dictionaryWithObject:attribute forKey:@"attribute"];
     rtn = [engine processTemplate:self.readAttributeTemplate withVariables: dict];
@@ -167,9 +169,21 @@
 }
 
 
-- (NSString*) readCodeForElement: (XSDelement*) element {
-    NSDictionary* dict = [NSDictionary dictionaryWithObject:element forKey:@"element"];
-    return [engine processTemplate:self.readElementTemplate withVariables: dict];
+- (NSString*) readCodeForElement:(XSDelement*) element {
+    NSString* rtn;
+    @try {
+        /* Create a dictionary for the xsd element on the key element */
+        NSDictionary* dict = [NSDictionary dictionaryWithObject:element forKey:@"element"];
+        
+        /* Generate the code for this element using the template for the element */
+        rtn = [engine processTemplate:self.readElementTemplate withVariables:dict];
+    }
+    @catch (NSException * e) {
+        NSLog(@"Exception: %@", e);
+    }
+    @finally {}
+   
+    return rtn;
 }
 
 #pragma mark

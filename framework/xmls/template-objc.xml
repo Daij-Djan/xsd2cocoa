@@ -52,6 +52,19 @@
                 self.value = [numFormatter numberFromString: value];</value>
 		</read>
 	</simpletype>
+    <simpletype name="int" objType="NSNumber" arrayType="NSArray">
+        <read>
+            <prefix>NSNumberFormatter* numFormatter = [[NSNumberFormatter alloc] init];
+                numFormatter.numberStyle = NSNumberFormatterDecimalStyle;</prefix>
+            <attribute>self.{{ attribute.variableName }} = [numFormatter numberFromString: [NSString stringWithCString: {{ attribute.name }}AttrValue encoding: NSUTF8StringEncoding]];</attribute>
+            <element><![CDATA[_readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);
+                self.{{ element.variableName }} = [numFormatter numberFromString: [NSString stringWithCString: (const char*) xmlTextReaderConstValue(reader) encoding: NSUTF8StringEncoding]];
+                _readerOk = xmlTextReaderRead(reader); _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
+            <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
+                value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                self.value = [numFormatter numberFromString: value];</value>
+        </read>
+    </simpletype>
 	<simpletype name="decimal" objType="NSNumber" arrayType="NSArray">
 		<read>
 			<prefix>NSNumberFormatter* decFormatter = [[[NSNumberFormatter alloc] init];
@@ -193,10 +206,12 @@ returns a dictionary representation of this class (recursivly making dictionarie
       BOOL handledInChild = NO;
       if(_currentNodeType == XML_READER_TYPE_ELEMENT || _currentNodeType == XML_READER_TYPE_TEXT) {
         NSString* _currentElementName = [NSString stringWithCString: (const char*) xmlTextReaderConstLocalName(reader) encoding:NSUTF8StringEncoding];
-        {% for element in type.elements %}if([@"{{element.name}}" isEqualToString: _currentElementName]) {
-          {{ element.readCodeForContent }}
-          {% if element.hasComplexType %}
-          handledInChild = YES;{% /if %}
+        {% for element in type.elements %}
+        if([@"{{element.name}}" isEqualToString: _currentElementName]) {
+            {{ element.readCodeForContent }}
+        {% if element.hasComplexType %}
+          handledInChild = YES;
+        {% /if %}
         } else {% /for %} {% if type.hasSimpleBaseClass %} if([@"#text" isEqualToString: _currentElementName]){
               char* contentValue = (char*) xmlTextReaderConstValue(reader);
               if(contentValue) {

@@ -383,9 +383,7 @@
     }
 
     NSString *qName = [type name];
-    if(qName == nil){
-        NSLog(@"Issues");
-    }
+
     NSParameterAssert(qName.length); //EVERYTHING has a type name
     
     NSArray* splitPrefix = [qName componentsSeparatedByCharactersInSet: [NSCharacterSet characterSetWithCharactersInString: @":"]];

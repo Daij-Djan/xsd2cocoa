@@ -32,7 +32,7 @@
 
 @implementation XSDelement
 
-- (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema {
+- (id) initWithNode:(NSXMLElement*)node schema: (XSDschema*)schema {
     self = [super initWithNode:node schema:schema];
     if(self) {
         self.type = [XMLUtils node: node stringAttribute: @"type"];
@@ -67,17 +67,15 @@
             self.maxOccurs = [numFormatter numberFromString: maxOccursValue];
         }
         
+        /* If we do not have a type defined yet */
         if(self.type == nil) {
             /* Check if we have a complex type defined for the given element */
-            NSXMLElement* complexTypeNode = [XMLUtils node: node childWithName: @"complexType"];
+            NSXMLElement* complexTypeNode = [XMLUtils node:node childWithName:@"complexType"];
             if(complexTypeNode != nil) {
                 self.localComplexType = [[XSDcomplexType alloc] initWithNode:complexTypeNode schema:schema];
                 self.localComplexType.name = [self.name stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[self.name substringToIndex:1] uppercaseString]];
                 [schema addType: self.localComplexType];
             }
-            
-            /* Check if we have a simple type defined for the given element */
-            /* TODO - ADD SIMPLE TYPE for ANONYMOUS */
         }
     }
     return self;
@@ -118,7 +116,6 @@
 - (NSString*) variableName {
     return [XSDschema variableNameFromName:self.name multiple:!self.isSingleValue];
 }
-
 
 
 /* 
@@ -178,11 +175,28 @@
 }
 
 - (NSString*) readCodeForContent {
+    NSString *rtn;
+    
+    /* Fetch the type and from those objects, call their appropriate method */
     if(self.localComplexType != nil) {
-        return [self.localComplexType readCodeForElement: self];
-    } else {
-        return [[self.schema typeForName:self.type] readCodeForElement:self];
+        rtn = [self.localComplexType readCodeForElement:self];
     }
+    else if(self.hasEnumeration){
+        /* Enumerations have no types defined, but have a base type. Grab the base type from the element and fetch the final code */
+        XSSimpleType* simpleTypeTemp = (XSSimpleType*) [self.schema typeForName:self.type];
+        rtn = [[self.schema typeForName:simpleTypeTemp.baseType] readCodeForElement:self];
+        
+        /* Insert comment into the code because we did not have any */
+        if(!rtn){
+            rtn = [NSString stringWithFormat:@"/* The types '%@' and '%@' are not found within the template schema. Please insert the correct simpleType accordingly */",
+                   self.type, simpleTypeTemp.baseType];
+        }
+    }else {
+        /* Fetch the type of the current element from the schema dictionaries and read the template code and generate final code */
+        rtn = [[self.schema typeForName:self.type] readCodeForElement:self];
+    }
+    
+    return rtn;
 }
 
 - (BOOL) isSingleValue {
