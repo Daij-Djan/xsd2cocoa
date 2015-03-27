@@ -117,6 +117,18 @@
     return [XSDschema variableNameFromName:self.name multiple:!self.isSingleValue];
 }
 
+- (NSString*) variableClassName{
+    NSString* rtn;
+    
+    NSArray* splitPrefix = [self.type componentsSeparatedByCharactersInSet: [NSCharacterSet characterSetWithCharactersInString: @":"]];
+    
+    if(splitPrefix.count > 1) {
+        rtn = (NSString*) [splitPrefix objectAtIndex: 1];
+    }
+    
+    return rtn;
+}
+
 
 /* 
  * Name:        hasEnumeration
@@ -164,9 +176,28 @@
     /* Return the populated array of values */
     return rtn;
 }
-//http://stackoverflow.com/questions/6331762/enum-values-to-nsstring-ios
+
 - (NSString *) buildEnumerationValues{
     NSString *rtn = [[self enumerationValues] componentsJoinedByString:@", "];
+    return rtn;
+}
+
+- (NSString *) buildEnumerationNamesArray{
+    NSString *rtn = @"";
+
+    /* Check if we have enumerations for this type */
+    if (![self hasEnumeration]) {
+        return rtn;
+    }
+    
+    /* Create the array with the proper format */
+    for (NSString *enumValue in [self enumerationValues]) {
+        rtn = [NSString stringWithFormat:@"%@, @\"%@\"", rtn, enumValue];
+    }
+    
+    /* Remove the first two characters */
+    rtn = [rtn substringFromIndex:2];
+    
     return rtn;
 }
 

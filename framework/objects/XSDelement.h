@@ -36,4 +36,5 @@
 - (BOOL) hasEnumeration;
 - (NSArray *) enumerationValues;
 - (NSString *) buildEnumerationValues;
+- (NSString *) buildEnumerationNamesArray;
 @end
