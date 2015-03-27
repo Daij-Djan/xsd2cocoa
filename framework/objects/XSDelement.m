@@ -181,7 +181,7 @@
     if(self.localComplexType != nil) {
         return [self.localComplexType readCodeForElement: self];
     } else {
-        return [[self.schema typeForName: self.type] readCodeForElement: self];
+        return [[self.schema typeForName:self.type] readCodeForElement:self];
     }
 }
 
