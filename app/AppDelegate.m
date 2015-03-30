@@ -111,8 +111,10 @@
     }
     
 
-    //open scheme
+    /* Open the schema specified by the user */
     NSError* error = nil;
+    
+    /* Build the schemea with simple types, complex types, and elements with imported schemas */
     XSDschema* schema = [[XSDschema alloc] initWithUrl: schemaURL targetNamespacePrefix: classPrefix error: &error];
     if(error != nil) {
         NSString *errorString = [error localizedDescription] ? [error localizedDescription] : @"Unknown Error";
@@ -120,13 +122,13 @@
         return;
     }
 
-    //get out folder
+    /* Escape out of the file path to get to the containing direrctory */
     NSURL* outFolder = [NSURL fileURLWithPath: [fm currentDirectoryPath]];
     if([options objectForKey: @"-out"] != nil) {
         outFolder = [NSURL fileURLWithPath: [options objectForKey:@"-out"]];
     }
 
-    //find template path
+    /* Specify the template, the default is the objective-c file defined in our project*/
     NSURL *templateUrl;
     switch (self.templateStyleMatrix.selectedTag) {
         case 2:
@@ -140,15 +142,20 @@
             templateUrl = [[NSBundle bundleForClass:[XSDschema class]] URLForResource:@"template-objc" withExtension:@"xml"];
             break;
     }
-    
-    //load template
+    /*************************************************************************************************************************
+     *      LOAD THE TEMPLATES USED FOR THE HEADER/CLASS FILES
+     *
+     *************************************************************************************************************************/
     [schema loadTemplate:templateUrl error:&error];
+
+    /* Ensure that there wasn't an error */
     if(error != nil) {
         NSString *errorString = ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error";
         NSRunAlertPanel(@"Error", @"Error while loading template. %@", @"OK", nil, nil, errorString);
         return;
     }
     
+    /* Select the type of code that we want to generate (Framework, Library, or Source Code -- Default for us is source code) */
     XSDschemaGeneratorOptions productTypes = 0;
     if(self.productTypeDynamicFramework.state==NSOnState) {
         productTypes |= XSDschemaGeneratorOptionDynamicFramework;
@@ -160,7 +167,10 @@
         productTypes |= XSDschemaGeneratorOptionSourceCode;
     }
     
-    //write out files
+    /*  
+     *  Write the code for the types that are currently in use... All the simple types
+     *  that are used in the template and generated for our code will be used here
+     */
     [schema generateInto:outFolder products:productTypes error:&error];
     if(error != nil) {
         NSString *errorString = ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error";
@@ -168,7 +178,7 @@
         return;
     }
     
-    //success
+    /* Success - everything finished without an exception, so show that as an alert to the user */
     NSInteger ret = NSRunAlertPanel(@"Success", @"Generated Code for specified xsd", @"OK", @"Reveal", nil);
     if(ret == NSAlertAlternateReturn) {
         [[NSWorkspace sharedWorkspace] selectFile:nil inFileViewerRootedAtPath:outFolder.path];

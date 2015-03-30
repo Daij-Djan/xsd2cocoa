@@ -6,7 +6,11 @@
 //
 
 #import "MGTemplateStandardFilters.h"
-#import <Cocoa/Cocoa.h>
+#if TARGET_OS_IPHONE
+
+#else
+#import <AppKit/AppKit.h>
+#endif
 
 #define UPPERCASE		@"uppercase"
 #define LOWERCASE		@"lowercase"
@@ -27,7 +31,7 @@
 }
 
 
-- (NSObject *)filterInvoked:(NSString *)filter withArguments:(NSArray *)args onValue:(NSObject *)value
+- (id)filterInvoked:(NSString *)filter withArguments:(NSArray *)args onValue:(id)value
 {
 	if ([filter isEqualToString:UPPERCASE]) {
 		return [[NSString stringWithFormat:@"%@", value] uppercaseString];
@@ -69,9 +73,9 @@
                 
                 const CGFloat *components = CGColorGetComponents(color);
                 NSString *colorHex = [NSString stringWithFormat:@"%02x%02x%02x",
-                                      (int)(components[0] * 255),
-                                      (int)(components[1] * 255),
-                                      (int)(components[2] * 255)];
+                                      (unsigned int)(components[0] * 255),
+                                      (unsigned int)(components[1] * 255),
+                                      (unsigned int)(components[2] * 255)];
                 return colorHex;
 #else
 				NSColor *color = [(NSColor *)value colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -79,9 +83,9 @@
 					return @"000000"; // black
 				} else {
 					NSString *colorHex = [NSString stringWithFormat:@"%02x%02x%02x", 
-										  (int)([color redComponent] * 255), 
-										  (int)([color greenComponent] * 255), 
-										  (int)([color blueComponent] * 255)];
+										  (unsigned int)([color redComponent] * 255),
+										  (unsigned int)([color greenComponent] * 255),
+										  (unsigned int)([color blueComponent] * 255)];
 					return colorHex;
 				}
 #endif

@@ -17,25 +17,16 @@
  if you prefer to use another regex framework, or use another matching method entirely.
  */
 
-@interface ICUTemplateMatcher : NSObject <MGTemplateEngineMatcher> {
-	MGTemplateEngine *__strong engine;
-	NSString *markerStart;
-	NSString *markerEnd;
-	NSString *exprStart;
-	NSString *exprEnd;
-	NSString *filterDelimiter;
-	NSString *templateString;
-	NSString *regex;
-}
+@interface ICUTemplateMatcher : NSObject <MGTemplateEngineMatcher>
 
-@property(strong) MGTemplateEngine *engine; // weak ref
-@property(strong) NSString *markerStart;
-@property(strong) NSString *markerEnd;
-@property(strong) NSString *exprStart;
-@property(strong) NSString *exprEnd;
-@property(strong) NSString *filterDelimiter;
-@property(strong) NSString *templateString;
-@property(strong) NSString *regex;
+@property(atomic,assign) MGTemplateEngine *engine; // weak ref
+@property(atomic,retain) NSString *markerStart;
+@property(atomic,retain) NSString *markerEnd;
+@property(atomic,retain) NSString *exprStart;
+@property(atomic,retain) NSString *exprEnd;
+@property(atomic,retain) NSString *filterDelimiter;
+@property(atomic,retain) NSString *templateString;
+@property(atomic,retain) NSString *regex;
 
 + (ICUTemplateMatcher *)matcherWithTemplateEngine:(MGTemplateEngine *)theEngine;
 

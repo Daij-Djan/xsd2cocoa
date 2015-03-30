@@ -12,7 +12,13 @@
 @implementation XMLUtils
 
 // Gets the node from another node by name
-+ (NSXMLNode*) getNode: (NSXMLNode*) element withName: (NSString*) name {
+/**
+ * Name:
+ * Parameters:
+ * Returns:
+ * Details:
+ */
++ (NSXMLNode*) getNode:(NSXMLNode*) element withName:(NSString*) name {
 	for(NSXMLNode* child in [element children]) {
 		if([child respondsToSelector:@selector(localName)] && [[child localName] isEqual: name]) {
 			return (NSXMLNode*)child;
@@ -28,7 +34,13 @@
 	return nil;
 }
 
-+ (NSString*)rootNodeNameFromURL:(NSURL*)url {
+/**
+ * Name:
+ * Parameters:
+ * Returns:
+ * Details:
+ */
++ (NSString*)rootNodeNameFromURL:(NSURL*) url {
     NSString* obj = nil;
     xmlTextReaderPtr reader = xmlReaderForFile( url.absoluteString.UTF8String,
                                                NULL,
@@ -46,7 +58,13 @@
 
 #pragma mark - 
 
-+ (NSNumber*) node: (NSXMLElement*) node boolAttribute: (NSString*) attribute {
+/**
+ * Name:
+ * Parameters:
+ * Returns:
+ * Details:
+ */
++ (NSNumber*) node:(NSXMLElement*) node boolAttribute:(NSString*) attribute {
     NSXMLNode* attrNode = [node attributeForName: attribute];
     
     if(attrNode) {
@@ -56,16 +74,29 @@
     return nil;
 }
 
-+ (NSString*) node: (NSXMLElement*) node stringAttribute: (NSString*) attribute {
+/**
+ * Name:
+ * Parameters:
+ * Returns:
+ * Details:
+ */
++ (NSString*) node:(NSXMLElement*) node stringAttribute:(NSString*) attribute {
     NSXMLNode* attrNode = [node attributeForName: attribute];
+    NSString *rtn = nil;
     
     if(attrNode) {
-        return[attrNode stringValue];
+        rtn = [attrNode stringValue];
     }
-    return nil;
+    return rtn;
 }
 
-+ (NSNumber*) node: (NSXMLElement*) node intAttribute: (NSString*) attribute {
+/**
+ * Name:
+ * Parameters:
+ * Returns:
+ * Details:
+ */
++ (NSNumber*) node:(NSXMLElement*) node intAttribute:(NSString*) attribute {
     NSXMLNode* attrNode = [node attributeForName: attribute];
     
     if(attrNode) {
@@ -75,7 +106,13 @@
     return nil;
 }
 
-+ (NSXMLElement*) node: (NSXMLElement*) element childWithName: (NSString*) name {
+/**
+ * Name:
+ * Parameters:
+ * Returns:
+ * Details:
+ */
++ (NSXMLElement*) node:(NSXMLElement*) element childWithName:(NSString*) name {
     for(NSXMLNode* child in [element children]) {
         if([child respondsToSelector:@selector(localName)] && [[child localName] isEqual: name]) {
             return (NSXMLElement*)child;
@@ -84,15 +121,18 @@
             return (NSXMLElement*)child;
         }
     }
-    //	for(NSXMLNode* child in [element children]) {
-    //		NSXMLElement* el = [self node: (NSXMLElement*)child childWithName: name];
-    //		if(el != nil) { return el; }
-    //	}
+    
     return nil;
 }
 
-
-+ (NSArray*) node: (NSXMLElement*) element childrenWithName: (NSString*) name {
+/**
+ * Name: node childrentWithName
+ * Parameters: (NSXMLElement *) - the current element, (NSString *) - the assumed type to check
+ * Returns: Returns the length of the children with the given name of the element
+ * Details: This public method will iterate the given element looking for children with the given name
+ *          and will return the array of children if they exist. Otherwise it will return an empty array
+ */
++ (NSArray*) node:(NSXMLElement*) element childrenWithName:(NSString*) name {
     NSMutableArray* children = [NSMutableArray array];
     for(NSXMLNode* child in [element children]) {
         if([child respondsToSelector:@selector(localName)] && [[child localName] isEqual: name]) {
@@ -102,10 +142,17 @@
             [children addObject: child];
         }
     }
+    
     return children;
 }
 
-+ (NSArray*) node: (NSXMLElement*) element descendantsWithName: (NSString*) name {
+/**
+ * Name:
+ * Parameters:
+ * Returns:
+ * Details:
+ */
++ (NSArray*) node:(NSXMLElement*) element descendantsWithName:(NSString*) name {
     NSMutableArray* children = [NSMutableArray array];
     for(NSXMLNode* child in [element children]) {
         if([child respondsToSelector:@selector(localName)] && [[child localName] isEqual: name]) {

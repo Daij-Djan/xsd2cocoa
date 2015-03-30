@@ -33,5 +33,8 @@
 
 - (id<XSType>) schemaType;
 - (NSString*) objcType;
-
+- (BOOL) hasEnumeration;
+- (NSArray *) enumerationValues;
+- (NSString *) buildEnumerationValues;
+- (NSString *) buildEnumerationNamesArray;
 @end

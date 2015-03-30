@@ -17,11 +17,13 @@
 //@property (readonly, nonatomic) NSArray* globalElements;
 @property (readonly, nonatomic) NSString* targetClassName;
 @property (readonly, nonatomic) NSString* arrayType;
+//@property (readonly, nonatomic) NSString* readEnumerationTemplate;
 @property (readonly, nonatomic) NSString* readAttributeTemplate;
 @property (readonly, nonatomic) NSString* readElementTemplate;
 @property (readonly, nonatomic) NSString* readValueCode;
 @property (readonly, nonatomic) NSString* readPrefixCode;
 @property (readonly, nonatomic) NSArray* includes;
+@property (strong, nonatomic) NSArray* enumerations;
 
 - (BOOL)supplyTemplates:(NSXMLNode*)node error:(NSError**)error;
 
