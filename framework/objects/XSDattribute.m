@@ -52,7 +52,7 @@
 }
 
 
-- (NSString*) objcType {
+- (NSString*) codeType {
     return [[self.schema typeForName: self.type] targetClassName];
 }
 

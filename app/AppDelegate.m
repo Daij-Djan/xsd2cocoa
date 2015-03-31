@@ -69,7 +69,12 @@
                         }
                         else if([name isEqualToString:@"template"]) {
                             self.templatePathTextfield.stringValue = url.path;
-                            [self.templateStyleMatrix selectCellWithTag:2];
+                            [self.templateStyleMatrix selectCellWithTag:3];
+                            
+                            if(self.advancedOptionsButton.state == NSOffState) {
+                                self.advancedOptionsButton.state = NSOnState;
+                                [self toggleAdvancedOptions:nil];
+                            }
                         }
                     }
                 }
@@ -88,7 +93,7 @@
     [self validateWriteButton];
 }
 
-- (IBAction)writeObjcCode:(id)sender {
+- (IBAction)writeCode:(id)sender {
     NSFileManager* fm = [NSFileManager defaultManager];
     
     //get dir if specified
@@ -131,16 +136,23 @@
     /* Specify the template, the default is the objective-c file defined in our project*/
     NSURL *templateUrl;
     switch (self.templateStyleMatrix.selectedTag) {
-        case 2:
+        case 3:
             if(!self.templatePathTextfield.stringValue.length) {
                 NSRunAlertPanel(@"Error", @"Custom Template selected but no path specified", @"OK", nil, nil);
                 return;
             }
             templateUrl = [NSURL fileURLWithPath:self.templatePathTextfield.stringValue];
             break;
-        default:
+        case 2:
             templateUrl = [[NSBundle bundleForClass:[XSDschema class]] URLForResource:@"template-objc" withExtension:@"xml"];
             break;
+
+        case 1:
+            templateUrl = [[NSBundle bundleForClass:[XSDschema class]] URLForResource:@"template-swift" withExtension:@"xml"];
+            break;
+            
+        default:
+            assert(NO);
     }
     /*************************************************************************************************************************
      *      LOAD THE TEMPLATES USED FOR THE HEADER/CLASS FILES
@@ -157,12 +169,12 @@
     
     /* Select the type of code that we want to generate (Framework, Library, or Source Code -- Default for us is source code) */
     XSDschemaGeneratorOptions productTypes = 0;
-    if(self.productTypeDynamicFramework.state==NSOnState) {
-        productTypes |= XSDschemaGeneratorOptionDynamicFramework;
-    }
-    if(self.productTypeStaticLibrary.state==NSOnState) {
-        productTypes |= XSDschemaGeneratorOptionStaticLibrary;
-    }
+//    if(self.productTypeDynamicFramework.state==NSOnState) {
+//        productTypes |= XSDschemaGeneratorOptionDynamicFramework;
+//    }
+//    if(self.productTypeStaticFramework.state==NSOnState) {
+//        productTypes |= XSDschemaGeneratorOptionStaticFramework;
+//    }
     if(self.productTypeSourceCode.state==NSOnState) {
         productTypes |= XSDschemaGeneratorOptionSourceCode;
     }
@@ -195,18 +207,18 @@
 }
 
 - (IBAction)showCustomTemplateHelp:(id)sender {
-    NSInteger res = NSRunInformationalAlertPanel(@"Custom Template", @"This converter uses a template.xml file to map xsd types to objC-classes and to define how elements are to be parsed.\n\nxsd2cocoa comes with a default template that generates code for ios/osx based on libxml.\n\nIf you want to modify that or add support for new specific simple types, copy the default, rewrite it and supply the new file here", @"I Want a new template", @"Close", nil);
+    NSInteger res = NSRunInformationalAlertPanel(@"Custom Template", @"This converter uses a template.xml file to map xsd types to Source code-classes and to define how elements are to be parsed.\n\nxsd2cocoa comes with a default template that generates code for ios/osx based on libxml.\n\nIf you want to modify that or add support for new specific simple types, copy the default, rewrite it and supply the new file here", @"I Want a new template", @"Close", nil);
     if(res == NSAlertDefaultReturn) {
         NSSavePanel *p = [NSSavePanel savePanel];
         p.canCreateDirectories = YES;
         [p beginWithCompletionHandler:^(NSInteger result) {
             if(result == NSFileHandlingPanelOKButton) {
-                NSURL *templateUrl = [[NSBundle bundleForClass:[XSDschema class]] URLForResource:@"template-objc" withExtension:@"xml"];
+                NSURL *templateUrl = [[NSBundle bundleForClass:[XSDschema class]] URLForResource:@"template-swift" withExtension:@"xml"];
                 NSURL *destinationUrl = p.URL;
                 if([[NSFileManager defaultManager] copyItemAtURL:templateUrl toURL:destinationUrl error:nil]) {
                     [[NSWorkspace sharedWorkspace] openURL:destinationUrl];
                     self.templatePathTextfield.stringValue = destinationUrl.path;
-                    [self.templateStyleMatrix selectCellWithTag:2];
+                    [self.templateStyleMatrix selectCellWithTag:3];
                     [self validateWriteButton];
                 }
             }
@@ -262,7 +274,7 @@
 - (void)validateWriteButton {
     self.writeButton.enabled = NO;
     switch (self.templateStyleMatrix.selectedTag) {
-        case 2:
+        case 3:
             //if we have all, go
             if(self.templatePathTextfield.stringValue.length) {
                 if(self.xsdFilePathTextfield.stringValue.length

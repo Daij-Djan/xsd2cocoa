@@ -14,8 +14,9 @@
 #import "XSDelement.h"
 #import "MGTemplateEngine.h"
 #import "ICUTemplateMatcher.h"
-#import "DDFrameworkWriter.h"
+//#import "DDFrameworkWriter.h"
 #import "XMLUtils.h"
+#import "DDUncrustifyFormatter.h"
 
 @interface XSDcomplexType (privateAccessors)
 @property (strong, nonatomic) NSArray* globalElements;
@@ -35,11 +36,17 @@
 @property (strong, nonatomic) NSString* complexTypeArrayType;
 @property (strong, nonatomic) NSString* readComplexTypeElementTemplate;
 @property (strong, nonatomic) NSString* readerClassTemplateString;
+@property (strong, nonatomic) NSString* readerClassTemplateExtension;
 @property (strong, nonatomic) NSString* readerHeaderTemplateString;
+@property (strong, nonatomic) NSString* readerHeaderTemplateExtension;
 @property (strong, nonatomic) NSString* classTemplateString;
+@property (strong, nonatomic) NSString* classTemplateExtension;
 @property (strong, nonatomic) NSString* headerTemplateString;
-@property (strong, nonatomic) NSArray* additionalFiles;
+@property (strong, nonatomic) NSString* headerTemplateExtension;
+@property (strong, nonatomic) NSDictionary* additionalFiles;
 @property (strong, nonatomic) NSString *targetNamespacePrefix;
+@property (strong, nonatomic) DDUncrustifyFormatter* formatter;
+
 @end
 
 @implementation XSDschema {
@@ -59,8 +66,8 @@
         
         /* Add basic simple types known in the built-in types */
         _knownSimpleTypeDict = [NSMutableDictionary dictionary];
-        for(XSSimpleType *aSimpleType in [XSSimpleType knownSimpleTypes]) {
-            [_knownSimpleTypeDict setValue:aSimpleType forKey:aSimpleType.name];
+        for(XSSimpleType *aSimpleType in [XSSimpleType knownSimpleTypesForSchema:self]) {
+            [_knownSimpleTypeDict setValue: aSimpleType forKey: aSimpleType.name];
         }
         
         /* Add custom simple types */
@@ -236,6 +243,7 @@
     
     /* Fetch the additional filter defined in the additionfield fields above */
     NSMutableArray *mAdditionalFiles = [NSMutableArray arrayWithCapacity:additionalFileNodes.count];
+    NSMutableDictionary *mAdditionalFiles = [NSMutableDictionary dictionaryWithCapacity:additionalFileNodes.count];
     for(NSXMLElement* fileNode in additionalFileNodes) {
         NSString *path = [[[NSBundle bundleForClass:[XSDschema class]] resourcePath] stringByAppendingPathComponent:[fileNode attributeForName:@"path"].stringValue];
         if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
@@ -246,15 +254,44 @@
         }
         
         if(path) {
-            [mAdditionalFiles addObject:path];
+            NSString *targetPath = [fileNode attributeForName:@"target_path"].stringValue;
+            
+            [mAdditionalFiles setObject:targetPath?targetPath:path forKey:path];
         }
     }
     /* If we have additonal files, add them to the schema */
     if(mAdditionalFiles.count) {
-        self.additionalFiles = [NSArray arrayWithArray:mAdditionalFiles];
+        self.additionalFiles = [NSDictionary dictionaryWithDictionary:mAdditionalFiles];
     }
     
     /* From the template, grab all the simple type elements and ensure that there wasn't an error */
+
+    //
+    //formatter style
+    //
+    NSArray* styleNodes = [xmlDoc nodesForXPath:@"/template[1]/format_style" error: error];
+    if(*error != nil) {
+        return NO;
+    }
+    for(NSXMLElement* styleNode in styleNodes) {
+        NSString *value = [styleNode stringValue];
+        if(value.length) {
+            if([value isEqualToString:@"objc"]) {
+                self.formatter = [DDUncrustifyFormatter objectiveCFormatter];
+            }
+            else if([value isEqualToString:@"swift"]) {
+                self.formatter = [DDUncrustifyFormatter swiftFormatter];
+            }
+            else if([[NSFileManager defaultManager] fileExistsAtPath:value]) {
+                self.formatter = [[DDUncrustifyFormatter alloc] initWithStylePath:value];
+            }
+        }
+        break;
+    }
+
+    //
+    //reading simple types and merging them with our known ones
+    //
     NSArray* simpleTypeNodes = [xmlDoc nodesForXPath:@"/template[1]/simpletype" error: error];
     if(*error != nil) {
         return NO;
@@ -275,9 +312,7 @@
         }
         else {
             [aSimpleType  supplyTemplates:aSimpleTypeNode error:error];
-            [_knownSimpleTypeDict setValue:aSimpleType forKey:aSimpleType.name];
-            //not a custom one though
-//            [((NSMutableArray*)self.simpleTypes) addObject: aSimpleType];
+            [_knownSimpleTypeDict setValue: aSimpleType forKey: aSimpleType.name];
         }
     }
     
@@ -289,6 +324,7 @@
     /* Assign the header file text from the fetched section */
     if(nodes != nil && nodes.count > 0) {
         self.headerTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        self.headerTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
     }
     
     
@@ -300,6 +336,7 @@
     /* Assign the class file text from the fetched section */
     if(nodes != nil && nodes.count > 0) {
         self.classTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        self.classTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
     }
     
     /* Fetch the... */
@@ -316,30 +353,31 @@
     if(*error != nil) {
         return NO;
     }
-    
     if(nodes != nil && nodes.count > 0) {
         self.complexTypeArrayType = [[nodes objectAtIndex: 0] attributeForName:@"arrayType"].stringValue;
     }
-    //
     
     nodes = [xmlDoc nodesForXPath:@"/template[1]/reader[1]/header" error: error];
     if(*error != nil) {
         return NO;
     }
-    
     if(nodes != nil && nodes.count > 0) {
         self.readerHeaderTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        self.readerHeaderTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
     }
     
     nodes = [xmlDoc nodesForXPath:@"/template[1]/reader[1]/class" error: error];
     if(*error != nil) {
         return NO;
     }
-    
     if(nodes != nil && nodes.count > 0) {
         self.readerClassTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        self.readerClassTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
     }
  
+    //
+    //load included schemes
+    //
     for (XSDschema *s in self.includedSchemas) {
         BOOL br = [s loadTemplate:templateUrl error:error];
         if(!br) {
@@ -499,6 +537,7 @@
         if(![self writeCodeInto:srcFolderUrl error:error]) {
             return NO;
         }
+        if(![self formatFilesInFolder:srcFolderUrl error:nil])  {
     }
 
     /* FRAMEWORK - If we want to write a framework */
@@ -516,21 +555,55 @@
         if(![self writeFrameworkTo:osxFolderUrl error:error]) {
             return NO;
         }
-
-        NSURL *iosFolderUrl = [productsFolderUrl URLByAppendingPathComponent:@"IOS" isDirectory:YES];
-        
-        if(![[NSFileManager defaultManager] createDirectoryAtURL:iosFolderUrl withIntermediateDirectories:YES attributes:nil error:error]) {
-            BOOL isDir;
-            if(![[NSFileManager defaultManager] fileExistsAtPath:iosFolderUrl.path isDirectory:&isDir] || !isDir) {
-                return NO;
-            }
-        }
-        
-        if(![self writeModuleTo:iosFolderUrl error:error]) {
-            return NO;
-        }
     }
-    
+
+//    NSURL *productsFolderUrl = [destinationFolder URLByAppendingPathComponent:@"Products" isDirectory:YES];
+
+//    //write Framework
+//    if (options & XSDschemaGeneratorOptionDynamicFramework) {
+//        NSURL *osxFolderUrl = [productsFolderUrl URLByAppendingPathComponent:@"OSX" isDirectory:YES];
+//        
+//        if(![[NSFileManager defaultManager] createDirectoryAtURL:osxFolderUrl withIntermediateDirectories:YES attributes:nil error:error]) {
+//            BOOL isDir;
+//            if(![[NSFileManager defaultManager] fileExistsAtPath:osxFolderUrl.path isDirectory:&isDir] || !isDir) {
+//                return NO;
+//            }
+//        }
+//        
+//        if(![self writeDynamicOSXFrameworkTo:osxFolderUrl error:error]) {
+//            return NO;
+//        }
+//
+//        NSURL *iosFolderUrl = [productsFolderUrl URLByAppendingPathComponent:@"IOS" isDirectory:YES];
+//        
+//        if(![[NSFileManager defaultManager] createDirectoryAtURL:iosFolderUrl withIntermediateDirectories:YES attributes:nil error:error]) {
+//            BOOL isDir;
+//            if(![[NSFileManager defaultManager] fileExistsAtPath:iosFolderUrl.path isDirectory:&isDir] || !isDir) {
+//                return NO;
+//            }
+//        }
+//        
+//        if(![self writeIOSModuleTo:iosFolderUrl error:error]) {
+//            return NO;
+//        }
+//    }
+//
+//    //write cross-platform static lib
+//    if (options & XSDschemaGeneratorOptionStaticFramework) {
+//        NSURL *bothFolderUrl = [productsFolderUrl URLByAppendingPathComponent:@"BOTH" isDirectory:YES];
+//        
+//        if(![[NSFileManager defaultManager] createDirectoryAtURL:bothFolderUrl withIntermediateDirectories:YES attributes:nil error:error]) {
+//            BOOL isDir;
+//            if(![[NSFileManager defaultManager] fileExistsAtPath:bothFolderUrl.path isDirectory:&isDir] || !isDir) {
+//                return NO;
+//            }
+//        }
+//        
+//        if(![self writeStaticFrameworkTo:bothFolderUrl error:error]) {
+//            return NO;
+//        }
+//    }
+
     return YES;
 }
 
@@ -550,8 +623,15 @@
     if(!self.complexTypeArrayType) {
         return NO;
     }
-    
-    /* Set up template engine with your chosen matcher. */
+
+    //copy additional files
+    [self.additionalFiles enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSString *srcPath = key;
+        NSString *destPath = [destinationFolder.path stringByAppendingPathComponent:obj];
+        [[NSFileManager defaultManager] copyItemAtPath:srcPath toPath:destPath error:nil];
+    }];
+
+    // Set up template engine with your chosen matcher.
     MGTemplateEngine *engine = [MGTemplateEngine templateEngine];
     [engine setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine]];
     
@@ -563,8 +643,7 @@
             NSString *result = [engine processTemplate:self.headerTemplateString
                                          withVariables:type.substitutionDict];
             
-            /* Create the header file path and write the results to it */
-            NSString* headerFileName = [NSString stringWithFormat: @"%@.h", type.targetClassFileName];
+            NSString* headerFileName = [NSString stringWithFormat: @"%@.%@", type.targetClassFileName, self.headerTemplateExtension];
             NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName];
             [result writeToURL: headerFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
 
@@ -580,8 +659,7 @@
             NSString *result = [engine processTemplate: self.classTemplateString
                                          withVariables: type.substitutionDict];
             
-            /* Create the class file path and write the results to it */
-            NSString* classFileName = [NSString stringWithFormat: @"%@.m", type.targetClassFileName];
+            NSString* classFileName = [NSString stringWithFormat: @"%@.%@", type.targetClassFileName, self.classTemplateExtension];
             NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName];
             [result writeToURL:classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
             
@@ -593,12 +671,11 @@
         
         /* Create the files for the global elements */
         if(type.globalElements.count) {
-            if (self.readerHeaderTemplateString != nil) {
-                /* Generate the code from the template and the variables */
+            if (self.readerHeaderTemplateString.length) {
                 NSString *result = [engine processTemplate: self.readerHeaderTemplateString
                                              withVariables: type.substitutionDict];
-                /* Create the header file path and write the results to it */
-                NSString* headerFileName = [NSString stringWithFormat: @"%@+File.h", type.targetClassFileName];
+                
+                NSString* headerFileName = [NSString stringWithFormat: @"%@+File.%@", type.targetClassFileName, self.readerHeaderTemplateExtension];
                 NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName];
                 [result writeToURL: headerFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
 
@@ -608,12 +685,11 @@
                 }
             }
             
-            if (self.readerClassTemplateString != nil) {
-                /* Generate the code from the template and the variables */
+            if (self.readerClassTemplateString.length) {
                 NSString *result = [engine processTemplate: self.readerClassTemplateString
                                              withVariables: type.substitutionDict];
-                /* Create the class file path and write the results to it */
-                NSString* classFileName = [NSString stringWithFormat: @"%@+File.m", type.targetClassFileName];
+                
+                NSString* classFileName = [NSString stringWithFormat: @"%@+File.%@", type.targetClassFileName, self.readerClassTemplateExtension];
                 NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName];
                 [result writeToURL: classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
                 
@@ -625,27 +701,24 @@
         }
     }
     
-    //copy additional files
-    for (NSString *filePath in self.additionalFiles) {
-        NSString *destPath = [destinationFolder.path stringByAppendingPathComponent:filePath.lastPathComponent];
-        [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destPath error:nil];
-    }
+    //umbrella header - objC hack
+    if([self.headerTemplateExtension isEqualToString:@"h"]) {
+        //add header
+        NSString *fileName = [NSString stringWithFormat:@"%@.h", self.schemaUrl.lastPathComponent.stringByDeletingPathExtension];
+        NSURL *filePath = [destinationFolder URLByAppendingPathComponent:fileName];
     
-    //add header
-    NSString *fileName = [NSString stringWithFormat:@"%@.h", self.schemaUrl.lastPathComponent.stringByDeletingPathExtension];
-    NSURL *filePath = [destinationFolder URLByAppendingPathComponent:fileName];
-    
-    //add includes for all other files
-    NSString *includes = [self contentOfUmbrellaHeaderForFolder:destinationFolder];
-    BOOL br = [includes writeToURL:filePath atomically:YES encoding:NSUTF8StringEncoding error:error];
-    if(!br) {
-        return NO;
+        //add includes for all other files
+        NSString *includes = [self contentOfObjcUmbrellaHeaderForFolder:destinationFolder];
+        BOOL br = [includes writeToURL:filePath atomically:YES encoding:NSUTF8StringEncoding error:error];
+        if(!br) {
+            return NO;
+        }
     }
     
     return YES;
 }
 
-- (NSString*)contentOfUmbrellaHeaderForFolder:(NSURL*)destinationFolder {
+- (NSString*)contentOfObjcUmbrellaHeaderForFolder:(NSURL*)destinationFolder {
     NSParameterAssert(destinationFolder);
     
     NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:destinationFolder
@@ -670,90 +743,241 @@
     return includes;
 }
 
-- (BOOL)writeFrameworkTo:(NSURL*)destinationFolder error:(NSError**)error {
-    NSURL *tmpFolderUrl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]]];
+- (BOOL) formatFilesInFolder: (NSURL*) destinationFolder
+                       error: (NSError**) error {
+    //CAN BE SKIPPED
+    if(!self.formatter) return YES;
     
-    if(![[NSFileManager defaultManager] createDirectoryAtURL:tmpFolderUrl withIntermediateDirectories:NO attributes:nil error:error]) {
-        return NO;
-    }
-    if(![self writeCodeInto:tmpFolderUrl error:error]) {
-        return NO;
-    }
+    NSParameterAssert(destinationFolder);
     
-    id name = self.schemaUrl.lastPathComponent.stringByDeletingPathExtension;
-    id bid = [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingFormat:@".%@-parser", name];
-    id files = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:tmpFolderUrl includingPropertiesForKeys:nil options:0 error:nil];
-    id flags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"x86_64", @"-framework", @"foundation", @"-lxml2", @"-I/usr/include/libxml2"];
-    id resources = @[self.schemaUrl.path];
+    NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:destinationFolder
+                                                                includingPropertiesForKeys:@[ NSURLNameKey, NSURLIsDirectoryKey ]
+                                                                                   options:NSDirectoryEnumerationSkipsPackageDescendants| NSDirectoryEnumerationSkipsHiddenFiles
+                                                                              errorHandler:nil];
     
-    if(![[DDFrameworkWriter sharedWriter] writeFrameworkWithIdentifier:bid
-                                                               andName:name
-                                                                atPath:tmpFolderUrl.path
-                                                            inputFiles:[files valueForKey:@"path"]
-                                                         resourceFiles:resources
-                                                       additionalFlags:flags
-                                                                 error:error]) {
-        return NO;
-    }
-
-    NSURL *frameworkSrc = [[tmpFolderUrl URLByAppendingPathComponent:name] URLByAppendingPathExtension:@"framework"];
-    
-    NSURL *frameworkDest = [[destinationFolder URLByAppendingPathComponent:name] URLByAppendingPathExtension:@"framework"];
-    
-    if([[NSFileManager defaultManager] fileExistsAtPath:frameworkDest.path]) {
-        if(![[NSFileManager defaultManager] removeItemAtURL:frameworkDest error:error]) {
-            return NO;
+    NSMutableArray *files = [NSMutableArray array];
+    for (NSURL *theURL in dirEnumerator) {
+        NSNumber *isDirectory;
+        [theURL getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+        if (![isDirectory boolValue]) {
+            [files addObject:theURL.path];
         }
+    }
 
-    }
-    if(![[NSFileManager defaultManager] copyItemAtURL:frameworkSrc toURL:frameworkDest error:error]) {
-        return NO;
-    }
+    NSArray *formatted = [self.formatter formatFiles:files error:error];
     
-    return [[NSFileManager defaultManager] removeItemAtURL:tmpFolderUrl error:error];
+    return (formatted.count == files.count);
 }
 
-- (BOOL)writeModuleTo:(NSURL*)destinationFolder error:(NSError**)error {
-    NSURL *tmpFolderUrl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]]];
-    
-    if(![[NSFileManager defaultManager] createDirectoryAtURL:tmpFolderUrl withIntermediateDirectories:NO attributes:nil error:error]) {
-        return NO;
-    }
-    if(![self writeCodeInto:tmpFolderUrl error:error]) {
-        return NO;
-    }
-    
-    id name = self.schemaUrl.lastPathComponent.stringByDeletingPathExtension;
-    id bid = [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingFormat:@".%@-parser", name];
-    id files = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:tmpFolderUrl includingPropertiesForKeys:nil options:0 error:nil];
-    id flags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"armv7", @"-framework", @"foundation", @"-lxml2", @"-I/usr/include/libxml2", @"-isysroot", @"/Applications/Xcode-Beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk"];
-    id resources = @[self.schemaUrl.path];
-    
-    if(![[DDFrameworkWriter sharedWriter] writeModuleWithIdentifier:bid
-                                                            andName:name
-                                                             atPath:tmpFolderUrl.path
-                                                         inputFiles:[files valueForKey:@"path"]
-                                                         resourceFiles:resources
-                                                       additionalFlags:flags
-                                                                 error:error]) {
-        return NO;
-    }
-    
-    NSURL *frameworkSrc = [[tmpFolderUrl URLByAppendingPathComponent:name] URLByAppendingPathExtension:@"framework"];
-    
-    NSURL *frameworkDest = [[destinationFolder URLByAppendingPathComponent:name] URLByAppendingPathExtension:@"framework"];
-    
-    if([[NSFileManager defaultManager] fileExistsAtPath:frameworkDest.path]) {
-        if(![[NSFileManager defaultManager] removeItemAtURL:frameworkDest error:error]) {
-            return NO;
-        }
-        
-    }
-    if(![[NSFileManager defaultManager] copyItemAtURL:frameworkSrc toURL:frameworkDest error:error]) {
-        return NO;
-    }
-    
-    return [[NSFileManager defaultManager] removeItemAtURL:tmpFolderUrl error:error];
-}
+//#pragma mark -
+//
+//- (BOOL)writeDynamicOSXFrameworkTo:(NSURL*)destinationFolder error:(NSError**)error {
+//    NSURL *tmpFolderUrl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]]];
+//    
+//    if(![[NSFileManager defaultManager] createDirectoryAtURL:tmpFolderUrl withIntermediateDirectories:NO attributes:nil error:error]) {
+//        return NO;
+//    }
+//    if(![self writeCodeInto:tmpFolderUrl error:error]) {
+//        return NO;
+//    }
+//    if(![self formatFilesInFolder:tmpFolderUrl error:nil])  {
+//        return NO;
+//    }
+//    
+//    //compile it
+//    NSMutableArray *libraries = [NSMutableArray array];
+//    
+//    id files = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:tmpFolderUrl includingPropertiesForKeys:nil options:0 error:nil];
+//
+//    id flags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"x86_64", @"-framework", @"foundation", @"-lxml2", @"-I/usr/include/libxml2"];
+//    NSURL *targetPath = [destinationFolder URLByAppendingPathComponent:@"x86_64.dylib"];
+//    if(![[DDFrameworkWriter sharedWriter] createDynamicLibAt:targetPath.path
+//                                                  inputFiles:files
+//                                             additionalFlags:flags
+//                                                       error:error]) {
+//        return NO;
+//    }
+//    [libraries addObject:targetPath];
+//    
+//    
+//     id name = self.schemaUrl.lastPathComponent.stringByDeletingPathExtension;
+//     id bid = [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingFormat:@".%@-parser", name];
+//     NSArray *headers = [[files valueForKeyPath:@"path"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF endswith %@", @".h"]];
+//     
+//     //compile it and make it a framework
+//     if(![[DDFrameworkWriter sharedWriter] writeFrameworkWithIdentifier:bid
+//                                                                andName:name
+//                                                                 atPath:tmpFolderUrl.path
+//                                                              libraries:libraries
+//                                                                headers:headers
+//                                                          resourceFiles:nil
+//                                                                  error:error]) {
+//        return NO;
+//    }
+//     
+//     NSURL *frameworkSrc = [[tmpFolderUrl URLByAppendingPathComponent:name] URLByAppendingPathExtension:@"framework"];
+//     
+//     NSURL *frameworkDest = [[destinationFolder URLByAppendingPathComponent:name] URLByAppendingPathExtension:@"framework"];
+//     
+//     if([[NSFileManager defaultManager] fileExistsAtPath:frameworkDest.path]) {
+//         if(![[NSFileManager defaultManager] removeItemAtURL:frameworkDest error:error]) {
+//             return NO;
+//         }
+//         
+//     }
+//     if(![[NSFileManager defaultManager] copyItemAtURL:frameworkSrc toURL:frameworkDest error:error]) {
+//         return NO;
+//     }
+//     
+//     return [[NSFileManager defaultManager] removeItemAtURL:tmpFolderUrl error:error];
+//}
+//
+//- (BOOL)writeIOSModuleTo:(NSURL*)destinationFolder error:(NSError**)error {
+//    NSURL *tmpFolderUrl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]]];
+//    
+//    if(![[NSFileManager defaultManager] createDirectoryAtURL:tmpFolderUrl withIntermediateDirectories:NO attributes:nil error:error]) {
+//        return NO;
+//    }
+//    if(![self writeCodeInto:tmpFolderUrl error:error]) {
+//        return NO;
+//    }
+//    if(![self formatFilesInFolder:tmpFolderUrl error:nil])  {
+//        return NO;
+//    }
+//    
+//    //compile it
+//    NSMutableArray *libraries = [NSMutableArray array];
+//    
+//    id files = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:tmpFolderUrl includingPropertiesForKeys:nil options:0 error:nil];
+//    id flags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"arm64", @"-framework", @"foundation", @"-lxml2", @"-I/usr/include/libxml2", @"-isysroot", @"/Applications/Xcode-Beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk"];
+//    NSURL *targetPath = [destinationFolder URLByAppendingPathComponent:@"arm64.dylib"];
+//    if(![[DDFrameworkWriter sharedWriter] createDynamicLibAt:targetPath.path
+//                                                  inputFiles:files
+//                                             additionalFlags:flags
+//                                                       error:error]) {
+//        return NO;
+//    }
+//    [libraries addObject:targetPath];
+//
+//    flags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"armv7", @"-framework", @"foundation", @"-lxml2", @"-I/usr/include/libxml2", @"-isysroot", @"/Applications/Xcode-Beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk"];
+//    targetPath = [destinationFolder URLByAppendingPathComponent:@"armv7.dylib"];
+//    if(![[DDFrameworkWriter sharedWriter] createDynamicLibAt:targetPath.path
+//                                                  inputFiles:files
+//                                             additionalFlags:flags
+//                                                       error:error]) {
+//        return NO;
+//    }
+//    [libraries addObject:targetPath];
+//
+//    //compile it and make it a module
+//    id name = self.schemaUrl.lastPathComponent.stringByDeletingPathExtension;
+//    id bid = [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingFormat:@".%@-parser", name];
+//    NSArray *headers = [[files valueForKeyPath:@"path"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF endswith %@", @".h"]];
+//    
+//    if(![[DDFrameworkWriter sharedWriter] writeModuleWithIdentifier:bid
+//                                                            andName:name
+//                                                             atPath:tmpFolderUrl.path
+//                                                          libraries:libraries
+//                                                            headers:headers
+//                                                      resourceFiles:nil
+//                                                                 error:error]) {
+//        return NO;
+//    }
+//    
+//    NSURL *frameworkSrc = [[tmpFolderUrl URLByAppendingPathComponent:name] URLByAppendingPathExtension:@"framework"];
+//    
+//    NSURL *frameworkDest = [[destinationFolder URLByAppendingPathComponent:name] URLByAppendingPathExtension:@"framework"];
+//    
+//    if([[NSFileManager defaultManager] fileExistsAtPath:frameworkDest.path]) {
+//        if(![[NSFileManager defaultManager] removeItemAtURL:frameworkDest error:error]) {
+//            return NO;
+//        }
+//        
+//    }
+//    if(![[NSFileManager defaultManager] copyItemAtURL:frameworkSrc toURL:frameworkDest error:error]) {
+//        return NO;
+//    }
+//    
+//    return [[NSFileManager defaultManager] removeItemAtURL:tmpFolderUrl error:error];
+//}
+//
+//- (BOOL)writeStaticFrameworkTo:(NSURL*)destinationFolder error:(NSError**)error {
+//    NSURL *tmpFolderUrl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]]];
+//    
+//    if(![[NSFileManager defaultManager] createDirectoryAtURL:tmpFolderUrl withIntermediateDirectories:NO attributes:nil error:error]) {
+//        return NO;
+//    }
+//    if(![self writeCodeInto:tmpFolderUrl error:error]) {
+//        return NO;
+//    }
+//    if(![self formatFilesInFolder:tmpFolderUrl error:nil])  {
+//        return NO;
+//    }
+//    
+//    //compile it
+//    NSMutableArray *libraries = [NSMutableArray array];
+//    
+//    id flags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-staticlib", @"-arch", @"x86_64", @"-framework", @"foundation", @"-lxml2", @"-I/usr/include/libxml2"];
+//    NSURL *targetPath = [destinationFolder URLByAppendingPathComponent:@"x86_64.a"];
+//    id files = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:tmpFolderUrl includingPropertiesForKeys:nil options:0 error:nil];
+//    if(![[DDFrameworkWriter sharedWriter] createStaticLibAt:targetPath.path
+//                                                 inputFiles:files
+//                                            additionalFlags:flags
+//                                                      error:error]) {
+//        return NO;
+//    }
+//    [libraries addObject:targetPath];
+//
+//    flags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-staticlib", @"-arch", @"arm64", @"-framework", @"foundation", @"-lxml2", @"-I/usr/include/libxml2", @"-isysroot", @"/Applications/Xcode-Beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk"];
+//    targetPath = [destinationFolder URLByAppendingPathComponent:@"arm64.dylib"];
+//    if(![[DDFrameworkWriter sharedWriter] createStaticLibAt:targetPath.path
+//                                                 inputFiles:files
+//                                            additionalFlags:flags
+//                                                      error:error]) {
+//        return NO;
+//    }
+//    [libraries addObject:targetPath];
+//    
+//    flags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-staticlib", @"-arch", @"armv7", @"-framework", @"foundation", @"-lxml2", @"-I/usr/include/libxml2", @"-isysroot", @"/Applications/Xcode-Beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk"];
+//    targetPath = [destinationFolder URLByAppendingPathComponent:@"arm64.dylib"];
+//    if(![[DDFrameworkWriter sharedWriter] createStaticLibAt:targetPath.path
+//                                                 inputFiles:files
+//                                            additionalFlags:flags
+//                                                      error:error]) {
+//        return NO;
+//    }
+//    [libraries addObject:targetPath];
+//    
+//    id name = self.schemaUrl.lastPathComponent.stringByDeletingPathExtension;
+//    id bid = [[[NSBundle mainBundle] bundleIdentifier] stringByAppendingFormat:@".%@-parser", name];
+//    NSArray *headers = [[files valueForKeyPath:@"path"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF endswith %@", @".h"]];
+//    
+//    //compile it and make it a framework
+//    if(![[DDFrameworkWriter sharedWriter] writeFrameworkWithIdentifier:bid
+//                                                               andName:name
+//                                                                atPath:tmpFolderUrl.path
+//                                                            libraries:libraries
+//                                                               headers:headers
+//                                                         resourceFiles:nil
+//                                                                 error:error]) {
+//        return NO;
+//    }
+//    
+//    NSURL *frameworkSrc = [[tmpFolderUrl URLByAppendingPathComponent:name] URLByAppendingPathExtension:@"framework"];
+//    
+//    NSURL *frameworkDest = [[destinationFolder URLByAppendingPathComponent:name] URLByAppendingPathExtension:@"framework"];
+//    
+//    if([[NSFileManager defaultManager] fileExistsAtPath:frameworkDest.path]) {
+//        if(![[NSFileManager defaultManager] removeItemAtURL:frameworkDest error:error]) {
+//            return NO;
+//        }
+//        
+//    }
+//    if(![[NSFileManager defaultManager] copyItemAtURL:frameworkSrc toURL:frameworkDest error:error]) {
+//        return NO;
+//    }
+//    
+//    return [[NSFileManager defaultManager] removeItemAtURL:tmpFolderUrl error:error];
+//}
 
 @end

@@ -9,10 +9,11 @@
 
 @protocol XSType;
 @class XSDcomplexType;
+@class DDUncrustifyFormatter;
 
 typedef enum : NSUInteger {
-    XSDschemaGeneratorOptionDynamicFramework=2,
-    XSDschemaGeneratorOptionStaticLibrary=4,
+//    XSDschemaGeneratorOptionDynamicFramework=2,
+//    XSDschemaGeneratorOptionStaticFramework=4,
     XSDschemaGeneratorOptionSourceCode=8,
 } XSDschemaGeneratorOptions;
 
@@ -40,7 +41,8 @@ typedef enum : NSUInteger {
 @property (readonly, nonatomic) NSString* readerHeaderTemplateString;
 @property (readonly, nonatomic) NSString* classTemplateString;
 @property (readonly, nonatomic) NSString* headerTemplateString;
-@property (readonly, nonatomic) NSArray* additionalFiles;
+@property (readonly, nonatomic) NSDictionary* additionalFiles;//keys=dest, values=src
+@property (readonly, nonatomic) DDUncrustifyFormatter* formatter;
 
 - (BOOL) loadTemplate: (NSURL*) templateUrl error: (NSError**) error;
 - (id<XSType>) typeForName: (NSString*) qname; //this will only return proper type info when called during generation

@@ -85,6 +85,7 @@
     return (self.type != nil && [[self.schema typeForName:self.type] isKindOfClass:[XSDcomplexType class]]);
 }
 
+- (NSString*) codeType {
 - (NSString*) objcType {
     NSString* rtn;
     if([self isSingleValue]) {

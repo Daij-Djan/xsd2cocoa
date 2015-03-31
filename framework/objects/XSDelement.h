@@ -37,4 +37,6 @@
 - (NSArray *) enumerationValues;
 - (NSString *) buildEnumerationValues;
 - (NSString *) buildEnumerationNamesArray;
+- (NSString*) codeType;
+
 @end

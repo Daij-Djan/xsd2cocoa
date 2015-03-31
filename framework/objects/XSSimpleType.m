@@ -11,7 +11,10 @@
 #import "MGTemplateEngine.h"
 #import "ICUTemplateMatcher.h"
 #import "XSDattribute.h"
+<<<<<<< HEAD
 #import "XSDenumeration.h"
+=======
+>>>>>>> begin swift support
 #import "XSDschema.h"
 
 @interface XSSimpleType ()
@@ -82,8 +85,46 @@
     return self;
 } 
 
+- (id) initWithName: (NSString*) name baseType: (NSString*)baseType schema: (XSDschema*) schema {
+    self = [super initWithNode:nil schema:schema];
+    if (self) {
+        engine = [MGTemplateEngine templateEngine];
+        [engine setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine]];
+        
+        self.name = name;
+        self.baseType = baseType;
+    }
+    
+    return self;
+} 
+
+- (XSSimpleType *)typeForTemplate {
+    XSSimpleType *t = self;
+    
+    while (!t->_targetClassName && t->_baseType) {
+        XSSimpleType *nT = (XSSimpleType*)[t.schema typeForName:t->_baseType];
+        if(nT == t) {
+            //same type
+            break;
+        }
+        t = nT;
+    }
+    
+    return t;
+}
+
+- (NSString *)targetClassName {
+    XSSimpleType *t = self.typeForTemplate;
+    return t->_targetClassName;
+}
+
 - (NSString *)targetClassFileName {
     return self.targetClassName;
+}
+
+- (NSString *)arrayType {
+    XSSimpleType *t = self.typeForTemplate;
+    return t->_arrayType;
 }
 
 #pragma mark template matching
@@ -99,7 +140,6 @@
     engine = [MGTemplateEngine templateEngine];
     [engine setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine]];
     
-    self.targetClassName = [[element attributeForName: @"baseType"] stringValue];
     self.targetClassName = [[element attributeForName: @"objType"] stringValue];
     self.arrayType = [[element attributeForName: @"arrayType"] stringValue];
     self.name = [[element attributeForName: @"name"] stringValue];
@@ -154,6 +194,7 @@
     return YES;
 }
 
+<<<<<<< HEAD
 //- (NSString *) readCodeForEnumeration:(XSDenumeration *)enumeration{
 //    NSString *rtn;
 //    NSDictionary* dict = [NSDictionary dictionaryWithObject:enumeration forKey:@"enumeration"];
@@ -184,9 +225,41 @@
     @finally {}
    
     return rtn;
+=======
+- (NSString *)readAttributeTemplate {
+    XSSimpleType *t = self.typeForTemplate;
+    return t->_readAttributeTemplate;
+}
+
+- (NSString*) readCodeForAttribute: (XSDattribute*) attribute {
+    NSDictionary* dict = [NSDictionary dictionaryWithObject: attribute forKey: @"attribute"];
+    return [engine processTemplate: self.readAttributeTemplate withVariables: dict];
+}
+
+
+- (NSString *)readElementTemplate {
+    XSSimpleType *t = self.typeForTemplate;
+    return t->_readElementTemplate;
+}
+
+- (NSString*) readCodeForElement: (XSDelement*) element {
+    NSDictionary* dict = [NSDictionary dictionaryWithObject: element forKey: @"element"];
+    return [engine processTemplate: self.readElementTemplate withVariables: dict];
+>>>>>>> begin swift support
+}
+
+- (NSString *)readValueCode {
+    XSSimpleType *t = self.typeForTemplate;
+    return t->_readValueCode;
+}
+
+- (NSString *)readPrefixCode {
+    XSSimpleType *t = self.typeForTemplate;
+    return t->_readPrefixCode;
 }
 
 #pragma mark
+<<<<<<< HEAD
 /**
  * Name:        knownSimpleTypes
  * Parameters:  None
@@ -195,6 +268,10 @@
  *              types listed in the datatypes.xml file in our project.
  */
 + (NSArray *)knownSimpleTypes {
+=======
+
++ (NSArray *)knownSimpleTypesForSchema:(XSDschema*)schema {
+>>>>>>> begin swift support
     NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"datatypes" withExtension:@"xml"];
     NSData* data = [NSData dataWithContentsOfURL: url];
     NSXMLDocument* doc = [[NSXMLDocument alloc] initWithData:data options:0 error:nil];
@@ -210,10 +287,14 @@
     for (NSXMLElement *element in iNodes) {
         id base = [XMLUtils node:element stringAttribute:@"base"];
         id name = [XMLUtils node:element stringAttribute:@"name"];
+<<<<<<< HEAD
         XSSimpleType *st = [[[self class] alloc] init];
 
         st.baseType = base;
         st.name = name;
+=======
+        XSSimpleType *st = [[[self class] alloc] initWithName:name baseType:base schema:schema];
+>>>>>>> begin swift support
         [types addObject:st];
     }
     return types;

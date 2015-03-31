@@ -7,11 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B48A9BB0185E5EBA00A4C3D2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B48A9BA4185E5EBA00A4C3D2 /* main.m */; };
-		B4BD0F5F1A439E3E002B7038 /* MYCOMPANYAddress+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BD0F581A439E3E002B7038 /* MYCOMPANYAddress+File.m */; };
-		B4BD0F601A439E3E002B7038 /* MYCOMPANYAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BD0F5A1A439E3E002B7038 /* MYCOMPANYAddress.m */; };
-		B4BD0F611A439E3E002B7038 /* MYCOMPANYStreetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BD0F5C1A439E3E002B7038 /* MYCOMPANYStreetInfo.m */; };
-		B4BD0F621A439E3E002B7038 /* MYCOMPANYUnitInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BD0F5E1A439E3E002B7038 /* MYCOMPANYUnitInfo.m */; };
+		B444BE8B1A61D15900FCA8DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444BE8A1A61D15900FCA8DA /* AppDelegate.swift */; };
+		B444BE8D1A61D15900FCA8DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444BE8C1A61D15900FCA8DA /* ViewController.swift */; };
+		B444BE901A61D15A00FCA8DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B444BE8E1A61D15900FCA8DA /* Main.storyboard */; };
+		B444BE921A61D15A00FCA8DA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B444BE911A61D15A00FCA8DA /* Images.xcassets */; };
+		B444BE951A61D15A00FCA8DA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B444BE931A61D15A00FCA8DA /* LaunchScreen.xib */; };
+		B444BEA81A61D2BC00FCA8DA /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D65C5D185D1F2000D1BE85 /* libxml2.dylib */; };
+		B444BEB91A61D4F500FCA8DA /* MYCOMPANYAddress+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B444BEB11A61D4F500FCA8DA /* MYCOMPANYAddress+File.m */; };
+		B444BEBA1A61D4F500FCA8DA /* MYCOMPANYAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = B444BEB31A61D4F500FCA8DA /* MYCOMPANYAddress.m */; };
+		B444BEBB1A61D4F500FCA8DA /* MYCOMPANYStreetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B444BEB51A61D4F500FCA8DA /* MYCOMPANYStreetInfo.m */; };
+		B444BEBC1A61D4F500FCA8DA /* MYCOMPANYUnitInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B444BEB71A61D4F500FCA8DA /* MYCOMPANYUnitInfo.m */; };
+		B444BEBD1A61D4F500FCA8DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B444BEB81A61D4F500FCA8DA /* main.m */; };
+		B444BEC91A61D51A00FCA8DA /* !!!use as output folder.xml in Resources */ = {isa = PBXBuildFile; fileRef = B444BEBF1A61D51A00FCA8DA /* !!!use as output folder.xml */; };
+		B444BECA1A61D51A00FCA8DA /* MYCOMPANYAddress+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444BEC21A61D51A00FCA8DA /* MYCOMPANYAddress+File.swift */; };
+		B444BECB1A61D51A00FCA8DA /* MYCOMPANYAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444BEC41A61D51A00FCA8DA /* MYCOMPANYAddress.swift */; };
+		B444BECC1A61D51A00FCA8DA /* MYCOMPANYStreetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444BEC61A61D51A00FCA8DA /* MYCOMPANYStreetInfo.swift */; };
+		B444BECD1A61D51A00FCA8DA /* MYCOMPANYUnitInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444BEC81A61D51A00FCA8DA /* MYCOMPANYUnitInfo.swift */; };
+		B444BECE1A61D62B00FCA8DA /* Address.xml in Resources */ = {isa = PBXBuildFile; fileRef = B4BD0F501A439E1F002B7038 /* Address.xml */; };
 		B4D65C39185C96D600D1BE85 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D65C38185C96D600D1BE85 /* Foundation.framework */; };
 		B4D65C5E185D1F2000D1BE85 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D65C5D185D1F2000D1BE85 /* libxml2.dylib */; };
 /* End PBXBuildFile section */
@@ -29,27 +41,48 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B48A9BA4185E5EBA00A4C3D2 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B444BE861A61D15900FCA8DA /* addressTest_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = addressTest_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B444BE891A61D15900FCA8DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B444BE8A1A61D15900FCA8DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		B444BE8C1A61D15900FCA8DA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B444BE8F1A61D15900FCA8DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B444BE911A61D15A00FCA8DA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B444BE941A61D15A00FCA8DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		B444BEAA1A61D41500FCA8DA /* libxml-bridging-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libxml-bridging-header.h"; sourceTree = "<group>"; };
+		B444BEAE1A61D4F500FCA8DA /* !!!use as output folder.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "!!!use as output folder.xml"; sourceTree = "<group>"; };
+		B444BEAF1A61D4F500FCA8DA /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
+		B444BEB01A61D4F500FCA8DA /* MYCOMPANYAddress+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MYCOMPANYAddress+File.h"; sourceTree = "<group>"; };
+		B444BEB11A61D4F500FCA8DA /* MYCOMPANYAddress+File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MYCOMPANYAddress+File.m"; sourceTree = "<group>"; };
+		B444BEB21A61D4F500FCA8DA /* MYCOMPANYAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYCOMPANYAddress.h; sourceTree = "<group>"; };
+		B444BEB31A61D4F500FCA8DA /* MYCOMPANYAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYCOMPANYAddress.m; sourceTree = "<group>"; };
+		B444BEB41A61D4F500FCA8DA /* MYCOMPANYStreetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYCOMPANYStreetInfo.h; sourceTree = "<group>"; };
+		B444BEB51A61D4F500FCA8DA /* MYCOMPANYStreetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYCOMPANYStreetInfo.m; sourceTree = "<group>"; };
+		B444BEB61A61D4F500FCA8DA /* MYCOMPANYUnitInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYCOMPANYUnitInfo.h; sourceTree = "<group>"; };
+		B444BEB71A61D4F500FCA8DA /* MYCOMPANYUnitInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYCOMPANYUnitInfo.m; sourceTree = "<group>"; };
+		B444BEB81A61D4F500FCA8DA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		B444BEBF1A61D51A00FCA8DA /* !!!use as output folder.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "!!!use as output folder.xml"; sourceTree = "<group>"; };
+		B444BEC21A61D51A00FCA8DA /* MYCOMPANYAddress+File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MYCOMPANYAddress+File.swift"; sourceTree = "<group>"; };
+		B444BEC41A61D51A00FCA8DA /* MYCOMPANYAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MYCOMPANYAddress.swift; sourceTree = "<group>"; };
+		B444BEC61A61D51A00FCA8DA /* MYCOMPANYStreetInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MYCOMPANYStreetInfo.swift; sourceTree = "<group>"; };
+		B444BEC81A61D51A00FCA8DA /* MYCOMPANYUnitInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MYCOMPANYUnitInfo.swift; sourceTree = "<group>"; };
 		B4BD0F501A439E1F002B7038 /* Address.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Address.xml; sourceTree = "<group>"; };
 		B4BD0F511A439E1F002B7038 /* Address.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Address.xsd; sourceTree = "<group>"; };
 		B4BD0F521A439E1F002B7038 /* StreetInfo.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = StreetInfo.xsd; sourceTree = "<group>"; };
 		B4BD0F531A439E1F002B7038 /* UnitInfo.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = UnitInfo.xsd; sourceTree = "<group>"; };
-		B4BD0F551A439E3E002B7038 /* !!!use as output folder.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "!!!use as output folder.xml"; sourceTree = "<group>"; };
-		B4BD0F561A439E3E002B7038 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
-		B4BD0F571A439E3E002B7038 /* MYCOMPANYAddress+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MYCOMPANYAddress+File.h"; sourceTree = "<group>"; };
-		B4BD0F581A439E3E002B7038 /* MYCOMPANYAddress+File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MYCOMPANYAddress+File.m"; sourceTree = "<group>"; };
-		B4BD0F591A439E3E002B7038 /* MYCOMPANYAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYCOMPANYAddress.h; sourceTree = "<group>"; };
-		B4BD0F5A1A439E3E002B7038 /* MYCOMPANYAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYCOMPANYAddress.m; sourceTree = "<group>"; };
-		B4BD0F5B1A439E3E002B7038 /* MYCOMPANYStreetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYCOMPANYStreetInfo.h; sourceTree = "<group>"; };
-		B4BD0F5C1A439E3E002B7038 /* MYCOMPANYStreetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYCOMPANYStreetInfo.m; sourceTree = "<group>"; };
-		B4BD0F5D1A439E3E002B7038 /* MYCOMPANYUnitInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYCOMPANYUnitInfo.h; sourceTree = "<group>"; };
-		B4BD0F5E1A439E3E002B7038 /* MYCOMPANYUnitInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYCOMPANYUnitInfo.m; sourceTree = "<group>"; };
 		B4D65C35185C96D600D1BE85 /* addressTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = addressTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4D65C38185C96D600D1BE85 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B4D65C5D185D1F2000D1BE85 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B444BE831A61D15900FCA8DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B444BEA81A61D2BC00FCA8DA /* libxml2.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B4D65C32185C96D600D1BE85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -62,32 +95,78 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B4BD0F541A439E3E002B7038 /* Address */ = {
+		B444BE871A61D15900FCA8DA /* addressTest_ios_swift */ = {
 			isa = PBXGroup;
 			children = (
-				B4BD0F551A439E3E002B7038 /* !!!use as output folder.xml */,
-				B4BD0F561A439E3E002B7038 /* Address.h */,
-				B4BD0F571A439E3E002B7038 /* MYCOMPANYAddress+File.h */,
-				B4BD0F581A439E3E002B7038 /* MYCOMPANYAddress+File.m */,
-				B4BD0F591A439E3E002B7038 /* MYCOMPANYAddress.h */,
-				B4BD0F5A1A439E3E002B7038 /* MYCOMPANYAddress.m */,
-				B4BD0F5B1A439E3E002B7038 /* MYCOMPANYStreetInfo.h */,
-				B4BD0F5C1A439E3E002B7038 /* MYCOMPANYStreetInfo.m */,
-				B4BD0F5D1A439E3E002B7038 /* MYCOMPANYUnitInfo.h */,
-				B4BD0F5E1A439E3E002B7038 /* MYCOMPANYUnitInfo.m */,
+				B444BEBE1A61D51A00FCA8DA /* Generated */,
+				B444BE8A1A61D15900FCA8DA /* AppDelegate.swift */,
+				B444BE8C1A61D15900FCA8DA /* ViewController.swift */,
+				B444BE8E1A61D15900FCA8DA /* Main.storyboard */,
+				B444BE911A61D15A00FCA8DA /* Images.xcassets */,
+				B444BE931A61D15A00FCA8DA /* LaunchScreen.xib */,
+				B444BE881A61D15900FCA8DA /* Supporting Files */,
+				B444BEAA1A61D41500FCA8DA /* libxml-bridging-header.h */,
 			);
-			path = Address;
+			name = addressTest_ios_swift;
+			path = addressTest_ios;
+			sourceTree = "<group>";
+		};
+		B444BE881A61D15900FCA8DA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B444BE891A61D15900FCA8DA /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B444BEAC1A61D4F500FCA8DA /* addressTest_osx_objc */ = {
+			isa = PBXGroup;
+			children = (
+				B444BEAD1A61D4F500FCA8DA /* Generated */,
+				B444BEB81A61D4F500FCA8DA /* main.m */,
+			);
+			name = addressTest_osx_objc;
+			path = addressTest_osx;
+			sourceTree = "<group>";
+		};
+		B444BEAD1A61D4F500FCA8DA /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				B444BEAE1A61D4F500FCA8DA /* !!!use as output folder.xml */,
+				B444BEAF1A61D4F500FCA8DA /* Address.h */,
+				B444BEB01A61D4F500FCA8DA /* MYCOMPANYAddress+File.h */,
+				B444BEB11A61D4F500FCA8DA /* MYCOMPANYAddress+File.m */,
+				B444BEB21A61D4F500FCA8DA /* MYCOMPANYAddress.h */,
+				B444BEB31A61D4F500FCA8DA /* MYCOMPANYAddress.m */,
+				B444BEB41A61D4F500FCA8DA /* MYCOMPANYStreetInfo.h */,
+				B444BEB51A61D4F500FCA8DA /* MYCOMPANYStreetInfo.m */,
+				B444BEB61A61D4F500FCA8DA /* MYCOMPANYUnitInfo.h */,
+				B444BEB71A61D4F500FCA8DA /* MYCOMPANYUnitInfo.m */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		B444BEBE1A61D51A00FCA8DA /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				B444BEBF1A61D51A00FCA8DA /* !!!use as output folder.xml */,
+				B444BEC21A61D51A00FCA8DA /* MYCOMPANYAddress+File.swift */,
+				B444BEC41A61D51A00FCA8DA /* MYCOMPANYAddress.swift */,
+				B444BEC61A61D51A00FCA8DA /* MYCOMPANYStreetInfo.swift */,
+				B444BEC81A61D51A00FCA8DA /* MYCOMPANYUnitInfo.swift */,
+			);
+			path = Generated;
 			sourceTree = "<group>";
 		};
 		B4D65C2C185C96D600D1BE85 = {
 			isa = PBXGroup;
 			children = (
-				B4BD0F541A439E3E002B7038 /* Address */,
 				B4BD0F501A439E1F002B7038 /* Address.xml */,
 				B4BD0F511A439E1F002B7038 /* Address.xsd */,
 				B4BD0F521A439E1F002B7038 /* StreetInfo.xsd */,
 				B4BD0F531A439E1F002B7038 /* UnitInfo.xsd */,
-				B48A9BA4185E5EBA00A4C3D2 /* main.m */,
+				B444BEAC1A61D4F500FCA8DA /* addressTest_osx_objc */,
+				B444BE871A61D15900FCA8DA /* addressTest_ios_swift */,
 				B4D65C37185C96D600D1BE85 /* Frameworks */,
 				B4D65C36185C96D600D1BE85 /* Products */,
 			);
@@ -97,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				B4D65C35185C96D600D1BE85 /* addressTest */,
+				B444BE861A61D15900FCA8DA /* addressTest_ios.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,6 +193,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B444BE851A61D15900FCA8DA /* addressTest_ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B444BEA61A61D15A00FCA8DA /* Build configuration list for PBXNativeTarget "addressTest_ios" */;
+			buildPhases = (
+				B444BE821A61D15900FCA8DA /* Sources */,
+				B444BE831A61D15900FCA8DA /* Frameworks */,
+				B444BE841A61D15900FCA8DA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = addressTest_ios;
+			productName = addressTest_ios;
+			productReference = B444BE861A61D15900FCA8DA /* addressTest_ios.app */;
+			productType = "com.apple.product-type.application";
+		};
 		B4D65C34185C96D600D1BE85 /* addressTest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B4D65C43185C96D600D1BE85 /* Build configuration list for PBXNativeTarget "addressTest" */;
@@ -138,6 +235,11 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Dominik Pich";
+				TargetAttributes = {
+					B444BE851A61D15900FCA8DA = {
+						CreatedOnToolsVersion = 6.2;
+					};
+				};
 			};
 			buildConfigurationList = B4D65C30185C96D600D1BE85 /* Build configuration list for PBXProject "addressTest" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -145,6 +247,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = B4D65C2C185C96D600D1BE85;
 			productRefGroup = B4D65C36185C96D600D1BE85 /* Products */;
@@ -152,26 +255,128 @@
 			projectRoot = "";
 			targets = (
 				B4D65C34185C96D600D1BE85 /* addressTest */,
+				B444BE851A61D15900FCA8DA /* addressTest_ios */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		B444BE841A61D15900FCA8DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B444BE901A61D15A00FCA8DA /* Main.storyboard in Resources */,
+				B444BE951A61D15A00FCA8DA /* LaunchScreen.xib in Resources */,
+				B444BE921A61D15A00FCA8DA /* Images.xcassets in Resources */,
+				B444BECE1A61D62B00FCA8DA /* Address.xml in Resources */,
+				B444BEC91A61D51A00FCA8DA /* !!!use as output folder.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		B444BE821A61D15900FCA8DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B444BECB1A61D51A00FCA8DA /* MYCOMPANYAddress.swift in Sources */,
+				B444BECA1A61D51A00FCA8DA /* MYCOMPANYAddress+File.swift in Sources */,
+				B444BE8D1A61D15900FCA8DA /* ViewController.swift in Sources */,
+				B444BECD1A61D51A00FCA8DA /* MYCOMPANYUnitInfo.swift in Sources */,
+				B444BE8B1A61D15900FCA8DA /* AppDelegate.swift in Sources */,
+				B444BECC1A61D51A00FCA8DA /* MYCOMPANYStreetInfo.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B4D65C31185C96D600D1BE85 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4BD0F621A439E3E002B7038 /* MYCOMPANYUnitInfo.m in Sources */,
-				B4BD0F611A439E3E002B7038 /* MYCOMPANYStreetInfo.m in Sources */,
-				B4BD0F601A439E3E002B7038 /* MYCOMPANYAddress.m in Sources */,
-				B4BD0F5F1A439E3E002B7038 /* MYCOMPANYAddress+File.m in Sources */,
-				B48A9BB0185E5EBA00A4C3D2 /* main.m in Sources */,
+				B444BEBD1A61D4F500FCA8DA /* main.m in Sources */,
+				B444BEBA1A61D4F500FCA8DA /* MYCOMPANYAddress.m in Sources */,
+				B444BEB91A61D4F500FCA8DA /* MYCOMPANYAddress+File.m in Sources */,
+				B444BEBB1A61D4F500FCA8DA /* MYCOMPANYStreetInfo.m in Sources */,
+				B444BEBC1A61D4F500FCA8DA /* MYCOMPANYUnitInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		B444BE8E1A61D15900FCA8DA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B444BE8F1A61D15900FCA8DA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		B444BE931A61D15A00FCA8DA /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B444BE941A61D15A00FCA8DA /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		B444BEA21A61D15A00FCA8DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Applications/Xcode-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+					/usr/include/libxml2,
+				);
+				INFOPLIST_FILE = addressTest_ios/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "addressTest_ios/libxml-bridging-header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B444BEA31A61D15A00FCA8DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Applications/Xcode-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+					/usr/include/libxml2,
+				);
+				INFOPLIST_FILE = addressTest_ios/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "addressTest_ios/libxml-bridging-header.h";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		B4D65C41185C96D600D1BE85 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -267,6 +472,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B444BEA61A61D15A00FCA8DA /* Build configuration list for PBXNativeTarget "addressTest_ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B444BEA21A61D15A00FCA8DA /* Debug */,
+				B444BEA31A61D15A00FCA8DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		B4D65C30185C96D600D1BE85 /* Build configuration list for PBXProject "addressTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

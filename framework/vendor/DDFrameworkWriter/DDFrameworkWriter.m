@@ -21,9 +21,9 @@
 - (BOOL) writeFrameworkWithIdentifier:(NSString*)bundleIdentifier
                               andName:(NSString*)name
                                atPath:(NSString*)outputFolder
-                           inputFiles:(NSArray*)inputFiles
+                            libraries:(NSArray*)libraries
+                              headers:(NSArray*)headerFiles
                         resourceFiles:(NSArray*)resourceFiles
-                      additionalFlags:(NSArray*)additionalFlags
                                 error:(NSError**)error {
     //make the path of the framework
     if([name hasSuffix:@".framework"]) {
@@ -47,17 +47,17 @@
         return NO;
     }
 
-    //compile
-    id compiledFile = [aFolder stringByAppendingPathComponent:name];
-    id installPath = [NSString stringWithFormat:@"@rpath/%@.framework/%@", name, name];
-    if(![self createOSXLibAt:compiledFile
-                 installPath:installPath
-                  inputFiles:inputFiles
-             additionalFlags:additionalFlags
-                       error:error]) {
-        [fm removeItemAtPath:frameworkFolder error:nil];
-        return NO;
-    }
+    //copy compiled & merge
+//    id compiledFile = [aFolder stringByAppendingPathComponent:name];
+//    id installPath = [NSString stringWithFormat:@"@rpath/%@.framework/%@", name, name];
+//    if(![self createOSXLibAt:compiledFile
+//                 installPath:installPath
+//                  inputFiles:inputFiles
+//             additionalFlags:additionalFlags
+//                       error:error]) {
+//        [fm removeItemAtPath:frameworkFolder error:nil];
+//        return NO;
+//    }
     
     //link it
     id link = [frameworkFolder stringByAppendingPathComponent:name];
@@ -85,8 +85,6 @@
     }
 
     //copy the headers
-    NSArray *headerFiles = [inputFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF endswith %@", @".h"]];
-    
     id headerFolder= [aFolder stringByAppendingPathComponent:@"Headers"];
     if(headerFiles.count) {
         if(![self createFolder:headerFolder withFiles:headerFiles error:error]) {
@@ -113,53 +111,13 @@
     return YES;
 }
 
-- (BOOL) createOSXLibAt:(NSString*)compiledFile
-            installPath:(NSString*)installPath
-             inputFiles:(NSArray*)inputFiles
-        additionalFlags:(NSArray*)additionalFlags
-                  error:(NSError**)error {
-    NSFileManager *fm = [NSFileManager defaultManager];
-
-    //make sure there arent -o flags already
-    if([additionalFlags containsObject:@"-o"]) {
-        if(error)
-            *error = [NSError errorWithDomain:@"DDFrameworkWriter" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: @"Dont specify the output filename for clang as that is set by the writer itself"}];
-        return NO;
-    }
-    
-    //install_name flags are ours
-    if([additionalFlags containsObject:@"-install_name"]) {
-        if(error)
-            *error = [NSError errorWithDomain:@"DDFrameworkWriter" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: @"Dont specify the install_name flag for clang as that is set by the writer itself"}];
-        return NO;
-    }
-    
-    //default
-    if(!additionalFlags.count) {
-        additionalFlags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"x86_64", @"-framework", @"foundation"];
-    }
-    
-    //call it
-    DDRunTask(@"/usr/bin/clang", additionalFlags, @"-install_name", installPath, @"-o", compiledFile, inputFiles, nil);
-    
-    if(![fm fileExistsAtPath:compiledFile]) {
-        if(error)
-            *error = [NSError errorWithDomain:@"DDFrameworkWriter" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: @"failed to compile the input files"}];
-        return NO;
-    }
-    
-    return YES;
-}
-
-#pragma mark - create dynamic module
-
 //writes a dynamic objC module for IOS
 - (BOOL) writeModuleWithIdentifier:(NSString*)bundleIdentifier
                            andName:(NSString*)name
                             atPath:(NSString*)outputFolder
-                        inputFiles:(NSArray*)inputFiles
+                         libraries:(NSArray*)libraries
+                           headers:(NSArray*)headerFiles
                      resourceFiles:(NSArray*)resourceFiles
-                   additionalFlags:(NSArray*)additionalFlags
                              error:(NSError**)error {
     //make the path of the framework
     if([name hasSuffix:@".framework"]) {
@@ -182,17 +140,17 @@
         return NO;
     }
 
-    //compile
-    id compiledFile = [frameworkFolder stringByAppendingPathComponent:name];
-    id installPath = [NSString stringWithFormat:@"@rpath/%@.framework/%@", name, name];
-    if(![self createIOSLibAt:compiledFile
-                 installPath:installPath
-                  inputFiles:inputFiles
-             additionalFlags:additionalFlags
-                       error:error]) {
-        [fm removeItemAtPath:frameworkFolder error:nil];
-        return NO;
-    }
+    //copy compiled & merge
+//    id compiledFile = [frameworkFolder stringByAppendingPathComponent:name];
+//    id installPath = [NSString stringWithFormat:@"@rpath/%@.framework/%@", name, name];
+//    if(![self createOSXLibAt:compiledFile
+//                 installPath:installPath
+//                  inputFiles:inputFiles
+//             additionalFlags:additionalFlags
+//                       error:error]) {
+//        [fm removeItemAtPath:frameworkFolder error:nil];
+//        return NO;
+//    }
     
     //copy resources
     if(![self createFolder:frameworkFolder withFiles:resourceFiles error:error]) {
@@ -201,8 +159,6 @@
     }
     
     //copy the headers
-    NSArray *headerFiles = [inputFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF endswith %@", @".h"]];
-    
     id headerFolder= [frameworkFolder stringByAppendingPathComponent:@"Headers"];
     if(headerFiles.count) {
         if(![self createFolder:headerFolder withFiles:headerFiles error:error]) {
@@ -226,46 +182,7 @@
     return YES;
 }
 
-- (BOOL) createIOSLibAt:(NSString*)compiledFile
-            installPath:(NSString*)installPath
-             inputFiles:(NSArray*)inputFiles
-        additionalFlags:(NSArray*)additionalFlags
-                  error:(NSError**)error {
-    NSFileManager *fm = [NSFileManager defaultManager];
-    
-    //make sure there arent -o flags already
-    if([additionalFlags containsObject:@"-o"]) {
-        if(error)
-            *error = [NSError errorWithDomain:@"DDFrameworkWriter" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: @"Dont specify the output filename for clang as that is set by the writer itself"}];
-        return NO;
-    }
-
-    //install_name flags are ours
-    if([additionalFlags containsObject:@"-install_name"]) {
-        if(error)
-            *error = [NSError errorWithDomain:@"DDFrameworkWriter" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: @"Dont specify the install_name flags for clang as that is set by the writer itself"}];
-        return NO;
-    }
-
-    //default
-    if(!additionalFlags.count) {
-        additionalFlags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"armv7", @"-arch", @"x86_64", @"-isysroot", @"/Applications/Xcode-Beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk", @"-framework", @"foundation"];
-    }
-
-    //call it
-    DDRunTask(@"/usr/bin/clang", additionalFlags, @"-install_name", installPath, @"-o", compiledFile, inputFiles, nil);
-    
-    if(![fm fileExistsAtPath:compiledFile]) {
-        if(error)
-            *error = [NSError errorWithDomain:@"DDFrameworkWriter" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: @"failed to compile the input files"}];
-        return NO;
-    }
-    
-    return YES;
-}
-
-
-#pragma mark - helpers
+#pragma mark framework helpers
 
 -(BOOL)createFolder:(NSString*)folder withFiles:(NSArray*)files error:(NSError**)error {
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -317,6 +234,75 @@ framework module %@ {\
 }", name, name];
     
     return [map writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:error];
+}
+
+#pragma mark - compile libs
+
+- (BOOL) createDynamicLibAt:(NSString*)compiledFile
+                 inputFiles:(NSArray*)inputFiles
+            additionalFlags:(NSArray*)additionalFlags
+                      error:(NSError**)error {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    //make sure there arent -o flags already
+    if([additionalFlags containsObject:@"-o"]) {
+        if(error)
+            *error = [NSError errorWithDomain:@"DDFrameworkWriter" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: @"Dont specify the output filename for clang as that is set by the writer itself"}];
+        return NO;
+    }
+    
+    //install_name flags are ours
+    if([additionalFlags containsObject:@"-install_name"]) {
+        if(error)
+            *error = [NSError errorWithDomain:@"DDFrameworkWriter" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: @"Dont specify the install_name flag for clang as that is set by the writer itself"}];
+        return NO;
+    }
+    
+    //default
+    if(!additionalFlags.count) {
+        additionalFlags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"x86_64", @"-framework", @"foundation"];
+    }
+    
+    //call it
+    DDRunTask(@"/usr/bin/clang", additionalFlags, @"-o", compiledFile, inputFiles, nil);
+    
+    if(![fm fileExistsAtPath:compiledFile]) {
+        if(error)
+            *error = [NSError errorWithDomain:@"DDFrameworkWriter" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: @"failed to compile the input files"}];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (BOOL) createStaticLibAt:(NSString*)compiledFile
+                inputFiles:(NSArray*)inputFiles
+           additionalFlags:(NSArray*)additionalFlags
+                     error:(NSError**)error {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    //make sure there arent -o flags already
+    if([additionalFlags containsObject:@"-o"]) {
+        if(error)
+            *error = [NSError errorWithDomain:@"DDFrameworkWriter" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: @"Dont specify the output filename for clang as that is set by the writer itself"}];
+        return NO;
+    }
+    
+    //default
+    if(!additionalFlags.count) {
+        additionalFlags = @[@"-dead_strip", @"-fobjc-arc", @"-ObjC", @"-arch", @"x86_64", @"-framework", @"foundation"];
+    }
+    
+    //call it
+    DDRunTask(@"/usr/bin/clang", additionalFlags, @"-o", compiledFile, inputFiles, nil);
+    
+    if(![fm fileExistsAtPath:compiledFile]) {
+        if(error)
+            *error = [NSError errorWithDomain:@"DDFrameworkWriter" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: @"failed to compile the input files"}];
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

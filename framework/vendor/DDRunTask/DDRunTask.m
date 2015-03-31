@@ -8,6 +8,9 @@
 #import "DDRunTask.h"
 
 int __DDRunTaskExt(NSString *cwd, NSString **output, NSString *command, NSMutableArray *args) {
+    NSString *result;
+    int terminationStatus;
+    
     //setup task and run it - reading its stdout
     @autoreleasepool {
         NSMutableData *readData = [[NSMutableData alloc] init];
@@ -24,27 +27,48 @@ int __DDRunTaskExt(NSString *cwd, NSString **output, NSString *command, NSMutabl
         }
         [task setStandardOutput: pipe];
         [readData setLength:0];
+
+#if DEBUG
+        if(cwd.length) {
+            NSLog(@"working dir = %@", cwd);
+            [task setCurrentDirectoryPath:cwd];
+        }
+
+        NSMutableString *cmd = [NSMutableString stringWithFormat:@"%@ ", command];
+        for (id arg in args) {
+            [cmd appendFormat:@"%@ ", arg];
+        }
+        NSLog(@"%@", cmd);
+#endif
+        
         [task launch];
         while ((task != nil) && ([task isRunning]))	{
             data = [fileHandle availableData];
             [readData appendData:data];
         }
-        if(output) {
-            *output = [[NSString alloc] initWithData:readData encoding:NSUTF8StringEncoding];
+        
+        if(readData.length) {
+            result = [[NSString alloc] initWithData:readData encoding:NSUTF8StringEncoding];
         }
-#if DEBUG
-        else {
-            NSLog(@"%@", [[NSString alloc] initWithData:readData encoding:NSUTF8StringEncoding]);
-        }
-#endif
-        return task.terminationStatus;
+        terminationStatus = task.terminationStatus;
     }
+    
+    if(output) {
+        *output = result;
+    }
+#if DEBUG
+    else {
+        NSLog(@"%@", result);
+    }
+#endif
+    
+    return terminationStatus;
 }
 
 NSMutableArray *__DDRunTaskArgs( va_list varargs ) {
     id arg = nil;
     NSMutableArray *args = [NSMutableArray array];
-    
+    [arg dataUsingEncoding:NSUTF8StringEncoding];
     while ((arg = va_arg(varargs,id))) {
         if([arg isKindOfClass:[NSArray class]])
         {

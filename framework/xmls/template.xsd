@@ -3,20 +3,84 @@
  xmlns:xsd2cocoa="http://www.example.com/xsd2cocoa"
  elementFormDefault="qualified">
 
-  <element name="template" type="xsd2cocoa:template"/>
-  
+  <annotation>
+    <documentation>
+      template.xsd defines a format for definig a template to generate a parser from a xsd file
+    </documentation>
+  </annotation>
+
+  <element name="template" type="xsd2cocoa:template">
+    <annotation>
+      <documentation>
+        the root element that includes all the options for the xsd2code parser generation
+      </documentation>
+    </annotation>
+  </element>
+
   <complexType name="template">
     <sequence>
-      <element name="additional_file" type="xsd2cocoa:additional_file" minOccurs="0" maxOccurs="unbounded"/>
-      <element name="simpletype" type="xsd2cocoa:simpletype" minOccurs="1" maxOccurs="unbounded"/>
-      <element name="complextype" type="xsd2cocoa:complextype" minOccurs="1" maxOccurs="1"/>
-      <element name="implementation" type="xsd2cocoa:implementation" minOccurs="1" maxOccurs="1"/>
-      <element name="reader" type="xsd2cocoa:reader" minOccurs="1" maxOccurs="1"/>
+      <element name="format_style" type="string" minOccurs="0" maxOccurs="1">
+        <annotation>
+          <documentation>
+            this defines a the uncrustify style to use:
+            it can be objc or swift to use the respective built-in config. BUT it can also be a posix file path to a custom uncrustify cfg file
+          </documentation>
+        </annotation>
+      </element>
+
+      <element name="additional_file" type="xsd2cocoa:additional_file" minOccurs="0" maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            This element defines a file that is copied next to the source files. It can occur n times, so that n files are copied.
+          </documentation>
+        </annotation>
+      </element>
+
+      <element name="simpletype" type="xsd2cocoa:simpletype" minOccurs="1" maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            This element defines the templating options for a xsd simpletype and maps that to specific source code. All known types that need special source code are listed here. At least the xsd root types should be represented here.
+          </documentation>
+        </annotation>
+      </element>
+
+      <element name="complextype" type="xsd2cocoa:complextype" minOccurs="1" maxOccurs="1">
+        <annotation>
+          <documentation>
+            This element defines the templating options for a xsd complextype and defines how an xml element with a complex type is parsed. Elements with complex types are all read the same way (they consist of more complex types and/or simple types)
+          </documentation>
+        </annotation>
+      </element>
+
+      <element name="implementation" type="xsd2cocoa:implementation" minOccurs="1" maxOccurs="1">
+        <annotation>
+          <documentation>
+            This element defines the templating options for reading the CONTENT of any xsd complextype. The curse recurses using templates of other simple and complex types.
+          </documentation>
+        </annotation>
+      </element>
+
+      <element name="reader" type="xsd2cocoa:reader" minOccurs="1" maxOccurs="1">
+        <annotation>
+          <documentation>
+            This element defines the templating options for convenience methods to parse a complex type from a valid xml file / xml data
+          </documentation>
+        </annotation>
+      </element>
     </sequence>
   </complexType>
-  
-  <complexType name="additional_file">        
+
+  <complexType name="filecontent">
+    <simpleContent>
+      <extension base="string">
+        <attribute name="extension" type="string" use="required"/>
+      </extension>
+    </simpleContent>
+  </complexType>
+
+  <complexType name="additional_file">
     <attribute name="path" type="string" use="required" />
+    <attribute name="target_path" type="string" use="optional" />
   </complexType>
 
   <complexType name="simpletype">
@@ -38,15 +102,15 @@
 
   <complexType name="implementation">
     <sequence>
-      <element name="header" type="string" minOccurs="1" maxOccurs="1"/>
-      <element name="class" type="string" minOccurs="1" maxOccurs="1"/>
+      <element name="header" type="xsd2cocoa:filecontent" minOccurs="0" maxOccurs="1"/>
+      <element name="class" type="xsd2cocoa:filecontent" minOccurs="1" maxOccurs="1"/>
     </sequence>
   </complexType>
 
   <complexType name="reader">
     <sequence>
-      <element name="header" type="string" minOccurs="1" maxOccurs="1"/>
-      <element name="class" type="string" minOccurs="1" maxOccurs="1"/>
+      <element name="header" type="xsd2cocoa:filecontent" minOccurs="0" maxOccurs="1"/>
+      <element name="class" type="xsd2cocoa:filecontent" minOccurs="1" maxOccurs="1"/>
     </sequence>
   </complexType>
 

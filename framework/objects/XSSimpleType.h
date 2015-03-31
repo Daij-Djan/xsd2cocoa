@@ -27,10 +27,13 @@
 
 - (BOOL)supplyTemplates:(NSXMLNode*)node error:(NSError**)error;
 
+- (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema;
+- (id) initWithName: (NSString*) name baseType: (NSString*)baseType schema: (XSDschema*) schema;
+
 @end
 
 @interface XSSimpleType ()
 
-+ (NSArray*)knownSimpleTypes;
++ (NSArray *)knownSimpleTypesForSchema:(XSDschema*)schema;
 
 @end

@@ -30,4 +30,5 @@
 - (NSString*) baseClassName;
 - (NSString*) baseClassFileName;
 
+- (NSString*)combinedReadPrefixCode; //for templating this merges the prefix codes of all simpleTypes
 @end

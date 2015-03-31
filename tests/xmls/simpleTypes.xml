@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<st:simpleTypes xmlns:st="http://www.example.com/xsdSimpleTypes">
+
+    <!-- string -->
+    <test_string>all_is_ok</test_string>
+    <test_ENTITIES>all_is_ok</test_ENTITIES>
+    <test_ENTITY>all_is_ok</test_ENTITY>
+    <test_ID>all_is_ok</test_ID>
+    <test_IDREF>all_is_ok</test_IDREF>
+    <test_IDREFS>all_is_ok</test_IDREFS>
+    <test_language>all_is_ok</test_language>
+    <test_Name>all_is_ok</test_Name>
+    <test_NCName>all_is_ok</test_NCName>
+    <test_NMTOKEN>all_is_ok</test_NMTOKEN>
+    <test_NMTOKENS>all_is_ok</test_NMTOKENS>
+    <test_normalizedString>all_is_ok</test_normalizedString>
+    <test_QName>all_is_ok</test_QName>
+    <test_token>all_is_ok</test_token>
+    <test_NOTATION>all_is_ok</test_NOTATION>
+
+    <!--integer -->
+    <test_byte>123</test_byte>
+    <test_int>123</test_int>
+    <test_integer>123</test_integer>
+    <test_long>123</test_long>
+    <test_negativeInteger>-123</test_negativeInteger>
+    <test_nonNegativeInteger>123</test_nonNegativeInteger>
+    <test_nonPositiveInteger>-123</test_nonPositiveInteger>
+    <test_positiveInteger>123</test_positiveInteger>
+    <test_short>123</test_short>
+    <test_unsignedLong>123</test_unsignedLong>
+    <test_unsignedInt>123</test_unsignedInt>
+    <test_unsignedShort>123</test_unsignedShort>
+    <test_unsignedByte>123</test_unsignedByte>
+    <test_gDay>10</test_gDay>
+    <test_gMonth>12</test_gMonth>
+    <test_gMonthDay>12</test_gMonthDay>
+    <test_gYear>1234</test_gYear>
+    <test_gYearMonth>12</test_gYearMonth>
+
+    <!--decimal-->
+    <test_decimal>12.34</test_decimal>
+    <test_double>12.34</test_double>
+    <test_float>12.34</test_float>
+    <test_duration>12.34</test_duration>
+
+    <!--boolean-->
+    <test_boolean>true</test_boolean>
+
+    <!-- URLs -->
+    <test_anyURI>http://www.google.com</test_anyURI>
+
+    <!-- date time -->
+    <test_dateTime>2015-01-25T10:37:07+0100</test_dateTime>
+
+</st:simpleTypes>

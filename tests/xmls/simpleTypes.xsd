@@ -1,0 +1,90 @@
+<xs:schema xmlns="http://www.w3.org/2001/XMLSchema"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema" 	
+ targetNamespace="http://www.example.com/xsdSimpleTypes"
+ xmlns:st="http://www.example.com/xsdSimpleTypes">
+
+  <xs:annotation>
+	<xs:documentation>
+		simpleTypes.xsd defines a format for testing all kinds of simple types
+	</xs:documentation>
+  </xs:annotation>
+
+  <xs:element name='simpleTypes' type="st:SimpleTypesType">
+    <xs:annotation>
+      <xs:documentation>
+        this root element contains links or groups of links
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:complexType name="SimpleTypesType">
+    <xs:annotation>
+      <xs:documentation>
+        this type contains children of all supported types
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+
+      <!-- string -->
+      <xs:element name="test_string" type="string"/>
+      <xs:element name="test_ENTITIES" type="ENTITIES"/>
+      <xs:element name="test_ENTITY" type="ENTITY"/>
+      <xs:element name="test_ID" type="ID"/>
+      <xs:element name="test_IDREF" type="IDREF"/>
+      <xs:element name="test_IDREFS" type="IDREFS"/>
+      <xs:element name="test_language" type="language"/>
+      <xs:element name="test_Name" type="Name"/>
+      <xs:element name="test_NCName" type="NCName"/>
+      <xs:element name="test_NMTOKEN" type="NMTOKEN"/>
+      <xs:element name="test_NMTOKENS" type="NMTOKENS"/>
+      <xs:element name="test_normalizedString" type="normalizedString"/>
+      <xs:element name="test_QName" type="QName"/>
+      <xs:element name="test_token" type="token"/>
+      <xs:element name="test_NOTATION" type="NOTATION"/>
+
+      <!--integer -->
+      <xs:element name="test_byte" type="byte"/>
+      <xs:element name="test_int" type="int"/>
+      <xs:element name="test_integer" type="integer"/>
+      <xs:element name="test_long" type="long"/>
+      <xs:element name="test_negativeInteger" type="negativeInteger"/>
+      <xs:element name="test_nonNegativeInteger" type="nonNegativeInteger"/>
+      <xs:element name="test_nonPositiveInteger" type="nonPositiveInteger"/>
+      <xs:element name="test_positiveInteger" type="positiveInteger"/>
+      <xs:element name="test_short" type="short"/>
+      <xs:element name="test_unsignedLong" type="unsignedLong"/>
+      <xs:element name="test_unsignedInt" type="unsignedInt"/>
+      <xs:element name="test_unsignedShort" type="unsignedShort"/>
+      <xs:element name="test_unsignedByte" type="unsignedByte"/>
+      <xs:element name="test_gDay" type="gDay"/>
+      <xs:element name="test_gMonth" type="gMonth"/>
+      <xs:element name="test_gMonthDay" type="gMonthDay"/>
+      <xs:element name="test_gYear" type="gYear"/>
+      <xs:element name="test_gYearMonth" type="gYearMonth"/>
+
+      <!--decimal-->
+      <xs:element name="test_decimal" type="decimal"/>
+      <xs:element name="test_double" type="double"/>
+      <xs:element name="test_float" type="float"/>
+      <xs:element name="test_duration" type="duration"/>
+
+      <!--boolean-->
+      <xs:element name="test_boolean" type="boolean"/>
+
+      <!-- URLs -->
+      <xs:element name="test_anyURI" type="anyURI"/>
+
+      <!-- date time: only base -->
+      <xs:element name="test_dateTime" type="dateTime"/>
+      <!--<type base="dateTime" name="date"/> -->
+      <!--<type base="dateTime" name="time"/> -->
+
+      <!-- base64Binary -->
+      <!--<type base="base64Binary" name="base64Binary"/>-->
+
+      <!-- hexBinary: doesnt work -->
+      <!--<type base="hexBinary" name="hexBinary"/>-->
+
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

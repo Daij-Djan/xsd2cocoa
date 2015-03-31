@@ -45,7 +45,7 @@
 <type base="decimal" name="duration"/>
 
 <!--boolean-->
-<type base="boolean" name="decimal"/>
+<type base="boolean" name="boolean"/>
 
 <!-- URLs -->
 <type base="anyURI" name="anyURI"/>

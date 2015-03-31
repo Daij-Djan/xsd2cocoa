@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -316,16 +316,16 @@
         <window title="XSDConverter" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="0.0" y="0.0" width="410" height="447"/>
+            <rect key="contentRect" x="0.0" y="0.0" width="410" height="375"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
-            <value key="minSize" type="size" width="410" height="459"/>
-            <value key="maxSize" type="size" width="2000" height="459"/>
+            <value key="minSize" type="size" width="410" height="460"/>
+            <value key="maxSize" type="size" width="2000" height="460"/>
             <view key="contentView" id="372">
-                <rect key="frame" x="0.0" y="5" width="410" height="447"/>
+                <rect key="frame" x="0.0" y="-5" width="410" height="375"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="WtC-UY-2MM">
-                        <rect key="frame" x="18" y="410" width="128" height="17"/>
+                        <rect key="frame" x="18" y="338" width="128" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input XSD File Path:" id="BMJ-NZ-yXs">
                             <font key="font" metaFont="system"/>
@@ -334,7 +334,7 @@
                         </textFieldCell>
                     </textField>
                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="tFM-BQ-YZQ">
-                        <rect key="frame" x="365" y="383" width="25" height="25"/>
+                        <rect key="frame" x="365" y="311" width="25" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BcT-CV-UOb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -345,7 +345,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" id="dO4-XI-ytA">
-                        <rect key="frame" x="20" y="385" width="339" height="22"/>
+                        <rect key="frame" x="20" y="313" width="339" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="file path for a XSD to generate a parser" drawsBackground="YES" id="Egs-XU-e3p">
                             <font key="font" metaFont="system"/>
@@ -358,7 +358,7 @@
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="LRl-Te-CaG">
-                        <rect key="frame" x="18" y="355" width="220" height="17"/>
+                        <rect key="frame" x="18" y="283" width="220" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Output folder for generated parser:" id="Fu9-bW-9zn">
                             <font key="font" metaFont="system"/>
@@ -367,7 +367,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="bXB-tP-aWJ">
-                        <rect key="frame" x="20" y="330" width="370" height="22"/>
+                        <rect key="frame" x="20" y="258" width="370" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="path to folder for generated files" drawsBackground="YES" id="VCz-8o-7PV">
                             <font key="font" metaFont="system"/>
@@ -380,7 +380,7 @@
                         </connections>
                     </textField>
                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="NrG-Eb-ed4">
-                        <rect key="frame" x="20" y="307" width="13" height="13"/>
+                        <rect key="frame" x="20" y="235" width="13" height="13"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="disclosureTriangle" bezelStyle="disclosure" imagePosition="above" alignment="left" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gI1-eF-J3I">
                             <behavior key="behavior" pushIn="YES" changeBackground="YES" changeGray="YES" lightByContents="YES"/>
@@ -391,7 +391,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="SBV-rf-bPj">
-                        <rect key="frame" x="39" y="305" width="66" height="17"/>
+                        <rect key="frame" x="39" y="233" width="66" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Advanced" id="zrQ-h3-bD5">
                             <font key="font" metaFont="system"/>
@@ -400,14 +400,14 @@
                         </textFieldCell>
                     </textField>
                     <box autoresizesSubviews="NO" title="Box" borderType="line" titlePosition="noTitle" id="ovF-HT-zwy">
-                        <rect key="frame" x="17" y="45" width="374" height="259"/>
+                        <rect key="frame" x="17" y="57" width="374" height="175"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <view key="contentView">
-                            <rect key="frame" x="1" y="1" width="372" height="257"/>
+                            <rect key="frame" x="1" y="1" width="372" height="173"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="H60-8D-EWM">
-                                    <rect key="frame" x="17" y="228" width="119" height="17"/>
+                                    <rect key="frame" x="17" y="144" width="119" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Parser Template:" id="r4t-LP-FZS">
                                         <font key="font" metaFont="system"/>
@@ -415,34 +415,8 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" id="BGQ-MM-U13">
-                                    <rect key="frame" x="18" y="180" width="336" height="40"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="cellSize" width="187" height="18"/>
-                                    <size key="intercellSpacing" width="4" height="2"/>
-                                    <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="DcX-GQ-7Tc">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <cells>
-                                        <column>
-                                            <buttonCell type="radio" title="Built-in Objective-C Parser" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="997-XF-6Tz">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <buttonCell type="radio" title="Custom" imagePosition="left" alignment="left" tag="2" inset="2" id="KcG-sB-MTe">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </column>
-                                    </cells>
-                                    <connections>
-                                        <action selector="templateChosen:" target="494" id="cJ3-Z8-Uee"/>
-                                    </connections>
-                                </matrix>
                                 <textField verticalHuggingPriority="750" id="shM-H9-Sro">
-                                    <rect key="frame" x="38" y="150" width="288" height="22"/>
+                                    <rect key="frame" x="38" y="52" width="288" height="22"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="file path to custom template xml" drawsBackground="YES" id="eIH-a1-P24">
                                         <font key="font" metaFont="system"/>
@@ -455,7 +429,7 @@
                                     </connections>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="U1d-l3-I8J">
-                                    <rect key="frame" x="18" y="114" width="133" height="17"/>
+                                    <rect key="frame" x="18" y="16" width="133" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Custom Class Prefix:" id="oiu-Up-vJg">
                                         <font key="font" metaFont="system"/>
@@ -464,7 +438,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" id="tkt-Dk-vOf">
-                                    <rect key="frame" x="155" y="112" width="171" height="22"/>
+                                    <rect key="frame" x="155" y="14" width="171" height="22"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Custom class prefix" drawsBackground="YES" id="TN1-Zv-4NQ">
                                         <font key="font" metaFont="system"/>
@@ -476,7 +450,7 @@
                                     </connections>
                                 </textField>
                                 <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="K4n-lo-vD4">
-                                    <rect key="frame" x="332" y="109" width="25" height="25"/>
+                                    <rect key="frame" x="332" y="11" width="25" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="63F-Sn-IZe">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -487,7 +461,7 @@
                                     </connections>
                                 </button>
                                 <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="WsS-jm-SMN">
-                                    <rect key="frame" x="332" y="148" width="25" height="25"/>
+                                    <rect key="frame" x="332" y="50" width="25" height="25"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="plS-ht-NOZ">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -498,7 +472,7 @@
                                     </connections>
                                 </button>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="fUe-t3-9mS">
-                                    <rect key="frame" x="18" y="80" width="119" height="17"/>
+                                    <rect key="frame" x="18" y="-18" width="119" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Products" id="OAp-et-Wha">
                                         <font key="font" metaFont="system"/>
@@ -507,7 +481,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <button id="fZa-gc-oL6">
-                                    <rect key="frame" x="17" y="36" width="251" height="18"/>
+                                    <rect key="frame" x="17" y="-82" width="251" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Dynamic frameworks (OSX and iOS8)" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="Ilx-JD-e5b">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -515,28 +489,58 @@
                                     </buttonCell>
                                 </button>
                                 <button id="ppY-Ga-rGD">
-                                    <rect key="frame" x="17" y="56" width="286" height="18"/>
+                                    <rect key="frame" x="17" y="-42" width="286" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Source code (for copying into your project)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Q3e-km-m3D">
+                                    <buttonCell key="cell" type="check" title="Source code (for copying into your project)" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="Q3e-km-m3D">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                 </button>
                                 <button id="VYC-yf-F02">
-                                    <rect key="frame" x="17" y="16" width="295" height="18"/>
+                                    <rect key="frame" x="17" y="-62" width="295" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Static framework (OSX and IOS7(and below)" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="z6F-OL-Tw7">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                 </button>
+                                <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" id="BGQ-MM-U13">
+                                    <rect key="frame" x="18" y="76" width="308" height="58"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    <size key="cellSize" width="191" height="18"/>
+                                    <size key="intercellSpacing" width="4" height="2"/>
+                                    <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="DcX-GQ-7Tc">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <cells>
+                                        <column>
+                                            <buttonCell type="radio" title="Built-in Swift Parser" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="997-XF-6Tz">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <buttonCell type="radio" title="Built-in Objective-C Parser" imagePosition="left" alignment="left" tag="2" inset="2" id="KcG-sB-MTe">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <buttonCell type="radio" title="Custom Template" imagePosition="left" alignment="left" tag="3" inset="2" id="lIS-J2-9ta">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </column>
+                                    </cells>
+                                    <connections>
+                                        <action selector="templateChosen:" target="494" id="cJ3-Z8-Uee"/>
+                                    </connections>
+                                </matrix>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <button verticalHuggingPriority="750" id="BrR-Dr-DXs">
-                        <rect key="frame" x="159" y="13" width="90" height="32"/>
+                        <rect key="frame" x="160" y="13" width="90" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Process" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lpR-Oq-0hP">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -546,7 +550,7 @@ DQ
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="writeObjcCode:" target="494" id="bms-Uf-Hzt"/>
+                            <action selector="writeCode:" target="494" id="hzE-kO-GPA"/>
                             <outlet property="nextKeyView" destination="dO4-XI-ytA" id="MDJ-IO-Ihf"/>
                         </connections>
                     </button>
@@ -555,7 +559,7 @@ DQ
             <connections>
                 <outlet property="delegate" destination="494" id="Nj3-dQ-U0T"/>
             </connections>
-            <point key="canvasLocation" x="251" y="278.5"/>
+            <point key="canvasLocation" x="242" y="159.5"/>
         </window>
         <customObject id="494" customClass="AppDelegate">
             <connections>
@@ -563,9 +567,7 @@ DQ
                 <outlet property="advancedOptionsButton" destination="NrG-Eb-ed4" id="oV6-aN-UbZ"/>
                 <outlet property="customPrefix" destination="tkt-Dk-vOf" id="CH2-2L-7Jk"/>
                 <outlet property="outputFolderPathTextfield" destination="bXB-tP-aWJ" id="zOA-Ry-c3l"/>
-                <outlet property="productTypeDynamicFramework" destination="fZa-gc-oL6" id="hwY-EH-Iyf"/>
                 <outlet property="productTypeSourceCode" destination="ppY-Ga-rGD" id="2z8-br-e8I"/>
-                <outlet property="productTypeStaticLibrary" destination="VYC-yf-F02" id="jFQ-hb-NRf"/>
                 <outlet property="templatePathTextfield" destination="shM-H9-Sro" id="kFK-HK-Vvd"/>
                 <outlet property="templateStyleMatrix" destination="BGQ-MM-U13" id="ZLF-QK-sjr"/>
                 <outlet property="window" destination="371" id="532"/>

@@ -24,3 +24,4 @@ FOUNDATION_EXPORT const unsigned char XSDConverterCoreVersionString[];
 #import "XSDexplicitGroup.h"
 #import "XSSchemaNode.h"
 #import "XSSimpleType.h"
+#import "XSDannotation.h"

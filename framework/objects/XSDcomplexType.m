@@ -26,6 +26,7 @@
 
 @implementation XSDcomplexType {
     MGTemplateEngine *engine;
+    MGTemplateEngine *engine2; //we need this because else we would recurse and recursion within a single engine is bad
 }
 
 - (id) init{
@@ -62,6 +63,8 @@
     if(self) {
         engine = [MGTemplateEngine templateEngine];
         [engine setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine]];
+        engine2 = [MGTemplateEngine templateEngine];
+        [engine2 setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine2]];
         
         self.name = [XMLUtils node: node stringAttribute: @"name"];
         self.mixed = [XMLUtils node: node boolAttribute: @"mixed"];
@@ -231,7 +234,8 @@
 }
 
 - (NSString*) arrayType {
-    return self.schema.complexTypeArrayType;
+    NSDictionary* dict = [NSDictionary dictionaryWithObject: self forKey: @"type"];
+    return [engine2 processTemplate: self.schema.complexTypeArrayType withVariables: dict];
 }
 
 - (NSString*) baseClassName {
@@ -287,6 +291,16 @@
 
 - (NSString*) readCodeForAttribute:(XSDattribute *)attribute {
     return @"/* cant have a complex attribute */";
+}
+
+- (NSString*)combinedReadPrefixCode {
+    NSMutableSet *lines = [NSMutableSet setWithCapacity:self.simpleTypesInUse.count];
+    for (XSSimpleType *t in self.simpleTypesInUse) {
+        if(t.readPrefixCode) {
+            [lines addObject:t.readPrefixCode];
+        }
+    }
+    return [lines.allObjects componentsJoinedByString:@"\n"];
 }
 
 @end
