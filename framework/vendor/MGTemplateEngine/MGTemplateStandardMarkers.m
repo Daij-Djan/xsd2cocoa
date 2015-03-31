@@ -72,7 +72,14 @@
 
 
 @implementation MGTemplateStandardMarkers
-
+{
+	MGTemplateEngine *engine; // weak ref
+	NSMutableArray *forStack;
+	NSMutableArray *sectionStack;
+	NSMutableArray *ifStack;
+	NSMutableArray *commentStack;
+	NSMutableDictionary *cycles;
+}
 
 - (id)initWithTemplateEngine:(MGTemplateEngine *)theEngine
 {
@@ -88,43 +95,31 @@
 }
 
 
-- (void)dealloc
-{
-	engine = nil;
-	forStack = nil;
-	sectionStack = nil;
-	ifStack = nil;
-	commentStack = nil;
-	cycles = nil;
-	
-}
-
-
 - (NSArray *)markers
 {
-	return [NSArray arrayWithObjects:
-			FOR_START, FOR_END, 
-			SECTION_START, SECTION_END, 
-			IF_START, ELSE, IF_END, 
-			NOW, 
-			COMMENT_START, COMMENT_END, 
-			LOAD, 
-			CYCLE, 
-			SET, 
-			nil];
+	return @[
+		FOR_START, FOR_END,
+		SECTION_START, SECTION_END,
+		IF_START, ELSE, IF_END,
+		NOW,
+		COMMENT_START, COMMENT_END,
+		LOAD,
+		CYCLE,
+		SET,
+	];
 }
 
 
 - (NSArray *)endMarkersForMarker:(NSString *)marker
 {
 	if ([marker isEqualToString:FOR_START]) {
-		return [NSArray arrayWithObjects:FOR_END, nil];
+		return @[FOR_END];
 	} else if ([marker isEqualToString:SECTION_START]) {
-		return [NSArray arrayWithObjects:SECTION_END, nil];
+		return @[SECTION_END];
 	} else if ([marker isEqualToString:IF_START]) {
-		return [NSArray arrayWithObjects:IF_END, ELSE, nil];
+		return @[IF_END, ELSE];
 	} else if ([marker isEqualToString:COMMENT_START]) {
-		return [NSArray arrayWithObjects:COMMENT_END, nil];
+		return @[COMMENT_END];
 	}
 	return nil;
 }
@@ -133,7 +128,7 @@
 - (NSObject *)markerEncountered:(NSString *)marker withArguments:(NSArray *)args inRange:(NSRange)markerRange 
 				   blockStarted:(BOOL *)blockStarted blockEnded:(BOOL *)blockEnded 
 				  outputEnabled:(BOOL *)outputEnabled nextRange:(NSRange *)nextRange 
-			   currentBlockInfo:(NSDictionary *)blockInfo newVariables:(NSDictionary **)newVariables
+			   currentBlockInfo:(NSDictionary *)blockInfo newVariables:(NSDictionary * __autoreleasing *)newVariables
 {
 	if ([marker isEqualToString:FOR_START]) {
 		if (args && [args count] >= 3) {
@@ -152,12 +147,12 @@
 			BOOL valid = NO;
 			NSString *startArg = [args objectAtIndex:0];
 			NSString *endArg = [args objectAtIndex:2];
-			int startIndex, endIndex = 0;
+			NSInteger startIndex = -1, endIndex = -1;
 			if (isRange) {
 				// Check to see if either the arg itself is numeric, or it corresponds to a numeric variable.
-				valid = [self argIsNumeric:startArg intValue:&startIndex checkVariables:YES];
+				valid = [self argIsNumeric:startArg integerValue:&startIndex checkVariables:YES];
 				if (valid) {
-					valid = [self argIsNumeric:endArg intValue:&endIndex checkVariables:YES];
+					valid = [self argIsNumeric:endArg integerValue:&endIndex checkVariables:YES];
 					if (valid) {
 						// Check startIndex and endIndex are sensible.
 						valid = (startIndex <= endIndex);
@@ -169,7 +164,7 @@
 				// Check that endArg is a collection.
 				NSObject *obj = [engine resolveVariable:endArg];
 				if (obj && [obj respondsToSelector:@selector(objectEnumerator)] && [obj respondsToSelector:@selector(count)]) {
-					endIndex = (int) [(NSArray *)obj count];
+					endIndex = (NSInteger)[(NSArray *)obj count];
 					if (endIndex > 0) {
 						loopEnumObject = obj;
 						valid = YES;
@@ -188,12 +183,12 @@
 				[forStack addObject:stackFrame];
 				
 				// Set up variables for the block.
-				int currentIndex = (reversed) ? endIndex : startIndex;
+				NSInteger currentIndex = (reversed) ? endIndex : startIndex;
 				NSMutableDictionary *loopVars = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-												 [NSNumber numberWithInt:startIndex], FOR_LOOP_START_INDEX, 
-												 [NSNumber numberWithInt:endIndex], FOR_LOOP_END_INDEX, 
-												 [NSNumber numberWithInt:currentIndex], FOR_LOOP_CURR_INDEX, 
-												 [NSNumber numberWithBool:reversed], FOR_REVERSE, 
+												 @(startIndex), FOR_LOOP_START_INDEX,
+												 @(endIndex), FOR_LOOP_END_INDEX,
+												 @(currentIndex), FOR_LOOP_CURR_INDEX,
+												 @(reversed), FOR_REVERSE,
 												 nil];
 				NSMutableDictionary *blockVars = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 												  loopVars, FOR_LOOP_VARS, 
@@ -259,7 +254,7 @@
 			BOOL reversed = [[loopVars objectForKey:FOR_REVERSE] boolValue];
 			NSEnumerator *loopEnum = [frame objectForKey:FOR_STACK_ENUMERATOR];
 			NSObject *newEnumValue = nil;
-			int currentIndex = [[loopVars objectForKey:FOR_LOOP_CURR_INDEX] intValue];
+			NSInteger currentIndex = [[loopVars objectForKey:FOR_LOOP_CURR_INDEX] integerValue];
 			if (loopEnum) {
 				// Enumerator type.
 				newEnumValue = [loopEnum nextObject];
@@ -269,12 +264,12 @@
 			} else {
 				// Range type.
 				if (reversed) {
-					int minIndex = [[loopVars objectForKey:FOR_LOOP_START_INDEX] intValue];
+					NSInteger minIndex = [[loopVars objectForKey:FOR_LOOP_START_INDEX] integerValue];
 					if (currentIndex > minIndex) {
 						loop = YES;
 					}
 				} else {
-					int maxIndex = [[loopVars objectForKey:FOR_LOOP_END_INDEX] intValue];
+					NSInteger maxIndex = [[loopVars objectForKey:FOR_LOOP_END_INDEX] integerValue];
 					if (currentIndex < maxIndex) {
 						loop = YES;
 					}
@@ -291,7 +286,7 @@
 				} else {
 					currentIndex++;
 				}
-				[loopVars setObject:[NSNumber numberWithInt:currentIndex] forKey:FOR_LOOP_CURR_INDEX];
+				[loopVars setObject:@(currentIndex) forKey:FOR_LOOP_CURR_INDEX];
 				
 				// Set new val for enumVar if specified
 				NSMutableDictionary *newVars = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -353,10 +348,10 @@
 				NSString *secondArg = [args objectAtIndex:2];
 				BOOL firstTrue = [self argIsTrue:firstArg];
 				BOOL secondTrue = [self argIsTrue:secondArg];
-				int num1, num2;
+				NSInteger num1, num2;
 				BOOL firstNumeric, secondNumeric;
-				firstNumeric = [self argIsNumeric:firstArg intValue:&num1 checkVariables:YES];
-				secondNumeric = [self argIsNumeric:secondArg intValue:&num2 checkVariables:YES];
+				firstNumeric = [self argIsNumeric:firstArg integerValue:&num1 checkVariables:YES];
+				secondNumeric = [self argIsNumeric:secondArg integerValue:&num2 checkVariables:YES];
 				if (!firstNumeric) {
 					num1 = ([engine resolveVariable:firstArg]) ? 1 : 0;
 				}
@@ -382,7 +377,7 @@
 				} else if ([op isEqualToString:@"<="]) {
 					argTrue = (num1 <= num2);
 				} else if ([op isEqualToString:@"\%"]) {
-					argTrue = num2 && ((num1 % num2) > 0);
+					argTrue = ((num1 % num2) > 0);
 				} else if ([op isEqualToString:@"equalsstring"] || [op isEqualToString:@"notequalsstring"]) {
 					NSObject *firstVal = [engine resolveVariable:firstArg];
 					NSObject *secondVal = [engine resolveVariable:secondArg];
@@ -424,7 +419,7 @@
 		
 	} else if ([marker isEqualToString:ELSE]) {
 		if ([self currentBlock:blockInfo matchesTopOfStack:ifStack]) {
-			NSMutableDictionary *frame = [[ifStack lastObject] objectForKey:IF_VARS];
+			NSMutableDictionary *frame = [(NSDictionary *)[ifStack lastObject] objectForKey:IF_VARS];
 			BOOL elseSeen = [[frame objectForKey:IF_ELSE_SEEN] boolValue];
 			BOOL argTrue = [[frame objectForKey:IF_ARG_TRUE] boolValue];
 			BOOL modifyOutput = [[frame objectForKey:DISABLE_OUTPUT] boolValue];
@@ -443,7 +438,7 @@
 		
 	} else if ([marker isEqualToString:IF_END]) {
 		if ([self currentBlock:blockInfo matchesTopOfStack:ifStack]) {
-			NSMutableDictionary *frame = [[ifStack lastObject] objectForKey:IF_VARS];
+			NSMutableDictionary *frame = [(NSDictionary *)[ifStack lastObject] objectForKey:IF_VARS];
 			BOOL modifyOutput = [[frame objectForKey:DISABLE_OUTPUT] boolValue];
 			if (modifyOutput) {
 				// If we're modifying output, it was enabled when this block started.
@@ -523,13 +518,13 @@
 			NSMutableDictionary *cycle = [cycles objectForKey:rangeKey];
 			if (cycle) {
 				NSArray *vals = [cycle objectForKey:CYCLE_VALUES];
-				int currIndex = [[cycle objectForKey:CYCLE_INDEX] intValue];
+				NSUInteger currIndex = [[cycle objectForKey:CYCLE_INDEX] unsignedIntegerValue];
 				currIndex++;
 				if (currIndex >= [vals count]) {
 					currIndex = 0;
 				}
-				[cycle setObject:[NSNumber numberWithInt:currIndex] forKey:CYCLE_INDEX];
-				return [vals objectAtIndex:currIndex];
+				[cycle setObject:@(currIndex) forKey:CYCLE_INDEX];
+				return [vals objectAtIndex:(NSUInteger)currIndex];
 			} else {
 				// New cycle. Create and output appropriately.
 				cycle = [NSMutableDictionary dictionaryWithCapacity:2];
@@ -585,21 +580,21 @@
 }
 
 
-- (BOOL)argIsNumeric:(NSString *)arg intValue:(int *)val checkVariables:(BOOL)checkVars
+- (BOOL)argIsNumeric:(NSString *)arg integerValue:(NSInteger *)val checkVariables:(BOOL)checkVars
 {
 	BOOL numeric = NO;
-	int value = 0;
+	NSInteger value = 0;
 	
 	if (arg && [arg length] > 0) {
-		if ([[arg substringToIndex:1] isEqualToString:@"0"] || [arg intValue] != 0) {
+		if ([[arg substringToIndex:1] isEqualToString:@"0"] || [arg integerValue] != 0) {
 			numeric = YES;
-			value = [arg intValue];
+			value = [arg integerValue];
 		} else if (checkVars) {
-			// Check to see if arg is a variable with an intValue.
+			// Check to see if arg is a variable with an integerValue.
 			NSObject *argObj = [engine resolveVariable:arg];
 			NSString *argStr = [NSString stringWithFormat:@"%@", argObj];
-			if (argObj && [argObj respondsToSelector:@selector(intValue)] && 
-				[self argIsNumeric:argStr intValue:&value checkVariables:NO]) { // avoid recursion
+			if (argObj && [argObj respondsToSelector:@selector(integerValue)] &&
+				[self argIsNumeric:argStr integerValue:&value checkVariables:NO]) { // avoid recursion
 				numeric = YES;
 			}
 		}

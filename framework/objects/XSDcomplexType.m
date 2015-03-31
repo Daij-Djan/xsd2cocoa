@@ -28,8 +28,7 @@
     MGTemplateEngine *engine;
 }
 
-- (id) init
-{
+- (id) init{
     self = [super init];
     if(self)
     {
@@ -40,11 +39,25 @@
         self.attributes = nil;
         self.globalElements = [NSMutableArray array];
     }
+    
     return self;
 }
 
-- (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema {
-    if(node == nil || schema == nil) { return nil; }
+/**
+ * Name:        initWithNode (NSXMLElement*)(XSDschema*)
+ * Parameters:  (NSXMLElement*) - the current node found that is a complex type
+ *              (XSDschema*) -  the current schema object (the containing parent)
+ * Returns:     the generated obect id
+ * Description: This will take the complex type (node) for the given containing parent (schema)
+ *              and generate the complexType object. This will become the Object-C header/class
+ *              file.
+ */
+- (id) initWithNode:(NSXMLElement*)node schema:(XSDschema*)schema {
+    /* Ensure that we have a node defined */
+    if(node == nil || schema == nil) {
+        return nil;
+    }
+    /* Generate the node */
     self = [super initWithNode:node schema: schema];
     if(self) {
         engine = [MGTemplateEngine templateEngine];
@@ -53,47 +66,69 @@
         self.name = [XMLUtils node: node stringAttribute: @"name"];
         self.mixed = [XMLUtils node: node boolAttribute: @"mixed"];
         
+        /* Grab all children from this complexType with attribute */
         NSMutableArray* newAttributes = [NSMutableArray array];
-        NSArray* attributeTags = [XMLUtils node: node childrenWithName: @"attribute"];
+        NSArray* attributeTags = [XMLUtils node:node childrenWithName:@"attribute"];
+        
+        /* For each element that is an attribute, create it as an attribute node and assign all to the current complex type */
         for(NSXMLElement* anElement in attributeTags) {
-            [newAttributes addObject: [[XSDattribute alloc] initWithNode: anElement schema: schema]];
+            [newAttributes addObject: [[XSDattribute alloc] initWithNode:anElement schema:schema]];
         }
         self.attributes = newAttributes;
         
-        NSXMLElement *child = [XMLUtils node: node childWithName: @"sequence"];
+        /* Grab all elements that appear within the sequence or choice tags */
+        NSXMLElement *child = [XMLUtils node:node childWithName:@"sequence"];
         if(!child) {
-            child = [XMLUtils node: node childWithName: @"choice"];
+            child = [XMLUtils node:node childWithName:@"choice"];
         }
+        /* 
+         * Create an explicit group, meaning they all will be clearly defined and required
+         * This will contain child elements (<XSDelement>) in the elements list
+         */
         if(child) {
-            self.sequenceOrChoice = [[XSDexplicitGroup alloc] initWithNode: child schema: schema];
+            self.sequenceOrChoice = [[XSDexplicitGroup alloc] initWithNode:child schema:schema];
         }
         
-        NSXMLElement* content = [XMLUtils node: node childWithName: @"complexContent"];
-        //if there is no complex content, there might still be simple content
+        /* Check if there is complexContent */
+        NSXMLElement* content = [XMLUtils node:node childWithName:@"complexContent"];
+       
+        /* If there is no complex content, check if there thereis simple content */
         if(!content) {
-            content = [XMLUtils node: node childWithName: @"simpleContent"];
+            content = [XMLUtils node:node childWithName:@"simpleContent"];
         }
         
-        NSArray* elementTags = [XMLUtils node: content childrenWithName: @"extension"];
+        /* Iterate through the child elements of the content element */
+        NSArray* elementTags = [XMLUtils node:content childrenWithName:@"extension"];
+        
+        /* If we do not have any extensions, check if we have any restrictions */
+        if([elementTags count] == 0){
+            elementTags = [XMLUtils node:content childrenWithName:@"restriction"];
+        }
+        
+        /* For the element tags found that was an extension|restriction */
         for(NSXMLElement* anElement in elementTags) {
             self.baseType = [XMLUtils node: anElement stringAttribute: @"base"];
 
-            child = [XMLUtils node: anElement childWithName: @"sequence"];
+            /* Check for compositors */
+            child = [XMLUtils node:anElement childWithName:@"sequence"];
             if(!child) {
-                child = [XMLUtils node: anElement childWithName: @"choice"];
-            }
+                child = [XMLUtils node:anElement childWithName:@"choice"];
+            }            
+            /* We have children within the node, define them */
             if(child) {
-                self.sequenceOrChoice = [[XSDexplicitGroup alloc] initWithNode: child schema: schema];
+                self.sequenceOrChoice = [[XSDexplicitGroup alloc] initWithNode:child schema:schema];
             }
 
             NSMutableArray* newAttributes = [NSMutableArray array];
-            NSArray* attributeTags = [XMLUtils node: anElement childrenWithName: @"attribute"];
+            NSArray* attributeTags = [XMLUtils node:anElement childrenWithName:@"attribute"];
             for(NSXMLElement* anElement in attributeTags) {
-                [newAttributes addObject: [[XSDattribute alloc] initWithNode: anElement schema: schema]];
+                [newAttributes addObject: [[XSDattribute alloc] initWithNode:anElement schema:schema]];
             }
             self.attributes = newAttributes;
         }
+        
     }
+    
     return self;
 }
 
@@ -107,12 +142,13 @@
 - (NSArray*) simpleTypesInUse {
     NSMutableSet* simpleTypes = [NSMutableSet set];
     
-    for (XSDattribute *anAttr in self.attributes) {
+    for (XSDattribute *anAttr in [self attributes]) {
         id type = [self.schema typeForName: anAttr.type];
         [simpleTypes addObject:type];
     }
     
     for (XSDelement* anElement in [self elements]) {
+        /* If the current element has a type, then grab the type */
         if(anElement.type) {
             id<XSType> aType = [self.schema typeForName: anElement.type];
             if([aType isKindOfClass: [XSSimpleType class]]) {
@@ -137,9 +173,10 @@
     NSMutableSet* complexTypes = [NSMutableSet set];
     
     for (XSDelement* anElement in [self elements]) {
-        if( anElement.localComplexType != nil) {
+        if(anElement.localComplexType != nil) {
             [complexTypes addObject: anElement.localComplexType];
         } else {
+            /* TODO - FIX THIS PASSES EMPTY*/
             id<XSType> aType = [self.schema typeForName: anElement.type];
             if(aType!=self && [aType isKindOfClass: [XSDcomplexType class]]) {
                 [complexTypes addObject: aType];
@@ -165,7 +202,8 @@
     }
     
     NSString *prefix = [self.schema classPrefixForType:self];
-    return [NSString stringWithFormat: @"%@%@", prefix, vName];
+    NSString *rtn = [NSString stringWithFormat: @"%@%@", prefix, vName];
+    return rtn;
 }
 
 - (BOOL) hasSimpleBaseClass {
@@ -197,18 +235,21 @@
 }
 
 - (NSString*) baseClassName {
+    NSString * rtn;
     id baseType = self.baseType;
     if(baseType != nil) {
-        return [[self.schema typeForName: baseType] targetClassName];
+        rtn = [[self.schema typeForName:baseType] targetClassName];
     } else {
-        return @"";
+        rtn = @"";
     }
+    
+    return rtn;
 }
 
 - (NSString*) baseClassFileName {
-    return self.baseClassName;
+    NSString *rtn = self.baseClassName;
+    return rtn;
 }
-
 
 - (NSString*)readSimpleContent {
     id baseType = self.baseType;
@@ -238,7 +279,6 @@
 - (NSDictionary*) substitutionDict {
     return [NSDictionary dictionaryWithObject:self forKey:@"type"];
 }
-
 
 - (NSString*) readCodeForElement:(XSDelement *)element {
     NSDictionary* dict = [NSDictionary dictionaryWithObject: element forKey: @"element"];

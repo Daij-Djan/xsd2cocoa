@@ -7,9 +7,9 @@
  */
 #import <Foundation/Foundation.h>
 
-@protocol MGTemplateFilter
+@protocol MGTemplateFilter <NSObject>
 
 - (NSArray *)filters;
-- (NSObject *)filterInvoked:(NSString *)filter withArguments:(NSArray *)args onValue:(NSObject *)value;
+- (id)filterInvoked:(NSString *)filter withArguments:(NSArray *)args onValue:(NSObject *)value;
 
 @end

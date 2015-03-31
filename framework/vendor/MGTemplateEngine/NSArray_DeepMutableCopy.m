@@ -10,14 +10,13 @@
 
 @implementation NSArray (DeepMutableCopy)
 
-
-- (NSMutableArray *)deepMutableCopy;
+- (NSMutableArray *)deepMutableCopy
 {
     NSMutableArray *newArray;
-    unsigned int index, count;
+    NSUInteger index, count;
 	
-    count = (int) [self count];
-    newArray = [[NSMutableArray allocWithZone:nil] initWithCapacity:count];
+    count = [self count];
+    newArray = [[NSMutableArray alloc] initWithCapacity:count];
     for (index = 0; index < count; index++) {
         id anObject;
 		

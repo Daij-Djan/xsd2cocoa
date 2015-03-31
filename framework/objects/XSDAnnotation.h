@@ -7,6 +7,7 @@
 //
 
 #import "XSSchemaNode.h"
+#import "XMLUtils.h"
 
 @interface XSDAnnotation : XSSchemaNode
 
