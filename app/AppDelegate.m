@@ -233,8 +233,6 @@
 #pragma mark - app delegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
-    self.advancedOptionsButton.state = NSOffState;
-    [self toggleAdvancedOptions:nil];
 }
 
 #pragma mark - file open panel delegate

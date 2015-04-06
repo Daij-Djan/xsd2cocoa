@@ -4,8 +4,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "FileFormatter.h"
 
-@interface DDUncrustifyFormatter : NSObject
+@interface DDUncrustifyFormatter : NSObject<FileFormatter>
 
 @property (nonatomic, copy) NSString *stylePath;
 @property (nonatomic, copy) NSString *executablePath;

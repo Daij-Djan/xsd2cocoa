@@ -77,6 +77,10 @@
                 [schema addType: self.localComplexType];
             }
         }
+
+        //only valid after everything is loaded!
+//        NSAssert(self.name, @"no name");
+//        NSAssert(self.schemaType, @"no type");
     }
     return self;
 }
@@ -86,7 +90,6 @@
 }
 
 - (NSString*) codeType {
-- (NSString*) objcType {
     NSString* rtn;
     if([self isSingleValue]) {
         if(self.type != nil) {
@@ -144,7 +147,7 @@
     /* Initial Setup */
     BOOL isEnumeration = NO;
     /* Grab the type and check if it is of a simple type element */
-    id <XSType> type = [self.schema typeForName:self.type];
+    id <XSType> type = self.schemaType;
     BOOL isSimpleType = [type isKindOfClass:[XSSimpleType class]];
     if(isSimpleType){
         /* Cast the object to the proper class and grab the count of enums */

@@ -6,10 +6,10 @@
 <!--test annotation-->
     <annotation>
         <documentation>
-            address.xsd
+            weblinks.xsd defines a format for saving links to your favourite websites - it uses a includes  and local types
         </documentation>
     </annotation>
-
+    
 <!--test include-->
      <include schemaLocation="address_StreetInfo.xsd" />
      <include schemaLocation="address_UnitInfo.xsd" />

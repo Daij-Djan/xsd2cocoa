@@ -69,6 +69,20 @@
 - (void)assertParsedXML:(id)rootNode {
     //TODO test
     NSLog(@"%@", [rootNode performSelector:@selector(dictionary)]);
+
+    NSArray *favItems = [rootNode valueForKey:@"favitems"];
+    NSArray *groups = [rootNode valueForKey:@"groups"];
+    NSArray *childGroups = [groups[0] valueForKey:@"groups"];
+    
+    NSURL *linkUrl = [favItems[0] valueForKey:@"link"];
+    XCTAssertTrue([linkUrl.absoluteString isEqualToString:@"www.webcontinuum.net"]);
+    XCTAssertTrue([[childGroups[0] valueForKeyPath:@"elementDescription.value"] isEqualToString:@"Group description"]);
+    XCTAssertTrue([[groups[2] valueForKey:@"name"] isEqualToString:@"Travel"]);
+    
+    favItems = [groups[2] valueForKey:@"favitems"];
+    
+    linkUrl = [favItems[0] valueForKey:@"link"];
+    [linkUrl.absoluteString isEqualToString:@"www.britishairways.com"];
 }
 
 #pragma mark -

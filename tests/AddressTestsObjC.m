@@ -93,8 +93,13 @@
 }
 
 - (void)assertParsedXML:(id)rootNode {
-    //TODO test
-    NSLog(@"%@", [rootNode performSelector:@selector(dictionary)]);
+//    //TODO test
+//    NSLog(@"%@", [rootNode performSelector:@selector(dictionary)]);
+    
+    XCTAssertTrue([[rootNode valueForKey:@"addressLine1"] isEqualToString:@"adasdLine1"]);
+    XCTAssertTrue([[rootNode valueForKey:@"addressLine2"] isEqualToString:@"tempLine2"]);
+    XCTAssertTrue([[rootNode valueForKeyPath:@"streetInfo.direction"] isEqualToString:@"SouthBySouthWest"]);
+    XCTAssertTrue([[rootNode valueForKeyPath:@"unitInfo.number"] isEqualToString:@"0123123123"]);
 }
 
 #pragma mark -

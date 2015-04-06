@@ -294,13 +294,13 @@
 }
 
 - (NSString*)combinedReadPrefixCode {
-    NSMutableSet *lines = [NSMutableSet setWithCapacity:self.simpleTypesInUse.count];
+    NSMutableOrderedSet *lines = [NSMutableOrderedSet orderedSetWithCapacity:self.simpleTypesInUse.count];
     for (XSSimpleType *t in self.simpleTypesInUse) {
         if(t.readPrefixCode) {
             [lines addObject:t.readPrefixCode];
         }
     }
-    return [lines.allObjects componentsJoinedByString:@"\n"];
+    return [lines.array componentsJoinedByString:@"\n"];
 }
 
 @end

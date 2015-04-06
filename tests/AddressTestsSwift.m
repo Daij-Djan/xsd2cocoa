@@ -88,7 +88,12 @@
 
 - (void)assertParsedXML:(id)rootNode {
     //TODO test
-    NSLog(@"%@", [rootNode performSelector:@selector(dictionary)]);
+//    NSLog(@"%@", [rootNode performSelector:@selector(dictionary)]);
+
+    [[rootNode valueForKey:@"addressLine1"] isEqualToString:@"adasdLine1"];
+    [[rootNode valueForKey:@"addressLine2"] isEqualToString:@"tempLine2"];
+    [[rootNode valueForKeyPath:@"streetInfo.direction"] isEqualToString:@"SouthBySouthWest"];
+    [[rootNode valueForKeyPath:@"unitInfo.number"] isEqualToString:@"0123123123"];
 }
 
 #pragma mark -

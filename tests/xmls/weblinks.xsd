@@ -5,7 +5,7 @@
 
   <xs:annotation>
 	<xs:documentation>
-		weblinks.xsd defines a format for saving links to your favourite websites
+		weblinks.xsd defines a format for saving links to your favourite websites - it uses a recursive include
 	</xs:documentation>
   </xs:annotation>
 

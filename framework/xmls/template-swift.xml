@@ -2,7 +2,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
     
-    <format_style>swift</format_style>
+    <format_style type="uncrustify">swift</format_style>
     
     <additional_file path="libxml-bridging-header.header" target_path="libxml-bridging-header.h"/>
     

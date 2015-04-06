@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
     
-    <format_style>objc</format_style>
+    <format_style type="clang">objc</format_style>
     
     <!-- known simpletypes-->
     <simpletype name="string" objType="NSString" arrayType="NSArray">
@@ -78,7 +78,7 @@
                 self.value = [decFormatter numberFromString: value];</value>
 		</read>
 	</simpletype>
-	<simpletype name="gYear" objType="NSDate" arrayType="NSArray">
+	<simpletype name="dateTime" objType="NSDate" arrayType="NSArray">
 		<read>
 			<prefix>NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
             dateFormatter.timeStyle = NSDateFormatterFullStyle;
@@ -104,6 +104,13 @@
     </complextype>
 
     <implementation>
+        <!--
+         Name:          Header
+         Parameters:    type - the current complex type.
+         Description:   Work our way through the template CDATA and replace the the {{ }} with the proper values
+         this will be used to generate the class header files for the complex types.
+         <Object>.h
+         -->
         <header extension="h"><![CDATA[
 /**
  * {{  type.targetClassFileName }}.h
@@ -112,7 +119,8 @@
 
 #import <Foundation/Foundation.h>
 {% if type.hasComplexBaseClass %}#import "{{ type.baseClassFileName }}.h"{% /if %}
-{% for complexType in type.complexTypesInUse %}@class {{ complexType.targetClassName }};{% /for %}
+{% for complexType in type.complexTypesInUse %}@class {{ complexType.targetClassName }};
+{% /for %}
 {% if type.hasAnnotations %}/**
 {{ type.comment }} */{% /if %}
 {% for element in type.elements %}{% if element.hasEnumeration %}#define k{{ element.variableClassName }}NamesArray {{ element.buildEnumerationNamesArray }}
@@ -130,13 +138,13 @@ typedef NS_ENUM(NSInteger, {{ element.variableClassName }}){
 {{ attribute.comment }}
 */{% /if %}
 @property (nonatomic, readonly) {{ attribute.codeType }}* {{ attribute.variableName }};
-
-{% /for %}{% for element in type.elements %}{% if element.hasAnnotations %}/**
+{% /for %}
+{% for element in type.elements %}{% if element.hasAnnotations %}/**
 {{ element.comment }}
 */{% /if %}
-@property (nonatomic, readonly) {{ element.codeType }}* {{ element.variableName }};
+@property (nonatomic, readonly) {% if element.hasEnumeration %}{{ element.variableClassName }} {% else %}{{ element.codeType }}* {% /if %}{{ element.variableName }};{% /for %}
 
-{% /for %}{% if type.hasSimpleBaseClass %}/**
+{% if type.hasSimpleBaseClass %}/**
 the type's main {{ type.baseClassName }} value
 */
 @property (nonatomic, readonly) {{ type.baseClassName }}* value;{% /if %}
@@ -146,9 +154,7 @@ the type's main {{ type.baseClassName }} value
 
 @end
 
-@interface {{ type.targetClassName }} (Reading){
-
-}
+@interface {{ type.targetClassName }} (Reading)
 
 /* The class's initializer used by the reader to build the object structure during parsing (xmlTextReaderPtr at the moment) */
 - (id) initWithReader: (void*) reader;
@@ -158,16 +164,23 @@ the type's main {{ type.baseClassName }} value
 
 @end
 	]]></header>
+    <!--
+     Name:          Class
+     Parameters:    type - the current complex type.
+     Description:   Work our way through the template CDATA and replace the the {{ }} with the proper values
+     this will be used to generate the class files for the complex types.
+    -->
 	<class extension="m"><![CDATA[
 #import "{{ type.targetClassFileName }}.h"
-#import <libxml/xmlreader.h>{% for complexType in type.complexTypesInUse %}
+#import <libxml/xmlreader.h>
+{% for complexType in type.complexTypesInUse %}
 #import "{{ complexType.targetClassFileName }}.h"{% /for %}
 
 @interface {{ type.targetClassName }} ()
-{% for attribute in type.attributes %}
-@property (nonatomic, readwrite) {{ attribute.codeType }}* {{ attribute.variableName }};
+{% for attribute in type.attributes %}@property (nonatomic, readwrite) {{ attribute.codeType }}* {{ attribute.variableName }};
 {% /for %}
-{% for element in type.elements %}@property (nonatomic, readwrite) {{ element.codeType }}* {{ element.variableName }};
+
+{% for element in type.elements %}@property (nonatomic, readwrite) {% if element.hasEnumeration %}{{ element.variableClassName }} {% else %}{{ element.codeType }}* {% /if %}{{ element.variableName }};
 {% /for %}
 {% if type.hasSimpleBaseClass %}
 @property (nonatomic, readwrite) {{ type.baseClassName }}* value;{% /if %}
@@ -176,7 +189,13 @@ the type's main {{ type.baseClassName }} value
 
 @implementation {{ type.targetClassName }} 
  
-- (void) readAttributes: (void*) reader {{% if type.hasComplexBaseClass %}
+ /**
+ * Name:        readAttributes
+ * Parameters:  (void *) - the Libxml's xmlTextReader pointer
+ * Returns:     (void)
+ * Description: Read the attributes for the current XML element
+ */
+ - (void) readAttributes: (void*) reader {{% if type.hasComplexBaseClass %}
   [super readAttributes: reader];{% /if %}{{ type.combinedReadPrefixCode }}
 {% for attribute in type.attributes %}  char* {{ attribute.name }}AttrValue = (char*) xmlTextReaderGetAttribute(reader, (xmlChar*)"{{ attribute.name }}");
     if({{ attribute.name }}AttrValue) {
@@ -195,7 +214,8 @@ the type's main {{ type.baseClassName }} value
     {% if type.hasComplexBaseClass %}self = [super initWithReader: reader];{% else %}self = [super init];{% /if %}
     
     /* Customize the object */
-    if(self) { {% for simpleType in type.simpleTypesInUse %}{{ simpleType.readPrefixCode }}{% /for %}{% if type.hasComplexBaseClass %}{% else %}[self readAttributes: reader];{% /if %}
+    if(self) { {{ type.combinedReadPrefixCode }}
+    {% if type.hasComplexBaseClass %}{% else %}[self readAttributes: reader];{% /if %}
         {% for element in type.elements %}{% if element.isSingleValue %}{% else %}NSMutableArray *{{ element.variableName }}Array = [NSMutableArray array];{% /if %}
         {% if element.hasEnumeration %}k{{ element.variableClassName }}Array = [[NSArray alloc] initWithObjects: k{{ element.variableClassName }}NamesArray, nil];{% /if %}
         {% /for %}{% if type.hasComplexBaseClass %}int _readerOk = 1;{% else %}int _readerOk = xmlTextReaderRead(reader);{% /if %}
@@ -218,42 +238,14 @@ the type's main {{ type.baseClassName }} value
                     break;
                 }
             }
-
-  int _complexTypeXmlDept = xmlTextReaderDepth(reader);
-  {% if type.hasComplexBaseClass %}self = [super initWithReader: reader];{% else %}self = [super init];{% /if %}
-  if(self) {
-      {{ type.combinedReadPrefixCode }}{% if type.hasComplexBaseClass %}{% else %}
-  [self readAttributes: reader];
-{% /if %}{% for element in type.elements %}
-    {% if element.isSingleValue %}{% else %}NSMutableArray *{{ element.variableName }}Array = [NSMutableArray array];{% /if %}{% /for %}
-
-    {% if type.hasComplexBaseClass %}int _readerOk=1;{% else %}int _readerOk = xmlTextReaderRead(reader);{% /if %}
-    int _currentNodeType = xmlTextReaderNodeType(reader);
-    int _currentXmlDept = xmlTextReaderDepth(reader);
-    while(_readerOk && _currentNodeType != XML_READER_TYPE_NONE && _complexTypeXmlDept < _currentXmlDept) {
-      BOOL handledInChild = NO;
-      if(_currentNodeType == XML_READER_TYPE_ELEMENT || _currentNodeType == XML_READER_TYPE_TEXT) {
-        NSString* _currentElementName = [NSString stringWithCString: (const char*) xmlTextReaderConstLocalName(reader) encoding:NSUTF8StringEncoding];
-        {% for element in type.elements %}if([@"{{element.name}}" isEqualToString: _currentElementName]) {
-          {{ element.readCodeForContent }}
-          {% if element.hasComplexType %}
-          handledInChild = YES;{% /if %}
-        } else {% /for %} {% if type.hasSimpleBaseClass %} if([@"#text" isEqualToString: _currentElementName]){
-              char* contentValue = (char*) xmlTextReaderConstValue(reader);
-              if(contentValue) {
-                  {{ type.readSimpleContent }}
-              }
-          } else {% /if %} {
-            NSLog(@"Ignoring unexpected: %@", _currentElementName);
-            break;
+        
+        _readerOk = handledInChild ? xmlTextReaderReadState(reader) : xmlTextReaderRead(reader);
+        _currentNodeType = xmlTextReaderNodeType(reader);
+        _currentXmlDept = xmlTextReaderDepth(reader);
         }
-      }
-      
-      _readerOk = handledInChild ? xmlTextReaderReadState(reader) : xmlTextReaderRead(reader);
-      _currentNodeType = xmlTextReaderNodeType(reader);
-      _currentXmlDept = xmlTextReaderDepth(reader);
-    }
-    
+      {% for element in type.elements %}
+      {% if element.isSingleValue %}{% else %}if({{ element.variableName }}Array.count) self.{{ element.variableName }} = {{ element.variableName }}Array;{% /if %}{% /for %}
+    }    
     return self;
 }
 
@@ -317,7 +309,14 @@ the type's main {{ type.baseClassName }} value
 	    ]]></class>
     </implementation>
 	<reader>
-	   <header extension="h"><![CDATA[
+        <!--
+         Name:          Header Element
+         Parameters:    type - the current global element type.
+         Description:   Work our way through the template CDATA and replace the the {{ }} with the proper values
+         this will be used to generate the header file for the elements within our XSD types.
+         <Object>+File.h
+         -->
+        <header extension="h"><![CDATA[
 /**
  * {{  type.targetClassFileName }}+File.h
  {% if type.schema.hasAnnotations %} * {{ type.schema.comment }}
@@ -338,6 +337,13 @@ the type's main {{ type.baseClassName }} value
 
 @end
 	]]></header>
+    <!--
+     Name:           Class Element
+     Parameters:     type - the current global element type.
+     Description:    Work our way through the template CDATA and replace the the {{ }} with the proper values
+     this will be used to generate the header file for the elements within our XSD types.
+     <Object>+File.m
+     -->
 	<class extension="m"><![CDATA[
 #import "{{ type.targetClassFileName }}+File.h"
 #import <libxml/xmlreader.h>

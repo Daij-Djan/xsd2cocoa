@@ -11,10 +11,7 @@
 #import "MGTemplateEngine.h"
 #import "ICUTemplateMatcher.h"
 #import "XSDattribute.h"
-<<<<<<< HEAD
 #import "XSDenumeration.h"
-=======
->>>>>>> begin swift support
 #import "XSDschema.h"
 
 @interface XSSimpleType ()
@@ -194,38 +191,6 @@
     return YES;
 }
 
-<<<<<<< HEAD
-//- (NSString *) readCodeForEnumeration:(XSDenumeration *)enumeration{
-//    NSString *rtn;
-//    NSDictionary* dict = [NSDictionary dictionaryWithObject:enumeration forKey:@"enumeration"];
-//    rtn =  [engine processTemplate:self.readEnumerationTemplate withVariables: dict];
-//    return rtn;
-//}
-
-- (NSString*) readCodeForAttribute:(XSDattribute*) attribute {
-    NSString *rtn;
-    NSDictionary* dict = [NSDictionary dictionaryWithObject:attribute forKey:@"attribute"];
-    rtn = [engine processTemplate:self.readAttributeTemplate withVariables: dict];
-    return rtn;
-}
-
-
-- (NSString*) readCodeForElement:(XSDelement*) element {
-    NSString* rtn;
-    @try {
-        /* Create a dictionary for the xsd element on the key element */
-        NSDictionary* dict = [NSDictionary dictionaryWithObject:element forKey:@"element"];
-        
-        /* Generate the code for this element using the template for the element */
-        rtn = [engine processTemplate:self.readElementTemplate withVariables:dict];
-    }
-    @catch (NSException * e) {
-        NSLog(@"Exception: %@", e);
-    }
-    @finally {}
-   
-    return rtn;
-=======
 - (NSString *)readAttributeTemplate {
     XSSimpleType *t = self.typeForTemplate;
     return t->_readAttributeTemplate;
@@ -245,7 +210,6 @@
 - (NSString*) readCodeForElement: (XSDelement*) element {
     NSDictionary* dict = [NSDictionary dictionaryWithObject: element forKey: @"element"];
     return [engine processTemplate: self.readElementTemplate withVariables: dict];
->>>>>>> begin swift support
 }
 
 - (NSString *)readValueCode {
@@ -259,19 +223,15 @@
 }
 
 #pragma mark
-<<<<<<< HEAD
+
 /**
- * Name:        knownSimpleTypes
- * Parameters:  None
+ * Name:        knownSimpleTypesForSchema
+ * Parameters:  the schema the types are for
  * Returns:     A list of xml data simple types defined in http://www.w3.org/TR/xmlschema-2/#built-in-datatypes
  * Details:     This public method will generate a list of known simple data
  *              types listed in the datatypes.xml file in our project.
  */
-+ (NSArray *)knownSimpleTypes {
-=======
-
 + (NSArray *)knownSimpleTypesForSchema:(XSDschema*)schema {
->>>>>>> begin swift support
     NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"datatypes" withExtension:@"xml"];
     NSData* data = [NSData dataWithContentsOfURL: url];
     NSXMLDocument* doc = [[NSXMLDocument alloc] initWithData:data options:0 error:nil];
@@ -287,14 +247,7 @@
     for (NSXMLElement *element in iNodes) {
         id base = [XMLUtils node:element stringAttribute:@"base"];
         id name = [XMLUtils node:element stringAttribute:@"name"];
-<<<<<<< HEAD
-        XSSimpleType *st = [[[self class] alloc] init];
-
-        st.baseType = base;
-        st.name = name;
-=======
         XSSimpleType *st = [[[self class] alloc] initWithName:name baseType:base schema:schema];
->>>>>>> begin swift support
         [types addObject:st];
     }
     return types;

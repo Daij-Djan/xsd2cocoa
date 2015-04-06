@@ -33,46 +33,46 @@
     self.parseMethodName = @"SimpleTypesTypeFromURL:";
     
     _expectedClassnames = @{
-                            @"gMonth": @"NSNumber",
-                            @"Name": @"NSString",
-                            @"double": @"NSNumber",
+                            @"gMonth": @"Int",
+                            @"Name": @"String",
+                            @"double": @"Double",
                             @"dateTime": @"NSDate",
-                            @"IDREF": @"NSString",
-                            @"string": @"NSString",
-                            @"negativeInteger": @"NSNumber",
-                            @"nonPositiveInteger": @"NSNumber",
-                            @"unsignedShort": @"NSNumber",
-                            @"gYear": @"NSNumber",
-                            @"duration": @"NSNumber",
-                            @"NOTATION": @"NSString",
-                            @"QName": @"NSString",
-                            @"ENTITY": @"NSString",
-                            @"short": @"NSNumber",
-                            @"gDay": @"NSNumber",
-                            @"byte": @"NSNumber",
-                            @"decimal": @"NSNumber",
+                            @"IDREF": @"String",
+                            @"string": @"String",
+                            @"negativeInteger": @"Int",
+                            @"nonPositiveInteger": @"Int",
+                            @"unsignedShort": @"Int",
+                            @"gYear": @"Int",
+                            @"duration": @"Double",
+                            @"NOTATION": @"String",
+                            @"QName": @"String",
+                            @"ENTITY": @"String",
+                            @"short": @"Int",
+                            @"gDay": @"Int",
+                            @"byte": @"Int",
+                            @"decimal": @"Double",
                             @"anyURI": @"NSURL",
-                            @"NMTOKEN": @"NSString",
-                            @"integer": @"NSNumber",
-                            @"unsignedInt": @"NSNumber",
-                            @"gMonthDay": @"NSNumber",
-                            @"IDREFS": @"NSString",
-                            @"float": @"NSNumber",
-                            @"NCName": @"NSString",
-                            @"token": @"NSString",
-                            @"NMTOKENS": @"NSString",
-                            @"ID": @"NSString",
-                            @"long": @"NSNumber",
-                            @"positiveInteger": @"NSNumber",
-                            @"unsignedByte": @"NSNumber",
-                            @"gYearMonth": @"NSNumber",
-                            @"language": @"NSString",
-                            @"int": @"NSNumber",
-                            @"boolean": @"NSNumber",
-                            @"normalizedString": @"NSString",
-                            @"ENTITIES": @"NSString",
-                            @"nonNegativeInteger": @"NSNumber",
-                            @"unsignedLong": @"NSNumber"
+                            @"NMTOKEN": @"String",
+                            @"integer": @"Int",
+                            @"unsignedInt": @"Int",
+                            @"gMonthDay": @"Int",
+                            @"IDREFS": @"String",
+                            @"float": @"Double",
+                            @"NCName": @"String",
+                            @"token": @"String",
+                            @"NMTOKENS": @"String",
+                            @"ID": @"String",
+                            @"long": @"Int",
+                            @"positiveInteger": @"Int",
+                            @"unsignedByte": @"Int",
+                            @"gYearMonth": @"Int",
+                            @"language": @"String",
+                            @"int": @"Int",
+                            @"boolean": @"Bool",
+                            @"normalizedString": @"String",
+                            @"ENTITIES": @"String",
+                            @"nonNegativeInteger": @"Int",
+                            @"unsignedLong": @"Int"
                             };
     [self helpSetUp];
     [super setUp];
@@ -159,7 +159,9 @@
         id expectedClassname = _expectedClassnames[t.name];
         XCTAssert(expectedClassname);
         XCTAssert([t.targetClassName isEqualToString:expectedClassname]);
-        XCTAssert([t.arrayType isEqualToString:@"NSArray"]);
+        
+        id expectedArrayClassname = [NSString stringWithFormat:@"[%@]",expectedClassname];
+        XCTAssert([t.arrayType isEqualToString:expectedArrayClassname]);
     }
 }
 

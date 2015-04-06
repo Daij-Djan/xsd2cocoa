@@ -7,8 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "FileFormatter.h"
 
-@interface TRVSFormatter : NSObject
+@interface TRVSFormatter : NSObject<FileFormatter>
 
 @property (nonatomic, copy) NSString *style;
 @property (nonatomic, copy) NSString *executablePath;
