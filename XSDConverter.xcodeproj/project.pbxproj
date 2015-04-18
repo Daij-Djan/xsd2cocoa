@@ -16,6 +16,10 @@
 		B344F42F1A9A76400078C679 /* uncrustify in Resources */ = {isa = PBXBuildFile; fileRef = B344F42A1A9A76400078C679 /* uncrustify */; };
 		B344F4301A9A76400078C679 /* uncrustify_objc.cfg in Resources */ = {isa = PBXBuildFile; fileRef = B344F42B1A9A76400078C679 /* uncrustify_objc.cfg */; };
 		B344F4311A9A76400078C679 /* uncrustify_swift.cfg in Resources */ = {isa = PBXBuildFile; fileRef = B344F42C1A9A76400078C679 /* uncrustify_swift.cfg */; };
+		B3BCCFB11AE26882005D31AC /* configFeatures.xml in Resources */ = {isa = PBXBuildFile; fileRef = B3BCCFAF1AE26882005D31AC /* configFeatures.xml */; };
+		B3BCCFB21AE26882005D31AC /* configFeatures.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B3BCCFB01AE26882005D31AC /* configFeatures.xsd */; };
+		B3BCCFB41AE268C0005D31AC /* ConfigFeaturesTestsObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BCCFB31AE268C0005D31AC /* ConfigFeaturesTestsObjC.m */; };
+		B3BCCFB61AE26A4A005D31AC /* ConfigFeaturesTestsSwift.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BCCFB51AE26A4A005D31AC /* ConfigFeaturesTestsSwift.m */; };
 		B3C971731AD17B8C00CD1DD9 /* DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C971641AD17B8C00CD1DD9 /* DeepMutableCopy.h */; };
 		B3C971741AD17B8C00CD1DD9 /* ICUTemplateMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C971651AD17B8C00CD1DD9 /* ICUTemplateMatcher.h */; };
 		B3C971751AD17B8C00CD1DD9 /* ICUTemplateMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C971661AD17B8C00CD1DD9 /* ICUTemplateMatcher.m */; };
@@ -135,6 +139,10 @@
 		B344F42A1A9A76400078C679 /* uncrustify */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = uncrustify; sourceTree = "<group>"; };
 		B344F42B1A9A76400078C679 /* uncrustify_objc.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = uncrustify_objc.cfg; sourceTree = "<group>"; };
 		B344F42C1A9A76400078C679 /* uncrustify_swift.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = uncrustify_swift.cfg; sourceTree = "<group>"; };
+		B3BCCFAF1AE26882005D31AC /* configFeatures.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = configFeatures.xml; sourceTree = "<group>"; };
+		B3BCCFB01AE26882005D31AC /* configFeatures.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = configFeatures.xsd; sourceTree = "<group>"; };
+		B3BCCFB31AE268C0005D31AC /* ConfigFeaturesTestsObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigFeaturesTestsObjC.m; sourceTree = "<group>"; };
+		B3BCCFB51AE26A4A005D31AC /* ConfigFeaturesTestsSwift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigFeaturesTestsSwift.m; sourceTree = "<group>"; };
 		B3C971641AD17B8C00CD1DD9 /* DeepMutableCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepMutableCopy.h; sourceTree = "<group>"; };
 		B3C971651AD17B8C00CD1DD9 /* ICUTemplateMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICUTemplateMatcher.h; sourceTree = "<group>"; };
 		B3C971661AD17B8C00CD1DD9 /* ICUTemplateMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICUTemplateMatcher.m; sourceTree = "<group>"; };
@@ -251,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				B342A5241A9655310061C546 /* AddressTestsSwift.m */,
+				B3BCCFB51AE26A4A005D31AC /* ConfigFeaturesTestsSwift.m */,
 				B342A5211A9655010061C546 /* SimpleTypesTestsSwift.m */,
 				B342A5261A96564E0061C546 /* WeblinksTestsSwift.m */,
 			);
@@ -261,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				B4C21F591A5B26F7004F12F0 /* AddressTestsObjC.m */,
+				B3BCCFB31AE268C0005D31AC /* ConfigFeaturesTestsObjC.m */,
 				B42A11121A6478DC00F42ED3 /* SimpleTypesTestsObjC.m */,
 				B42F9F591A4890CE0007FC96 /* WeblinksTestsObjC.m */,
 			);
@@ -392,6 +402,8 @@
 		B42F9F5A1A4890CE0007FC96 /* xmls */ = {
 			isa = PBXGroup;
 			children = (
+				B3BCCFAF1AE26882005D31AC /* configFeatures.xml */,
+				B3BCCFB01AE26882005D31AC /* configFeatures.xsd */,
 				B42A11141A64791700F42ED3 /* simpleTypes.xml */,
 				B42A11151A64791700F42ED3 /* simpleTypes.xsd */,
 				B42F9F5F1A4890CE0007FC96 /* weblinks.xml */,
@@ -651,11 +663,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3BCCFB21AE26882005D31AC /* configFeatures.xsd in Resources */,
 				B4C21F531A5B2688004F12F0 /* address.xml in Resources */,
 				B42A11171A64791700F42ED3 /* simpleTypes.xsd in Resources */,
 				B42F9F691A4890CE0007FC96 /* weblinks.xsd in Resources */,
 				B4C21F551A5B2688004F12F0 /* address_StreetInfo.xsd in Resources */,
 				B42A11161A64791700F42ED3 /* simpleTypes.xml in Resources */,
+				B3BCCFB11AE26882005D31AC /* configFeatures.xml in Resources */,
 				B42F9F681A4890CE0007FC96 /* weblinks.xml in Resources */,
 				B4BAB2511A6147A50073C821 /* weblinks_test.xsd in Resources */,
 				B4C21F541A5B2688004F12F0 /* address.xsd in Resources */,
@@ -706,6 +720,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3BCCFB61AE26A4A005D31AC /* ConfigFeaturesTestsSwift.m in Sources */,
 				B342A5271A96564E0061C546 /* WeblinksTestsSwift.m in Sources */,
 				B4BB5A231A4AC4710044305B /* XSDTestCaseObjC.m in Sources */,
 				B342A5231A9655060061C546 /* SimpleTypesTestsSwift.m in Sources */,
@@ -713,6 +728,7 @@
 				B42F9F631A4890CE0007FC96 /* WeblinksTestsObjC.m in Sources */,
 				B342A52C1A9658190061C546 /* XSDTestCaseSwift.m in Sources */,
 				B4C21F5A1A5B26F7004F12F0 /* AddressTestsObjC.m in Sources */,
+				B3BCCFB41AE268C0005D31AC /* ConfigFeaturesTestsObjC.m in Sources */,
 				B42A11131A6478DC00F42ED3 /* SimpleTypesTestsObjC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

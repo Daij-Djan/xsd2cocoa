@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.example.org/configs/configFeatures"
+        xmlns:config="http://www.example.org/configs/configFeatures"
+		elementFormDefault="qualified">
+
+    <annotation>
+        <documentation>
+            configFeatures.xsd defines a format for testing enumeration support
+        </documentation>
+    </annotation>
+
+    <complexType name="Config">
+		<sequence>
+	        <element name="features" type="config:Features" minOccurs="1" maxOccurs="1"/>
+			<element name="userRights"  maxOccurs="1" minOccurs="1">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="Admin"></enumeration>
+						<enumeration value="Operator"></enumeration>
+						<enumeration value="Magician"></enumeration>
+						<enumeration value="User"></enumeration>
+						<enumeration value="Guest"></enumeration>
+					</restriction>
+				</simpleType>
+			</element>
+		</sequence>
+    </complexType>
+
+    <complexType name="Features">
+		<sequence>
+			<element name="feature" type="config:Feature" maxOccurs="unbounded" minOccurs="1"/>
+		</sequence>
+    </complexType>
+
+	<complexType name="Feature">
+		<attribute name="id" type="config:FeatureName" use="required"></attribute>
+		<attribute name="enabled" type="boolean" use="required"></attribute>
+	</complexType>
+	
+	<simpleType name="FeatureName">
+		<restriction base="string">
+			<enumeration value="CarManagement"></enumeration>
+			<enumeration value="Main"></enumeration>
+			<enumeration value="Networking"></enumeration>
+			<enumeration value="OfficeSuite"></enumeration>
+			<enumeration value="AlarmClock"></enumeration>
+			<enumeration value="TrafficInformation"></enumeration>
+			<enumeration value="RSS"></enumeration>
+			<enumeration value="ContactPage"></enumeration>
+			<enumeration value="PersonalHomepage"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<!--root-->
+	<element name='config' type="config:Config"/>
+</schema>
+
