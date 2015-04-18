@@ -9,13 +9,17 @@
 #import "XMLUtils.h"
 #import "XSSimpleType.h"
 #import "XSDenumeration.h"
+#import "XSSimpleType.h"
 
+@interface XSSimpleType (privateAccessors)
+@property (strong, nonatomic) NSString *name;
+@end
 @interface XSDcomplexType (privateAccessors)
 @property (strong, nonatomic) NSString *name;
 @end
 
 @interface XSDelement ()
-@property (strong, nonatomic) XSDcomplexType* localComplexType;
+@property (strong, nonatomic) id<XSType> localType;
 @property (strong, nonatomic) NSString* name;
 @property (strong, nonatomic) NSString* type;
 @property (strong, nonatomic) NSString* substitutionGroup;
@@ -72,15 +76,22 @@
             /* Check if we have a complex type defined for the given element */
             NSXMLElement* complexTypeNode = [XMLUtils node:node childWithName:@"complexType"];
             if(complexTypeNode != nil) {
-                self.localComplexType = [[XSDcomplexType alloc] initWithNode:complexTypeNode schema:schema];
-                self.localComplexType.name = [self.name stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[self.name substringToIndex:1] uppercaseString]];
-                [schema addType: self.localComplexType];
+                self.localType = [[XSDcomplexType alloc] initWithNode:complexTypeNode schema:schema];
+                ((XSDcomplexType*)self.localType).name = [self.name stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[self.name substringToIndex:1] uppercaseString]];
+                [schema addType: self.localType];
+            }
+            else {
+                NSXMLElement* simpleTypeNode = [XMLUtils node:node childWithName:@"simpleType"];
+                if(simpleTypeNode != nil) {
+                    self.localType = [[XSSimpleType alloc] initWithNode:simpleTypeNode schema:schema];
+                    ((XSSimpleType*)self.localType).name = [self.name stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[self.name substringToIndex:1] uppercaseString]];
+                    [schema addType: self.localType];
+                }
             }
         }
 
-        //only valid after everything is loaded!
-//        NSAssert(self.name, @"no name");
-//        NSAssert(self.schemaType, @"no type");
+        NSAssert(self.name, @"no name");
+        NSAssert(self.type || self.localType, @"no type");
     }
     return self;
 }
@@ -96,13 +107,13 @@
             id<XSType> type =[self.schema typeForName:self.type];
             rtn = [type targetClassName];
         } else {
-            rtn = [self.localComplexType targetClassName];
+            rtn = [self.localType targetClassName];
         }
     } else {
         if(self.type != nil) {
             rtn = [[self.schema typeForName:self.type] arrayType];
         } else {
-            rtn = self.localComplexType.arrayType;
+            rtn = self.localType.arrayType;
         }
     }
     
@@ -113,26 +124,13 @@
     if(self.type != nil) {
         return [self.schema typeForName: self.type];
     } else {
-        return self.localComplexType;
+        return self.localType;
     }
 }
 
 - (NSString*) variableName {
     return [XSDschema variableNameFromName:self.name multiple:!self.isSingleValue];
 }
-
-- (NSString*) variableClassName{
-    NSString* rtn;
-    
-    NSArray* splitPrefix = [self.type componentsSeparatedByCharactersInSet: [NSCharacterSet characterSetWithCharactersInString: @":"]];
-    
-    if(splitPrefix.count > 1) {
-        rtn = (NSString*) [splitPrefix objectAtIndex: 1];
-    }
-    
-    return rtn;
-}
-
 
 /* 
  * Name:        hasEnumeration
@@ -144,65 +142,17 @@
  *              with an enumeration values.
  */
 - (BOOL) hasEnumeration{
-    /* Initial Setup */
     BOOL isEnumeration = NO;
+    
     /* Grab the type and check if it is of a simple type element */
-    id <XSType> type = self.schemaType;
-    BOOL isSimpleType = [type isKindOfClass:[XSSimpleType class]];
-    if(isSimpleType){
-        /* Cast the object to the proper class and grab the count of enums */
-        XSSimpleType* simpleTypeTemp = (XSSimpleType*) type;
-        /* If we have some, set return value to yes */
-        if([[simpleTypeTemp enumerations] count] > 0) {
-            isEnumeration = YES;
-        }
+    XSSimpleType* type = (XSSimpleType*)self.schemaType;
+    if([type isKindOfClass:[XSSimpleType class]]) {
+        /* ask the type */
+        isEnumeration = [type hasEnumeration];
     }
     
     /* Return BOOL if we have enumerations */
     return isEnumeration;
-}
-
-- (NSArray*) enumerationValues{
-    NSMutableArray *rtn = [[NSMutableArray alloc] init];
-    /* Ensure that we have enumerations for this element */
-    if(!self.hasEnumeration){
-        return rtn;
-    }
-    
-    /* Cast the type to the proper class */
-    XSSimpleType* simpleType = (XSSimpleType*) [self.schema typeForName:self.type];
-
-    /* Iterate through the enumerations to grab the value*/
-    for (XSDenumeration* enumType in [simpleType enumerations]) {
-        [rtn addObject:enumType.value];
-    }
-    
-    /* Return the populated array of values */
-    return rtn;
-}
-
-- (NSString *) buildEnumerationValues{
-    NSString *rtn = [[self enumerationValues] componentsJoinedByString:@", "];
-    return rtn;
-}
-
-- (NSString *) buildEnumerationNamesArray{
-    NSString *rtn = @"";
-
-    /* Check if we have enumerations for this type */
-    if (![self hasEnumeration]) {
-        return rtn;
-    }
-    
-    /* Create the array with the proper format */
-    for (NSString *enumValue in [self enumerationValues]) {
-        rtn = [NSString stringWithFormat:@"%@, @\"%@\"", rtn, enumValue];
-    }
-    
-    /* Remove the first two characters */
-    rtn = [rtn substringFromIndex:2];
-    
-    return rtn;
 }
 
 - (NSString*) nameWithCapital {
@@ -213,8 +163,8 @@
     NSString *rtn;
     
     /* Fetch the type and from those objects, call their appropriate method */
-    if(self.localComplexType != nil) {
-        rtn = [self.localComplexType readCodeForElement:self];
+    if(self.localType != nil) {
+        rtn = [self.localType readCodeForElement:self];
     }
     else if(self.hasEnumeration){
         /* Enumerations have no types defined, but have a base type. Grab the base type from the element and fetch the final code */

@@ -32,16 +32,6 @@ typedef enum : NSUInteger {
 //element may add local types (Complex or simple)
 - (void) addType: (id<XSType>)type;
 
-//templating
-@property (readonly, nonatomic) NSString* complexTypeArrayType;
-@property (readonly, nonatomic) NSString* readComplexTypeElementTemplate;
-@property (readonly, nonatomic) NSString* readerClassTemplateString;
-@property (readonly, nonatomic) NSString* readerHeaderTemplateString;
-@property (readonly, nonatomic) NSString* classTemplateString;
-@property (readonly, nonatomic) NSString* headerTemplateString;
-@property (readonly, nonatomic) NSDictionary* additionalFiles;//keys=dest, values=src
-@property (readonly, nonatomic) id<FileFormatter> formatter;
-
 - (BOOL) loadTemplate: (NSURL*) templateUrl error: (NSError**) error;
 - (id<XSType>) typeForName: (NSString*) qname; //this will only return proper type info when called during generation
 - (NSString*)classPrefixForType:(id<XSType>)type;

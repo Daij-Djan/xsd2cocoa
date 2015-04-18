@@ -23,6 +23,7 @@
 - (NSArray*) elements;
 - (NSArray*) simpleTypesInUse;
 - (NSArray*) complexTypesInUse;
+- (NSArray*) enumTypesInUse;
 - (NSString*) readSimpleContent;
 - (BOOL) hasSimpleBaseClass;
 - (BOOL) hasComplexBaseClass;

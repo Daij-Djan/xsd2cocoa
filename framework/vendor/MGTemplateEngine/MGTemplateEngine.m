@@ -248,6 +248,7 @@
 		result = [currObj valueForKeyPath:var];
 	}
 	@catch (NSException *exception) {
+        NSLog(@"Exception while resolving: %@", var);
 		// do nothing
 	}
 	

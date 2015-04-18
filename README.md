@@ -12,21 +12,22 @@ The generator is a framework that is completely seperate from the GUI. And thus 
 **The generator is checked which unit tests that read specific xsds, generate code for it, compile it using clang and then see if they can parse an according xml**<br/>
 (so IF you find bugs / missing features - please provide a xsd & a xml file so I can fix it / add it to the generator)
 
-###What works already: (1.3)
+###What works already: (1.4)
 ##### (the key points I remember)
 
 - Complex type elements
 - Simple type elements/attributes (standard and custom)
 	- **40/44 types defined by the w3c work**<br/> 
 	outstanding: date, time, base64Binary, hexBinary
-
 - Inheritance by extension
+- restrictions with enumeration support (thanks to Alex Smith for the initial trigger) ** 1.4 **
 - Static parsing methods for global elements (a category is generated for a complex type that is used as the root element)
 - Mapping xml namespaces to class name prefixes via a specific tag in a template. (without it, namespaces are mapped 1 : 1 to Class prefixes)
-- referencing external files to copy to the destination folder when generating code
+- referencing external files to copy to the destination folder when generating code ** 1.2 **
 - nested sequences & choices
-- includes and imports of other XSD files
-- annotations of  elements 
+- includes and imports of other XSD files ** 1.3 **
+- annotations of elements that are converted to comments ** 1.3 **
+- anonymous 'inner' types (complex and simple)
 
 the **generated parser** only requires libxml and I have tested it on **IOS as well as OSX**
 - **(Remember: to use the classes, link your target against libxml2 (!))**
@@ -36,7 +37,6 @@ The generator itself uses the NSXML* tree based API and is for OSX only.
 ###Biggest pain points
 1. So far the generator does NOT handle references to elements/attributes via the ref= attribute.
 2. The min & maxOccurances of elements inside a sequence/choice must be specified on element itself as opposed to the sequence itself
-3. The generator doesnt do xs:enums. the resitrictions of the base type is just ignored and the base type is used. It would be cool if the generator genereated real enums from the values
 
 ---
 

@@ -8,6 +8,7 @@
 #import "XSDschema.h"
 #import "XSType.h"
 #import "XMLUtils.h"
+#import "XSSimpleType.h"
 
 @interface XSDattribute ()
 
@@ -53,15 +54,42 @@
 
 
 - (NSString*) codeType {
-    return [[self.schema typeForName: self.type] targetClassName];
+    return [self.schemaType targetClassName];
 }
 
 - (NSString*) readCodeForAttribute {
-    return [[self.schema typeForName: self.type] readCodeForAttribute: self];
+    return [self.schemaType readCodeForAttribute: self];
 }
 
 - (NSString*) variableName {
     return [XSDschema variableNameFromName:self.name multiple:NO];
+}
+
+- (id<XSType>)schemaType {
+    return [self.schema typeForName: self.type];
+}
+
+/*
+ * Name:        hasEnumeration
+ * Parameters:  None
+ * Returns:     BOOL value that will equate to
+ *              0 - NO - False.
+ *              1 - YES - True
+ * Description: Will check the current element to see if the element type is associated
+ *              with an enumeration values.
+ */
+- (BOOL) hasEnumeration{
+    BOOL isEnumeration = NO;
+    
+    /* Grab the type and check if it is of a simple type element */
+    XSSimpleType* type = self.schemaType;
+    if([type isKindOfClass:[XSSimpleType class]]) {
+        /* ask the type */
+        isEnumeration = [type hasEnumeration];
+    }
+    
+    /* Return BOOL if we have enumerations */
+    return isEnumeration;
 }
 
 @end

@@ -222,6 +222,72 @@
     return t->_readPrefixCode;
 }
 
+#pragma mark enum support
+
+/*
+ * Name:        hasEnumeration
+ * Parameters:  None
+ * Returns:     BOOL value that will equate to
+ *              0 - NO - False.
+ *              1 - YES - True
+ * Description: Will check the current element to see if the element type is associated
+ *              with an enumeration values.
+ */
+- (BOOL) hasEnumeration {
+    BOOL isEnumeration = NO;
+    
+    /* If we have some, set return value to yes */
+    if([[self enumerations] count] > 0) {
+            isEnumeration = YES;
+    }
+    
+    /* Return BOOL if we have enumerations */
+    return isEnumeration;
+}
+
+- (NSArray*) enumerationValues{
+    NSMutableArray *rtn = [[NSMutableArray alloc] init];
+    /* Ensure that we have enumerations for this element */
+    if(!self.hasEnumeration){
+        return rtn;
+    }
+    
+    /* Iterate through the enumerations to grab the value*/
+    for (XSDenumeration* enumType in [self enumerations]) {
+        [rtn addObject:enumType.value];
+    }
+    
+    /* Return the populated array of values */
+    return rtn;
+}
+
+- (NSString *)enumerationName {
+    NSCharacterSet* illegalChars = [NSCharacterSet characterSetWithCharactersInString: @"-"];
+    
+    NSString* vName = [self.name stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[self.name substringToIndex:1] uppercaseString]];
+    NSRange range = [vName rangeOfCharacterFromSet: illegalChars];
+    while(range.length > 0) {
+        // delete illegal char
+        vName = [vName stringByReplacingCharactersInRange: range withString: @""];
+        // range is now at next char
+        vName = [vName stringByReplacingCharactersInRange: range withString:[[vName substringWithRange: range] uppercaseString]];
+        
+        range = [vName rangeOfCharacterFromSet: illegalChars];
+    }
+    
+    NSString *prefix = [self.schema classPrefixForType:self];
+    NSString *rtn = [NSString stringWithFormat: @"%@%@Enum", prefix, vName];
+    return rtn;
+}
+
+- (NSString *)enumerationFileName {
+    return [self enumerationName];
+}
+
+- (NSDictionary*) substitutionDict {
+    return [NSDictionary dictionaryWithObject:self forKey:@"type"];
+}
+
 #pragma mark
 
 /**

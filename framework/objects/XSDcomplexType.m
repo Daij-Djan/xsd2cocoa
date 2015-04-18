@@ -13,6 +13,13 @@
 #import "XSDschema.h"
 #import "XMLUtils.h"
 
+@interface XSDschema (templating)
+
+@property (readonly, nonatomic) NSString* complexTypeArrayType;
+@property (readonly, nonatomic) NSString* readComplexTypeElementTemplate;
+
+@end
+
 @interface XSDcomplexType ()
 
 @property (strong, nonatomic) NSString* name;
@@ -151,12 +158,9 @@
     }
     
     for (XSDelement* anElement in [self elements]) {
-        /* If the current element has a type, then grab the type */
-        if(anElement.type) {
-            id<XSType> aType = [self.schema typeForName: anElement.type];
-            if([aType isKindOfClass: [XSSimpleType class]]) {
-                [simpleTypes addObject: aType];
-            }
+        id<XSType> aType = anElement.schemaType;
+        if([aType isKindOfClass: [XSSimpleType class]]) {
+            [simpleTypes addObject: aType];
         }
     }
     
@@ -174,13 +178,17 @@
 
 - (NSArray*) complexTypesInUse {
     NSMutableSet* complexTypes = [NSMutableSet set];
+    id<XSType> aType;
     
     for (XSDelement* anElement in [self elements]) {
-        if(anElement.localComplexType != nil) {
-            [complexTypes addObject: anElement.localComplexType];
-        } else {
-            /* TODO - FIX THIS PASSES EMPTY*/
-            id<XSType> aType = [self.schema typeForName: anElement.type];
+        //check local first
+        aType = anElement.localType;
+        if(aType!=self && [aType isKindOfClass: [XSDcomplexType class]]) {
+            [complexTypes addObject: anElement.localType];
+        } else if(anElement.type) {
+            //check inheritence / base type / included types
+            aType = [self.schema typeForName: anElement.type];
+            assert(aType);
             if(aType!=self && [aType isKindOfClass: [XSDcomplexType class]]) {
                 [complexTypes addObject: aType];
             }
@@ -190,6 +198,10 @@
     return [complexTypes allObjects];
 }
 
+- (NSArray*) enumTypesInUse {
+    id rtn = [[self simpleTypesInUse] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"hasEnumeration=YES"]];
+    return rtn;
+}
 - (NSString*) targetClassName {
     NSCharacterSet* illegalChars = [NSCharacterSet characterSetWithCharactersInString: @"-"];
     
@@ -303,4 +315,9 @@
     return [lines.array componentsJoinedByString:@"\n"];
 }
 
+#pragma mark bug
+
+- (NSString*)enumerationName {
+    return @"NONE";
+}
 @end

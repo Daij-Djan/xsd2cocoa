@@ -16,7 +16,7 @@
 @property (weak) IBOutlet NSTextField *xsdFilePathTextfield;
 @property (weak) IBOutlet NSTextField *outputFolderPathTextfield;
 @property (weak) IBOutlet NSButton *advancedOptionsButton;
-@property (weak) IBOutlet NSBox *advancedOptionsBox;
+@property (strong) IBOutlet NSBox *advancedOptionsBox;
 
 @property (weak) IBOutlet NSMatrix *templateStyleMatrix;
 @property (weak) IBOutlet NSTextField *templatePathTextfield;

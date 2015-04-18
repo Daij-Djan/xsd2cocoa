@@ -72,15 +72,14 @@
     </simpletype>
     
     <!--complex type-->
-    <complextype arrayType="[{{ type.targetClassName }}]">
+    <complextype objType="@objc-Subclass" arrayType="[{{ type.targetClassName }}]">
         <read>
             <element><![CDATA[{% if element.isSingleValue %}self.{{ element.variableName }} = {{ element.codeType }}(reader: reader){% else %}{{ element.variableName }}Array.append({{ element.schemaType.targetClassName }}(reader: reader)){% /if %}]]></element>
         </read>
-    </complextype>
-    
-    <implementation>
-        <header extension=""></header>
-        <class extension="swift"><![CDATA[
+
+        <implementation>
+            <header extension=""></header>
+            <class extension="swift"><![CDATA[
             import Foundation
             
             @objc
@@ -164,11 +163,11 @@
             }
             
             }
-        ]]></class>
-    </implementation>
-    <reader>
-        <header extension=""></header>
-        <class extension="swift"><![CDATA[
+            ]]></class>
+        </implementation>
+        <reader>
+            <header extension=""></header>
+                <class extension="swift"><![CDATA[
             import Foundation
             
             extension {{ type.targetClassFileName }} {
@@ -208,6 +207,20 @@
             return nil
             }
             }
-        ]]></class>
-    </reader>
+            ]]></class>
+        </reader>
+    </complextype>
+    <enumeration objType="NS_ENUM" arrayType="">
+        <read>
+            <element><![CDATA[
+                TODO
+            ]]></element>
+        </read>
+        <implementation>
+            <header extension="h"><![CDATA[
+            ]]></header>
+            <class extension="m"><![CDATA[
+            ]]></class>
+        </implementation>
+    </enumeration>
 </template>

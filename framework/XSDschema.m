@@ -44,6 +44,10 @@
 @property (strong, nonatomic) NSString* classTemplateExtension;
 @property (strong, nonatomic) NSString* headerTemplateString;
 @property (strong, nonatomic) NSString* headerTemplateExtension;
+@property (strong, nonatomic) NSString* enumClassTemplateString;
+@property (strong, nonatomic) NSString* enumClassTemplateExtension;
+@property (strong, nonatomic) NSString* enumHeaderTemplateString;
+@property (strong, nonatomic) NSString* enumHeaderTemplateExtension;
 @property (strong, nonatomic) NSDictionary* additionalFiles;
 @property (strong, nonatomic) NSString *targetNamespacePrefix;
 @property (strong, nonatomic) id<FileFormatter> formatter;
@@ -332,12 +336,25 @@
         }
     }
     
-    /* Fetch the header file that we will use in the implementation section */
-    NSArray* nodes = [xmlDoc nodesForXPath:@"/template[1]/implementation[1]/header" error: error];
+    //
+    // read templating code for complex type
+    //
+    
+    //get the complexTypeNode
+    NSArray* nodes = [xmlDoc nodesForXPath:@"/template[1]/complextype[1]" error: error];
     if(*error != nil) {
         return NO;
     }
-    /* Assign the header file text from the fetched section */
+    NSXMLElement *complexTypeNode = nil;
+    if(nodes != nil && nodes.count > 0) {
+        complexTypeNode = [nodes objectAtIndex: 0];
+    }
+
+    /* Fetch the header file that we will use in the implementation section */
+    nodes = [complexTypeNode nodesForXPath:@"implementation[1]/header" error: error];
+    if(*error != nil) {
+        return NO;
+    }
     if(nodes != nil && nodes.count > 0) {
         self.headerTemplateString = [[nodes objectAtIndex: 0] stringValue];
         self.headerTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
@@ -345,35 +362,31 @@
     
     
     /* Fetch the class file that we will use in the implementation section */
-    nodes = [xmlDoc nodesForXPath:@"/template[1]/implementation[1]/class" error: error];
+    nodes = [complexTypeNode nodesForXPath:@"implementation[1]/class" error: error];
     if(*error != nil) {
         return NO;
     }
-    /* Assign the class file text from the fetched section */
     if(nodes != nil && nodes.count > 0) {
         self.classTemplateString = [[nodes objectAtIndex: 0] stringValue];
         self.classTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
     }
     
-    /* Fetch the... */
-    nodes = [xmlDoc nodesForXPath:@"/template[1]/complextype[1]/read[1]/element[1]" error: error];
+    /* Fetch the code used to READ elements that have a complex type */
+    nodes = [complexTypeNode nodesForXPath:@"read[1]/element[1]" error: error];
     if(*error != nil) {
         return NO;
     }
-    /* Assign the text from the fetched section */
     if(nodes != nil && nodes.count > 0) {
         self.readComplexTypeElementTemplate = [[nodes objectAtIndex: 0] stringValue];
     }
     
-    nodes = [xmlDoc nodesForXPath:@"/template[1]/complextype[1]" error: error];
-    if(*error != nil) {
-        return NO;
-    }
-    if(nodes != nil && nodes.count > 0) {
-        self.complexTypeArrayType = [[nodes objectAtIndex: 0] attributeForName:@"arrayType"].stringValue;
+    //get the array type for complex types
+    if(complexTypeNode) {
+        self.complexTypeArrayType = [complexTypeNode attributeForName:@"arrayType"].stringValue;
     }
     
-    nodes = [xmlDoc nodesForXPath:@"/template[1]/reader[1]/header" error: error];
+    /* Fetch the header file that we will use in the implementation section of the file reader */
+    nodes = [complexTypeNode nodesForXPath:@"reader[1]/header" error: error];
     if(*error != nil) {
         return NO;
     }
@@ -382,13 +395,51 @@
         self.readerHeaderTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
     }
     
-    nodes = [xmlDoc nodesForXPath:@"/template[1]/reader[1]/class" error: error];
+    /* Fetch the header file that we will use in the implementation section of the file reader */
+    nodes = [complexTypeNode nodesForXPath:@"reader[1]/class" error: error];
     if(*error != nil) {
         return NO;
     }
     if(nodes != nil && nodes.count > 0) {
         self.readerClassTemplateString = [[nodes objectAtIndex: 0] stringValue];
         self.readerClassTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
+    }
+    
+    //
+    // read templating code for complex type
+    //
+    
+    //get the enumTypeNode
+    nodes = [xmlDoc nodesForXPath:@"/template[1]/enumeration[1]" error: error];
+    if(*error != nil) {
+        return NO;
+    }
+    NSXMLElement *enumTypeNode = nil;
+    if(nodes != nil && nodes.count > 0) {
+        enumTypeNode = [nodes objectAtIndex: 0];
+    }
+    
+    //TODO missing reader
+    
+    /* Fetch the header file that we will use in the enumeration section */
+    nodes = [enumTypeNode nodesForXPath:@"implementation[1]/header" error: error];
+    if(*error != nil) {
+        return NO;
+    }
+    if(nodes != nil && nodes.count > 0) {
+        self.enumHeaderTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        self.enumHeaderTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
+    }
+    
+    
+    /* Fetch the class file that we will use in the enumeration section */
+    nodes = [enumTypeNode nodesForXPath:@"implementation[1]/class" error: error];
+    if(*error != nil) {
+        return NO;
+    }
+    if(nodes != nil && nodes.count > 0) {
+        self.enumClassTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        self.enumClassTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
     }
  
     //
@@ -503,11 +554,7 @@
         if(!doc) {
             return nil;
         }
-        
         NSArray* iNodes = [[doc rootElement] nodesForXPath: @"/nameChanges/nameChange" error: nil];
-//        if(!iNodes) {
-//            return nil;
-//        }
         
         knownNameChanges  = [NSMutableDictionary dictionaryWithCapacity:iNodes.count];
         for (NSXMLElement *element in iNodes) {
@@ -655,12 +702,57 @@
         }
     }
     
+    
+    /* Start writing our classes for the simpletypes WHICH do have an enumeration */
+    for(XSSimpleType* type in self.simpleTypes) {
+        //we skip types that arent enums
+        if(!type.hasEnumeration) {
+            continue;
+        }
+        
+        /* Create the items for the enum header file */
+        if (self.enumHeaderTemplateString.length) {
+            /* Generate the code from the template and from the variables */
+            NSString *result = [engine processTemplate:self.enumHeaderTemplateString
+                                         withVariables:type.substitutionDict];
+            
+            NSString* headerFileName = [NSString stringWithFormat: @"%@.%@", type.enumerationFileName, self.enumHeaderTemplateExtension];
+            NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName];
+            [result writeToURL: headerFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+            
+            /* Ensure that there was no errors for writing */
+            if(*error != nil) {
+                return NO;
+            }
+        }
+        
+        /* Create the items for the enum class file */
+        if (self.enumClassTemplateString.length) {
+            /* Generate the code from the template and the variables */
+            NSString *result = [engine processTemplate: self.enumClassTemplateString
+                                         withVariables: type.substitutionDict];
+            
+            NSString* classFileName = [NSString stringWithFormat: @"%@.%@", type.enumerationFileName, self.enumClassTemplateExtension];
+            NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName];
+            [result writeToURL:classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+            
+            /* Ensure that there was no errors for writing */
+            if(*error != nil) {
+                return NO;
+            }
+        }
+    }
+    
     //umbrella header - objC hack
     if([self.headerTemplateExtension isEqualToString:@"h"]) {
         //add header
         NSString *fileName = [NSString stringWithFormat:@"%@.h", self.schemaUrl.lastPathComponent.stringByDeletingPathExtension];
         NSURL *filePath = [destinationFolder URLByAppendingPathComponent:fileName];
-    
+        if([[NSFileManager defaultManager] fileExistsAtPath:filePath.path]) {
+            fileName = [NSString stringWithFormat:@"%@Headers.h", self.schemaUrl.lastPathComponent.stringByDeletingPathExtension];
+            filePath = [destinationFolder URLByAppendingPathComponent:fileName];
+        }
+        
         //add includes for all other files
         NSString *includes = [self contentOfObjcUmbrellaHeaderForFolder:destinationFolder];
         BOOL br = [includes writeToURL:filePath atomically:YES encoding:NSUTF8StringEncoding error:error];

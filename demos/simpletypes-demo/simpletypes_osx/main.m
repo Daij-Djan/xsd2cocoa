@@ -7,21 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "simpleTypes.h"
+#import "STSimpleTypesType+File.h"
 #import <libxml/xmlreader.h>
 
 void myGenericErrorFunc(id null, const char *msg, ...);
 void myGenericErrorFunc(id null, const char *msg, ...)
 {
-	va_list vargs;
-	va_start(vargs, msg);
+    va_list vargs;
+    va_start(vargs, msg);
 	
-	NSString *format = [NSString stringWithUTF8String:msg];
-	NSMutableString *str = [[NSMutableString alloc] initWithFormat:format arguments:vargs];
+    NSString *format = [NSString stringWithUTF8String:msg];
+    NSMutableString *str = [[NSMutableString alloc] initWithFormat:format arguments:vargs];
 	
-	NSLog(@"%@", str);
+    NSLog(@"%@", str);
 	
-	va_end(vargs);
+    va_end(vargs);
 }
 
 int main(int argc, const char * argv[])
@@ -31,7 +31,7 @@ int main(int argc, const char * argv[])
         return -1;
     }
     
-	xmlSetGenericErrorFunc(NULL, (xmlGenericErrorFunc)myGenericErrorFunc);
+    xmlSetGenericErrorFunc(NULL, (xmlGenericErrorFunc)myGenericErrorFunc);
     
     for (int i = 1; i<argc; i++) {
         @autoreleasepool {

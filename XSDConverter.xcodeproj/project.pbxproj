@@ -37,6 +37,7 @@
 		B3C9719B1AD19ABC00CD1DD9 /* clang-format in Resources */ = {isa = PBXBuildFile; fileRef = B4F0DD611A6BE6A7003BD66A /* clang-format */; };
 		B3C9719C1AD19ABC00CD1DD9 /* TRVSFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F0DD631A6BE6A7003BD66A /* TRVSFormatter.m */; };
 		B3CB36B31A93493200FB4CAA /* DDRunTask.m in Sources */ = {isa = PBXBuildFile; fileRef = B44ACBF41A53992B0030DFEA /* DDRunTask.m */; };
+		B3E76CFB1ADAE79400ED22B5 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = B3E76CFA1ADAE79400ED22B5 /* README.md */; };
 		B42A11131A6478DC00F42ED3 /* SimpleTypesTestsObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = B42A11121A6478DC00F42ED3 /* SimpleTypesTestsObjC.m */; };
 		B42A11161A64791700F42ED3 /* simpleTypes.xml in Resources */ = {isa = PBXBuildFile; fileRef = B42A11141A64791700F42ED3 /* simpleTypes.xml */; };
 		B42A11171A64791700F42ED3 /* simpleTypes.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B42A11151A64791700F42ED3 /* simpleTypes.xsd */; };
@@ -152,6 +153,7 @@
 		B3C971821AD17BAB00CD1DD9 /* XSDenumeration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDenumeration.h; sourceTree = "<group>"; };
 		B3C971831AD17BAB00CD1DD9 /* XSDenumeration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDenumeration.m; sourceTree = "<group>"; };
 		B3C971991AD19A6F00CD1DD9 /* FileFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileFormatter.h; path = ../FileFormatter.h; sourceTree = "<group>"; };
+		B3E76CFA1ADAE79400ED22B5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B42A11121A6478DC00F42ED3 /* SimpleTypesTestsObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleTypesTestsObjC.m; sourceTree = "<group>"; };
 		B42A11141A64791700F42ED3 /* simpleTypes.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = simpleTypes.xml; sourceTree = "<group>"; };
 		B42A11151A64791700F42ED3 /* simpleTypes.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simpleTypes.xsd; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 		F8E422A9138834E90047AA8C = {
 			isa = PBXGroup;
 			children = (
+				B3E76CFA1ADAE79400ED22B5 /* README.md */,
 				B45720FE1857D532005632B7 /* app */,
 				B42F9ED71A48663F0007FC96 /* framework */,
 				B42F9F561A4890CE0007FC96 /* tests */,
@@ -718,6 +721,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3E76CFB1ADAE79400ED22B5 /* README.md in Sources */,
 				B45721101857D532005632B7 /* main.m in Sources */,
 				B457210B1857D532005632B7 /* AppDelegate.m in Sources */,
 			);

@@ -19,18 +19,28 @@
     self.advancedOptionsBox.hidden = !self.advancedOptionsBox.isHidden;
     
     //adapt frame
-    CGRect f = self.advancedOptionsBox.window.frame;
+    CGRect f = self.window.frame;
     if(!self.advancedOptionsBox.isHidden) {
         //show and move button
         f.size.height += self.advancedOptionsBox.frame.size.height;
         f.origin.y -= self.advancedOptionsBox.frame.size.height;
+        
+        //add box
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[self.window contentView] addSubview:self.advancedOptionsBox];
+            CGRect box = self.advancedOptionsBox.frame;
+            box.origin = CGPointMake(20, 49);
+            self.advancedOptionsBox.frame = box;
+        });
     }
     else {
         ///hide and move button
         f.size.height -= self.advancedOptionsBox.frame.size.height;
         f.origin.y += self.advancedOptionsBox.frame.size.height;
+        
+        [self.advancedOptionsBox removeFromSuperview];
     }
-    [self.advancedOptionsBox.window setFrame:f display:YES animate:YES];
+    [self.window setFrame:f display:YES animate:YES];
 }
 
 - (IBAction)openDocument:(id)sender {

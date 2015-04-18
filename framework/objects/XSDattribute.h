@@ -13,5 +13,6 @@
 @property (readonly, nonatomic) NSString* readCodeForAttribute;
 
 - (NSString*) variableName; //name in generated code
+- (BOOL) hasEnumeration;
 
 @end

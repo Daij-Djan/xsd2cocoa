@@ -9,10 +9,10 @@
 		<read>
             <!-- Used also for enumeration -->
 			<prefix></prefix>
-			<attribute>self.{{ attribute.variableName }} = [NSString stringWithCString:{{ attribute.name }}AttrValue encoding:NSUTF8StringEncoding];</attribute>
+			<attribute>{% if attribute.hasEnumeration %}self.{{ attribute.variableName }} = {{ attribute.schemaType.enumerationName }}FromString([NSString stringWithCString:{{ attribute.name }}AttrValue encoding:NSUTF8StringEncoding]);{% else %}self.{{ attribute.variableName }} = [NSString stringWithCString:{{ attribute.name }}AttrValue encoding:NSUTF8StringEncoding];{% /if %}</attribute>
             <element><![CDATA[_readerOk = xmlTextReaderRead(reader);
                     _currentNodeType = xmlTextReaderNodeType(reader);
-                    {% if element.isSingleValue %}{% if element.hasEnumeration %}self.{{ element.variableName }} = [self {{ element.variableClassName }}FromString:[NSString stringWithCString:(const char*) xmlTextReaderConstValue(reader) encoding:NSUTF8StringEncoding]];{% else %}self.{{ element.variableName }} = [NSString stringWithCString:(const char*) xmlTextReaderConstValue(reader) encoding:NSUTF8StringEncoding];{% /if %}
+                    {% if element.isSingleValue %}{% if element.hasEnumeration %}self.{{ element.variableName }} = {{ element.schemaType.enumerationName }}FromString([NSString stringWithCString:(const char*) xmlTextReaderConstValue(reader) encoding:NSUTF8StringEncoding]);{% else %}self.{{ element.variableName }} = [NSString stringWithCString:(const char*) xmlTextReaderConstValue(reader) encoding:NSUTF8StringEncoding];{% /if %}
                     {% else %}[{{ element.variableName }}Array addObject:[NSString stringWithCString:(const char*) xmlTextReaderConstValue(reader) encoding:NSUTF8StringEncoding]];{% /if %}_readerOk = xmlTextReaderRead(reader);
                     _currentNodeType = xmlTextReaderNodeType(reader);]]></element>
             <value>NSString *value = [NSString stringWithCString: contentValue encoding: NSUTF8StringEncoding];
@@ -97,21 +97,19 @@
 	</simpletype>
     
     <!--complex type-->
-    <complextype arrayType="NSArray">
+    <complextype objType="NSObject-Subclass" arrayType="NSArray">
         <read>
             <element><![CDATA[{% if element.isSingleValue %}self.{{ element.variableName }} = [[{{ element.codeType }} alloc] initWithReader: reader];{% else %}[{{ element.variableName }}Array addObject: [[{{ element.schemaType.targetClassName }} alloc] initWithReader: reader]];{% /if %}]]></element>
         </read>
-    </complextype>
-
-    <implementation>
-        <!--
-         Name:          Header
-         Parameters:    type - the current complex type.
-         Description:   Work our way through the template CDATA and replace the the {{ }} with the proper values
-         this will be used to generate the class header files for the complex types.
-         <Object>.h
-         -->
-        <header extension="h"><![CDATA[
+        <implementation>
+            <!--
+             Name:          Header
+             Parameters:    type - the current complex type.
+             Description:   Work our way through the template CDATA and replace the the {{ }} with the proper values
+             this will be used to generate the class header files for the complex types.
+             <Object>.h
+             -->
+            <header extension="h"><![CDATA[
 /**
  * {{  type.targetClassFileName }}.h
 {% if type.schema.hasAnnotations %} * {{ type.schema.comment }}{% /if %}
@@ -123,10 +121,8 @@
 {% /for %}
 {% if type.hasAnnotations %}/**
 {{ type.comment }} */{% /if %}
-{% for element in type.elements %}{% if element.hasEnumeration %}#define k{{ element.variableClassName }}NamesArray {{ element.buildEnumerationNamesArray }}
-typedef NS_ENUM(NSInteger, {{ element.variableClassName }}){
-    {{ element.buildEnumerationValues }}
-};{% /if %}
+
+{% for enumType in type.enumTypesInUse %}#import "{{ enumType.enumerationFileName }}.h"
 {% /for %}
 
 {% if type.hasAnnotations %}/**
@@ -137,12 +133,12 @@ typedef NS_ENUM(NSInteger, {{ element.variableClassName }}){
 {% for attribute in type.attributes %}{% if attribute.hasAnnotations %}/**
 {{ attribute.comment }}
 */{% /if %}
-@property (nonatomic, readonly) {{ attribute.codeType }}* {{ attribute.variableName }};
+@property (nonatomic, readonly) {% if attribute.hasEnumeration %}{{ attribute.schemaType.enumerationName }} {% else %}{{ attribute.codeType }}* {% /if %}{{ attribute.variableName }};
 {% /for %}
 {% for element in type.elements %}{% if element.hasAnnotations %}/**
 {{ element.comment }}
 */{% /if %}
-@property (nonatomic, readonly) {% if element.hasEnumeration %}{{ element.variableClassName }} {% else %}{{ element.codeType }}* {% /if %}{{ element.variableName }};{% /for %}
+@property (nonatomic, readonly) {% if element.hasEnumeration %}{{ element.schemaType.enumerationName }} {% else %}{{ element.codeType }}* {% /if %}{{ element.variableName }};{% /for %}
 
 {% if type.hasSimpleBaseClass %}/**
 the type's main {{ type.baseClassName }} value
@@ -163,31 +159,31 @@ the type's main {{ type.baseClassName }} value
 - (void) readAttributes: (void*) reader;
 
 @end
-	]]></header>
-    <!--
-     Name:          Class
-     Parameters:    type - the current complex type.
-     Description:   Work our way through the template CDATA and replace the the {{ }} with the proper values
-     this will be used to generate the class files for the complex types.
-    -->
-	<class extension="m"><![CDATA[
+    	]]></header>
+        <!--
+         Name:          Class
+         Parameters:    type - the current complex type.
+         Description:   Work our way through the template CDATA and replace the the {{ }} with the proper values
+         this will be used to generate the class files for the complex types.
+        -->
+    	<class extension="m"><![CDATA[
 #import "{{ type.targetClassFileName }}.h"
 #import <libxml/xmlreader.h>
 {% for complexType in type.complexTypesInUse %}
 #import "{{ complexType.targetClassFileName }}.h"{% /for %}
 
 @interface {{ type.targetClassName }} ()
-{% for attribute in type.attributes %}@property (nonatomic, readwrite) {{ attribute.codeType }}* {{ attribute.variableName }};
+{% for attribute in type.attributes %}@property (nonatomic, readwrite) {% if attribute.hasEnumeration %}{{ attribute.schemaType.enumerationName }} {% else %}{{ attribute.codeType }}* {% /if %}{{ attribute.variableName }};
 {% /for %}
 
-{% for element in type.elements %}@property (nonatomic, readwrite) {% if element.hasEnumeration %}{{ element.variableClassName }} {% else %}{{ element.codeType }}* {% /if %}{{ element.variableName }};
+{% for element in type.elements %}@property (nonatomic, readwrite) {% if element.hasEnumeration %}{{ element.schemaType.enumerationName }} {% else %}{{ element.codeType }}* {% /if %}{{ element.variableName }};
 {% /for %}
 {% if type.hasSimpleBaseClass %}
 @property (nonatomic, readwrite) {{ type.baseClassName }}* value;{% /if %}
 
 @end
 
-@implementation {{ type.targetClassName }} 
+@implementation {{ type.targetClassName }}
  
  /**
  * Name:        readAttributes
@@ -217,7 +213,6 @@ the type's main {{ type.baseClassName }} value
     if(self) { {{ type.combinedReadPrefixCode }}
     {% if type.hasComplexBaseClass %}{% else %}[self readAttributes: reader];{% /if %}
         {% for element in type.elements %}{% if element.isSingleValue %}{% else %}NSMutableArray *{{ element.variableName }}Array = [NSMutableArray array];{% /if %}
-        {% if element.hasEnumeration %}k{{ element.variableClassName }}Array = [[NSArray alloc] initWithObjects: k{{ element.variableClassName }}NamesArray, nil];{% /if %}
         {% /for %}{% if type.hasComplexBaseClass %}int _readerOk = 1;{% else %}int _readerOk = xmlTextReaderRead(reader);{% /if %}
         int _currentNodeType = xmlTextReaderNodeType(reader);
         int _currentXmlDept = xmlTextReaderDepth(reader);
@@ -249,34 +244,6 @@ the type's main {{ type.baseClassName }} value
     return self;
 }
 
-
-{% for element in type.elements %}{% if element.hasEnumeration %}
-/**
- * Name:        {{ element.variableClassName }}ToString
- * Parameters:  ({{ element.variableClassName }}) - an index from the enumerator
- * Returns:     (NSString *) - a string of the index of the item given
- * Description: Will find the index of the enumerator and return the string value
- */
--(NSString *) {{ element.variableClassName }}ToString:({{ element.variableClassName }}) enumType{
-    return [k{{ element.variableClassName }}Array objectAtIndex:enumType];
-}
-
-/**
- * Name:        {{ element.variableClassName }}FromString
- * Parameters:  (NSString *) - a string that is the enumerator string value
- * Returns:     ({{ element.variableClassName }}) - an index where the enumerator value lies
- * Description: Will return the index of the enumerator value from the enumerator
- */
--({{ element.variableClassName }}) {{ element.variableClassName }}FromString:(NSString *) enumString{
-    NSUInteger enumType = [k{{ element.variableClassName }}Array indexOfObject:enumString];
-    assert(enumType != NSNotFound);
-    return ({{ element.variableClassName }}) enumType;
-}
-
-{% /if %}{% /for %}
-
-
-
 /**
  * Name:            dictionary
  * Parameters:
@@ -290,13 +257,13 @@ the type's main {{ type.baseClassName }} value
     
     /* Populate the dictionary */{% for attribute in type.attributes %}
     if(self.{{ attribute.variableName }}){
-        [dict setObject:self.{{ attribute.variableName }} forKey:@"{{ attribute.variableName }}"];
+    {% if attribute.hasEnumeration %}[dict setObject:{{ attribute.schemaType.enumerationName }}ToString(self.{{ attribute.variableName }}) forKey:@"{{ attribute.variableName }}"];{% else %}[dict setObject:self.{{ attribute.variableName }} forKey:@"{{ attribute.variableName }}"];{% /if %}
     }{% /for %}{% for element in type.elements %}{% if element.hasComplexType %}if(self.{{ element.variableName }}) {
             NSDictionary *{{ element.variableName }}Dict = [self.{{ element.variableName }} valueForKeyPath:@"dictionary"];
             [dict setObject:{{ element.variableName }}Dict forKey:@"{{ element.variableName }}"];
     }{% else %}
     if(self.{{ element.variableName }}){
-    {% if element.hasEnumeration %}[dict setObject:[self {{ element.variableClassName }}ToString:self.{{ element.variableName }}] forKey:@"{{ element.variableName }}"];{% else %}[dict setObject:self.{{ element.variableName }} forKey:@"{{ element.variableName }}"];{% /if %}
+    {% if element.hasEnumeration %}[dict setObject:{{ element.schemaType.enumerationName }}ToString(self.{{ element.variableName }}) forKey:@"{{ element.variableName }}"];{% else %}[dict setObject:self.{{ element.variableName }} forKey:@"{{ element.variableName }}"];{% /if %}
     
     }{% /if %}{% /for %}{% if type.hasSimpleBaseClass %}
     if(self.value){
@@ -306,17 +273,17 @@ the type's main {{ type.baseClassName }} value
     return dict;
 }
  @end
-	    ]]></class>
-    </implementation>
-	<reader>
-        <!--
-         Name:          Header Element
-         Parameters:    type - the current global element type.
-         Description:   Work our way through the template CDATA and replace the the {{ }} with the proper values
-         this will be used to generate the header file for the elements within our XSD types.
-         <Object>+File.h
-         -->
-        <header extension="h"><![CDATA[
+	        ]]></class>
+        </implementation>
+	    <reader>
+            <!--
+             Name:          Header Element
+             Parameters:    type - the current global element type.
+             Description:   Work our way through the template CDATA and replace the the {{ }} with the proper values
+             this will be used to generate the header file for the elements within our XSD types.
+             <Object>+File.h
+             -->
+            <header extension="h"><![CDATA[
 /**
  * {{  type.targetClassFileName }}+File.h
  {% if type.schema.hasAnnotations %} * {{ type.schema.comment }}
@@ -336,15 +303,15 @@ the type's main {{ type.baseClassName }} value
 + ({{ type.targetClassName }}*){{ type.name }}FromData:(NSData*)data;
 
 @end
-	]]></header>
-    <!--
-     Name:           Class Element
-     Parameters:     type - the current global element type.
-     Description:    Work our way through the template CDATA and replace the the {{ }} with the proper values
-     this will be used to generate the header file for the elements within our XSD types.
-     <Object>+File.m
-     -->
-	<class extension="m"><![CDATA[
+    	]]></header>
+        <!--
+         Name:           Class Element
+         Parameters:     type - the current global element type.
+         Description:    Work our way through the template CDATA and replace the the {{ }} with the proper values
+         this will be used to generate the header file for the elements within our XSD types.
+         <Object>+File.m
+         -->
+    	<class extension="m"><![CDATA[
 #import "{{ type.targetClassFileName }}+File.h"
 #import <libxml/xmlreader.h>
 
@@ -413,6 +380,44 @@ the type's main {{ type.baseClassName }} value
 }
 
 @end
-	]]></class>
-    </reader>
+    	]]></class>
+        </reader>
+    </complextype>
+    <enumeration objType="NS_ENUM" arrayType="">
+        <read>
+            <element><![CDATA[
+                TODO
+            ]]></element>
+        </read>
+        <implementation>
+            <header extension="h"><![CDATA[
+#import <Foundation/Foundation.h>
+
+typedef NS_ENUM(NSInteger, {{ type.enumerationName }}){
+    {{ type.enumerationName }}Unknown{% for enumValue in type.enumerationValues %},
+    {{ type.enumerationName }}{{ enumValue }}
+{% /for %}
+};
+NSString *{{ type.enumerationName }}ToString({{ type.enumerationName }} enumType);
+{{ type.enumerationName }} {{ type.enumerationName }}FromString(NSString *enumString);
+            ]]></header>
+            <class extension="m"><![CDATA[
+#import "{{ type.enumerationFileName }}.h"
+
+#define k{{ type.enumerationName }}NamesArray @[@"Unknown"{% for enumValue in type.enumerationValues %},@"{{ enumValue }}"{% /for %}]
+
+
+NSString *{{ type.enumerationName }}ToString({{ type.enumerationName }} enumType) {
+    assert(enumType < k{{ type.enumerationName }}NamesArray.count);
+    return [k{{ type.enumerationName }}NamesArray objectAtIndex:enumType];
+}
+
+{{ type.enumerationName }} {{ type.enumerationName }}FromString(NSString *enumString) {
+    NSUInteger enumType = [k{{ type.enumerationName }}NamesArray indexOfObject:enumString];
+    assert(enumType != NSNotFound);
+    return (enumType != NSNotFound) ? ({{ type.enumerationName }}) enumType : {{ type.enumerationName }}Unknown;
+}
+            ]]></class>
+        </implementation>
+    </enumeration>
 </template>

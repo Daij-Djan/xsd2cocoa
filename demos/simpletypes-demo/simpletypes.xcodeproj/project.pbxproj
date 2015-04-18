@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B3C971BA1AD1A20700CD1DD9 /* MYCOMPANYAddress+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C971B31AD1A20700CD1DD9 /* MYCOMPANYAddress+File.m */; };
-		B3C971BB1AD1A20700CD1DD9 /* MYCOMPANYAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C971B51AD1A20700CD1DD9 /* MYCOMPANYAddress.m */; };
-		B3C971BC1AD1A20700CD1DD9 /* MYCOMPANYStreetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C971B71AD1A20700CD1DD9 /* MYCOMPANYStreetInfo.m */; };
-		B3C971BD1AD1A20700CD1DD9 /* MYCOMPANYUnitInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C971B91AD1A20700CD1DD9 /* MYCOMPANYUnitInfo.m */; };
-		B3C971CD1AD2852D00CD1DD9 /* MYCOMPANYAddress+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C971C51AD2851F00CD1DD9 /* MYCOMPANYAddress+File.swift */; };
-		B3C971CE1AD2852D00CD1DD9 /* MYCOMPANYAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C971C61AD2851F00CD1DD9 /* MYCOMPANYAddress.swift */; };
-		B3C971CF1AD2852D00CD1DD9 /* MYCOMPANYStreetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C971C71AD2851F00CD1DD9 /* MYCOMPANYStreetInfo.swift */; };
-		B3C971D01AD2852D00CD1DD9 /* MYCOMPANYUnitInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C971C81AD2851F00CD1DD9 /* MYCOMPANYUnitInfo.swift */; };
+		B3E76CEB1ADAC36F00ED22B5 /* simpleTypes.xml in Resources */ = {isa = PBXBuildFile; fileRef = B3E76CE91ADAC36F00ED22B5 /* simpleTypes.xml */; };
+		B3E76CEC1ADAC36F00ED22B5 /* simpleTypes.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B3E76CEA1ADAC36F00ED22B5 /* simpleTypes.xsd */; };
+		B3E76CF41ADAC39E00ED22B5 /* STSimpleTypesType+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E76CF11ADAC39E00ED22B5 /* STSimpleTypesType+File.m */; };
+		B3E76CF51ADAC39E00ED22B5 /* STSimpleTypesType.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E76CF31ADAC39E00ED22B5 /* STSimpleTypesType.m */; };
+		B3E76CF81ADAC4E200ED22B5 /* STSimpleTypesType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E76CF61ADAC4E200ED22B5 /* STSimpleTypesType.swift */; };
+		B3E76CF91ADAC4E200ED22B5 /* STSimpleTypesType+File.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E76CF71ADAC4E200ED22B5 /* STSimpleTypesType+File.swift */; };
 		B444BE8B1A61D15900FCA8DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444BE8A1A61D15900FCA8DA /* AppDelegate.swift */; };
 		B444BE8D1A61D15900FCA8DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444BE8C1A61D15900FCA8DA /* ViewController.swift */; };
 		B444BE901A61D15A00FCA8DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B444BE8E1A61D15900FCA8DA /* Main.storyboard */; };
@@ -23,7 +21,6 @@
 		B444BEA81A61D2BC00FCA8DA /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D65C5D185D1F2000D1BE85 /* libxml2.dylib */; };
 		B444BEBD1A61D4F500FCA8DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B444BEB81A61D4F500FCA8DA /* main.m */; };
 		B444BEC91A61D51A00FCA8DA /* !!!use as output folder.xml in Resources */ = {isa = PBXBuildFile; fileRef = B444BEBF1A61D51A00FCA8DA /* !!!use as output folder.xml */; };
-		B444BECE1A61D62B00FCA8DA /* Address.xml in Resources */ = {isa = PBXBuildFile; fileRef = B4BD0F501A439E1F002B7038 /* Address.xml */; };
 		B4D65C39185C96D600D1BE85 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D65C38185C96D600D1BE85 /* Foundation.framework */; };
 		B4D65C5E185D1F2000D1BE85 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D65C5D185D1F2000D1BE85 /* libxml2.dylib */; };
 /* End PBXBuildFile section */
@@ -41,21 +38,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B3C971B11AD1A20700CD1DD9 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
-		B3C971B21AD1A20700CD1DD9 /* MYCOMPANYAddress+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MYCOMPANYAddress+File.h"; sourceTree = "<group>"; };
-		B3C971B31AD1A20700CD1DD9 /* MYCOMPANYAddress+File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MYCOMPANYAddress+File.m"; sourceTree = "<group>"; };
-		B3C971B41AD1A20700CD1DD9 /* MYCOMPANYAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYCOMPANYAddress.h; sourceTree = "<group>"; };
-		B3C971B51AD1A20700CD1DD9 /* MYCOMPANYAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYCOMPANYAddress.m; sourceTree = "<group>"; };
-		B3C971B61AD1A20700CD1DD9 /* MYCOMPANYStreetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYCOMPANYStreetInfo.h; sourceTree = "<group>"; };
-		B3C971B71AD1A20700CD1DD9 /* MYCOMPANYStreetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYCOMPANYStreetInfo.m; sourceTree = "<group>"; };
-		B3C971B81AD1A20700CD1DD9 /* MYCOMPANYUnitInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYCOMPANYUnitInfo.h; sourceTree = "<group>"; };
-		B3C971B91AD1A20700CD1DD9 /* MYCOMPANYUnitInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYCOMPANYUnitInfo.m; sourceTree = "<group>"; };
 		B3C971C41AD2851F00CD1DD9 /* libxml-bridging-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libxml-bridging-header.h"; sourceTree = "<group>"; };
-		B3C971C51AD2851F00CD1DD9 /* MYCOMPANYAddress+File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MYCOMPANYAddress+File.swift"; sourceTree = "<group>"; };
-		B3C971C61AD2851F00CD1DD9 /* MYCOMPANYAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MYCOMPANYAddress.swift; sourceTree = "<group>"; };
-		B3C971C71AD2851F00CD1DD9 /* MYCOMPANYStreetInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MYCOMPANYStreetInfo.swift; sourceTree = "<group>"; };
-		B3C971C81AD2851F00CD1DD9 /* MYCOMPANYUnitInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MYCOMPANYUnitInfo.swift; sourceTree = "<group>"; };
-		B444BE861A61D15900FCA8DA /* addressTest_ios_SWIFT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = addressTest_ios_SWIFT.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3E76CE91ADAC36F00ED22B5 /* simpleTypes.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = simpleTypes.xml; sourceTree = "<group>"; };
+		B3E76CEA1ADAC36F00ED22B5 /* simpleTypes.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simpleTypes.xsd; sourceTree = "<group>"; };
+		B3E76CEF1ADAC39E00ED22B5 /* simpleTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simpleTypes.h; sourceTree = "<group>"; };
+		B3E76CF01ADAC39E00ED22B5 /* STSimpleTypesType+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "STSimpleTypesType+File.h"; sourceTree = "<group>"; };
+		B3E76CF11ADAC39E00ED22B5 /* STSimpleTypesType+File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STSimpleTypesType+File.m"; sourceTree = "<group>"; };
+		B3E76CF21ADAC39E00ED22B5 /* STSimpleTypesType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSimpleTypesType.h; sourceTree = "<group>"; };
+		B3E76CF31ADAC39E00ED22B5 /* STSimpleTypesType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSimpleTypesType.m; sourceTree = "<group>"; };
+		B3E76CF61ADAC4E200ED22B5 /* STSimpleTypesType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STSimpleTypesType.swift; sourceTree = "<group>"; };
+		B3E76CF71ADAC4E200ED22B5 /* STSimpleTypesType+File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "STSimpleTypesType+File.swift"; sourceTree = "<group>"; };
+		B444BE861A61D15900FCA8DA /* simpletypes_ios_SWIFT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = simpletypes_ios_SWIFT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B444BE891A61D15900FCA8DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B444BE8A1A61D15900FCA8DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B444BE8C1A61D15900FCA8DA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -65,11 +58,7 @@
 		B444BEAE1A61D4F500FCA8DA /* !!!use as output folder.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "!!!use as output folder.xml"; sourceTree = "<group>"; };
 		B444BEB81A61D4F500FCA8DA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B444BEBF1A61D51A00FCA8DA /* !!!use as output folder.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "!!!use as output folder.xml"; sourceTree = "<group>"; };
-		B4BD0F501A439E1F002B7038 /* Address.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Address.xml; sourceTree = "<group>"; };
-		B4BD0F511A439E1F002B7038 /* Address.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Address.xsd; sourceTree = "<group>"; };
-		B4BD0F521A439E1F002B7038 /* StreetInfo.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = StreetInfo.xsd; sourceTree = "<group>"; };
-		B4BD0F531A439E1F002B7038 /* UnitInfo.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = UnitInfo.xsd; sourceTree = "<group>"; };
-		B4D65C35185C96D600D1BE85 /* addressTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = addressTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4D65C35185C96D600D1BE85 /* simpletypes */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = simpletypes; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4D65C38185C96D600D1BE85 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B4D65C5D185D1F2000D1BE85 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -95,35 +84,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B3C971B01AD1A20700CD1DD9 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				B3C971B11AD1A20700CD1DD9 /* Address.h */,
-				B3C971B21AD1A20700CD1DD9 /* MYCOMPANYAddress+File.h */,
-				B3C971B31AD1A20700CD1DD9 /* MYCOMPANYAddress+File.m */,
-				B3C971B41AD1A20700CD1DD9 /* MYCOMPANYAddress.h */,
-				B3C971B51AD1A20700CD1DD9 /* MYCOMPANYAddress.m */,
-				B3C971B61AD1A20700CD1DD9 /* MYCOMPANYStreetInfo.h */,
-				B3C971B71AD1A20700CD1DD9 /* MYCOMPANYStreetInfo.m */,
-				B3C971B81AD1A20700CD1DD9 /* MYCOMPANYUnitInfo.h */,
-				B3C971B91AD1A20700CD1DD9 /* MYCOMPANYUnitInfo.m */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
 		B3C971C31AD2851F00CD1DD9 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				B3E76CF61ADAC4E200ED22B5 /* STSimpleTypesType.swift */,
+				B3E76CF71ADAC4E200ED22B5 /* STSimpleTypesType+File.swift */,
 				B3C971C41AD2851F00CD1DD9 /* libxml-bridging-header.h */,
-				B3C971C51AD2851F00CD1DD9 /* MYCOMPANYAddress+File.swift */,
-				B3C971C61AD2851F00CD1DD9 /* MYCOMPANYAddress.swift */,
-				B3C971C71AD2851F00CD1DD9 /* MYCOMPANYStreetInfo.swift */,
-				B3C971C81AD2851F00CD1DD9 /* MYCOMPANYUnitInfo.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		B444BE871A61D15900FCA8DA /* addressTest_ios_swift */ = {
+		B3E76CEE1ADAC39E00ED22B5 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B3E76CEF1ADAC39E00ED22B5 /* simpleTypes.h */,
+				B3E76CF01ADAC39E00ED22B5 /* STSimpleTypesType+File.h */,
+				B3E76CF11ADAC39E00ED22B5 /* STSimpleTypesType+File.m */,
+				B3E76CF21ADAC39E00ED22B5 /* STSimpleTypesType.h */,
+				B3E76CF31ADAC39E00ED22B5 /* STSimpleTypesType.m */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		B444BE871A61D15900FCA8DA /* simpletypes_ios_swift */ = {
 			isa = PBXGroup;
 			children = (
 				B444BEBE1A61D51A00FCA8DA /* Generated */,
@@ -134,8 +117,8 @@
 				B444BE931A61D15A00FCA8DA /* LaunchScreen.xib */,
 				B444BE881A61D15900FCA8DA /* Supporting Files */,
 			);
-			name = addressTest_ios_swift;
-			path = addressTest_ios;
+			name = simpletypes_ios_swift;
+			path = simpletypes_ios;
 			sourceTree = "<group>";
 		};
 		B444BE881A61D15900FCA8DA /* Supporting Files */ = {
@@ -146,20 +129,20 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B444BEAC1A61D4F500FCA8DA /* addressTest_osx_objc */ = {
+		B444BEAC1A61D4F500FCA8DA /* simpletypes_osx_objc */ = {
 			isa = PBXGroup;
 			children = (
 				B444BEAD1A61D4F500FCA8DA /* Generated */,
 				B444BEB81A61D4F500FCA8DA /* main.m */,
 			);
-			name = addressTest_osx_objc;
-			path = addressTest_osx;
+			name = simpletypes_osx_objc;
+			path = simpletypes_osx;
 			sourceTree = "<group>";
 		};
 		B444BEAD1A61D4F500FCA8DA /* Generated */ = {
 			isa = PBXGroup;
 			children = (
-				B3C971B01AD1A20700CD1DD9 /* Sources */,
+				B3E76CEE1ADAC39E00ED22B5 /* Sources */,
 				B444BEAE1A61D4F500FCA8DA /* !!!use as output folder.xml */,
 			);
 			path = Generated;
@@ -177,12 +160,10 @@
 		B4D65C2C185C96D600D1BE85 = {
 			isa = PBXGroup;
 			children = (
-				B4BD0F501A439E1F002B7038 /* Address.xml */,
-				B4BD0F511A439E1F002B7038 /* Address.xsd */,
-				B4BD0F521A439E1F002B7038 /* StreetInfo.xsd */,
-				B4BD0F531A439E1F002B7038 /* UnitInfo.xsd */,
-				B444BEAC1A61D4F500FCA8DA /* addressTest_osx_objc */,
-				B444BE871A61D15900FCA8DA /* addressTest_ios_swift */,
+				B3E76CE91ADAC36F00ED22B5 /* simpleTypes.xml */,
+				B3E76CEA1ADAC36F00ED22B5 /* simpleTypes.xsd */,
+				B444BEAC1A61D4F500FCA8DA /* simpletypes_osx_objc */,
+				B444BE871A61D15900FCA8DA /* simpletypes_ios_swift */,
 				B4D65C37185C96D600D1BE85 /* Frameworks */,
 				B4D65C36185C96D600D1BE85 /* Products */,
 			);
@@ -191,8 +172,8 @@
 		B4D65C36185C96D600D1BE85 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B4D65C35185C96D600D1BE85 /* addressTest */,
-				B444BE861A61D15900FCA8DA /* addressTest_ios_SWIFT.app */,
+				B4D65C35185C96D600D1BE85 /* simpletypes */,
+				B444BE861A61D15900FCA8DA /* simpletypes_ios_SWIFT.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -209,9 +190,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B444BE851A61D15900FCA8DA /* addressTest_ios_SWIFT */ = {
+		B444BE851A61D15900FCA8DA /* simpletypes_ios_SWIFT */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B444BEA61A61D15A00FCA8DA /* Build configuration list for PBXNativeTarget "addressTest_ios_SWIFT" */;
+			buildConfigurationList = B444BEA61A61D15A00FCA8DA /* Build configuration list for PBXNativeTarget "simpletypes_ios_SWIFT" */;
 			buildPhases = (
 				B444BE821A61D15900FCA8DA /* Sources */,
 				B444BE831A61D15900FCA8DA /* Frameworks */,
@@ -221,14 +202,14 @@
 			);
 			dependencies = (
 			);
-			name = addressTest_ios_SWIFT;
-			productName = addressTest_ios;
-			productReference = B444BE861A61D15900FCA8DA /* addressTest_ios_SWIFT.app */;
+			name = simpletypes_ios_SWIFT;
+			productName = simpletypes_ios;
+			productReference = B444BE861A61D15900FCA8DA /* simpletypes_ios_SWIFT.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B4D65C34185C96D600D1BE85 /* addressTest_osx_OBJC */ = {
+		B4D65C34185C96D600D1BE85 /* simpletypes_osx_OBJC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B4D65C43185C96D600D1BE85 /* Build configuration list for PBXNativeTarget "addressTest_osx_OBJC" */;
+			buildConfigurationList = B4D65C43185C96D600D1BE85 /* Build configuration list for PBXNativeTarget "simpletypes_osx_OBJC" */;
 			buildPhases = (
 				B4D65C31185C96D600D1BE85 /* Sources */,
 				B4D65C32185C96D600D1BE85 /* Frameworks */,
@@ -238,9 +219,9 @@
 			);
 			dependencies = (
 			);
-			name = addressTest_osx_OBJC;
+			name = simpletypes_osx_OBJC;
 			productName = test;
-			productReference = B4D65C35185C96D600D1BE85 /* addressTest */;
+			productReference = B4D65C35185C96D600D1BE85 /* simpletypes */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -257,7 +238,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B4D65C30185C96D600D1BE85 /* Build configuration list for PBXProject "addressTest" */;
+			buildConfigurationList = B4D65C30185C96D600D1BE85 /* Build configuration list for PBXProject "simpletypes" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -270,8 +251,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B4D65C34185C96D600D1BE85 /* addressTest_osx_OBJC */,
-				B444BE851A61D15900FCA8DA /* addressTest_ios_SWIFT */,
+				B4D65C34185C96D600D1BE85 /* simpletypes_osx_OBJC */,
+				B444BE851A61D15900FCA8DA /* simpletypes_ios_SWIFT */,
 			);
 		};
 /* End PBXProject section */
@@ -281,10 +262,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3E76CEB1ADAC36F00ED22B5 /* simpleTypes.xml in Resources */,
 				B444BE901A61D15A00FCA8DA /* Main.storyboard in Resources */,
 				B444BE951A61D15A00FCA8DA /* LaunchScreen.xib in Resources */,
+				B3E76CEC1ADAC36F00ED22B5 /* simpleTypes.xsd in Resources */,
 				B444BE921A61D15A00FCA8DA /* Images.xcassets in Resources */,
-				B444BECE1A61D62B00FCA8DA /* Address.xml in Resources */,
 				B444BEC91A61D51A00FCA8DA /* !!!use as output folder.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,11 +278,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3C971CE1AD2852D00CD1DD9 /* MYCOMPANYAddress.swift in Sources */,
+				B3E76CF81ADAC4E200ED22B5 /* STSimpleTypesType.swift in Sources */,
 				B444BE8D1A61D15900FCA8DA /* ViewController.swift in Sources */,
-				B3C971CF1AD2852D00CD1DD9 /* MYCOMPANYStreetInfo.swift in Sources */,
-				B3C971D01AD2852D00CD1DD9 /* MYCOMPANYUnitInfo.swift in Sources */,
-				B3C971CD1AD2852D00CD1DD9 /* MYCOMPANYAddress+File.swift in Sources */,
+				B3E76CF91ADAC4E200ED22B5 /* STSimpleTypesType+File.swift in Sources */,
 				B444BE8B1A61D15900FCA8DA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,11 +289,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3C971BD1AD1A20700CD1DD9 /* MYCOMPANYUnitInfo.m in Sources */,
-				B3C971BC1AD1A20700CD1DD9 /* MYCOMPANYStreetInfo.m in Sources */,
-				B3C971BB1AD1A20700CD1DD9 /* MYCOMPANYAddress.m in Sources */,
-				B3C971BA1AD1A20700CD1DD9 /* MYCOMPANYAddress+File.m in Sources */,
+				B3E76CF41ADAC39E00ED22B5 /* STSimpleTypesType+File.m in Sources */,
 				B444BEBD1A61D4F500FCA8DA /* main.m in Sources */,
+				B3E76CF51ADAC39E00ED22B5 /* STSimpleTypesType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,13 +335,13 @@
 					"/Applications/Xcode-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
 					/usr/include/libxml2,
 				);
-				INFOPLIST_FILE = addressTest_ios/Info.plist;
+				INFOPLIST_FILE = simpletypes_ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "addressTest_ios/Generated/Sources/libxml-bridging-header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "simpletypes_ios/Generated/Sources/libxml-bridging-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -382,13 +360,13 @@
 					"/Applications/Xcode-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
 					/usr/include/libxml2,
 				);
-				INFOPLIST_FILE = addressTest_ios/Info.plist;
+				INFOPLIST_FILE = simpletypes_ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "addressTest_ios/Generated/Sources/libxml-bridging-header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "simpletypes_ios/Generated/Sources/libxml-bridging-header.h";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -469,7 +447,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/include/libxml2,
 				);
-				PRODUCT_NAME = addressTest;
+				PRODUCT_NAME = simpletypes;
 			};
 			name = Debug;
 		};
@@ -481,14 +459,14 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/include/libxml2,
 				);
-				PRODUCT_NAME = addressTest;
+				PRODUCT_NAME = simpletypes;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B444BEA61A61D15A00FCA8DA /* Build configuration list for PBXNativeTarget "addressTest_ios_SWIFT" */ = {
+		B444BEA61A61D15A00FCA8DA /* Build configuration list for PBXNativeTarget "simpletypes_ios_SWIFT" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B444BEA21A61D15A00FCA8DA /* Debug */,
@@ -497,7 +475,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B4D65C30185C96D600D1BE85 /* Build configuration list for PBXProject "addressTest" */ = {
+		B4D65C30185C96D600D1BE85 /* Build configuration list for PBXProject "simpletypes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B4D65C41185C96D600D1BE85 /* Debug */,
@@ -506,7 +484,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B4D65C43185C96D600D1BE85 /* Build configuration list for PBXNativeTarget "addressTest_osx_OBJC" */ = {
+		B4D65C43185C96D600D1BE85 /* Build configuration list for PBXNativeTarget "simpletypes_osx_OBJC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B4D65C44185C96D600D1BE85 /* Debug */,

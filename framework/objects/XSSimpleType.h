@@ -26,9 +26,16 @@
 @property (strong, nonatomic) NSArray* enumerations;
 
 - (BOOL)supplyTemplates:(NSXMLNode*)node error:(NSError**)error;
+- (NSDictionary*) substitutionDict;
 
 - (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema;
 - (id) initWithName: (NSString*) name baseType: (NSString*)baseType schema: (XSDschema*) schema;
+
+//enum support
+- (BOOL) hasEnumeration;
+- (NSArray *) enumerationValues;
+- (NSString *) enumerationName;
+- (NSString *) enumerationFileName;
 
 @end
 

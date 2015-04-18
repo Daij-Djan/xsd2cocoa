@@ -51,6 +51,6 @@
     <test_anyURI>http://www.google.com</test_anyURI>
 
     <!-- date time -->
-    <test_dateTime>2012-10-10</test_dateTime>
+    <test_dateTime>2015-01-25T10:37:07+0100</test_dateTime>
 
 </st:simpleTypes>

@@ -12,7 +12,7 @@
 
 @interface XSDelement : XSSchemaNode
 
-@property (readonly, nonatomic) XSDcomplexType* localComplexType;
+@property (readonly, nonatomic) id<XSType> localType;
 @property (readonly, nonatomic) NSString* name;
 @property (readonly, nonatomic) NSString* type;
 @property (readonly, nonatomic) NSString* substitutionGroup;
@@ -33,9 +33,6 @@
 
 - (id<XSType>) schemaType;
 - (BOOL) hasEnumeration;
-- (NSArray *) enumerationValues;
-- (NSString *) buildEnumerationValues;
-- (NSString *) buildEnumerationNamesArray;
 - (NSString*) codeType;
 
 @end

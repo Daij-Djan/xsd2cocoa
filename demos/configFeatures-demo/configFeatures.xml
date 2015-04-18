@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://www.example.org/configs/configFeatures"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.example.org/configs/configFeatures configFeatures.xsd">
+    <features>
+        <feature id="main" enabled="true" />
+        <feature id="networking" enabled="true" />
+        <feature id="officeSuite" enabled="true" />
+        <feature id="alarmClock" enabled="true" />
+        <feature id="TrafficInformation" enabled="true"/>
+        <feature id="rss" enabled="false"/>
+        <feature id="contactPage" enabled="false"/>
+        <feature id="personalHomepage" enabled="true"/>
+    </features>
+    <userRights>USER</userRights>
+</config>

@@ -19,7 +19,7 @@
 
   <complexType name="template">
     <sequence>
-      <element name="format_style" type="string" minOccurs="0" maxOccurs="1">
+      <element name="format_style" type="xsd2cocoa:format_style" minOccurs="0" maxOccurs="1">
         <annotation>
           <documentation>
             this defines a the uncrustify style to use:
@@ -52,18 +52,10 @@
         </annotation>
       </element>
 
-      <element name="implementation" type="xsd2cocoa:implementation" minOccurs="1" maxOccurs="1">
+      <element name="enumeration" type="xsd2cocoa:enumeration" minOccurs="1" maxOccurs="1">
         <annotation>
           <documentation>
-            This element defines the templating options for reading the CONTENT of any xsd complextype. The curse recurses using templates of other simple and complex types.
-          </documentation>
-        </annotation>
-      </element>
-
-      <element name="reader" type="xsd2cocoa:reader" minOccurs="1" maxOccurs="1">
-        <annotation>
-          <documentation>
-            This element defines the templating options for convenience methods to parse a complex type from a valid xml file / xml data
+            This element defines the templating options for a xsd enumeration. Enumerations are all read the same way
           </documentation>
         </annotation>
       </element>
@@ -78,6 +70,14 @@
     </simpleContent>
   </complexType>
 
+  <complexType name="format_style">
+    <simpleContent>
+      <extension base="string">
+        <attribute name="type" type="string" use="required"/>
+      </extension>
+    </simpleContent>
+  </complexType>
+
   <complexType name="additional_file">
     <attribute name="path" type="string" use="required" />
     <attribute name="target_path" type="string" use="optional" />
@@ -85,7 +85,7 @@
 
   <complexType name="simpletype">
     <sequence>
-      <element name="read" type="xsd2cocoa:read" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="read" type="xsd2cocoa:read" minOccurs="1" maxOccurs="1"/>
     </sequence>
     <attribute name="name" type="string" use="required" />
     <attribute name="objType" type="string" use="required" />
@@ -95,8 +95,38 @@
 
   <complexType name="complextype">
     <sequence>
-      <element name="read" type="xsd2cocoa:read" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="read" type="xsd2cocoa:read" minOccurs="1" maxOccurs="1"/>
+      <element name="implementation" type="xsd2cocoa:implementation" minOccurs="1" maxOccurs="1">
+        <annotation>
+          <documentation>
+            This element defines the templating options for reading the CONTENT of any xsd enumeration.
+          </documentation>
+        </annotation>
+      </element>
+      <element name="reader" type="xsd2cocoa:reader" minOccurs="1" maxOccurs="1">
+        <annotation>
+          <documentation>
+            This element defines the templating options for convenience methods to parse a complex type from a valid xml file / xml data
+          </documentation>
+        </annotation>
+      </element>
     </sequence>
+    <attribute name="objType" type="string" use="required" />
+    <attribute name="arrayType" type="string" use="required" />
+  </complexType>
+
+  <complexType name="enumeration">
+    <sequence>
+      <element name="read" type="xsd2cocoa:read" minOccurs="1" maxOccurs="1"/>
+      <element name="implementation" type="xsd2cocoa:implementation" minOccurs="1" maxOccurs="1">
+        <annotation>
+          <documentation>
+            This element defines the templating options for reading the CONTENT of any xsd complextype. The curse recurses using templates of other simple and complex types.
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+    <attribute name="objType" type="string" use="required" />
     <attribute name="arrayType" type="string" use="required" />
   </complexType>
 
