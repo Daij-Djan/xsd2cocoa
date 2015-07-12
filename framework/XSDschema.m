@@ -27,6 +27,7 @@
 
 @property (strong, nonatomic) NSURL* schemaUrl;
 @property (strong, nonatomic) NSString* targetNamespace;
+@property (strong, nonatomic) NSString* schemaNamespace;
 @property (strong, nonatomic) NSArray* allNamespaces;
 @property (strong, nonatomic) NSArray* complexTypes;
 @property (strong, nonatomic) NSArray* includedSchemas;
@@ -68,7 +69,9 @@
         self.allNamespaces = [node namespaces];
         [self setTargetNamespacePrefixOverride:prefix];
         
-        
+        /* Resolve schema namespace for building xpaths */
+        [self resolveSchemaNamespace:node];
+
         /* Add basic simple types known in the built-in types */
         _knownSimpleTypeDict = [NSMutableDictionary dictionary];
         for(XSSimpleType *aSimpleType in [XSSimpleType knownSimpleTypesForSchema:self]) {
@@ -79,7 +82,7 @@
         self.simpleTypes = [NSMutableArray array];
         
         /* Grab all elements that are in the schema base with the simpleType element tag */
-        NSArray* stNodes = [node nodesForXPath: @"/schema/simpleType" error: error];
+        NSArray* stNodes = [node nodesForXPath:[self addSchemaNamespaceToXPath:@"/schema/simpleType"] error: error];
 
         /* Iterate through the found elements */
         for (NSXMLElement* aChild in stNodes) {
@@ -91,7 +94,7 @@
         /* Add complex types */
         _knownComplexTypeDict = [NSMutableDictionary dictionary];
         self.complexTypes = [NSMutableArray array];
-        NSArray* ctNodes = [node nodesForXPath: @"/schema/complexType" error: error];
+        NSArray* ctNodes = [node nodesForXPath:[self addSchemaNamespaceToXPath:@"/schema/complexType"] error: error];
         /* Iterate through the complex types found and create node elements for them */
         for (NSXMLElement* aChild in ctNodes) {
             XSDcomplexType* aCT = [[XSDcomplexType alloc] initWithNode:aChild schema:self];
@@ -101,7 +104,7 @@
 
         /* Add the globals elements */
         NSMutableArray* globalElements = [NSMutableArray array];
-        NSArray* geNodes = [node nodesForXPath: @"/schema/element" error: error];
+        NSArray* geNodes = [node nodesForXPath:[self addSchemaNamespaceToXPath:@"/schema/element"] error: error];
         for (NSXMLElement* aChild in geNodes) {
             XSDelement* anElement = [[XSDelement alloc] initWithNode: aChild schema: self];
             [globalElements addObject: anElement];
@@ -205,6 +208,35 @@
     else {
         self.targetNamespacePrefix = [self.targetNamespacePrefix uppercaseString];
     }
+}
+
+- (void)resolveSchemaNamespace:(NSXMLElement *)node
+{
+    // look for XMLSchema namespace
+    [[node namespaces] enumerateObjectsUsingBlock:^(NSXMLNode *namespace, __unused NSUInteger idx, BOOL *stop)
+    {
+        if ([namespace.stringValue hasSuffix:@"XMLSchema"])
+        {
+            // store namespace for building xpaths
+            self.schemaNamespace = namespace.name.length > 0 ? namespace.name : nil;
+            *stop = YES;
+        }
+    }];
+}
+
+- (NSString *)addSchemaNamespaceToXPath:(NSString *)xpath
+{
+    // in case the schema namespace is the default namespace
+    if (!self.schemaNamespace)
+    {
+        // no xpath modification is needed
+        return xpath;
+    }
+
+    // add schema namespace to xpath
+    return [xpath stringByReplacingOccurrencesOfString:@"/"
+                                            withString:[NSString stringWithFormat:@"/%@:", self.schemaNamespace]];
+
 }
 
 - (void) addType: (XSDcomplexType*) cType {
