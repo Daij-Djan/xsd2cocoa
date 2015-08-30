@@ -301,4 +301,27 @@
     }
 }
 
+- (IBAction)selectXsdFile:(id)sender {
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    openPanel.canChooseDirectories = NO;
+    openPanel.canChooseFiles = YES;
+    openPanel.canCreateDirectories = NO;
+    openPanel.allowedFileTypes = @[@"xsd", @"xml"];
+    openPanel.allowsMultipleSelection = NO;
+    if ([openPanel runModal] == NSOKButton) {
+        self.xsdFilePathTextfield.stringValue = [openPanel.URL path];
+    }
+}
+
+- (IBAction)selectOutputFolder:(id)sender {
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    openPanel.canChooseDirectories = YES;
+    openPanel.canChooseFiles = NO;
+    openPanel.canCreateDirectories = YES;
+    openPanel.allowsMultipleSelection = NO;
+    if ([openPanel runModal] == NSOKButton) {
+        self.outputFolderPathTextfield.stringValue = [openPanel.URL path];
+    }
+}
+
 @end
