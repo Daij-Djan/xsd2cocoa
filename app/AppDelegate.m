@@ -113,7 +113,7 @@
     }
 
     //Get scheme
-    NSURL *schemaURL = [NSURL fileURLWithPath: self.xsdFilePathTextfield.stringValue];
+    NSURL *schemaURL = [NSURL fileURLWithPath: self.xsdFilePathTextfield.stringValue isDirectory:NO];
     if(![fm isReadableFileAtPath: schemaURL.path]) {
         NSRunAlertPanel(@"Error", @"Schema at %@ cannot be found", @"OK", nil, nil, schemaURL.path);
         return;
@@ -138,9 +138,9 @@
     }
 
     /* Escape out of the file path to get to the containing direrctory */
-    NSURL* outFolder = [NSURL fileURLWithPath: [fm currentDirectoryPath]];
+    NSURL* outFolder = [NSURL fileURLWithPath: [fm currentDirectoryPath] isDirectory:YES];
     if([options objectForKey: @"-out"] != nil) {
-        outFolder = [NSURL fileURLWithPath: [options objectForKey:@"-out"]];
+        outFolder = [NSURL fileURLWithPath: [options objectForKey:@"-out"] isDirectory:YES];
     }
 
     /* Specify the template, the default is the objective-c file defined in our project*/
@@ -151,7 +151,7 @@
                 NSRunAlertPanel(@"Error", @"Custom Template selected but no path specified", @"OK", nil, nil);
                 return;
             }
-            templateUrl = [NSURL fileURLWithPath:self.templatePathTextfield.stringValue];
+            templateUrl = [NSURL fileURLWithPath:self.templatePathTextfield.stringValue isDirectory:NO];
             break;
         case 2:
             templateUrl = [[NSBundle bundleForClass:[XSDschema class]] URLForResource:@"template-objc" withExtension:@"xml"];

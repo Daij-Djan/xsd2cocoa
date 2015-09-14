@@ -28,6 +28,10 @@
 @property (strong, nonatomic) NSString* readPrefixCode;
 @property (strong, nonatomic) NSArray* includes;
 
+@property (strong, nonatomic) NSString* enumReadAttributeTemplate;
+@property (strong, nonatomic) NSString* enumReadElementTemplate;
+@property (strong, nonatomic) NSString* enumReadValueCode;
+@property (strong, nonatomic) NSString* enumReadPrefixCode;
 
 @end
 
@@ -127,13 +131,13 @@
 #pragma mark template matching
 /**
  * Name: supplyTemplate
- * Parameters:  (NSXMLElement *) - the element from the template that is used in the XSD. (NSError *) - For error handling
+ * Parameters:  (NSXMLElement *) - the element from the template that is used in the XSD. (NSXMLNode*) - the node with the read codes for processing enums (NSError *) - For error handling
  * Returns:     If it was successful in writing the items to the object
  * Description: When given the template value, iterate through the simpleType in the template
  *              and grab the values about the element type that will define the Objective-C code
  *              and assign it to the object that it is pointed at
  */
-- (BOOL)supplyTemplates:(NSXMLElement *)element error:(NSError *__autoreleasing *)error {
+- (BOOL)supplyTemplates:(NSXMLElement *)element enumTypeNode:(NSXMLNode*)enumTypeNode error:(NSError *__autoreleasing *)error {
     engine = [MGTemplateEngine templateEngine];
     [engine setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine]];
     
@@ -187,12 +191,46 @@
         self.includes = [NSArray arrayWithArray:mIncludes];
         
     }
+
+    //enum support
+    if(enumTypeNode) {
+        NSArray *nodes = [enumTypeNode nodesForXPath:@"prefix" error: error];
+        if(*error != nil) {
+            return NO;
+        }
+        if(nodes != nil && nodes.count > 0) {
+            self.enumReadPrefixCode = [[nodes objectAtIndex: 0] stringValue];
+        }
+        nodes = [enumTypeNode nodesForXPath:@"attribute" error: error];
+        if(*error != nil) {
+            return NO;
+        }
+        if(nodes != nil && nodes.count > 0) {
+            self.enumReadAttributeTemplate = [[nodes objectAtIndex: 0] stringValue];
+        }
+        nodes = [enumTypeNode nodesForXPath:@"element" error: error];
+        if(*error != nil) {
+            return NO;
+        }
+        if(nodes != nil && nodes.count > 0) {
+            self.enumReadElementTemplate = [[nodes objectAtIndex: 0] stringValue];
+        }
+        nodes = [enumTypeNode nodesForXPath:@"value" error: error];
+        if(*error != nil) {
+            return NO;
+        }
+        if(nodes != nil && nodes.count > 0) {
+            self.enumReadValueCode = [[nodes objectAtIndex: 0] stringValue];
+        }
+    }
     
     return YES;
 }
 
 - (NSString *)readAttributeTemplate {
     XSSimpleType *t = self.typeForTemplate;
+    if(self.hasEnumeration)
+        return t->_enumReadAttributeTemplate;
     return t->_readAttributeTemplate;
 }
 
@@ -204,6 +242,8 @@
 
 - (NSString *)readElementTemplate {
     XSSimpleType *t = self.typeForTemplate;
+    if(self.hasEnumeration)
+        return t->_enumReadElementTemplate;
     return t->_readElementTemplate;
 }
 
@@ -212,13 +252,22 @@
     return [engine processTemplate: self.readElementTemplate withVariables: dict];
 }
 
+- (NSString*) readCodeForValue:(NSString*) code {
+    NSDictionary* dict = [NSDictionary dictionaryWithObject: self forKey: @"type"];
+    return [engine processTemplate: code withVariables: dict];
+}
+
 - (NSString *)readValueCode {
     XSSimpleType *t = self.typeForTemplate;
-    return t->_readValueCode;
+    if(self.hasEnumeration)
+        return [self readCodeForValue:t->_enumReadValueCode];
+    return [t readCodeForValue:t->_readValueCode];
 }
 
 - (NSString *)readPrefixCode {
     XSSimpleType *t = self.typeForTemplate;
+    if(self.hasEnumeration)
+        return t->_enumReadPrefixCode;
     return t->_readPrefixCode;
 }
 
@@ -254,7 +303,10 @@
     
     /* Iterate through the enumerations to grab the value*/
     for (XSDenumeration* enumType in [self enumerations]) {
-        [rtn addObject:enumType.value];
+        NSString *modifiedValue = enumType.value;
+        if([[[NSNumberFormatter alloc] init] numberFromString:modifiedValue])
+            modifiedValue = [@"Value" stringByAppendingString:modifiedValue];
+        [rtn addObject:modifiedValue];
     }
     
     /* Return the populated array of values */

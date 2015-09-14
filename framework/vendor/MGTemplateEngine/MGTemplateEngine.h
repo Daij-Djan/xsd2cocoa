@@ -54,7 +54,7 @@
 @property(atomic,retain) NSString *literalStartMarker;
 @property(atomic,retain) NSString *literalEndMarker;
 @property(atomic,readonly) NSRange remainingRange;
-@property(atomic,weak) id <MGTemplateEngineDelegate> delegate;	// weak ref
+@property(atomic,weak) id <MGTemplateEngineDelegate> delegate;	
 @property(atomic,retain) id <MGTemplateEngineMatcher> matcher;
 @property(atomic,readonly) NSString *templateContents;
 

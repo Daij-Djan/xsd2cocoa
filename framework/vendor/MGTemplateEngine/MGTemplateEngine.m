@@ -117,8 +117,7 @@
 #pragma mark Configuration and extensibility.
 
 
-- (void)loadMarker:(id<MGTemplateMarker>)marker
-{
+- (void)loadMarker:(id<MGTemplateMarker>)marker {
 	if (marker) {
 		// Obtain claimed markers.
 		NSArray *markers = [marker markers];
@@ -248,7 +247,8 @@
 		result = [currObj valueForKeyPath:var];
 	}
 	@catch (NSException *exception) {
-        NSLog(@"Exception while resolving: %@", var);
+        NSLog(@"Exception while resolving: %@ [%@]", var,exception);
+        assert(NO); //break in debug mode as this isnt normal.. it can be ok and expected, but it may be an error
 		// do nothing
 	}
 	

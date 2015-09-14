@@ -10,8 +10,6 @@
     </annotation>
 
 
-
-
     <complexType name="UnitInfo">
         <sequence>
         <element name="number" type="string" minOccurs="0"/>

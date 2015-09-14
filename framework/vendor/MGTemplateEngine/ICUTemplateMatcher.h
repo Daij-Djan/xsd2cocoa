@@ -19,7 +19,8 @@
 
 @interface ICUTemplateMatcher : NSObject <MGTemplateEngineMatcher>
 
-@property(atomic,assign) MGTemplateEngine *engine; // weak ref
+@property(atomic,weak) MGTemplateEngine *engine;
+
 @property(atomic,retain) NSString *markerStart;
 @property(atomic,retain) NSString *markerEnd;
 @property(atomic,retain) NSString *exprStart;

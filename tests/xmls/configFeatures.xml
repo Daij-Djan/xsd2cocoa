@@ -11,4 +11,5 @@
         <feature id="PersonalHomepage" enabled="true"/>
     </features>
     <userRights>User</userRights>
+    <advanced name="foo">1</advanced>
 </config>

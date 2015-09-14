@@ -97,7 +97,8 @@
 }
 
 - (BOOL) hasComplexType {
-    return (self.type != nil && [[self.schema typeForName:self.type] isKindOfClass:[XSDcomplexType class]]);
+//    return (self.type != nil && [[self.schema typeForName:self.type] isKindOfClass:[XSDcomplexType class]]);
+    return [self.schemaType isKindOfClass:[XSDcomplexType class]];
 }
 
 - (NSString*) codeType {

@@ -23,6 +23,10 @@
     NSDictionary *_expectedClassnames;
 }
 
++ (void)setUp {
+    [self helpSetUp];
+}
+
 - (void)setUp {
     self.schemaName = @"simpleTypes";
     self.xmlFileName = @"simpleTypes";
@@ -82,6 +86,11 @@
     [self helpTearDown];
     [super tearDown];
 }
+
++ (void)tearDown {
+    [self helpTearDown];
+}
+
 - (void)assertSchema:(id)schema {
     XSDcomplexType *ct = [schema typeForName:@"SimpleTypesType"];
     XCTAssert(ct);
@@ -176,15 +185,15 @@
     
     XCTAssert(ct.simpleTypesInUse.count==40);
     for (XSSimpleType *t in ct.simpleTypesInUse) {
-        XCTAssert(t.readAttributeTemplate);
-        XCTAssert(t.readElementTemplate);
-        XCTAssert(t.readValueCode);
+        XCTAssert(t.readAttributeTemplate && [t.readAttributeTemplate rangeOfString:@"/*TODO*/"].location != NSNotFound);
+        XCTAssert(t.readElementTemplate && [t.readElementTemplate rangeOfString:@"/*TODO*/"].location != NSNotFound);
+        XCTAssert(t.readValueCode && [t.readValueCode rangeOfString:@"/*TODO*/"].location != NSNotFound);
         //prefix is optional
     }
 }
 
-- (void)testCorrectnessGeneratingParserSwift {
-    [self helpTestCorrectnessGeneratingParserSwift];
+- (void)testCorrectnessGeneratingParser {
+    [self helpTestCorrectnessGeneratingParser];
 }
 
 #pragma mark performance tests
@@ -193,16 +202,16 @@
     [self helpTestPerformanceParsingSchema];
 }
 
-- (void)testPerformanceLoadingTemplateSwift {
-    [self helpTestPerformanceLoadingTemplateSwift];
+- (void)testPerformanceLoadingTemplate {
+    [self helpTestPerformanceLoadingTemplate];
 }
 
-- (void)testPerformanceGeneratingParserSwift {
-    [self helpTestPerformanceGeneratingParserSwift];
+- (void)testPerformanceGeneratingParser {
+    [self helpTestPerformanceGeneratingParser];
 }
 
-- (void)testPerformanceParsingXMLSwift {
-    [self helpTestPerformanceParsingXMLSwift];
+- (void)testPerformanceParsingXML {
+    [self helpTestPerformanceParsingXML];
 }
 
 @end

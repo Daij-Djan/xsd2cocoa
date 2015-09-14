@@ -115,35 +115,35 @@
 - (NSDictionary *)dictionary {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 
-	if (self.addressLine1) [dict setObject:self.addressLine1 forKey:@"addressLine1"];
+	if (self.addressLine1)[dict setObject:self.addressLine1 forKey:@"addressLine1"];
 
-	if (self.addressLine2) [dict setObject:self.addressLine2 forKey:@"addressLine2"];
+	if (self.addressLine2)[dict setObject:self.addressLine2 forKey:@"addressLine2"];
 
-	if (self.addressMatch) [dict setObject:self.addressMatch forKey:@"addressMatch"];
+	if (self.addressMatch)[dict setObject:self.addressMatch forKey:@"addressMatch"];
 
-	if (self.city) [dict setObject:self.city forKey:@"city"];
+	if (self.city)[dict setObject:self.city forKey:@"city"];
 
-	if (self.country) [dict setObject:self.country forKey:@"country"];
+	if (self.country)[dict setObject:self.country forKey:@"country"];
 
-	if (self.postOfficeBox) [dict setObject:self.postOfficeBox forKey:@"postOfficeBox"];
+	if (self.postOfficeBox)[dict setObject:self.postOfficeBox forKey:@"postOfficeBox"];
 
-	if (self.state) [dict setObject:self.state forKey:@"state"];
+	if (self.state)[dict setObject:self.state forKey:@"state"];
 
 	if (self.streetInfo) {
 		NSDictionary *streetInfoDict = [self.streetInfo valueForKeyPath:@"dictionary"];
 		[dict setObject:streetInfoDict forKey:@"streetInfo"];
 	}
 
-	if (self.streetName) [dict setObject:self.streetName forKey:@"streetName"];
+	if (self.streetName)[dict setObject:self.streetName forKey:@"streetName"];
 
 	if (self.unitInfo) {
 		NSDictionary *unitInfoDict = [self.unitInfo valueForKeyPath:@"dictionary"];
 		[dict setObject:unitInfoDict forKey:@"unitInfo"];
 	}
 
-	if (self.zipCode) [dict setObject:self.zipCode forKey:@"zipCode"];
+	if (self.zipCode)[dict setObject:self.zipCode forKey:@"zipCode"];
 
-	if (self.properties) [dict setObject:self.properties forKey:@"properties"];
+	if (self.properties)[dict setObject:self.properties forKey:@"properties"];
 
 	return dict;
 }

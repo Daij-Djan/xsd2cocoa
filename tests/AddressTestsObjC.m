@@ -15,6 +15,10 @@
 
 @implementation AddressTestsObjC
 
++ (void)setUp {
+    [self helpSetUp];
+}
+
 - (void)setUp {
     self.schemaName = @"address";
     self.xmlFileName = @"address";
@@ -42,6 +46,11 @@
     [self helpTearDown];
     [super tearDown];
 }
+
++ (void)tearDown {
+    [self helpTearDown];
+}
+
 - (void)assertSchema:(id)schema {
     XSDcomplexType *ct = [schema typeForName:@"address"];
     XCTAssert(ct);
@@ -93,9 +102,6 @@
 }
 
 - (void)assertParsedXML:(id)rootNode {
-//    //TODO test
-//    NSLog(@"%@", [rootNode performSelector:@selector(dictionary)]);
-    
     XCTAssertTrue([[rootNode valueForKey:@"addressLine1"] isEqualToString:@"adasdLine1"]);
     XCTAssertTrue([[rootNode valueForKey:@"addressLine2"] isEqualToString:@"tempLine2"]);
     XCTAssertTrue([[rootNode valueForKeyPath:@"streetInfo.direction"] isEqualToString:@"SouthBySouthWest"]);
@@ -108,8 +114,8 @@
     [self helpTestCorrectnessParsingSchema];
 }
 
-- (void)testCorrectnessGeneratingParserObjC {
-    [self helpTestCorrectnessGeneratingParserObjC];
+- (void)testCorrectnessGeneratingParser {
+    [self helpTestCorrectnessGeneratingParser];
 }
 
 #pragma mark performance tests
@@ -118,16 +124,16 @@
     [self helpTestPerformanceParsingSchema];
 }
 
-- (void)testPerformanceLoadingTemplateObjC {
-    [self helpTestPerformanceLoadingTemplateObjC];
+- (void)testPerformanceLoadingTemplate {
+    [self helpTestPerformanceLoadingTemplate];
 }
 
-- (void)testPerformanceGeneratingParserObjC {
-    [self helpTestPerformanceGeneratingParserObjC];
+- (void)testPerformanceGeneratingParser {
+    [self helpTestPerformanceGeneratingParser];
 }
 
-- (void)testPerformanceParsingXMLObjC {
-    [self helpTestPerformanceParsingXMLObjC];
+- (void)testPerformanceParsingXML {
+    [self helpTestPerformanceParsingXML];
 }
 
 @end

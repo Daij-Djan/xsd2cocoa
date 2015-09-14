@@ -24,6 +24,15 @@
 					</restriction>
 				</simpleType>
 			</element>
+            <element name="advanced">
+                <complexType>
+                    <simpleContent>
+                        <extension base="config:EnumeratedString">
+                            <attribute name="name" type="string" use="required"/>
+                        </extension>
+                    </simpleContent>
+                </complexType>
+            </element>
 		</sequence>
     </complexType>
 
@@ -52,6 +61,13 @@
 		</restriction>
 	</simpleType>
 
+    <simpleType name="EnumeratedString">
+        <restriction base="int">
+            <enumeration value="0"></enumeration>
+            <enumeration value="1"></enumeration>
+            <enumeration value="2"></enumeration>
+        </restriction>
+    </simpleType>
 	<!--root-->
 	<element name='config' type="config:Config"/>
 </schema>

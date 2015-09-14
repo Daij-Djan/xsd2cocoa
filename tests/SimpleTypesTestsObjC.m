@@ -11,16 +11,15 @@
 #import "XSDConverterCore.h"
 #import "XSSimpleType.h"
 
-@interface XSDTestCaseObjC (readPrivate)
-@property NSURL *schemaUrl;
-@property NSURL *templateUrl;
-@end
-
 @interface SimpleTypesTestsObjC : XSDTestCaseObjC
 @end
 
 @implementation SimpleTypesTestsObjC {
     NSDictionary *_expectedClassnames;
+}
+
++ (void)setUp {
+    [self helpSetUp];
 }
 
 - (void)setUp {
@@ -84,6 +83,11 @@
     [self helpTearDown];
     [super tearDown];
 }
+
++ (void)tearDown {
+    [self helpTearDown];
+}
+
 - (void)assertSchema:(id)schema {
     XSDcomplexType *ct = [schema typeForName:@"SimpleTypesType"];
     XCTAssert(ct);
@@ -176,15 +180,15 @@
     
     XCTAssert(ct.simpleTypesInUse.count==40);
     for (XSSimpleType *t in ct.simpleTypesInUse) {
-        XCTAssert(t.readAttributeTemplate);
-        XCTAssert(t.readElementTemplate);
-        XCTAssert(t.readValueCode);
+        XCTAssert(t.readAttributeTemplate && [t.readAttributeTemplate rangeOfString:@"/*TODO*/"].location != NSNotFound);
+        XCTAssert(t.readElementTemplate && [t.readElementTemplate rangeOfString:@"/*TODO*/"].location != NSNotFound);
+        XCTAssert(t.readValueCode && [t.readValueCode rangeOfString:@"/*TODO*/"].location != NSNotFound);
         //prefix is optional
     }
 }
 
-- (void)testCorrectnessGeneratingParserObjC {
-    [self helpTestCorrectnessGeneratingParserObjC];
+- (void)testCorrectnessGeneratingParser {
+    [self helpTestCorrectnessGeneratingParser];
 }
 
 #pragma mark performance tests
@@ -193,16 +197,16 @@
     [self helpTestPerformanceParsingSchema];
 }
 
-- (void)testPerformanceLoadingTemplateObjC {
-    [self helpTestPerformanceLoadingTemplateObjC];
+- (void)testPerformanceLoadingTemplate {
+    [self helpTestPerformanceLoadingTemplate];
 }
 
-- (void)testPerformanceGeneratingParserObjC {
-    [self helpTestPerformanceGeneratingParserObjC];
+- (void)testPerformanceGeneratingParser {
+    [self helpTestPerformanceGeneratingParser];
 }
 
-- (void)testPerformanceParsingXMLObjC {
-    [self helpTestPerformanceParsingXMLObjC];
+- (void)testPerformanceParsingXML {
+    [self helpTestPerformanceParsingXML];
 }
 
 @end

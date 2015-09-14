@@ -6,7 +6,7 @@
 
     <annotation>
         <documentation>
-            configFeatures.xsd
+            configFeatures.xsd defines a format for testing enumeration support
         </documentation>
     </annotation>
 
@@ -16,14 +16,23 @@
 			<element name="userRights"  maxOccurs="1" minOccurs="1">
 				<simpleType>
 					<restriction base="string">
-						<enumeration value="ADMIN"></enumeration>
-						<enumeration value="OPERATOR"></enumeration>
-						<enumeration value="MAGICIAN"></enumeration>
-						<enumeration value="USER"></enumeration>
-						<enumeration value="GUEST"></enumeration>
+						<enumeration value="Admin"></enumeration>
+						<enumeration value="Operator"></enumeration>
+						<enumeration value="Magician"></enumeration>
+						<enumeration value="User"></enumeration>
+						<enumeration value="Guest"></enumeration>
 					</restriction>
 				</simpleType>
 			</element>
+            <element name="advanced">
+                <complexType>
+                    <simpleContent>
+                        <extension base="config:EnumeratedString">
+                            <attribute name="name" type="string" use="required"/>
+                        </extension>
+                    </simpleContent>
+                </complexType>
+            </element>
 		</sequence>
     </complexType>
 
@@ -41,17 +50,24 @@
 	<simpleType name="FeatureName">
 		<restriction base="string">
 			<enumeration value="CarManagement"></enumeration>
-			<enumeration value="main"></enumeration>
-			<enumeration value="networking"></enumeration>
-			<enumeration value="officeSuite"></enumeration>
-			<enumeration value="alarmClock"></enumeration>
+			<enumeration value="Main"></enumeration>
+			<enumeration value="Networking"></enumeration>
+			<enumeration value="OfficeSuite"></enumeration>
+			<enumeration value="AlarmClock"></enumeration>
 			<enumeration value="TrafficInformation"></enumeration>
-			<enumeration value="rss"></enumeration>
-			<enumeration value="contactPage"></enumeration>
-			<enumeration value="personalHomepage"></enumeration>
+			<enumeration value="RSS"></enumeration>
+			<enumeration value="ContactPage"></enumeration>
+			<enumeration value="PersonalHomepage"></enumeration>
 		</restriction>
 	</simpleType>
 
+    <simpleType name="EnumeratedString">
+        <restriction base="int">
+            <enumeration value="level0"></enumeration>
+            <enumeration value="level1"></enumeration>
+            <enumeration value="level2"></enumeration>
+        </restriction>
+    </simpleType>
 	<!--root-->
 	<element name='config' type="config:Config"/>
 </schema>

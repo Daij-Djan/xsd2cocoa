@@ -72,12 +72,13 @@
     int ret = DDRunTaskExt(nil, nil, self.executablePath,
                            @"-c",
                            self.stylePath,
-                           @"-f",
+                           @"--no-backup",
+                           @"--replace",
                            file,
                            nil);
     
     if(ret != 0 && error) {
-        *error = [NSError errorWithDomain:@"clangFormat" code:1 userInfo:nil];
+        *error = [NSError errorWithDomain:@"uncrustify" code:1 userInfo:nil];
     }
     
     return ret == 0;

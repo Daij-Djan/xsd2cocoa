@@ -15,6 +15,10 @@
 
 @implementation WeblinksTestsObjC
 
++ (void)setUp {
+    [self helpSetUp];
+}
+
 - (void)setUp {
     self.schemaName = @"weblinks";
     self.xmlFileName = @"weblinks";
@@ -40,6 +44,11 @@
     [self helpTearDown];
     [super tearDown];
 }
+
++ (void)tearDown {
+    [self helpTearDown];
+}
+
 - (void)assertSchema:(id)schema {
     XSDcomplexType *ct = [schema typeForName:@"FG"];
     XCTAssert(ct);
@@ -67,9 +76,6 @@
 }
 
 - (void)assertParsedXML:(id)rootNode {
-    //TODO test
-    NSLog(@"%@", [rootNode performSelector:@selector(dictionary)]);
-
     NSArray *favItems = [rootNode valueForKey:@"favitems"];
     NSArray *groups = [rootNode valueForKey:@"groups"];
     NSArray *childGroups = [groups[0] valueForKey:@"groups"];
@@ -91,8 +97,8 @@
     [self helpTestCorrectnessParsingSchema];
 }
 
-- (void)testCorrectnessGeneratingParserObjC {
-    [self helpTestCorrectnessGeneratingParserObjC];
+- (void)testCorrectnessGeneratingParser {
+    [self helpTestCorrectnessGeneratingParser];
 }
 
 #pragma mark performance tests
@@ -101,16 +107,16 @@
     [self helpTestPerformanceParsingSchema];
 }
 
-- (void)testPerformanceLoadingTemplateObjC {
-    [self helpTestPerformanceLoadingTemplateObjC];
+- (void)testPerformanceLoadingTemplate {
+    [self helpTestPerformanceLoadingTemplate];
 }
 
-- (void)testPerformanceGeneratingParserObjC {
-    [self helpTestPerformanceGeneratingParserObjC];
+- (void)testPerformanceGeneratingParser {
+    [self helpTestPerformanceGeneratingParser];
 }
 
-- (void)testPerformanceParsingXMLObjC {
-    [self helpTestPerformanceParsingXMLObjC];
+- (void)testPerformanceParsingXML {
+    [self helpTestPerformanceParsingXML];
 }
 
 @end

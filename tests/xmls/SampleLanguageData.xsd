@@ -1,0 +1,34 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:annotation>
+	<xs:documentation>
+		SampleLanguageData.xsd defines a format for translations ( from linguist tool )
+	</xs:documentation>
+  </xs:annotation>
+
+  <xs:element name='LangDef' type="LangDefType"/>
+  
+  <xs:complexType name="LangDefType">
+    <xs:annotation>
+      <xs:documentation>
+        this type defines a collection of translation items
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="LangID" type="LangIDType" minOccurs="0" maxOccurs="unbounded">
+      </xs:element>	      
+    </xs:sequence>
+	<xs:attribute name="langCode" type="xs:string" use="required"/>
+  </xs:complexType>
+ 
+  <xs:complexType name="LangIDType">
+    <xs:annotation>
+      <xs:documentation>
+        a translation entry (key and value)
+      </xs:documentation>
+    </xs:annotation>
+	<xs:attribute name="ID" type="xs:string" use="required"/>
+	<xs:attribute name="Text" type="xs:string" use="required"/>
+  </xs:complexType>
+    
+</xs:schema>

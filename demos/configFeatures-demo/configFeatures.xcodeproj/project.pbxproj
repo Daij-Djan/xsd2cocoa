@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B34A97961AED44820009DCBE /* CONFIGAdvanced.m in Sources */ = {isa = PBXBuildFile; fileRef = B34A97931AED44820009DCBE /* CONFIGAdvanced.m */; };
+		B34A97971AED44820009DCBE /* CONFIGEnumeratedStringEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = B34A97951AED44820009DCBE /* CONFIGEnumeratedStringEnum.m */; };
 		B3BCCFA91AE267CA005D31AC /* CONFIGConfig+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BCCF9D1AE267CA005D31AC /* CONFIGConfig+File.m */; };
 		B3BCCFAA1AE267CA005D31AC /* CONFIGConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BCCF9F1AE267CA005D31AC /* CONFIGConfig.m */; };
 		B3BCCFAB1AE267CA005D31AC /* CONFIGFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BCCFA11AE267CA005D31AC /* CONFIGFeature.m */; };
@@ -44,6 +46,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B34A97921AED44820009DCBE /* CONFIGAdvanced.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CONFIGAdvanced.h; sourceTree = "<group>"; };
+		B34A97931AED44820009DCBE /* CONFIGAdvanced.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CONFIGAdvanced.m; sourceTree = "<group>"; };
+		B34A97941AED44820009DCBE /* CONFIGEnumeratedStringEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CONFIGEnumeratedStringEnum.h; sourceTree = "<group>"; };
+		B34A97951AED44820009DCBE /* CONFIGEnumeratedStringEnum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CONFIGEnumeratedStringEnum.m; sourceTree = "<group>"; };
 		B3BCCF9C1AE267CA005D31AC /* CONFIGConfig+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CONFIGConfig+File.h"; sourceTree = "<group>"; };
 		B3BCCF9D1AE267CA005D31AC /* CONFIGConfig+File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CONFIGConfig+File.m"; sourceTree = "<group>"; };
 		B3BCCF9E1AE267CA005D31AC /* CONFIGConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CONFIGConfig.h; sourceTree = "<group>"; };
@@ -103,6 +109,10 @@
 		B3BCCF9B1AE267CA005D31AC /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				B34A97921AED44820009DCBE /* CONFIGAdvanced.h */,
+				B34A97931AED44820009DCBE /* CONFIGAdvanced.m */,
+				B34A97941AED44820009DCBE /* CONFIGEnumeratedStringEnum.h */,
+				B34A97951AED44820009DCBE /* CONFIGEnumeratedStringEnum.m */,
 				B3BCCF9C1AE267CA005D31AC /* CONFIGConfig+File.h */,
 				B3BCCF9D1AE267CA005D31AC /* CONFIGConfig+File.m */,
 				B3BCCF9E1AE267CA005D31AC /* CONFIGConfig.h */,
@@ -318,12 +328,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3BCCFAB1AE267CA005D31AC /* CONFIGFeature.m in Sources */,
+				B34A97971AED44820009DCBE /* CONFIGEnumeratedStringEnum.m in Sources */,
 				B3BCCFAE1AE267CA005D31AC /* CONFIGUserRightsEnum.m in Sources */,
 				B444BEBD1A61D4F500FCA8DA /* main.m in Sources */,
 				B3BCCFA91AE267CA005D31AC /* CONFIGConfig+File.m in Sources */,
 				B3BCCFAA1AE267CA005D31AC /* CONFIGConfig.m in Sources */,
 				B3BCCFAD1AE267CA005D31AC /* CONFIGFeatures.m in Sources */,
 				B3BCCFAC1AE267CA005D31AC /* CONFIGFeatureNameEnum.m in Sources */,
+				B34A97961AED44820009DCBE /* CONFIGAdvanced.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

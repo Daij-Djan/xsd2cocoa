@@ -27,9 +27,9 @@
 - (NSString*) readSimpleContent;
 - (BOOL) hasSimpleBaseClass;
 - (BOOL) hasComplexBaseClass;
+- (BOOL) hasComplexChildren;
 
-- (NSString*) baseClassName;
-- (NSString*) baseClassFileName;
+- (id<XSType>) baseClass;
 
 - (NSString*)combinedReadPrefixCode; //for templating this merges the prefix codes of all simpleTypes
 @end

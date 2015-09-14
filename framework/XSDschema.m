@@ -9,15 +9,19 @@
 
 
 #import "XSDschema.h"
+#import "XSDschema+XPaths.h"
+
 #import "XSSimpleType.h"
 #import "XSDcomplexType.h"
 #import "XSDelement.h"
 #import "MGTemplateEngine.h"
 #import "ICUTemplateMatcher.h"
-//#import "DDFrameworkWriter.h"
 #import "XMLUtils.h"
-#import "DDUncrustifyFormatter.h"
-#import "TRVSFormatter.h"
+#import "DDXMLValidator.h"
+
+#import "DDSimpleFormatter.h"
+//#import "DDUncrustifyFormatter.h"
+//#import "TRVSFormatter.h"
 
 @interface XSDcomplexType (privateAccessors)
 @property (strong, nonatomic) NSArray* globalElements;
@@ -31,6 +35,7 @@
 @property (strong, nonatomic) NSArray* complexTypes;
 @property (strong, nonatomic) NSArray* includedSchemas;
 @property (strong, nonatomic) NSArray* simpleTypes;
+@property (strong, nonatomic) NSString* xmlSchemaNamespace;
 
 @property (weak, nonatomic) XSDschema* parentSchema;
 
@@ -48,6 +53,9 @@
 @property (strong, nonatomic) NSString* enumClassTemplateExtension;
 @property (strong, nonatomic) NSString* enumHeaderTemplateString;
 @property (strong, nonatomic) NSString* enumHeaderTemplateExtension;
+
+@property (strong, nonatomic) NSXMLNode* enumReadNode;
+
 @property (strong, nonatomic) NSDictionary* additionalFiles;
 @property (strong, nonatomic) NSString *targetNamespacePrefix;
 @property (strong, nonatomic) id<FileFormatter> formatter;
@@ -68,6 +76,29 @@
         self.allNamespaces = [node namespaces];
         [self setTargetNamespacePrefixOverride:prefix];
         
+       //find namespace for xs
+        for(NSXMLNode *node in self.allNamespaces) {
+            NSString *name = node.localName;
+            id namespace = node.stringValue;
+            if([namespace isEqualToString:@"http://www.w3.org/2001/XMLSchema"]) {
+                if(name.length) NSLog(@"use namespace: %@=%@", name, namespace);
+                self.xmlSchemaNamespace = name;
+            }
+        }
+        if(!self.xmlSchemaNamespace) {
+            for(NSXMLNode *node in self.allNamespaces) {
+                NSString *name = node.localName;
+                id namespace = node.stringValue;
+                if([namespace hasPrefix:@"http://www.w3.org/"] && [namespace rangeOfString:@"XMLSchema"].location != NSNotFound) {
+                    if(name.length) NSLog(@"use namespace: %@=%@", name, namespace);
+                    self.xmlSchemaNamespace = name;
+                }
+            }
+        }
+        if(!self.xmlSchemaNamespace) {
+            NSLog(@"Assume XMLNamespace is root");
+            self.xmlSchemaNamespace = @"";
+        }
         
         /* Add basic simple types known in the built-in types */
         _knownSimpleTypeDict = [NSMutableDictionary dictionary];
@@ -79,7 +110,7 @@
         self.simpleTypes = [NSMutableArray array];
         
         /* Grab all elements that are in the schema base with the simpleType element tag */
-        NSArray* stNodes = [node nodesForXPath: @"/schema/simpleType" error: error];
+        NSArray* stNodes = [node nodesForXPath: self.XPathForSchemaSimpleTypes error: error];
 
         /* Iterate through the found elements */
         for (NSXMLElement* aChild in stNodes) {
@@ -91,7 +122,7 @@
         /* Add complex types */
         _knownComplexTypeDict = [NSMutableDictionary dictionary];
         self.complexTypes = [NSMutableArray array];
-        NSArray* ctNodes = [node nodesForXPath: @"/schema/complexType" error: error];
+        NSArray* ctNodes = [node nodesForXPath: self.XPathForSchemaComplexTypes error: error];
         /* Iterate through the complex types found and create node elements for them */
         for (NSXMLElement* aChild in ctNodes) {
             XSDcomplexType* aCT = [[XSDcomplexType alloc] initWithNode:aChild schema:self];
@@ -101,7 +132,7 @@
 
         /* Add the globals elements */
         NSMutableArray* globalElements = [NSMutableArray array];
-        NSArray* geNodes = [node nodesForXPath: @"/schema/element" error: error];
+        NSArray* geNodes = [node nodesForXPath: self.XPathForSchemaGlobalElements error: error];
         for (NSXMLElement* aChild in geNodes) {
             XSDelement* anElement = [[XSDelement alloc] initWithNode: aChild schema: self];
             [globalElements addObject: anElement];
@@ -142,8 +173,8 @@
         self.schemaUrl = schemaUrl;
         
         //handle includes & imports
-        NSArray* iNodes = [[doc rootElement] nodesForXPath: @"/schema/include" error: error];
-        NSArray* iNodes2 = [[doc rootElement] nodesForXPath: @"/schema/import" error: error];
+        NSArray* iNodes = [[doc rootElement] nodesForXPath: self.XPathForSchemaIncludes error: error];
+        NSArray* iNodes2 = [[doc rootElement] nodesForXPath: self.XPathForSchemaImports error: error];
         if(iNodes2.count) {
             NSMutableArray *newNodes = [iNodes2 mutableCopy];
             if(iNodes.count) {
@@ -180,6 +211,17 @@
     }
     
     return self;
+}
+
+- (NSString*)nameSpacedSchemaNodeNameForNodeName:(NSString*)nodeName {
+    NSParameterAssert(nodeName);
+    
+    if(self.xmlSchemaNamespace.length) {
+        return [NSString stringWithFormat:@"%@:%@", self.xmlSchemaNamespace, nodeName];
+    }
+    else {
+        return nodeName;
+    }
 }
 
 #pragma mark -
@@ -231,17 +273,28 @@
 - (BOOL) loadTemplate:(NSURL*)templateUrl error:(NSError**)error {
     NSParameterAssert(templateUrl);
     NSParameterAssert(error);
+    
+    //reset
+    *error = nil;
+    
+    /*validate it and fail if not valid*/
+    NSURL *schemaUrl = [[NSBundle bundleForClass:self.class] URLForResource:@"template" withExtension:@"xsd"];
+    BOOL valid = [[DDXMLValidator sharedInstace] validateXMLFile:templateUrl withSchema:DDXMLValidatorSchemaTypeXSD schemaFile:schemaUrl error:error];
+    if(!valid) {
+        return NO;
+    }
+    
     /* Load the template xml document */
     NSXMLDocument* xmlDoc = [[NSXMLDocument alloc] initWithContentsOfURL: templateUrl
                                                                  options:(NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA)
                                                                    error: error];
     /* Ensure that there wasn't errors */
-    if(*error != nil) {
+    if(!xmlDoc  || *error != nil) {
         return NO;
     }
 
     /* Check for additional file notes off of the template. */
-    NSArray* additionalFileNodes = [xmlDoc nodesForXPath:@"/template[1]/additional_file" error: error];
+    NSArray* additionalFileNodes = [xmlDoc nodesForXPath:self.XPathForTemplateAdditionalFiles error: error];
     if(*error != nil) {
         return NO;
     }
@@ -272,47 +325,98 @@
     //
     //formatter style
     //
-    NSArray* styleNodes = [xmlDoc nodesForXPath:@"/template[1]/format_style" error: error];
+    NSArray* styleNodes = [xmlDoc nodesForXPath:self.XPathForTemplateFormatStyles error: error];
     if(*error != nil) {
         return NO;
     }
     for(NSXMLElement* styleNode in styleNodes) {
         NSString *attr = [[styleNode attributeForName:@"type"] stringValue];
-        NSString *value = [styleNode stringValue];
-        if(value.length) {
-            if([attr isEqualToString:@"clang"]) {
-                if([value isEqualToString:@"objc"]) {
-                    self.formatter = [TRVSFormatter sharedFormatter];
-                }
-                else {
-                    NSLog(@"Unknown %@ formatter value: %@", attr, value);
-                }
-            }
-            else if([attr isEqualToString:@"uncrustify"]) {
-                if([value isEqualToString:@"objc"]) {
-                    self.formatter = [DDUncrustifyFormatter objectiveCFormatter];
-                }
-                else if([value isEqualToString:@"swift"]) {
-                    self.formatter = [DDUncrustifyFormatter swiftFormatter];
-                }
-                else if([[NSFileManager defaultManager] fileExistsAtPath:value]) {
-                    self.formatter = [[DDUncrustifyFormatter alloc] initWithStylePath:value];
-                }
-                else {
-                    NSLog(@"Unknown %@ formatter value: %@", attr, value);
-                }
-            }
-            else {
-                NSLog(@"Unknown formatter type: %@", attr);
-            }
+        if([attr isEqualToString:@"builtin"]) {
+            self.formatter = [DDSimpleFormatter sharedInstance];
         }
-        break;
+        else {
+            NSLog(@"Unknown formatter type: %@", attr);
+        }
+//            if([attr isEqualToString:@"clang"]) {
+//                if([value isEqualToString:@"objc"]) {
+//                    self.formatter = [TRVSFormatter sharedFormatter];
+//                }
+//                else {
+//                    NSLog(@"Unknown %@ formatter value: %@", attr, value);
+//                }
+//            }
+//            if([attr isEqualToString:@"clang"]) {
+//                if([value isEqualToString:@"objc"]) {
+//                    self.formatter = [TRVSFormatter sharedFormatter];
+//                }
+//                else {
+//                    NSLog(@"Unknown %@ formatter value: %@", attr, value);
+//                }
+//            }
+//            else if([attr isEqualToString:@"uncrustify"]) {
+//                if([value isEqualToString:@"objc"]) {
+//                    self.formatter = [DDUncrustifyFormatter objectiveCFormatter];
+//                }
+//                else if([value isEqualToString:@"swift"]) {
+//                    self.formatter = [DDUncrustifyFormatter swiftFormatter];
+//                }
+//                else if([[NSFileManager defaultManager] fileExistsAtPath:value]) {
+//                    self.formatter = [[DDUncrustifyFormatter alloc] initWithStylePath:value];
+//                }
+//                else {
+//                    NSLog(@"Unknown %@ formatter value: %@", attr, value);
+//                }
+//            }
     }
 
     //
+    // read templating code for enum type
+    //
+    
+    //get the enumTypeNode
+    NSArray *nodes = [xmlDoc nodesForXPath:self.XPathForTemplateFirstEnumeration error: error];
+    if(*error != nil) {
+        return NO;
+    }
+    NSXMLElement *enumTypeNode = nil;
+    if(nodes != nil && nodes.count > 0) {
+        enumTypeNode = [nodes objectAtIndex: 0];
+    }
+    
+    //reader
+    nodes = [enumTypeNode nodesForXPath:self.XPathForTemplateReads error: error];
+    if(*error != nil) {
+        return NO;
+    }
+    if(nodes != nil && nodes.count > 0) {
+        self.enumReadNode = [nodes objectAtIndex: 0];
+    }
+    
+    /* Fetch the header file that we will use in the enumeration section */
+    nodes = [enumTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationHeaders error: error];
+    if(*error != nil) {
+        return NO;
+    }
+    if(nodes != nil && nodes.count > 0) {
+        self.enumHeaderTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        self.enumHeaderTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
+    }
+    
+    
+    /* Fetch the class file that we will use in the enumeration section */
+    nodes = [enumTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationClasses error: error];
+    if(*error != nil) {
+        return NO;
+    }
+    if(nodes != nil && nodes.count > 0) {
+        self.enumClassTemplateString = [[nodes objectAtIndex: 0] stringValue];
+        self.enumClassTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
+    }
+        
+    //
     //reading simple types and merging them with our known ones
     //
-    NSArray* simpleTypeNodes = [xmlDoc nodesForXPath:@"/template[1]/simpletype" error: error];
+    NSArray* simpleTypeNodes = [xmlDoc nodesForXPath:self.XPathForTemplateSimpleTypes error: error];
     if(*error != nil) {
         return NO;
     }
@@ -328,10 +432,10 @@
         /* Check if we have that simpletype within our XSD provided */
         if(existingSimpleType) {
             /* For our simple type, define the values from the template */
-            [existingSimpleType supplyTemplates:aSimpleTypeNode error:error];
+            [existingSimpleType supplyTemplates:aSimpleTypeNode enumTypeNode:self.enumReadNode error:error];
         }
         else {
-            [aSimpleType  supplyTemplates:aSimpleTypeNode error:error];
+            [aSimpleType supplyTemplates:aSimpleTypeNode enumTypeNode:self.enumReadNode error:error];
             [_knownSimpleTypeDict setValue: aSimpleType forKey: aSimpleType.name];
         }
     }
@@ -341,7 +445,7 @@
     //
     
     //get the complexTypeNode
-    NSArray* nodes = [xmlDoc nodesForXPath:@"/template[1]/complextype[1]" error: error];
+    nodes = [xmlDoc nodesForXPath:self.XPathForTemplateFirstComplexType error: error];
     if(*error != nil) {
         return NO;
     }
@@ -351,7 +455,7 @@
     }
 
     /* Fetch the header file that we will use in the implementation section */
-    nodes = [complexTypeNode nodesForXPath:@"implementation[1]/header" error: error];
+    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationHeaders error: error];
     if(*error != nil) {
         return NO;
     }
@@ -362,7 +466,7 @@
     
     
     /* Fetch the class file that we will use in the implementation section */
-    nodes = [complexTypeNode nodesForXPath:@"implementation[1]/class" error: error];
+    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationClasses error: error];
     if(*error != nil) {
         return NO;
     }
@@ -372,7 +476,7 @@
     }
     
     /* Fetch the code used to READ elements that have a complex type */
-    nodes = [complexTypeNode nodesForXPath:@"read[1]/element[1]" error: error];
+    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstElementRead error: error];
     if(*error != nil) {
         return NO;
     }
@@ -386,7 +490,7 @@
     }
     
     /* Fetch the header file that we will use in the implementation section of the file reader */
-    nodes = [complexTypeNode nodesForXPath:@"reader[1]/header" error: error];
+    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstReaderHeaders error: error];
     if(*error != nil) {
         return NO;
     }
@@ -396,7 +500,7 @@
     }
     
     /* Fetch the header file that we will use in the implementation section of the file reader */
-    nodes = [complexTypeNode nodesForXPath:@"reader[1]/class" error: error];
+    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstReaderClasses error: error];
     if(*error != nil) {
         return NO;
     }
@@ -405,43 +509,6 @@
         self.readerClassTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
     }
     
-    //
-    // read templating code for complex type
-    //
-    
-    //get the enumTypeNode
-    nodes = [xmlDoc nodesForXPath:@"/template[1]/enumeration[1]" error: error];
-    if(*error != nil) {
-        return NO;
-    }
-    NSXMLElement *enumTypeNode = nil;
-    if(nodes != nil && nodes.count > 0) {
-        enumTypeNode = [nodes objectAtIndex: 0];
-    }
-    
-    //TODO missing reader
-    
-    /* Fetch the header file that we will use in the enumeration section */
-    nodes = [enumTypeNode nodesForXPath:@"implementation[1]/header" error: error];
-    if(*error != nil) {
-        return NO;
-    }
-    if(nodes != nil && nodes.count > 0) {
-        self.enumHeaderTemplateString = [[nodes objectAtIndex: 0] stringValue];
-        self.enumHeaderTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
-    }
-    
-    
-    /* Fetch the class file that we will use in the enumeration section */
-    nodes = [enumTypeNode nodesForXPath:@"implementation[1]/class" error: error];
-    if(*error != nil) {
-        return NO;
-    }
-    if(nodes != nil && nodes.count > 0) {
-        self.enumClassTemplateString = [[nodes objectAtIndex: 0] stringValue];
-        self.enumClassTemplateExtension = [XMLUtils node:[nodes objectAtIndex: 0] stringAttribute:@"extension"];
-    }
- 
     //
     //load included schemes
     //
@@ -554,7 +621,7 @@
         if(!doc) {
             return nil;
         }
-        NSArray* iNodes = [[doc rootElement] nodesForXPath: @"/nameChanges/nameChange" error: nil];
+        NSArray* iNodes = [[doc rootElement] nodesForXPath: [self XPathForNamechanges] error: nil];
         
         knownNameChanges  = [NSMutableDictionary dictionaryWithCapacity:iNodes.count];
         for (NSXMLElement *element in iNodes) {

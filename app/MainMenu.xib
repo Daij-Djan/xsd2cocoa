@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8187.4" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
+        <development version="6300" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8187.4"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -313,14 +314,12 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="XSDConverter" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+        <window title="XSDConverter" allowsToolTipsWhenApplicationIsInactive="NO" restorable="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <rect key="contentRect" x="0.0" y="0.0" width="410" height="189"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
-            <value key="minSize" type="size" width="410" height="460"/>
-            <value key="maxSize" type="size" width="2000" height="460"/>
             <view key="contentView" id="372">
-                <rect key="frame" x="0.0" y="-3" width="410" height="189"/>
+                <rect key="frame" x="0.0" y="0.0" width="410" height="189"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="WtC-UY-2MM">
@@ -344,7 +343,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" id="dO4-XI-ytA">
-                        <rect key="frame" x="20" y="127" width="339" height="22"/>
+                        <rect key="frame" x="20" y="127" width="287" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="file path for a XSD to generate a parser" drawsBackground="YES" id="Egs-XU-e3p">
                             <font key="font" metaFont="system"/>
@@ -353,7 +352,7 @@
                         </textFieldCell>
                         <connections>
                             <action selector="textfieldEdited:" target="494" id="fi2-Aq-kbX"/>
-                            <outlet property="nextKeyView" destination="bXB-tP-aWJ" id="qY8-9d-yKH"/>
+                            <outlet property="nextKeyView" destination="1op-C9-2mg" id="Olv-yl-Zud"/>
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="LRl-Te-CaG">
@@ -364,9 +363,12 @@
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <outlet property="nextKeyView" destination="bXB-tP-aWJ" id="Jdu-ph-fpu"/>
+                        </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="bXB-tP-aWJ">
-                        <rect key="frame" x="20" y="72" width="370" height="22"/>
+                        <rect key="frame" x="20" y="72" width="322" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="path to folder for generated files" drawsBackground="YES" id="VCz-8o-7PV">
                             <font key="font" metaFont="system"/>
@@ -375,7 +377,7 @@
                         </textFieldCell>
                         <connections>
                             <action selector="textfieldEdited:" target="494" id="eCY-dB-zzN"/>
-                            <outlet property="nextKeyView" destination="BGQ-MM-U13" id="6oa-ce-smp"/>
+                            <outlet property="nextKeyView" destination="qH2-9p-eU4" id="yAj-CY-Fts"/>
                         </connections>
                     </textField>
                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="NrG-Eb-ed4">
@@ -387,6 +389,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="toggleAdvancedOptions:" target="494" id="X9Q-5x-j0y"/>
+                            <outlet property="nextKeyView" destination="H60-8D-EWM" id="hnb-cd-9Jn"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="SBV-rf-bPj">
@@ -411,6 +414,30 @@ DQ
                         <connections>
                             <action selector="writeCode:" target="494" id="hzE-kO-GPA"/>
                             <outlet property="nextKeyView" destination="dO4-XI-ytA" id="MDJ-IO-Ihf"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="1op-C9-2mg">
+                        <rect key="frame" x="309" y="120" width="52" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gAH-cE-0c8">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="openDocument:" target="494" id="gdg-t4-FAt"/>
+                            <outlet property="nextKeyView" destination="LRl-Te-CaG" id="rnd-nw-LiB"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="qH2-9p-eU4">
+                        <rect key="frame" x="344" y="65" width="52" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vNw-cx-YOa">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="openDocument:" target="494" id="2gr-CY-ve6"/>
+                            <outlet property="nextKeyView" destination="NrG-Eb-ed4" id="WYM-RC-WQY"/>
                         </connections>
                     </button>
                 </subviews>
@@ -449,9 +476,12 @@ DQ
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <outlet property="nextKeyView" destination="BGQ-MM-U13" id="Mbw-ge-VEH"/>
+                        </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="shM-H9-Sro">
-                        <rect key="frame" x="38" y="52" width="288" height="22"/>
+                        <rect key="frame" x="38" y="52" width="240" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="file path to custom template xml" drawsBackground="YES" id="eIH-a1-P24">
                             <font key="font" metaFont="system"/>
@@ -460,7 +490,7 @@ DQ
                         </textFieldCell>
                         <connections>
                             <action selector="textfieldEdited:" target="494" id="RcD-3Y-j8m"/>
-                            <outlet property="nextKeyView" destination="tkt-Dk-vOf" id="tWc-uJ-PMc"/>
+                            <outlet property="nextKeyView" destination="vmk-9i-A0X" id="s7R-T0-ARE"/>
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="U1d-l3-I8J">
@@ -471,6 +501,9 @@ DQ
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <outlet property="nextKeyView" destination="tkt-Dk-vOf" id="auc-Yo-huJ"/>
+                        </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="tkt-Dk-vOf">
                         <rect key="frame" x="155" y="14" width="171" height="22"/>
@@ -482,6 +515,7 @@ DQ
                         </textFieldCell>
                         <connections>
                             <action selector="textfieldEdited:" target="494" id="zkL-BG-E51"/>
+                            <outlet property="nextKeyView" destination="BrR-Dr-DXs" id="QmU-PY-fIT"/>
                         </connections>
                     </textField>
                     <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="K4n-lo-vD4">
@@ -567,8 +601,21 @@ DQ
                         </cells>
                         <connections>
                             <action selector="templateChosen:" target="494" id="cJ3-Z8-Uee"/>
+                            <outlet property="nextKeyView" destination="shM-H9-Sro" id="eug-lJ-4f3"/>
                         </connections>
                     </matrix>
+                    <button verticalHuggingPriority="750" id="vmk-9i-A0X">
+                        <rect key="frame" x="280" y="45" width="52" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="IyW-SH-rhd">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="openDocument:" target="494" id="ToO-aO-LNb"/>
+                            <outlet property="nextKeyView" destination="U1d-l3-I8J" id="fmZ-4N-KWL"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>

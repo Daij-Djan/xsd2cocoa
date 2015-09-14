@@ -202,6 +202,7 @@
     id rtn = [[self simpleTypesInUse] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"hasEnumeration=YES"]];
     return rtn;
 }
+
 - (NSString*) targetClassName {
     NSCharacterSet* illegalChars = [NSCharacterSet characterSetWithCharactersInString: @"-"];
     
@@ -225,7 +226,7 @@
     id baseType = self.baseType;
     if(baseType != nil) {
         id<XSType> t = [self.schema typeForName: baseType];
-        return t != nil && [t isKindOfClass:[XSSimpleType class]];
+        return [t isKindOfClass:[XSSimpleType class]];
     }
     return NO;
 }
@@ -236,6 +237,14 @@
         id<XSType> t = [self.schema typeForName: baseType];
         return [t isKindOfClass:[XSDcomplexType class]];
     }
+    return NO;
+}
+
+- (BOOL) hasComplexChildren {
+    return self.complexTypesInUse.count > 0;
+}
+
+- (BOOL) hasEnumeration{
     return NO;
 }
 
@@ -250,22 +259,16 @@
     return [engine2 processTemplate: self.schema.complexTypeArrayType withVariables: dict];
 }
 
-- (NSString*) baseClassName {
-    NSString * rtn;
+- (id<XSType>) baseClass {
+    id<XSType> rtn;
     id baseType = self.baseType;
     if(baseType != nil) {
-        rtn = [[self.schema typeForName:baseType] targetClassName];
-    } else {
-        rtn = @"";
+        rtn = [self.schema typeForName:baseType];
     }
     
     return rtn;
 }
 
-- (NSString*) baseClassFileName {
-    NSString *rtn = self.baseClassName;
-    return rtn;
-}
 
 - (NSString*)readSimpleContent {
     id baseType = self.baseType;

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+	targetNamespace = "http://www.example.org/Pantry"
+	xmlns:xs = "http://www.w3.org/2001/XMLSchema"
+	xmlns:p = "http://www.example.org/Pantry" 
+	elementFormDefault="qualified" >
+	
+	<xs:simpleType name="FoodGroupType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="sweet/fat/oil" />
+			<xs:enumeration value="dairy" />
+			<xs:enumeration value="protein" />
+			<xs:enumeration value="vegetable" />
+			<xs:enumeration value="fruit" />
+			<xs:enumeration value="grain" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="FoodItemType">
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" />
+			<xs:element name="FoodGroup" type="p:FoodGroupType" />
+			<xs:element name="Cost" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ShelfType">
+		<xs:sequence>
+			<xs:element name="Food" type="p:FoodItemType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="Pantry">
+		<xs:sequence>
+			<xs:element name="Shelf" type="p:ShelfType" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+</xs:schema>
+		

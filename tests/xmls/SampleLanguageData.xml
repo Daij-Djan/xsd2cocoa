@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LangDef langCode="0407" xsi:noNamespaceSchemaLocation="HMILinguist_Texts.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <LangID ID="cancel" Text="Abbrechen"/>
+    <LangID ID="no_entries" Text="Es sind keine Einträge verfügbar."/>
+    <LangID ID="LOADING" Text="Wird geladen..."/>
+    <LangID ID="HINT" Text="Hinweis"/>
+    <LangID ID="first_name" Text="dominik"/>
+    <LangID ID="0x0506" Text="yy"/>
+    <LangID ID="lastentry" Text="zz"/>
+</LangDef>

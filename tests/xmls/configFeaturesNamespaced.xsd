@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.example.org/configs/configFeatures"
+        xmlns:config="http://www.example.org/configs/configFeatures"
+		elementFormDefault="qualified">
+
+    <xs:annotation>
+        <xs:documentation>
+            configFeatures.xsd defines a format for testing enumeration support
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:complexType name="Config">
+		<xs:sequence>
+	        <xs:element name="features" type="config:Features" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="userRights"  maxOccurs="1" minOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Admin"></xs:enumeration>
+						<xs:enumeration value="Operator"></xs:enumeration>
+						<xs:enumeration value="Magician"></xs:enumeration>
+						<xs:enumeration value="User"></xs:enumeration>
+						<xs:enumeration value="Guest"></xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+            <xs:element name="advanced">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="config:EnumeratedString">
+                            <xs:attribute name="name" type="xs:string" use="required"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+		</xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Features">
+		<xs:sequence>
+			<xs:element name="feature" type="config:Feature" maxOccurs="unbounded" minOccurs="1"/>
+		</xs:sequence>
+    </xs:complexType>
+
+	<xs:complexType name="Feature">
+		<xs:attribute name="id" type="config:FeatureName" use="required"></xs:attribute>
+		<xs:attribute name="enabled" type="xs:boolean" use="required"></xs:attribute>
+	</xs:complexType>
+	
+	<xs:simpleType name="FeatureName">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CarManagement"></xs:enumeration>
+			<xs:enumeration value="Main"></xs:enumeration>
+			<xs:enumeration value="Networking"></xs:enumeration>
+			<xs:enumeration value="OfficeSuite"></xs:enumeration>
+			<xs:enumeration value="AlarmClock"></xs:enumeration>
+			<xs:enumeration value="TrafficInformation"></xs:enumeration>
+			<xs:enumeration value="RSS"></xs:enumeration>
+			<xs:enumeration value="ContactPage"></xs:enumeration>
+			<xs:enumeration value="PersonalHomepage"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+    <xs:simpleType name="EnumeratedString">
+        <xs:restriction base="xs:int">
+            <xs:enumeration value="0"></xs:enumeration>
+            <xs:enumeration value="1"></xs:enumeration>
+            <xs:enumeration value="2"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+	<!--root-->
+	<xs:element name='config' type="config:Config"/>
+</xs:schema>
+

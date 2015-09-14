@@ -23,6 +23,8 @@ typedef enum : NSUInteger {
 @property (readonly, nonatomic) NSArray* complexTypes;
 @property (readonly, nonatomic) NSArray* includedSchemas;//included and imported both. except for namespacing, we dont care
 @property (readonly, nonatomic) NSArray* simpleTypes;
+@property (readonly, nonatomic) NSString *xmlSchemaNamespace;
+- (NSString*)nameSpacedSchemaNodeNameForNodeName:(NSString*)nodeName;
 
 @property (readonly, weak, nonatomic) XSDschema* parentSchema;
 

@@ -15,6 +15,10 @@
 
 @implementation WeblinksTestsSwift
 
++ (void)setUp {
+    [self helpSetUp];
+}
+
 - (void)setUp {
     self.schemaName = @"weblinks";
     self.xmlFileName = @"weblinks";
@@ -62,8 +66,25 @@
 }
 
 - (void)assertParsedXML:(id)rootNode {
-    //TODO test
-    NSLog(@"%@", [rootNode performSelector:@selector(dictionary)]);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    NSArray *favItems = [rootNode performSelector:@selector(favitems)];
+    NSArray *groups = [rootNode performSelector:@selector(groups)];
+    NSArray *childGroups = [groups[0] performSelector:@selector(groups)];
+    
+    NSURL *linkUrl = [favItems[0] performSelector:@selector(link)];
+    XCTAssertTrue([linkUrl.absoluteString isEqualToString:@"www.webcontinuum.net"]);
+    
+    id desc = [childGroups[0] performSelector:@selector(elementDescription)];
+    XCTAssertTrue([[desc performSelector:@selector(value)] isEqualToString:@"Group description"]);
+    XCTAssertTrue([[groups[2] performSelector:@selector(name)] isEqualToString:@"Travel"]);
+    
+    favItems = [groups[2] performSelector:@selector(favitems)];
+    
+    linkUrl = [favItems[0] performSelector:@selector(link)];
+    [linkUrl.absoluteString isEqualToString:@"www.britishairways.com"];
+#pragma clang diagnostic pop
 }
 
 #pragma mark -
@@ -72,8 +93,8 @@
     [self helpTestCorrectnessParsingSchema];
 }
 
-- (void)testCorrectnessGeneratingParserSwift {
-    [self helpTestCorrectnessGeneratingParserSwift];
+- (void)testCorrectnessGeneratingParser {
+    [self helpTestCorrectnessGeneratingParser];
 }
 
 #pragma mark performance tests
@@ -82,16 +103,16 @@
     [self helpTestPerformanceParsingSchema];
 }
 
-- (void)testPerformanceLoadingTemplateSwift {
-    [self helpTestPerformanceLoadingTemplateSwift];
+- (void)testPerformanceLoadingTemplate {
+    [self helpTestPerformanceLoadingTemplate];
 }
 
-- (void)testPerformanceGeneratingParserSwift {
-    [self helpTestPerformanceGeneratingParserSwift];
+- (void)testPerformanceGeneratingParser {
+    [self helpTestPerformanceGeneratingParser];
 }
 
-- (void)testPerformanceParsingXMLSwift {
-    [self helpTestPerformanceParsingXMLSwift];
+- (void)testPerformanceParsingXML {
+    [self helpTestPerformanceParsingXML];
 }
 
 @end

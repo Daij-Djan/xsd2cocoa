@@ -25,7 +25,7 @@
 @property (readonly, nonatomic) NSArray* includes;
 @property (strong, nonatomic) NSArray* enumerations;
 
-- (BOOL)supplyTemplates:(NSXMLNode*)node error:(NSError**)error;
+- (BOOL)supplyTemplates:(NSXMLElement *)element enumTypeNode:(NSXMLNode*)enumTypeNode error:(NSError *__autoreleasing *)error;
 - (NSDictionary*) substitutionDict;
 
 - (id) initWithNode: (NSXMLElement*) node schema: (XSDschema*) schema;

@@ -9,12 +9,14 @@ The code is generated according to a template that you can easily customize if y
 
 The generator is a framework that is completely seperate from the GUI. And thus it can be embedded in any cocoa app.
 
-**The generator is checked which unit tests that read specific xsds, generate code for it, compile it using clang and then see if they can parse an according xml**<br/>
+**The generator is checked with unit tests that read specific xsds, generate code for it, compile it using clang and then see if they can parse an according xml**<br/>
 (so IF you find bugs / missing features - please provide a xsd & a xml file so I can fix it / add it to the generator)
 
-###What works already: (1.4)
+###What works already: (1.5)
 ##### (the key points I remember)
 
+- objc & swift 2.0 support (generates FORMATTED code) ** 1.5 **
+- handles namespacesd xsd ** 1.5 ** 
 - Complex type elements
 - Simple type elements/attributes (standard and custom)
 	- **40/44 types defined by the w3c work**<br/> 
@@ -45,7 +47,7 @@ The Project is still in alpha phase, BUT real world usage is already be possible
 
 ###how-to (based on 1.0)
 ##### (very brief ;))
-1. download the sourcecode and use XCode 5+ to build the xsd2cocoa mac app. (At this point, Im not providing a binary)
+1. download the sourcecode and use XCode 7 to build the xsd2cocoa mac app. (At this point, Im not providing a binary)
 2. Upon starting the app you see a window 
 ![1](https://raw.github.com/Daij-Djan/xsd2cocoa/master/README-files/1.png)
 

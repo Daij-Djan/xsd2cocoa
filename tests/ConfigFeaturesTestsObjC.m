@@ -15,13 +15,21 @@
 
 @implementation ConfigFeaturesTestsObjC
 
++ (void)setUp {
+    [self helpSetUp];
+}
+
 - (void)setUp {
     self.schemaName = @"configFeatures";
     self.xmlFileName = @"configFeatures";
     self.expectedFiles = @[@"CONFIGConfig.h",
                            @"CONFIGConfig.m",
+                           @"CONFIGAdvanced.h",
+                           @"CONFIGAdvanced.m",
                            @"CONFIGConfig+File.h",
                            @"CONFIGConfig+File.m",
+                           @"CONFIGEnumeratedStringEnum.h",
+                           @"CONFIGEnumeratedStringEnum.m",
                            @"CONFIGFeature.h",
                            @"CONFIGFeature.m",
                            @"CONFIGFeatureNameEnum.h",
@@ -38,10 +46,64 @@
     [super setUp];
 }
 
+//setup called before
+- (void)setUpNamespaced {
+    self.schemaName = @"configFeaturesNamespaced";
+    self.expectedFiles = @[@"CONFIGConfig.h",
+                           @"CONFIGConfig.m",
+                           @"CONFIGAdvanced.h",
+                           @"CONFIGAdvanced.m",
+                           @"CONFIGConfig+File.h",
+                           @"CONFIGConfig+File.m",
+                           @"CONFIGEnumeratedStringEnum.h",
+                           @"CONFIGEnumeratedStringEnum.m",
+                           @"CONFIGFeature.h",
+                           @"CONFIGFeature.m",
+                           @"CONFIGFeatureNameEnum.h",
+                           @"CONFIGFeatureNameEnum.m",
+                           @"CONFIGFeatures.h",
+                           @"CONFIGFeatures.m",
+                           @"configFeaturesNamespaced.h",
+                           @"CONFIGUserRightsEnum.h",
+                           @"CONFIGUserRightsEnum.m"];
+    [self helpSetUp];
+}
+
+//setup called before
+- (void)setUpPrefix {
+    self.prefixOverride = @"TEST";
+    self.expectedFiles = @[@"TESTConfig.h",
+                           @"TESTConfig.m",
+                           @"TESTAdvanced.h",
+                           @"TESTAdvanced.m",
+                           @"TESTConfig+File.h",
+                           @"TESTConfig+File.m",
+                           @"TESTEnumeratedStringEnum.h",
+                           @"TESTEnumeratedStringEnum.m",
+                           @"TESTFeature.h",
+                           @"TESTFeature.m",
+                           @"TESTFeatureNameEnum.h",
+                           @"TESTFeatureNameEnum.m",
+                           @"TESTFeatures.h",
+                           @"TESTFeatures.m",
+                           @"configFeatures.h",
+                           @"TESTUserRightsEnum.h",
+                           @"TESTUserRightsEnum.m"];
+    self.rootClassName = @"TESTConfig";
+    [self helpSetUp];
+}
+
 - (void)tearDown {
     [self helpTearDown];
     [super tearDown];
 }
+
++ (void)tearDown {
+    [self helpTearDown];
+}
+
+#pragma mark -
+
 - (void)assertSchema:(id)schema {
     XSDcomplexType *ct = [schema typeForName:@"Config"];
     XCTAssert(ct);
@@ -74,9 +136,9 @@
 }
 
 - (void)assertParsedXML:(id)rootNode {
-    //    //TODO test
-    //    NSLog(@"%@", [rootNode performSelector:@selector(dictionary)]);
-    
+    NSNumber *av = [rootNode valueForKeyPath:@"advanced.value"];
+    XCTAssertTrue([av isEqualToNumber:@2]);//isEqualToString:@"Main"]);
+
     NSArray *identifiers = [rootNode valueForKeyPath:@"features.features.identifier"];
     XCTAssertTrue([identifiers[0] isEqualToNumber:@2]);//isEqualToString:@"Main"]);
     XCTAssertTrue([identifiers[1] isEqualToNumber:@3]);//isEqualToString:@"Networing"]);
@@ -87,14 +149,37 @@
     XCTAssertTrue([[rootNode valueForKey:@"userRights"] isEqualToNumber:@4]);//isEqualToString:@"User"]);
 }
 
-#pragma mark -
+#pragma mark - test parsing schema
 
 - (void)testCorrectnessParsingSchema {
     [self helpTestCorrectnessParsingSchema];
 }
 
-- (void)testCorrectnessGeneratingParserObjC {
-    [self helpTestCorrectnessGeneratingParserObjC];
+- (void)testCorrectnessParsingNamespacedSchema {
+    [self setUpNamespaced];
+    [self helpTestCorrectnessParsingSchema];
+}
+
+- (void)testCorrectnessParsingSchemaWithPrefix {
+    [self setUpPrefix];
+    [self helpTestCorrectnessParsingSchema];
+}
+
+#pragma mark - test compiling parsers
+
+- (void)testCorrectnessGeneratingParser {
+    [self helpTestCorrectnessGeneratingParser];
+}
+
+
+- (void)testCorrectnessGeneratingNamespacedParser {
+    [self setUpNamespaced];
+    [self helpTestCorrectnessGeneratingParser];
+}
+
+- (void)testCorrectnessGeneratingParserWithPrefix {
+    [self setUpPrefix];
+    [self helpTestCorrectnessGeneratingParser];
 }
 
 #pragma mark performance tests
@@ -103,16 +188,16 @@
     [self helpTestPerformanceParsingSchema];
 }
 
-- (void)testPerformanceLoadingTemplateObjC {
-    [self helpTestPerformanceLoadingTemplateObjC];
+- (void)testPerformanceLoadingTemplate {
+    [self helpTestPerformanceLoadingTemplate];
 }
 
-- (void)testPerformanceGeneratingParserObjC {
-    [self helpTestPerformanceGeneratingParserObjC];
+- (void)testPerformanceGeneratingParser {
+    [self helpTestPerformanceGeneratingParser];
 }
 
-- (void)testPerformanceParsingXMLObjC {
-    [self helpTestPerformanceParsingXMLObjC];
+- (void)testPerformanceParsingXML {
+    [self helpTestPerformanceParsingXML];
 }
 
 @end

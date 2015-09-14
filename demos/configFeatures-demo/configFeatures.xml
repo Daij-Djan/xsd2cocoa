@@ -3,14 +3,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.example.org/configs/configFeatures configFeatures.xsd">
     <features>
-        <feature id="main" enabled="true" />
-        <feature id="networking" enabled="true" />
-        <feature id="officeSuite" enabled="true" />
-        <feature id="alarmClock" enabled="true" />
+        <feature id="Main" enabled="true" />
+        <feature id="Networking" enabled="true" />
+        <feature id="OfficeSuite" enabled="true" />
         <feature id="TrafficInformation" enabled="true"/>
-        <feature id="rss" enabled="false"/>
-        <feature id="contactPage" enabled="false"/>
-        <feature id="personalHomepage" enabled="true"/>
+        <feature id="RSS" enabled="false"/>
+        <feature id="PersonalHomepage" enabled="true"/>
     </features>
-    <userRights>USER</userRights>
+    <userRights>User</userRights>
+    <advanced name="foo">level1</advanced>
 </config>

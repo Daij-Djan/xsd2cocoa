@@ -15,6 +15,10 @@
 
 @implementation AddressTestsSwift
 
++ (void)setUp {
+    [self helpSetUp];
+}
+
 - (void)setUp {
     self.schemaName = @"address";
     self.xmlFileName = @"address";
@@ -36,6 +40,11 @@
     [self helpTearDown];
     [super tearDown];
 }
+
++ (void)tearDown {
+    [self helpTearDown];
+}
+
 - (void)assertSchema:(id)schema {
     XSDcomplexType *ct = [schema typeForName:@"address"];
     XCTAssert(ct);
@@ -87,13 +96,17 @@
 }
 
 - (void)assertParsedXML:(id)rootNode {
-    //TODO test
-//    NSLog(@"%@", [rootNode performSelector:@selector(dictionary)]);
-
-    [[rootNode valueForKey:@"addressLine1"] isEqualToString:@"adasdLine1"];
-    [[rootNode valueForKey:@"addressLine2"] isEqualToString:@"tempLine2"];
-    [[rootNode valueForKeyPath:@"streetInfo.direction"] isEqualToString:@"SouthBySouthWest"];
-    [[rootNode valueForKeyPath:@"unitInfo.number"] isEqualToString:@"0123123123"];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [[rootNode performSelector:@selector(addressLine1)] isEqualToString:@"adasdLine1"];
+    [[rootNode performSelector:@selector(addressLine2)] isEqualToString:@"tempLine2"];
+    
+    id streetInfo = [rootNode performSelector:@selector(streetInfo)];
+    [[streetInfo performSelector:@selector(direction)] isEqualToString:@"SouthBySouthWest"];
+    id unitInfo = [rootNode performSelector:@selector(unitInfo)];
+    [[unitInfo performSelector:@selector(number)] isEqualToString:@"0123123123"];
+#pragma clang diagnostic pop
 }
 
 #pragma mark -
@@ -102,8 +115,8 @@
     [self helpTestCorrectnessParsingSchema];
 }
 
-- (void)testCorrectnessGeneratingParserSwift {
-    [self helpTestCorrectnessGeneratingParserSwift];
+- (void)testCorrectnessGeneratingParser {
+    [self helpTestCorrectnessGeneratingParser];
 }
 
 #pragma mark performance tests
@@ -112,16 +125,16 @@
     [self helpTestPerformanceParsingSchema];
 }
 
-- (void)testPerformanceLoadingTemplateSwift {
-    [self helpTestPerformanceLoadingTemplateSwift];
+- (void)testPerformanceLoadingTemplate {
+    [self helpTestPerformanceLoadingTemplate];
 }
 
-- (void)testPerformanceGeneratingParserSwift {
-    [self helpTestPerformanceGeneratingParserSwift];
+- (void)testPerformanceGeneratingParser {
+    [self helpTestPerformanceGeneratingParser];
 }
 
-- (void)testPerformanceParsingXMLSwift {
-    [self helpTestPerformanceParsingXMLSwift];
+- (void)testPerformanceParsingXML {
+    [self helpTestPerformanceParsingXML];
 }
 
 @end
