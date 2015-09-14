@@ -129,11 +129,6 @@
 		B342A5261A96564E0061C546 /* WeblinksTestsSwift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeblinksTestsSwift.m; sourceTree = "<group>"; };
 		B342A52A1A9658190061C546 /* XSDTestCaseSwift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDTestCaseSwift.h; sourceTree = "<group>"; };
 		B342A52B1A9658190061C546 /* XSDTestCaseSwift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDTestCaseSwift.m; sourceTree = "<group>"; };
-		B344F4281A9A76400078C679 /* DDUncrustifyFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDUncrustifyFormatter.h; sourceTree = "<group>"; };
-		B344F4291A9A76400078C679 /* DDUncrustifyFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDUncrustifyFormatter.m; sourceTree = "<group>"; };
-		B344F42A1A9A76400078C679 /* uncrustify */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = uncrustify; sourceTree = "<group>"; };
-		B344F42B1A9A76400078C679 /* uncrustify_objc.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = uncrustify_objc.cfg; sourceTree = "<group>"; };
-		B344F42C1A9A76400078C679 /* uncrustify_swift.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = uncrustify_swift.cfg; sourceTree = "<group>"; };
 		B35D7A7F1B9DFE270069FED6 /* XSDTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDTestCase.h; sourceTree = "<group>"; };
 		B35D7A801B9DFE270069FED6 /* XSDTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDTestCase.m; sourceTree = "<group>"; };
 		B3795A011B41E8EA004FD2D9 /* XSDschema+XPaths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XSDschema+XPaths.h"; sourceTree = "<group>"; };
@@ -196,8 +191,6 @@
 		B42F9FA71A48B95B0007FC96 /* datatypes.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = datatypes.xml; sourceTree = "<group>"; };
 		B444BECF1A628BC700FCA8DA /* template-swift.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "template-swift.xml"; sourceTree = "<group>"; };
 		B444BED11A633C5D00FCA8DA /* libxml-bridging-header.header */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "libxml-bridging-header.header"; sourceTree = "<group>"; };
-		B44ACBEE1A5396E90030DFEA /* DDFrameworkWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFrameworkWriter.h; sourceTree = "<group>"; };
-		B44ACBEF1A5396E90030DFEA /* DDFrameworkWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFrameworkWriter.m; sourceTree = "<group>"; };
 		B44ACBF31A53992B0030DFEA /* DDRunTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDRunTask.h; sourceTree = "<group>"; };
 		B44ACBF41A53992B0030DFEA /* DDRunTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDRunTask.m; sourceTree = "<group>"; };
 		B45720CE1857D487005632B7 /* XSDConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XSDConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,9 +211,6 @@
 		B4C21F591A5B26F7004F12F0 /* AddressTestsObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressTestsObjC.m; sourceTree = "<group>"; };
 		B4C55C4618707F2A0006D92A /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		B4C55C4818707FEB0006D92A /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
-		B4F0DD611A6BE6A7003BD66A /* clang-format */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "clang-format"; sourceTree = "<group>"; };
-		B4F0DD621A6BE6A7003BD66A /* TRVSFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRVSFormatter.h; sourceTree = "<group>"; };
-		B4F0DD631A6BE6A7003BD66A /* TRVSFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRVSFormatter.m; sourceTree = "<group>"; };
 		B4F495AE1857BFCA00A6E488 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F8B6F10C13895EA400F4CC65 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -289,18 +279,6 @@
 			name = "concrete objc tests";
 			sourceTree = "<group>";
 		};
-		B344F4271A9A76400078C679 /* DDUncrustifyFormat */ = {
-			isa = PBXGroup;
-			children = (
-				B344F4281A9A76400078C679 /* DDUncrustifyFormatter.h */,
-				B344F4291A9A76400078C679 /* DDUncrustifyFormatter.m */,
-				B344F42A1A9A76400078C679 /* uncrustify */,
-				B344F42B1A9A76400078C679 /* uncrustify_objc.cfg */,
-				B344F42C1A9A76400078C679 /* uncrustify_swift.cfg */,
-			);
-			path = DDUncrustifyFormat;
-			sourceTree = "<group>";
-		};
 		B3B029C31BA3252F00BB327F /* DDSimpleFormatter */ = {
 			isa = PBXGroup;
 			children = (
@@ -310,16 +288,6 @@
 				B3B029C71BA3252F00BB327F /* NSString+PrefixSuffixFrom.m */,
 			);
 			path = DDSimpleFormatter;
-			sourceTree = "<group>";
-		};
-		B3CB36B21A9348F500FB4CAA /* Disabled */ = {
-			isa = PBXGroup;
-			children = (
-				B344F4271A9A76400078C679 /* DDUncrustifyFormat */,
-				B4F0DD601A6BE6A7003BD66A /* ClangFormat */,
-				B44ACBED1A5396E90030DFEA /* DDFrameworkWriter */,
-			);
-			name = Disabled;
 			sourceTree = "<group>";
 		};
 		B3F751D61BA7240000FA66DC /* vendor */ = {
@@ -384,7 +352,6 @@
 		B42F9EE71A48663F0007FC96 /* vendor */ = {
 			isa = PBXGroup;
 			children = (
-				B3CB36B21A9348F500FB4CAA /* Disabled */,
 				B3C971991AD19A6F00CD1DD9 /* FileFormatter.h */,
 				B3B029C31BA3252F00BB327F /* DDSimpleFormatter */,
 				B33F4FC11B4E9AEB00797D74 /* DDXMLValidator */,
@@ -457,15 +424,6 @@
 			name = Templates;
 			sourceTree = "<group>";
 		};
-		B44ACBED1A5396E90030DFEA /* DDFrameworkWriter */ = {
-			isa = PBXGroup;
-			children = (
-				B44ACBEE1A5396E90030DFEA /* DDFrameworkWriter.h */,
-				B44ACBEF1A5396E90030DFEA /* DDFrameworkWriter.m */,
-			);
-			path = DDFrameworkWriter;
-			sourceTree = "<group>";
-		};
 		B44ACBF21A53992B0030DFEA /* DDRunTask */ = {
 			isa = PBXGroup;
 			children = (
@@ -495,16 +453,6 @@
 				B42F9EFE1A48663F0007FC96 /* template.xsd */,
 			);
 			name = Schema;
-			sourceTree = "<group>";
-		};
-		B4F0DD601A6BE6A7003BD66A /* ClangFormat */ = {
-			isa = PBXGroup;
-			children = (
-				B4F0DD611A6BE6A7003BD66A /* clang-format */,
-				B4F0DD621A6BE6A7003BD66A /* TRVSFormatter.h */,
-				B4F0DD631A6BE6A7003BD66A /* TRVSFormatter.m */,
-			);
-			path = ClangFormat;
 			sourceTree = "<group>";
 		};
 		F8E422A9138834E90047AA8C = {

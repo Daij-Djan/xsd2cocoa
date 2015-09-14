@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D67AB753B03769A3C70319DAE504A0BE94489E41",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "69597A54A55EE7A148A1654F998635C337579421" : 0,
+    "D67AB753B03769A3C70319DAE504A0BE94489E41" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7B2F8FB6-F642-4A4E-95E9-0820E77241CA",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "69597A54A55EE7A148A1654F998635C337579421" : "xsd2cocoa\/framework\/vendor\/MGTemplateEngine\/",
+    "D67AB753B03769A3C70319DAE504A0BE94489E41" : "xsd2cocoa\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "XSDConverter",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "XSDConverter.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/mattgemmell\/MGTemplateEngine",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "69597A54A55EE7A148A1654F998635C337579421"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Daij-Djan\/xsd2cocoa.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D67AB753B03769A3C70319DAE504A0BE94489E41"
+    }
+  ]
+}
