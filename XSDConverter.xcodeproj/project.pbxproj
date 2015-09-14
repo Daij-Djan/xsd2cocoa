@@ -46,7 +46,7 @@
 		B3C971851AD17BAB00CD1DD9 /* XSDenumeration.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C971831AD17BAB00CD1DD9 /* XSDenumeration.m */; };
 		B3C9719A1AD19A6F00CD1DD9 /* FileFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C971991AD19A6F00CD1DD9 /* FileFormatter.h */; };
 		B3CB36B31A93493200FB4CAA /* DDRunTask.m in Sources */ = {isa = PBXBuildFile; fileRef = B44ACBF41A53992B0030DFEA /* DDRunTask.m */; };
-		B3E49FBC1BA5B1B100D59555 /* NSObject+DDDump.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E49FBA1BA5B1B100D59555 /* NSObject+DDDump.m */; settings = {ASSET_TAGS = (); }; };
+		B3F751DA1BA7240000FA66DC /* NSObject+DDDump.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F751D91BA7240000FA66DC /* NSObject+DDDump.m */; settings = {ASSET_TAGS = (); }; };
 		B3F7B78C1B3DBD87007BA1C3 /* configFeaturesNamespaced.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B3F7B78B1B3DBD87007BA1C3 /* configFeaturesNamespaced.xsd */; };
 		B3FB29B61B458F8F009BFD29 /* SampleLanguageData.xml in Resources */ = {isa = PBXBuildFile; fileRef = B3FB29B41B458F8F009BFD29 /* SampleLanguageData.xml */; };
 		B3FB29B71B458F8F009BFD29 /* SampleLanguageData.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B3FB29B51B458F8F009BFD29 /* SampleLanguageData.xsd */; };
@@ -183,9 +183,9 @@
 		B3C971821AD17BAB00CD1DD9 /* XSDenumeration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSDenumeration.h; sourceTree = "<group>"; };
 		B3C971831AD17BAB00CD1DD9 /* XSDenumeration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XSDenumeration.m; sourceTree = "<group>"; };
 		B3C971991AD19A6F00CD1DD9 /* FileFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileFormatter.h; path = ../FileFormatter.h; sourceTree = "<group>"; };
-		B3E49FB91BA5B1B100D59555 /* NSObject+DDDump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DDDump.h"; sourceTree = "<group>"; };
-		B3E49FBA1BA5B1B100D59555 /* NSObject+DDDump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DDDump.m"; sourceTree = "<group>"; };
 		B3E76CFA1ADAE79400ED22B5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B3F751D81BA7240000FA66DC /* NSObject+DDDump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DDDump.h"; sourceTree = "<group>"; };
+		B3F751D91BA7240000FA66DC /* NSObject+DDDump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DDDump.m"; sourceTree = "<group>"; };
 		B3F7B78B1B3DBD87007BA1C3 /* configFeaturesNamespaced.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = configFeaturesNamespaced.xsd; sourceTree = "<group>"; };
 		B3FB29B41B458F8F009BFD29 /* SampleLanguageData.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SampleLanguageData.xml; sourceTree = "<group>"; };
 		B3FB29B51B458F8F009BFD29 /* SampleLanguageData.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SampleLanguageData.xsd; sourceTree = "<group>"; };
@@ -374,19 +374,19 @@
 			name = Disabled;
 			sourceTree = "<group>";
 		};
-		B3E49FB71BA5B1A200D59555 /* vendor */ = {
+		B3F751D61BA7240000FA66DC /* vendor */ = {
 			isa = PBXGroup;
 			children = (
-				B3E49FB81BA5B1B100D59555 /* NSObject+DDDump */,
+				B3F751D71BA7240000FA66DC /* NSObject+DDDump */,
 			);
-			name = vendor;
+			path = vendor;
 			sourceTree = "<group>";
 		};
-		B3E49FB81BA5B1B100D59555 /* NSObject+DDDump */ = {
+		B3F751D71BA7240000FA66DC /* NSObject+DDDump */ = {
 			isa = PBXGroup;
 			children = (
-				B3E49FB91BA5B1B100D59555 /* NSObject+DDDump.h */,
-				B3E49FBA1BA5B1B100D59555 /* NSObject+DDDump.m */,
+				B3F751D81BA7240000FA66DC /* NSObject+DDDump.h */,
+				B3F751D91BA7240000FA66DC /* NSObject+DDDump.m */,
 			);
 			path = "NSObject+DDDump";
 			sourceTree = "<group>";
@@ -461,7 +461,7 @@
 		B42F9F561A4890CE0007FC96 /* tests */ = {
 			isa = PBXGroup;
 			children = (
-				B3E49FB71BA5B1A200D59555 /* vendor */,
+				B3F751D61BA7240000FA66DC /* vendor */,
 				B42F9F5A1A4890CE0007FC96 /* xmls */,
 				B342A5291A9657A40061C546 /* concrete objc tests */,
 				B342A5281A9657740061C546 /* concrete swift tests */,
@@ -813,13 +813,13 @@
 				B4BB5A231A4AC4710044305B /* XSDTestCaseObjC.m in Sources */,
 				B342A5231A9655060061C546 /* SimpleTypesTestsSwift.m in Sources */,
 				B342A5251A9655310061C546 /* AddressTestsSwift.m in Sources */,
-				B3E49FBC1BA5B1B100D59555 /* NSObject+DDDump.m in Sources */,
 				B3FB29BB1B45A7B7009BFD29 /* SampleLanguageDataTestsSwift.m in Sources */,
 				B42F9F631A4890CE0007FC96 /* WeblinksTestsObjC.m in Sources */,
 				B3FB29BA1B45A7B7009BFD29 /* SampleLanguageDataTestsObjC.m in Sources */,
 				B342A52C1A9658190061C546 /* XSDTestCaseSwift.m in Sources */,
 				B4C21F5A1A5B26F7004F12F0 /* AddressTestsObjC.m in Sources */,
 				B35D7A821B9DFE320069FED6 /* XSDTestCase.m in Sources */,
+				B3F751DA1BA7240000FA66DC /* NSObject+DDDump.m in Sources */,
 				B3BCCFB41AE268C0005D31AC /* ConfigFeaturesTestsObjC.m in Sources */,
 				B42A11131A6478DC00F42ED3 /* SimpleTypesTestsObjC.m in Sources */,
 			);
