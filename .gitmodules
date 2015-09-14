@@ -1,0 +1,3 @@
+[submodule "framework/vendor/MGTemplateEngine"]
+	path = framework/vendor/MGTemplateEngine
+	url = https://Daij-Djan@github.com/mattgemmell/MGTemplateEngine
