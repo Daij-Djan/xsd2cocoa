@@ -32,6 +32,21 @@
 		B3C9719A1AD19A6F00CD1DD9 /* FileFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C971991AD19A6F00CD1DD9 /* FileFormatter.h */; };
 		B3CB36B31A93493200FB4CAA /* DDRunTask.m in Sources */ = {isa = PBXBuildFile; fileRef = B44ACBF41A53992B0030DFEA /* DDRunTask.m */; };
 		B3F751DA1BA7240000FA66DC /* NSObject+DDDump.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F751D91BA7240000FA66DC /* NSObject+DDDump.m */; settings = {ASSET_TAGS = (); }; };
+		B3F7522F1BA72CD100FA66DC /* DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F752201BA72CD100FA66DC /* DeepMutableCopy.h */; settings = {ASSET_TAGS = (); }; };
+		B3F752301BA72CD100FA66DC /* ICUTemplateMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F752211BA72CD100FA66DC /* ICUTemplateMatcher.h */; settings = {ASSET_TAGS = (); }; };
+		B3F752311BA72CD100FA66DC /* ICUTemplateMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F752221BA72CD100FA66DC /* ICUTemplateMatcher.m */; settings = {ASSET_TAGS = (); }; };
+		B3F752321BA72CD100FA66DC /* MGTemplateEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F752231BA72CD100FA66DC /* MGTemplateEngine.h */; settings = {ASSET_TAGS = (); }; };
+		B3F752331BA72CD100FA66DC /* MGTemplateEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F752241BA72CD100FA66DC /* MGTemplateEngine.m */; settings = {ASSET_TAGS = (); }; };
+		B3F752341BA72CD100FA66DC /* MGTemplateFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F752251BA72CD100FA66DC /* MGTemplateFilter.h */; settings = {ASSET_TAGS = (); }; };
+		B3F752351BA72CD100FA66DC /* MGTemplateMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F752261BA72CD100FA66DC /* MGTemplateMarker.h */; settings = {ASSET_TAGS = (); }; };
+		B3F752361BA72CD100FA66DC /* MGTemplateStandardFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F752271BA72CD100FA66DC /* MGTemplateStandardFilters.h */; settings = {ASSET_TAGS = (); }; };
+		B3F752371BA72CD100FA66DC /* MGTemplateStandardFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F752281BA72CD100FA66DC /* MGTemplateStandardFilters.m */; settings = {ASSET_TAGS = (); }; };
+		B3F752381BA72CD100FA66DC /* MGTemplateStandardMarkers.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F752291BA72CD100FA66DC /* MGTemplateStandardMarkers.h */; settings = {ASSET_TAGS = (); }; };
+		B3F752391BA72CD100FA66DC /* MGTemplateStandardMarkers.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F7522A1BA72CD100FA66DC /* MGTemplateStandardMarkers.m */; settings = {ASSET_TAGS = (); }; };
+		B3F7523A1BA72CD100FA66DC /* NSArray_DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F7522B1BA72CD100FA66DC /* NSArray_DeepMutableCopy.h */; settings = {ASSET_TAGS = (); }; };
+		B3F7523B1BA72CD100FA66DC /* NSArray_DeepMutableCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F7522C1BA72CD100FA66DC /* NSArray_DeepMutableCopy.m */; settings = {ASSET_TAGS = (); }; };
+		B3F7523C1BA72CD100FA66DC /* NSDictionary_DeepMutableCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = B3F7522D1BA72CD100FA66DC /* NSDictionary_DeepMutableCopy.h */; settings = {ASSET_TAGS = (); }; };
+		B3F7523D1BA72CD100FA66DC /* NSDictionary_DeepMutableCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F7522E1BA72CD100FA66DC /* NSDictionary_DeepMutableCopy.m */; settings = {ASSET_TAGS = (); }; };
 		B3F7B78C1B3DBD87007BA1C3 /* configFeaturesNamespaced.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B3F7B78B1B3DBD87007BA1C3 /* configFeaturesNamespaced.xsd */; };
 		B3FB29B61B458F8F009BFD29 /* SampleLanguageData.xml in Resources */ = {isa = PBXBuildFile; fileRef = B3FB29B41B458F8F009BFD29 /* SampleLanguageData.xml */; };
 		B3FB29B71B458F8F009BFD29 /* SampleLanguageData.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B3FB29B51B458F8F009BFD29 /* SampleLanguageData.xsd */; };
@@ -151,6 +166,21 @@
 		B3E76CFA1ADAE79400ED22B5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B3F751D81BA7240000FA66DC /* NSObject+DDDump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DDDump.h"; sourceTree = "<group>"; };
 		B3F751D91BA7240000FA66DC /* NSObject+DDDump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DDDump.m"; sourceTree = "<group>"; };
+		B3F752201BA72CD100FA66DC /* DeepMutableCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeepMutableCopy.h; sourceTree = "<group>"; };
+		B3F752211BA72CD100FA66DC /* ICUTemplateMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICUTemplateMatcher.h; sourceTree = "<group>"; };
+		B3F752221BA72CD100FA66DC /* ICUTemplateMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICUTemplateMatcher.m; sourceTree = "<group>"; };
+		B3F752231BA72CD100FA66DC /* MGTemplateEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTemplateEngine.h; sourceTree = "<group>"; };
+		B3F752241BA72CD100FA66DC /* MGTemplateEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTemplateEngine.m; sourceTree = "<group>"; };
+		B3F752251BA72CD100FA66DC /* MGTemplateFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTemplateFilter.h; sourceTree = "<group>"; };
+		B3F752261BA72CD100FA66DC /* MGTemplateMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTemplateMarker.h; sourceTree = "<group>"; };
+		B3F752271BA72CD100FA66DC /* MGTemplateStandardFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTemplateStandardFilters.h; sourceTree = "<group>"; };
+		B3F752281BA72CD100FA66DC /* MGTemplateStandardFilters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTemplateStandardFilters.m; sourceTree = "<group>"; };
+		B3F752291BA72CD100FA66DC /* MGTemplateStandardMarkers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTemplateStandardMarkers.h; sourceTree = "<group>"; };
+		B3F7522A1BA72CD100FA66DC /* MGTemplateStandardMarkers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTemplateStandardMarkers.m; sourceTree = "<group>"; };
+		B3F7522B1BA72CD100FA66DC /* NSArray_DeepMutableCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArray_DeepMutableCopy.h; sourceTree = "<group>"; };
+		B3F7522C1BA72CD100FA66DC /* NSArray_DeepMutableCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArray_DeepMutableCopy.m; sourceTree = "<group>"; };
+		B3F7522D1BA72CD100FA66DC /* NSDictionary_DeepMutableCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDictionary_DeepMutableCopy.h; sourceTree = "<group>"; };
+		B3F7522E1BA72CD100FA66DC /* NSDictionary_DeepMutableCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDictionary_DeepMutableCopy.m; sourceTree = "<group>"; };
 		B3F7B78B1B3DBD87007BA1C3 /* configFeaturesNamespaced.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = configFeaturesNamespaced.xsd; sourceTree = "<group>"; };
 		B3FB29B41B458F8F009BFD29 /* SampleLanguageData.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SampleLanguageData.xml; sourceTree = "<group>"; };
 		B3FB29B51B458F8F009BFD29 /* SampleLanguageData.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SampleLanguageData.xsd; sourceTree = "<group>"; };
@@ -307,6 +337,28 @@
 			path = "NSObject+DDDump";
 			sourceTree = "<group>";
 		};
+		B3F7521F1BA72CD100FA66DC /* MGTemplateEngine */ = {
+			isa = PBXGroup;
+			children = (
+				B3F752201BA72CD100FA66DC /* DeepMutableCopy.h */,
+				B3F752211BA72CD100FA66DC /* ICUTemplateMatcher.h */,
+				B3F752221BA72CD100FA66DC /* ICUTemplateMatcher.m */,
+				B3F752231BA72CD100FA66DC /* MGTemplateEngine.h */,
+				B3F752241BA72CD100FA66DC /* MGTemplateEngine.m */,
+				B3F752251BA72CD100FA66DC /* MGTemplateFilter.h */,
+				B3F752261BA72CD100FA66DC /* MGTemplateMarker.h */,
+				B3F752271BA72CD100FA66DC /* MGTemplateStandardFilters.h */,
+				B3F752281BA72CD100FA66DC /* MGTemplateStandardFilters.m */,
+				B3F752291BA72CD100FA66DC /* MGTemplateStandardMarkers.h */,
+				B3F7522A1BA72CD100FA66DC /* MGTemplateStandardMarkers.m */,
+				B3F7522B1BA72CD100FA66DC /* NSArray_DeepMutableCopy.h */,
+				B3F7522C1BA72CD100FA66DC /* NSArray_DeepMutableCopy.m */,
+				B3F7522D1BA72CD100FA66DC /* NSDictionary_DeepMutableCopy.h */,
+				B3F7522E1BA72CD100FA66DC /* NSDictionary_DeepMutableCopy.m */,
+			);
+			path = MGTemplateEngine;
+			sourceTree = "<group>";
+		};
 		B42F9ED71A48663F0007FC96 /* framework */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,6 +406,7 @@
 			children = (
 				B3C971991AD19A6F00CD1DD9 /* FileFormatter.h */,
 				B3B029C31BA3252F00BB327F /* DDSimpleFormatter */,
+				B3F7521F1BA72CD100FA66DC /* MGTemplateEngine */,
 				B33F4FC11B4E9AEB00797D74 /* DDXMLValidator */,
 				B44ACBF21A53992B0030DFEA /* DDRunTask */,
 			);
@@ -498,17 +551,26 @@
 				B33F4FC41B4E9AEB00797D74 /* DDXMLValidator.h in Headers */,
 				B42F9F081A48663F0007FC96 /* XSDcomplexType.h in Headers */,
 				B42F9F061A48663F0007FC96 /* XSDattribute.h in Headers */,
+				B3F752301BA72CD100FA66DC /* ICUTemplateMatcher.h in Headers */,
 				B49B8CFC1A4DCFE9001A2D91 /* XSDAnnotation.h in Headers */,
+				B3F752381BA72CD100FA66DC /* MGTemplateStandardMarkers.h in Headers */,
+				B3F7523A1BA72CD100FA66DC /* NSArray_DeepMutableCopy.h in Headers */,
 				B42F9F311A487B520007FC96 /* XSType.h in Headers */,
+				B3F752351BA72CD100FA66DC /* MGTemplateMarker.h in Headers */,
 				B42F9F0C1A48663F0007FC96 /* XSDexplicitGroup.h in Headers */,
 				B3C9719A1AD19A6F00CD1DD9 /* FileFormatter.h in Headers */,
+				B3F752361BA72CD100FA66DC /* MGTemplateStandardFilters.h in Headers */,
 				B3C971841AD17BAB00CD1DD9 /* XSDenumeration.h in Headers */,
+				B3F7523C1BA72CD100FA66DC /* NSDictionary_DeepMutableCopy.h in Headers */,
 				B42F9F2A1A4866400007FC96 /* XSDConverterCore.h in Headers */,
 				B3B029CA1BA3252F00BB327F /* NSString+PrefixSuffixFrom.h in Headers */,
+				B3F7522F1BA72CD100FA66DC /* DeepMutableCopy.h in Headers */,
 				B42F9F0E1A48663F0007FC96 /* XSSchemaNode.h in Headers */,
 				B44ACBF51A53992B0030DFEA /* DDRunTask.h in Headers */,
 				B42F9F0A1A48663F0007FC96 /* XSDelement.h in Headers */,
 				B3B029C81BA3252F00BB327F /* DDSimpleFormatter.h in Headers */,
+				B3F752341BA72CD100FA66DC /* MGTemplateFilter.h in Headers */,
+				B3F752321BA72CD100FA66DC /* MGTemplateEngine.h in Headers */,
 				B42F9F281A4866400007FC96 /* XMLUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -664,20 +726,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3F752311BA72CD100FA66DC /* ICUTemplateMatcher.m in Sources */,
 				B42F9F0B1A48663F0007FC96 /* XSDelement.m in Sources */,
 				B42F9F091A48663F0007FC96 /* XSDcomplexType.m in Sources */,
 				B3C971851AD17BAB00CD1DD9 /* XSDenumeration.m in Sources */,
 				B42F9F111A48663F0007FC96 /* XSSimpleType.m in Sources */,
 				B33F4FC51B4E9AEB00797D74 /* DDXMLValidator.m in Sources */,
 				B49B8CFD1A4DCFE9001A2D91 /* XSDAnnotation.m in Sources */,
+				B3F752331BA72CD100FA66DC /* MGTemplateEngine.m in Sources */,
+				B3F752371BA72CD100FA66DC /* MGTemplateStandardFilters.m in Sources */,
+				B3F752391BA72CD100FA66DC /* MGTemplateStandardMarkers.m in Sources */,
 				B3B029CB1BA3252F00BB327F /* NSString+PrefixSuffixFrom.m in Sources */,
 				B3795A041B41E94F004FD2D9 /* XSDschema+XPaths.m in Sources */,
 				B3B029C91BA3252F00BB327F /* DDSimpleFormatter.m in Sources */,
 				B42F9F071A48663F0007FC96 /* XSDattribute.m in Sources */,
 				B3CB36B31A93493200FB4CAA /* DDRunTask.m in Sources */,
+				B3F7523D1BA72CD100FA66DC /* NSDictionary_DeepMutableCopy.m in Sources */,
 				B42F9F0F1A48663F0007FC96 /* XSSchemaNode.m in Sources */,
 				B42F9F291A4866400007FC96 /* XMLUtils.m in Sources */,
 				B42F9F0D1A48663F0007FC96 /* XSDexplicitGroup.m in Sources */,
+				B3F7523B1BA72CD100FA66DC /* NSArray_DeepMutableCopy.m in Sources */,
 				B42F9F2C1A4866400007FC96 /* XSDschema.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

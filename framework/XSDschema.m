@@ -156,7 +156,9 @@
     NSData* data = [NSData dataWithContentsOfURL: schemaUrl];
     /* If we do not have data present an instance error that we cannot open the xsd file at the given location */
     if(!data) {
-        *error = [NSError errorWithDomain:@"XSDschema" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:@"Cant open xsd file at %@", schemaUrl]}];
+        if(error) {
+            *error = [NSError errorWithDomain:@"XSDschema" code:1 userInfo:@{NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:@"Cant open xsd file at %@", schemaUrl]}];
+        }
         return nil;
     }
     /* Create a document tree structure */
@@ -270,32 +272,33 @@
  *              Also define the header files
  */
 
-- (BOOL) loadTemplate:(NSURL*)templateUrl error:(NSError**)error {
+- (BOOL) loadTemplate:(NSURL*)templateUrl error:(NSError**)resultError {
     NSParameterAssert(templateUrl);
-    NSParameterAssert(error);
     
-    //reset
-    *error = nil;
+    NSError *error = nil;
     
     /*validate it and fail if not valid*/
     NSURL *schemaUrl = [[NSBundle bundleForClass:self.class] URLForResource:@"template" withExtension:@"xsd"];
-    BOOL valid = [[DDXMLValidator sharedInstace] validateXMLFile:templateUrl withSchema:DDXMLValidatorSchemaTypeXSD schemaFile:schemaUrl error:error];
+    BOOL valid = [[DDXMLValidator sharedInstace] validateXMLFile:templateUrl withSchema:DDXMLValidatorSchemaTypeXSD schemaFile:schemaUrl error:&error];
     if(!valid) {
+        if(resultError) *resultError = error;
         return NO;
     }
     
     /* Load the template xml document */
     NSXMLDocument* xmlDoc = [[NSXMLDocument alloc] initWithContentsOfURL: templateUrl
                                                                  options:(NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA)
-                                                                   error: error];
+                                                                   error: &error];
     /* Ensure that there wasn't errors */
-    if(!xmlDoc  || *error != nil) {
+    if(!xmlDoc  || error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
 
     /* Check for additional file notes off of the template. */
-    NSArray* additionalFileNodes = [xmlDoc nodesForXPath:self.XPathForTemplateAdditionalFiles error: error];
-    if(*error != nil) {
+    NSArray* additionalFileNodes = [xmlDoc nodesForXPath:self.XPathForTemplateAdditionalFiles error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     
@@ -325,8 +328,9 @@
     //
     //formatter style
     //
-    NSArray* styleNodes = [xmlDoc nodesForXPath:self.XPathForTemplateFormatStyles error: error];
-    if(*error != nil) {
+    NSArray* styleNodes = [xmlDoc nodesForXPath:self.XPathForTemplateFormatStyles error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     for(NSXMLElement* styleNode in styleNodes) {
@@ -374,8 +378,9 @@
     //
     
     //get the enumTypeNode
-    NSArray *nodes = [xmlDoc nodesForXPath:self.XPathForTemplateFirstEnumeration error: error];
-    if(*error != nil) {
+    NSArray *nodes = [xmlDoc nodesForXPath:self.XPathForTemplateFirstEnumeration error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     NSXMLElement *enumTypeNode = nil;
@@ -384,8 +389,9 @@
     }
     
     //reader
-    nodes = [enumTypeNode nodesForXPath:self.XPathForTemplateReads error: error];
-    if(*error != nil) {
+    nodes = [enumTypeNode nodesForXPath:self.XPathForTemplateReads error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     if(nodes != nil && nodes.count > 0) {
@@ -393,8 +399,9 @@
     }
     
     /* Fetch the header file that we will use in the enumeration section */
-    nodes = [enumTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationHeaders error: error];
-    if(*error != nil) {
+    nodes = [enumTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationHeaders error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     if(nodes != nil && nodes.count > 0) {
@@ -404,8 +411,9 @@
     
     
     /* Fetch the class file that we will use in the enumeration section */
-    nodes = [enumTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationClasses error: error];
-    if(*error != nil) {
+    nodes = [enumTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationClasses error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     if(nodes != nil && nodes.count > 0) {
@@ -416,8 +424,9 @@
     //
     //reading simple types and merging them with our known ones
     //
-    NSArray* simpleTypeNodes = [xmlDoc nodesForXPath:self.XPathForTemplateSimpleTypes error: error];
-    if(*error != nil) {
+    NSArray* simpleTypeNodes = [xmlDoc nodesForXPath:self.XPathForTemplateSimpleTypes error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     
@@ -432,10 +441,10 @@
         /* Check if we have that simpletype within our XSD provided */
         if(existingSimpleType) {
             /* For our simple type, define the values from the template */
-            [existingSimpleType supplyTemplates:aSimpleTypeNode enumTypeNode:self.enumReadNode error:error];
+            [existingSimpleType supplyTemplates:aSimpleTypeNode enumTypeNode:self.enumReadNode error: &error];
         }
         else {
-            [aSimpleType supplyTemplates:aSimpleTypeNode enumTypeNode:self.enumReadNode error:error];
+            [aSimpleType supplyTemplates:aSimpleTypeNode enumTypeNode:self.enumReadNode error:&error];
             [_knownSimpleTypeDict setValue: aSimpleType forKey: aSimpleType.name];
         }
     }
@@ -445,8 +454,9 @@
     //
     
     //get the complexTypeNode
-    nodes = [xmlDoc nodesForXPath:self.XPathForTemplateFirstComplexType error: error];
-    if(*error != nil) {
+    nodes = [xmlDoc nodesForXPath:self.XPathForTemplateFirstComplexType error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     NSXMLElement *complexTypeNode = nil;
@@ -455,8 +465,9 @@
     }
 
     /* Fetch the header file that we will use in the implementation section */
-    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationHeaders error: error];
-    if(*error != nil) {
+    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationHeaders error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     if(nodes != nil && nodes.count > 0) {
@@ -466,8 +477,9 @@
     
     
     /* Fetch the class file that we will use in the implementation section */
-    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationClasses error: error];
-    if(*error != nil) {
+    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstImplementationClasses error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     if(nodes != nil && nodes.count > 0) {
@@ -476,8 +488,9 @@
     }
     
     /* Fetch the code used to READ elements that have a complex type */
-    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstElementRead error: error];
-    if(*error != nil) {
+    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstElementRead error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     if(nodes != nil && nodes.count > 0) {
@@ -490,8 +503,9 @@
     }
     
     /* Fetch the header file that we will use in the implementation section of the file reader */
-    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstReaderHeaders error: error];
-    if(*error != nil) {
+    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstReaderHeaders error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     if(nodes != nil && nodes.count > 0) {
@@ -500,8 +514,9 @@
     }
     
     /* Fetch the header file that we will use in the implementation section of the file reader */
-    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstReaderClasses error: error];
-    if(*error != nil) {
+    nodes = [complexTypeNode nodesForXPath:self.XPathForTemplateFirstReaderClasses error: &error];
+    if(error != nil) {
+        if(resultError) *resultError = error;
         return NO;
     }
     if(nodes != nil && nodes.count > 0) {
@@ -513,7 +528,7 @@
     //load included schemes
     //
     for (XSDschema *s in self.includedSchemas) {
-        BOOL br = [s loadTemplate:templateUrl error:error];
+        BOOL br = [s loadTemplate:templateUrl error:&error];
         if(!br) {
             return NO;
         }
@@ -685,8 +700,6 @@
  */
 - (BOOL) writeCodeInto: (NSURL*) destinationFolder
                  error: (NSError**) error {
-    *error = nil;
-    
     /* If there is no template, return that is failed */
     if(!self.complexTypeArrayType) {
         return NO;
@@ -713,10 +726,10 @@
             
             NSString* headerFileName = [NSString stringWithFormat: @"%@.%@", type.targetClassFileName, self.headerTemplateExtension];
             NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName];
-            [result writeToURL: headerFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+            BOOL br = [result writeToURL: headerFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
 
             /* Ensure that there was no errors for writing */
-            if(*error != nil) {
+            if(!br) {
                 return NO;
             }
         }
@@ -729,10 +742,10 @@
             
             NSString* classFileName = [NSString stringWithFormat: @"%@.%@", type.targetClassFileName, self.classTemplateExtension];
             NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName];
-            [result writeToURL:classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+            BOOL br = [result writeToURL:classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
             
             /* Ensure that there was no errors for writing */
-            if(*error != nil) {
+            if(!br) {
                 return NO;
             }
         }
@@ -745,10 +758,10 @@
                 
                 NSString* headerFileName = [NSString stringWithFormat: @"%@+File.%@", type.targetClassFileName, self.readerHeaderTemplateExtension];
                 NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName];
-                [result writeToURL: headerFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+                BOOL br = [result writeToURL: headerFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
 
                 /* Ensure that there was no errors for writing */
-                if(*error != nil) {
+                if(!br) {
                     return NO;
                 }
             }
@@ -759,10 +772,10 @@
                 
                 NSString* classFileName = [NSString stringWithFormat: @"%@+File.%@", type.targetClassFileName, self.readerClassTemplateExtension];
                 NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName];
-                [result writeToURL: classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+                BOOL br = [result writeToURL: classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
                 
                 /* Ensure that there was no errors for writing */
-                if(*error != nil) {
+                if(!br) {
                     return NO;
                 }
             }
@@ -785,10 +798,10 @@
             
             NSString* headerFileName = [NSString stringWithFormat: @"%@.%@", type.enumerationFileName, self.enumHeaderTemplateExtension];
             NSURL* headerFilePath = [destinationFolder URLByAppendingPathComponent: headerFileName];
-            [result writeToURL: headerFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+            BOOL br = [result writeToURL: headerFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
             
             /* Ensure that there was no errors for writing */
-            if(*error != nil) {
+            if(!br) {
                 return NO;
             }
         }
@@ -801,10 +814,10 @@
             
             NSString* classFileName = [NSString stringWithFormat: @"%@.%@", type.enumerationFileName, self.enumClassTemplateExtension];
             NSURL* classFilePath = [destinationFolder URLByAppendingPathComponent: classFileName];
-            [result writeToURL:classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
+            BOOL br = [result writeToURL:classFilePath atomically:YES encoding: NSUTF8StringEncoding error: error];
             
             /* Ensure that there was no errors for writing */
-            if(*error != nil) {
+            if(!br) {
                 return NO;
             }
         }

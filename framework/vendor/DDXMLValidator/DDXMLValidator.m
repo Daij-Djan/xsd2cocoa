@@ -52,7 +52,7 @@ void myGenericErrorFunc(id self, const char *msg, ...) {
     xmlDocPtr doc = xmlReadMemory(data.bytes, (int)data.length, "", NULL, XML_PARSE_RECOVER);
     if (doc == NULL) {
         NSLog(@"Unable to parse.");
-        *error = [NSError errorWithDomain:@"DDXMLVaidator" code:-1 userInfo:nil];
+        if(error) *error = [NSError errorWithDomain:@"DDXMLVaidator" code:-1 userInfo:nil];
         return NO;
     }
     
@@ -69,7 +69,7 @@ void myGenericErrorFunc(id self, const char *msg, ...) {
     xmlDocPtr doc = xmlReadFile(xmlUrl.absoluteString.UTF8String, "utf-8", 0);
     if (doc == NULL) {
         NSLog(@"Unable to parse.");
-        *error = [NSError errorWithDomain:@"DDXMLVaidator" code:-1 userInfo:nil];
+        if(error) *error = [NSError errorWithDomain:@"DDXMLVaidator" code:-1 userInfo:nil];
         return NO;
     }
 
@@ -98,7 +98,7 @@ void myGenericErrorFunc(id self, const char *msg, ...) {
 	
     if ([errors length]) {
         NSLog(@"'Validate XML Documents' Error: %@", errors);
-        *error = [NSError errorWithDomain:@"DDXMLValidator" code:0 userInfo:@{@"errors":errors}];
+        if(error) *error = [NSError errorWithDomain:@"DDXMLValidator" code:0 userInfo:@{@"errors":errors}];
         return NO;
     }
     return YES;
@@ -114,7 +114,6 @@ void myGenericErrorFunc(id self, const char *msg, ...) {
 - (void)doDTDValidation:(xmlDocPtr)source schemaFile:(NSString *)systemId {
 	xmlValidCtxtPtr validCtxt = NULL;
 	xmlDtdPtr dtd = NULL;
-	int res;
 
 	validCtxt = xmlNewValidCtxt();
 
@@ -134,12 +133,9 @@ void myGenericErrorFunc(id self, const char *msg, ...) {
             return;
 		}
 	
-		res = xmlValidateDtd(validCtxt, source, dtd);
-        
+		xmlValidateDtd(validCtxt, source, dtd);
 	} else {
-        
-		res = xmlValidateDocument(validCtxt, source);
-        
+		xmlValidateDocument(validCtxt, source);
 	}
 
 	if (validCtxt)
