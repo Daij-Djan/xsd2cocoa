@@ -474,8 +474,8 @@ this will be used to generate the class files for the complex types.
             #import <Foundation/Foundation.h>
             
             typedef NS_ENUM(NSInteger, {{ type.enumerationName }}){
-                {{ type.enumerationName }}Unknown{% for enumValue in type.enumerationValues %},
-                {{ type.enumerationName }}{{ enumValue }}
+                {{ type.enumerationName }}Unknown = -1,
+                {% for enumValue in type.enumerationValues %}{{ type.enumerationName }}{{ enumValue }},
                 {% /for %}
             };
             NSString *{{ type.enumerationName }}ToString({{ type.enumerationName }} enumType);
@@ -491,7 +491,7 @@ this will be used to generate the class files for the complex types.
             
             NSString *{{ type.enumerationName }}ToString({{ type.enumerationName }} enumType) {
                 assert(enumType < k{{ type.enumerationName }}NamesArray.count);
-                return [k{{ type.enumerationName }}NamesArray objectAtIndex:enumType];
+                return [k{{ type.enumerationName }}NamesArray objectAtIndex:enumType+1];
             }
             
             {{ type.enumerationName }} {{ type.enumerationName }}FromString(NSString *enumString) {
@@ -501,7 +501,7 @@ this will be used to generate the class files for the complex types.
                     
                 NSUInteger enumType = [k{{ type.enumerationName }}NamesArray indexOfObject:enumString];
                 assert(enumType != NSNotFound);
-                return (enumType != NSNotFound) ? ({{ type.enumerationName }}) enumType : {{ type.enumerationName }}Unknown;
+                return (enumType != NSNotFound) ? ({{ type.enumerationName }}) enumType-1 : {{ type.enumerationName }}Unknown;
             }
             ]]>
         </class>

@@ -1,0 +1,74 @@
+//
+//  ReflectionHelpers.swift
+//
+//  Created by Dominik Pich on 11/14/15.
+//  Copyright © 2015 Dominik Pich. All rights reserved.
+//
+
+import Foundation
+
+public protocol EVRawInt {
+    var rawValue: Int { get }
+}
+
+@objc
+class ReflectionHelpers : NSObject {
+    class func getNSNumberForProperty(cls: AnyObject!, name: String!) -> NSNumber! {
+        let m = Mirror(reflecting: cls)
+        let child1 = m.descendant(name)
+        
+        if(child1 != nil) {
+            //bool
+            if let b = child1  as? Bool {
+                return NSNumber(bool: b)
+            }
+            if let any = child1, let maybeB = Mirror(reflecting: any).descendant("Some") as? Bool {
+                if let b = (maybeB as Bool?) {
+                    return NSNumber(bool: b)
+                }
+            }
+            
+            //Int
+            if let b = child1  as? Int {
+                return NSNumber(integer: b)
+            }
+            if let any = child1, let maybeB = Mirror(reflecting: any).descendant("Some") as? Int {
+                if let b = (maybeB as Int?) {
+                    return NSNumber(integer: b)
+                }
+            }
+            
+            //Float
+            if let b = child1  as? Float {
+                return NSNumber(float: b)
+            }
+            if let any = child1, let maybeB = Mirror(reflecting: any).descendant("Some") as? Float {
+                if let b = (maybeB as Float?) {
+                    return NSNumber(float: b)
+                }
+            }
+            
+            //Double
+            if let b = child1  as? Double {
+                return NSNumber(double: b)
+            }
+            if let any = child1, let maybeB = Mirror(reflecting: any).descendant("Some") as? Double {
+                if let b = (maybeB as Double?) {
+                    return NSNumber(double: b)
+                }
+            }
+            
+            //EVRawInt
+            if let b = child1  as? EVRawInt {
+                return NSNumber(integer: b.rawValue)
+            }
+            if let any = child1, let maybeB = Mirror(reflecting: any).descendant("Some") as? EVRawInt {
+                if let b = (maybeB as EVRawInt?) {
+                    return NSNumber(integer: b.rawValue)
+                }
+            }
+        }
+        
+        return nil
+    }
+}

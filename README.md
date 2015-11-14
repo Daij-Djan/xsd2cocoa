@@ -1,9 +1,9 @@
 XSDConverter
 =========
 
-Parses XSD files and generates Objective-C classes for IOS (or OSX) -- uses libxml only
+Parses XSD files and generates Swift (or Objective-C) classes for IOS (or OSX) -- uses libxml only
 
-For every Complex Type in your schema file, a corresponding Objective-C class is generated with its attributes and elements as Objective-C properties and an init method taking an libxml2 TextReader is generated.
+For every Complex Type in your schema file, a corresponding Swift (or Objective-C) class is generated with its attributes and elements as Swift (or Objective-C) properties and an init method taking an libxml2 TextReader is generated.
 
 The code is generated according to a template that you can easily customize if you need to generate specific/exotic code. For most folks the standard template included should work just fine.
 

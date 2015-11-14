@@ -123,7 +123,9 @@
                     NSLog(@"%s doesnt implement doesNotRecognizeSelector and is no NSObject, skip it", class_getName(classes[i]));
                     continue;
                 }
-                [dumps addObject:[classes[i] dump]];
+                id str = @(class_getName(classes[i]));
+                [dumps addObject:str];
+//                [dumps addObject:[classes[i] dump]];
             }
             @catch (NSException *e) {
                 NSLog(@"Exception %@ ignored during dumping", [e name]);

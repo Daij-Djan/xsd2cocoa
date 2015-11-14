@@ -33,7 +33,7 @@
     self.expectedFiles = @[@"libxml-bridging-header.h",
                            @"STSimpleTypesType.swift",
                            @"STSimpleTypesType+File.swift"];
-    self.rootClassName = @"STSimpleTypesType";
+    self.rootClassName = @"parser.STSimpleTypesType";
     self.parseMethodName = @"SimpleTypesTypeFromURL:";
     
     _expectedClassnames = @{
@@ -105,46 +105,46 @@
     dateFormatter.timeStyle = NSDateFormatterFullStyle;
     dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
     
-    [[rootNode valueForKey:@"test_ENTITIES"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_ENTITY"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_ID"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_IDREF"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_IDREFS"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_NCName"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_NMTOKEN"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_NMTOKENS"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_NOTATION"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_Name"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_QName"] isEqualToString:@"all_is_ok"];
-[[[rootNode valueForKey:@"test_anyURI"] absoluteString] isEqualToString:@"http://www.google.com"];
-[[rootNode valueForKey:@"test_boolean"] isEqualToNumber:@YES];
-[[rootNode valueForKey:@"test_byte"] isEqualToNumber:@123];
-[[rootNode valueForKey:@"test_dateTime"] isEqualToDate:[dateFormatter dateFromString:@"2015-01-25 09:37:07 +0000"]];
-[[rootNode valueForKey:@"test_decimal"] isEqualToNumber:@(12.34)];
-[[rootNode valueForKey:@"test_double"] isEqualToNumber:@(12.34)];
-[[rootNode valueForKey:@"test_duration"] isEqualToNumber:@(12.34)];
-[[rootNode valueForKey:@"test_float"] isEqualToNumber:@(12.34)];
-[[rootNode valueForKey:@"test_gDay"] isEqualToNumber:@10];
-[[rootNode valueForKey:@"test_gMonth"] isEqualToNumber:@12];
-[[rootNode valueForKey:@"test_gMonthDay"] isEqualToNumber:@12];
-[[rootNode valueForKey:@"test_gYear"] isEqualToNumber:@1234];
-[[rootNode valueForKey:@"test_gYearMonth"] isEqualToNumber:@12];
-[[rootNode valueForKey:@"test_int"] isEqualToNumber:@123];
-[[rootNode valueForKey:@"test_integer"] isEqualToNumber:@123];
-[[rootNode valueForKey:@"test_language"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_long"] isEqualToNumber:@123];
-[[rootNode valueForKey:@"test_negativeInteger"] isEqualToNumber:@(-123)];
-[[rootNode valueForKey:@"test_nonNegativeInteger"] isEqualToNumber:@123];
-[[rootNode valueForKey:@"test_nonPositiveInteger"] isEqualToNumber:@(-123)];
-[[rootNode valueForKey:@"test_normalizedString"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_positiveInteger"] isEqualToNumber:@123];
-[[rootNode valueForKey:@"test_short"] isEqualToNumber:@123];
-[[rootNode valueForKey:@"test_string"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_token"] isEqualToString:@"all_is_ok"];
-[[rootNode valueForKey:@"test_unsignedByte"] isEqualToNumber:@123];
-[[rootNode valueForKey:@"test_unsignedInt"] isEqualToNumber:@123];
-[[rootNode valueForKey:@"test_unsignedLong"] isEqualToNumber:@123];
-[[rootNode valueForKey:@"test_unsignedShort"] isEqualToNumber:@123];
+    XCTAssertTrue([[rootNode valueForKey:@"test_ENTITIES"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_ENTITY"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_ID"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_IDREF"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_IDREFS"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_NCName"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_NMTOKEN"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_NMTOKENS"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_NOTATION"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_Name"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_QName"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[[rootNode valueForKey:@"test_anyURI"] absoluteString] isEqualToString:@"http://www.google.com"]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_boolean"] isEqualToNumber:@YES]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_byte"] isEqualToNumber:@123]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_dateTime"] isEqualToDate:[dateFormatter dateFromString:@"2015-01-25 09:37:07 +0000"]]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_decimal"] isEqualToNumber:@(12.34)]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_double"] isEqualToNumber:@(12.34)]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_duration"] isEqualToNumber:@(12.34)]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_float"] isEqualToNumber:@(12.34)]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_gDay"] isEqualToNumber:@10]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_gMonth"] isEqualToNumber:@12]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_gMonthDay"] isEqualToNumber:@12]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_gYear"] isEqualToNumber:@1234]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_gYearMonth"] isEqualToNumber:@12]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_int"] isEqualToNumber:@123]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_integer"] isEqualToNumber:@123]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_language"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_long"] isEqualToNumber:@123]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_negativeInteger"] isEqualToNumber:@(-123)]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_nonNegativeInteger"] isEqualToNumber:@123]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_nonPositiveInteger"] isEqualToNumber:@(-123)]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_normalizedString"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_positiveInteger"] isEqualToNumber:@123]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_short"] isEqualToNumber:@123]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_string"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_token"] isEqualToString:@"all_is_ok"]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_unsignedByte"] isEqualToNumber:@123]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_unsignedInt"] isEqualToNumber:@123]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_unsignedLong"] isEqualToNumber:@123]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_unsignedShort"] isEqualToNumber:@123]);
 }
 
 #pragma mark -
@@ -185,10 +185,18 @@
     
     XCTAssert(ct.simpleTypesInUse.count==40);
     for (XSSimpleType *t in ct.simpleTypesInUse) {
-        XCTAssert(t.readAttributeTemplate && [t.readAttributeTemplate rangeOfString:@"/*TODO*/"].location != NSNotFound);
-        XCTAssert(t.readElementTemplate && [t.readElementTemplate rangeOfString:@"/*TODO*/"].location != NSNotFound);
-        XCTAssert(t.readValueCode && [t.readValueCode rangeOfString:@"/*TODO*/"].location != NSNotFound);
+        NSLog(@"TRY %@", t.name);
+        
+        XCTAssert(t.readAttributeTemplate);
+        XCTAssert(t.readElementTemplate);
+        XCTAssert(t.readValueCode);
+        
+        XCTAssert([t.readAttributeTemplate rangeOfString:@"/*TODO*/"].location == NSNotFound);
+        XCTAssert([t.readElementTemplate rangeOfString:@"/*TODO*/"].location ==  NSNotFound);
+        XCTAssert([t.readValueCode rangeOfString:@"/*TODO*/"].location == NSNotFound);
         //prefix is optional
+
+        NSLog(@"OK %@", t.name);
     }
 }
 

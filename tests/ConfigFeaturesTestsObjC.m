@@ -137,16 +137,16 @@
 
 - (void)assertParsedXML:(id)rootNode {
     NSNumber *av = [rootNode valueForKeyPath:@"advanced.value"];
-    XCTAssertTrue([av isEqualToNumber:@2]);//isEqualToString:@"Main"]);
+    XCTAssertTrue([av isEqualToNumber:@1]);//isEqualToString:@"Main"]);
 
     NSArray *identifiers = [rootNode valueForKeyPath:@"features.features.identifier"];
-    XCTAssertTrue([identifiers[0] isEqualToNumber:@2]);//isEqualToString:@"Main"]);
-    XCTAssertTrue([identifiers[1] isEqualToNumber:@3]);//isEqualToString:@"Networing"]);
-    XCTAssertTrue([identifiers[2] isEqualToNumber:@4]);//isEqualToString:@"OfficeSuite"]);
-    XCTAssertTrue([identifiers[3] isEqualToNumber:@6]);//isEqualToString:@"TrafficInformation"]);
-    XCTAssertTrue([identifiers[4] isEqualToNumber:@7]);//isEqualToString:@"RSS"]);
-    XCTAssertTrue([identifiers[5] isEqualToNumber:@9]);//isEqualToString:@"PersonalHomepage"]);
-    XCTAssertTrue([[rootNode valueForKey:@"userRights"] isEqualToNumber:@4]);//isEqualToString:@"User"]);
+    XCTAssertTrue([identifiers[0] isEqualToNumber:@1]);//isEqualToString:@"Main"]);
+    XCTAssertTrue([identifiers[1] isEqualToNumber:@2]);//isEqualToString:@"Networing"]);
+    XCTAssertTrue([identifiers[2] isEqualToNumber:@3]);//isEqualToString:@"OfficeSuite"]);
+    XCTAssertTrue([identifiers[3] isEqualToNumber:@5]);//isEqualToString:@"TrafficInformation"]);
+    XCTAssertTrue([identifiers[4] isEqualToNumber:@6]);//isEqualToString:@"RSS"]);
+    XCTAssertTrue([identifiers[5] isEqualToNumber:@8]);//isEqualToString:@"PersonalHomepage"]);
+    XCTAssertTrue([[rootNode valueForKey:@"userRights"] isEqualToNumber:@3]);//isEqualToString:@"User"]);
 }
 
 #pragma mark - test parsing schema

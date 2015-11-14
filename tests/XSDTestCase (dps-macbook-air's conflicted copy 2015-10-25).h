@@ -19,36 +19,22 @@
 @property NSString *rootClassName;
 @property NSString *parseMethodName;
 
-@property (readonly) NSURL *schemaUrl;
-@property (readonly) NSURL *templateUrl;
-@property (readonly) NSURL *xmlFileUrl;
-+ (NSURL*)tmpFolderUrl;
-
-//optional
-@property NSString *prefixOverride;
-
 - (void)assertSchema:(XSDschema*)schema;
 - (void)assertParsedXML:(id)rootNode;
 
 //all help underway
-+ (void)helpSetUp;
 - (void)helpSetUp;
 - (void)helpTearDown;
-+ (void)helpTearDown;
-
-- (void)compileParser:(NSString*)output from:(NSArray*)input;
-- (NSString*)compiledParserPath;
-- (void*)loadedLibHandle;
 
 #pragma mark correctness tests
 
 - (void)helpTestCorrectnessParsingSchema;
-- (void)helpTestCorrectnessGeneratingParser;
+- (void)helpTestCorrectnessGeneratingParserObjC;
 
 #pragma mark performance tests
 
 - (void)helpTestPerformanceParsingSchema;
-- (void)helpTestPerformanceLoadingTemplate;
-- (void)helpTestPerformanceGeneratingParser;
-- (void)helpTestPerformanceParsingXML;
+- (void)helpTestPerformanceLoadingTemplateObjC;
+- (void)helpTestPerformanceGeneratingParserObjC;
+- (void)helpTestPerformanceParsingXMLObjC;
 @end

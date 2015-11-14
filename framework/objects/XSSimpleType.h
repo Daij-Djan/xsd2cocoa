@@ -36,6 +36,7 @@
 - (NSArray *) enumerationValues;
 - (NSString *) enumerationName;
 - (NSString *) enumerationFileName;
+- (NSString *) swiftIntEnum;
 
 @end
 
@@ -44,3 +45,5 @@
 + (NSArray *)knownSimpleTypesForSchema:(XSDschema*)schema;
 
 @end
+
+extern BOOL gUnitTestingSwiftCode; //swift 2 workaround

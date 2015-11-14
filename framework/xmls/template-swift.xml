@@ -14,8 +14,8 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         </attribute>
       <element>
         <![CDATA[
-        /*TODO*/
-        ]]>
+            {% if element.isSingleValue %}self.{{ element.variableName }} = String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))
+            {% else %}{{ element.variableName }}Array.append(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))){% /if %}]]>
         </element>
       <value>
         <![CDATA[let value = String.fromCString(UnsafePointer<CChar>(contentValue))
@@ -31,9 +31,9 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         self.{{ attribute.variableName }} = NSURL(string: String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue))!)]]>
         </attribute>
       <element>
-        <![CDATA[
-        /*TODO*/
-        ]]>
+          <![CDATA[
+              {% if element.isSingleValue %}self.{{ element.variableName }} = NSURL(string: String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)
+              {% else %}{{ element.variableName }}Array.append(NSURL(string: String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)!) //bad unwrapping{% /if %}]]>
         </element>
       <value>
         <![CDATA[let value = String.fromCString(UnsafePointer<CChar>(contentValue))
@@ -49,9 +49,9 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         self.{{ attribute.variableName }} = (String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue)) == "true")]]>
         </attribute>
       <element>
-        <![CDATA[
-        /*TODO*/
-        ]]>
+          <![CDATA[
+              {% if element.isSingleValue %}self.{{ element.variableName }} = String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue)) == "true"
+              {% else %}{{ element.variableName }}Array.append(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue)) == "true"){% /if %}]]>
         </element>
       <value>
         <![CDATA[let value = String.fromCString(UnsafePointer<CChar>(contentValue))
@@ -69,12 +69,12 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         </prefix>
       <attribute>
         <![CDATA[
-        self.{{ attribute.variableName }} = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue)))]]>
+        self.{{ attribute.variableName }} = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue))!)!.integerValue]]>
         </attribute>
       <element>
-        <![CDATA[
-        /*TODO*/
-        ]]>
+          <![CDATA[
+              {% if element.isSingleValue %}self.{{ element.variableName }} = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)!.integerValue
+              {% else %}{{ element.variableName }}Array.append(numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)!.integerValue)  //bad force unwrapping{% /if %}]]>
         </element>
       <value>
         <![CDATA[let value = String.fromCString(UnsafePointer<CChar>(contentValue))
@@ -95,12 +95,12 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         </prefix>
       <attribute>
         <![CDATA[
-        self.{{ attribute.variableName }} = decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue)))]]>
+        self.{{ attribute.variableName }} = decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue))!)]]>
         </attribute>
       <element>
-        <![CDATA[
-        /*TODO*/
-        ]]>
+          <![CDATA[
+              {% if element.isSingleValue %}self.{{ element.variableName }} = decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)!.doubleValue
+              {% else %}{{ element.variableName }}Array.append(decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)!.doubleValue) //bad force unwrapping{% /if %}]]>
         </element>
       <value>
         <![CDATA[let value = String.fromCString(UnsafePointer<CChar>(contentValue))
@@ -124,9 +124,9 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         self.{{ attribute.variableName }} = dateFormatter.dateFromString( String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue)]]>
         </attribute>
       <element>
-        <![CDATA[
-        /*TODO*/
-        ]]>
+          <![CDATA[
+              {% if element.isSingleValue %}self.{{ element.variableName }} = dateFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)
+              {% else %}{{ element.variableName }}Array.append(dateFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)!) //bad force unwrapping{% /if %}]]>
         </element>
       <value>
         <![CDATA[let value = String.fromCString(UnsafePointer<CChar>(contentValue))
@@ -350,22 +350,27 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
       <header extension=""></header>
       <class extension="swift">
         <![CDATA[
-            enum {{ type.enumerationName }} : Int {
-                case Unknown
+            import Foundation
+            
+            enum {{ type.enumerationName }} : {{ type.swiftIntEnum }} {
+                case Unknown = -1
                 {% for enumValue in type.enumerationValues %}case {{ enumValue }}
                 {% /for %}
                 
                 private static let namesArray = ["Unknown"{% for enumValue in type.enumerationValues %},"{{ enumValue }}"{% /for %}]
                 
                 static func toString(enumType:{{ type.enumerationName }}) -> String {
-                    let i = enumType.rawValue
+                    let i = enumType.rawValue + 1
                     return namesArray[i];
                 }
                 
                 static func fromString(enumString:String?) -> {{ type.enumerationName }} {
-                    if let enumString = enumString {
+                    if var enumString = enumString {
+                        if(NSNumberFormatter().numberFromString(enumString) != nil) {
+                            enumString = "Value\(enumString)"
+                        }
                         if let i = namesArray.indexOf(enumString) {
-                            if let enumType = {{ type.enumerationName }}(rawValue:i) {
+                            if let enumType = {{ type.enumerationName }}(rawValue:i-1) {
                                 return enumType
                             }
                         }

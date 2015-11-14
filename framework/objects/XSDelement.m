@@ -168,16 +168,9 @@
         rtn = [self.localType readCodeForElement:self];
     }
     else if(self.hasEnumeration){
-        /* Enumerations have no types defined, but have a base type. Grab the base type from the element and fetch the final code */
-        XSSimpleType* simpleTypeTemp = (XSSimpleType*) [self.schema typeForName:self.type];
-        rtn = [[self.schema typeForName:simpleTypeTemp.baseType] readCodeForElement:self];
-        
-        /* Insert comment into the code because we did not have any */
-        if(!rtn){
-            rtn = [NSString stringWithFormat:@"/* The types '%@' and '%@' are not found within the template schema. Please insert the correct simpleType accordingly */",
-                   self.type, simpleTypeTemp.baseType];
-        }
-    }else {
+        XSSimpleType* simpleTypeTemp = self.schemaType;
+        rtn = [simpleTypeTemp readCodeForElement:self];
+    } else {
         /* Fetch the type of the current element from the schema dictionaries and read the template code and generate final code */
         rtn = [[self.schema typeForName:self.type] readCodeForElement:self];
     }

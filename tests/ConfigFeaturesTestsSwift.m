@@ -113,21 +113,19 @@
 
 - (void)assertParsedXML:(id)rootNode {
     NSLog(@"%@", [rootNode valueForKey:@"dictionary"]);
+
+    id advanced = [rootNode valueForKeyPath:@"advanced"];
+    NSNumber *av = [self reflect:advanced numberForKey:@"value"];
+    XCTAssertTrue([av isEqualToNumber:@1]);//isEqualToString:@"Main"]);
     
-//    id a = [rootNode valueForKey:@"advanced"];
-//    NSNumber *av = [a value];
-//    XCTAssertTrue([av isEqualToNumber:@2]);//isEqualToString:@"Main"]);
-    
-    id f = [rootNode valueForKey:@"features"];
-    NSArray *fs = [f valueForKey:@"features"];
-    XCTAssertTrue([[fs[0] identifier] isEqualToNumber:@2]);//isEqualToString:@"Main"]);
-    XCTAssertTrue([[fs[1] identifier] isEqualToNumber:@3]);//isEqualToString:@"Networing"]);
-    XCTAssertTrue([[fs[2] identifier] isEqualToNumber:@4]);//isEqualToString:@"OfficeSuite"]);
-    XCTAssertTrue([[fs[3] identifier] isEqualToNumber:@6]);//isEqualToString:@"TrafficInformation"]);
-    XCTAssertTrue([[fs[4] identifier] isEqualToNumber:@7]);//isEqualToString:@"RSS"]);
-    XCTAssertTrue([[fs[5] identifier] isEqualToNumber:@9]);//isEqualToString:@"PersonalHomepage"]);
-    
-    XCTAssertTrue([[rootNode valueForKey:@"userRights"] isEqualToNumber:@4]);//isEqualToString:@"User"]);
+    NSArray *features = [rootNode valueForKeyPath:@"features.features"];
+    XCTAssertTrue([[self reflect:features[0] numberForKey:@"identifier"] isEqualToNumber:@1]);//isEqualToString:@"Main"]);
+    XCTAssertTrue([[self reflect:features[1] numberForKey:@"identifier"] isEqualToNumber:@2]);//isEqualToString:@"Networing"]);
+    XCTAssertTrue([[self reflect:features[2] numberForKey:@"identifier"] isEqualToNumber:@3]);//isEqualToString:@"OfficeSuite"]);
+    XCTAssertTrue([[self reflect:features[3] numberForKey:@"identifier"] isEqualToNumber:@5]);//isEqualToString:@"TrafficInformation"]);
+    XCTAssertTrue([[self reflect:features[4] numberForKey:@"identifier"] isEqualToNumber:@6]);//isEqualToString:@"RSS"]);
+    XCTAssertTrue([[self reflect:features[5] numberForKey:@"identifier"] isEqualToNumber:@8]);//isEqualToString:@"PersonalHomepage"]);
+    XCTAssertTrue([[self reflect:rootNode numberForKey:@"userRights"] isEqualToNumber:@3]);//isEqualToString:@"User"]);
 }
 
 #pragma mark - test parsing schema

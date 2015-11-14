@@ -20,8 +20,6 @@
 #import "DDXMLValidator.h"
 
 #import "DDSimpleFormatter.h"
-//#import "DDUncrustifyFormatter.h"
-//#import "TRVSFormatter.h"
 
 @interface XSDcomplexType (privateAccessors)
 @property (strong, nonatomic) NSArray* globalElements;
@@ -58,7 +56,7 @@
 
 @property (strong, nonatomic) NSDictionary* additionalFiles;
 @property (strong, nonatomic) NSString *targetNamespacePrefix;
-@property (strong, nonatomic) id<FileFormatter> formatter;
+@property (strong, nonatomic) DDSimpleFormatter* formatter;
 
 @end
 
@@ -341,36 +339,6 @@
         else {
             NSLog(@"Unknown formatter type: %@", attr);
         }
-//            if([attr isEqualToString:@"clang"]) {
-//                if([value isEqualToString:@"objc"]) {
-//                    self.formatter = [TRVSFormatter sharedFormatter];
-//                }
-//                else {
-//                    NSLog(@"Unknown %@ formatter value: %@", attr, value);
-//                }
-//            }
-//            if([attr isEqualToString:@"clang"]) {
-//                if([value isEqualToString:@"objc"]) {
-//                    self.formatter = [TRVSFormatter sharedFormatter];
-//                }
-//                else {
-//                    NSLog(@"Unknown %@ formatter value: %@", attr, value);
-//                }
-//            }
-//            else if([attr isEqualToString:@"uncrustify"]) {
-//                if([value isEqualToString:@"objc"]) {
-//                    self.formatter = [DDUncrustifyFormatter objectiveCFormatter];
-//                }
-//                else if([value isEqualToString:@"swift"]) {
-//                    self.formatter = [DDUncrustifyFormatter swiftFormatter];
-//                }
-//                else if([[NSFileManager defaultManager] fileExistsAtPath:value]) {
-//                    self.formatter = [[DDUncrustifyFormatter alloc] initWithStylePath:value];
-//                }
-//                else {
-//                    NSLog(@"Unknown %@ formatter value: %@", attr, value);
-//                }
-//            }
     }
 
     //

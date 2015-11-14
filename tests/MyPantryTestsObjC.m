@@ -22,15 +22,19 @@
 - (void)setUp {
     self.schemaName = @"MyPantry";
     self.xmlFileName = @"MyPantry";
-    self.expectedFiles = @[@"LangDefType.h",
-                           @"LangDefType.m",
-                           @"LangDefType+File.h",
-                           @"LangDefType+File.m",
-                           @"LangIDType.h",
-                           @"LangIDType.m",
-                           @"SampleLanguageData.h"];
-    self.rootClassName = @"LangDefType";
-    self.parseMethodName = @"LangDefTypeFromURL:";
+    self.expectedFiles = @[@"MyPantry.h",
+                           @"PFoodGroupTypeEnum.h",
+                           @"PFoodGroupTypeEnum.m",
+                           @"PFoodItemType.h",
+                           @"PFoodItemType.m",
+                           @"PPantryType.h",
+                           @"PPantryType.m",
+                           @"PPantryType+File.h",
+                           @"PPantryType+File.m",
+                           @"PShelfType.h",
+                           @"PShelfType.m"];
+    self.rootClassName = @"PPantryType";
+    self.parseMethodName = @"PantryTypeFromURL:";
     
     [self helpSetUp];
     [super setUp];
@@ -46,41 +50,24 @@
 }
 
 - (void)assertSchema:(id)schema {
-    XSDcomplexType *ct = [schema typeForName:@"LangDefType"];
+    XSDcomplexType *ct = [schema typeForName:@"PantryType"];
     XCTAssert(ct);
-    XCTAssert([[ct.globalElements valueForKeyPath:@"name"] containsObject:@"LangDef"]);
-    XCTAssert([[ct.sequenceOrChoice.elements valueForKeyPath:@"name"] containsObject:@"LangID"]);
-    XCTAssert([[ct.attributes valueForKeyPath:@"name"] containsObject:@"langCode"]);
-    XCTAssert(ct.hasAnnotations);
-    
-    ct = [schema typeForName:@"LangIDType"];
-    XCTAssert(ct);
-    XCTAssert([[ct.attributes valueForKeyPath:@"name"] containsObject:@"ID"]);
-    XCTAssert([[ct.attributes valueForKeyPath:@"name"] containsObject:@"Text"]);
-    XCTAssert(ct.hasAnnotations);
+    XCTAssert([[ct.globalElements valueForKeyPath:@"name"] containsObject:@"Pantry"]);
+    XCTAssert([[ct.sequenceOrChoice.elements valueForKeyPath:@"name"] containsObject:@"Shelf"]);
 }
 
 - (void)assertParsedXML:(id)rootNode {
-    NSString *langCode = [rootNode valueForKey:@"langCode"];
-
-    NSArray *LangIDs = [rootNode valueForKey:@"LangIDs"];
-    XCTAssertEqual(LangIDs.count, 7);
-    NSArray *IDs = [LangIDs valueForKeyPath:@"ID"];
-    NSArray *Texts = [LangIDs valueForKeyPath:@"Text"];
-    XCTAssertEqual(IDs.count, Texts.count);
+    NSArray *Shelfs = [rootNode valueForKey:@"Shelfs"];
+    XCTAssertEqual(Shelfs.count, 2);
+    NSArray *foods1 = [Shelfs[0] valueForKeyPath:@"Foods"];
+    NSArray *foods2 = [Shelfs[1] valueForKeyPath:@"Foods"];
+    XCTAssertEqual(foods1.count, 1);
+    XCTAssertEqual(foods2.count, 1);
     
-    NSString *first_name = nil;
-    NSString *lastentry = nil;
-    for(int i = 0; i < IDs.count; i++) {
-        if([IDs[i] isEqualToString:@"first_name"])
-            first_name = Texts[i];
-        if([IDs[i] isEqualToString:@"lastentry"])
-            lastentry = Texts[i];
-    }
-    
-    XCTAssertTrue([langCode isEqualToString:@"0407"]);
-    XCTAssertTrue([first_name isEqualToString:@"dominik"]);
-    XCTAssertTrue([lastentry isEqualToString:@"zz"]);
+    id n1 = [foods1[0] valueForKey:@"Name"];
+    id n2 = [foods2[0] valueForKey:@"Name"];
+    XCTAssertEqualObjects(n1, @"Apple");
+    XCTAssertEqualObjects(n2, @"Chocolate");
 }
 
 #pragma mark -

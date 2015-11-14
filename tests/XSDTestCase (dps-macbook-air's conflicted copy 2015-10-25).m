@@ -9,9 +9,9 @@
 #import "XSDTestCase.h"
 #import <Cocoa/Cocoa.h>
 #import "XSDConverterCore.h"
-#import <dlfcn.h>
+#import "DDRunTask.h"
 #import <objc/runtime.h>
-#import "NSObject+DDDump.h"
+#import <dlfcn.h>
 
 #define KEEP_AND_SHOW 1
 
@@ -20,25 +20,11 @@
 @property NSURL *schemaUrl;
 @property NSURL *templateUrl;
 @property NSURL *xmlFileUrl;
+@property NSURL *tmpFolderUrl;
 
 @end
 
-@implementation XSDTestCase {
-    void *_loadedLibHandle;
-}
-
-NSURL *_tmpFolderUrl;
-+ (NSURL *)tmpFolderUrl {
-    return _tmpFolderUrl;
-}
-
-+ (void)helpSetUp {
-    NSURL *tmpFolderUrl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]]];
-    assert(tmpFolderUrl);
-    BOOL bCreated = [[NSFileManager defaultManager] createDirectoryAtURL:tmpFolderUrl withIntermediateDirectories:NO attributes:nil error:nil];
-    assert(bCreated);
-    _tmpFolderUrl = tmpFolderUrl;
-}
+@implementation XSDTestCase
 
 - (void)helpSetUp {
     assert(self.schemaName);
@@ -48,38 +34,32 @@ NSURL *_tmpFolderUrl;
     assert(self.parseMethodName);
     
     NSURL *schemaUrl = [[NSBundle bundleForClass:self.class] URLForResource:self.schemaName withExtension:@"xsd"];
+    NSURL *templateUrl = [[NSBundle bundleForClass:[XSDschema class]] URLForResource:@"template-objc" withExtension:@"xml"];
+    NSURL *tmpFolderUrl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]]];
     NSURL *xmlFileUrl = [[NSBundle bundleForClass:self.class] URLForResource:self.xmlFileName withExtension:@"xml"];
+    
     assert(schemaUrl);
+    assert(templateUrl);
+    assert(tmpFolderUrl);
     assert(xmlFileUrl);
+    
+    BOOL bCreated = [[NSFileManager defaultManager] createDirectoryAtURL:tmpFolderUrl withIntermediateDirectories:NO attributes:nil error:nil];
+    assert(bCreated);
+    
     self.schemaUrl = schemaUrl;
+    self.templateUrl = templateUrl;
+    self.tmpFolderUrl = tmpFolderUrl;
     self.xmlFileUrl = xmlFileUrl;
-
-    assert(self.templateUrl);
 }
 
 - (void)helpTearDown {
-}
-
-+ (void)helpTearDown {
-    if(_tmpFolderUrl) {
+    if(self.tmpFolderUrl) {
 #if KEEP_AND_SHOW
-        [[NSWorkspace sharedWorkspace] openFile:_tmpFolderUrl.path];
+        [[NSWorkspace sharedWorkspace] openFile:self.tmpFolderUrl.path];
 #else
-        BOOL bDeleted = [[NSFileManager defaultManager] removeItemAtURL:_tmpFolderUrl error:nil];
+        BOOL bDeleted = [[NSFileManager defaultManager] removeItemAtURL:self.tmpFolderUrl error:nil];
         assert(bDeleted);
 #endif
-        _tmpFolderUrl = nil;
-    }
-}
-
-- (NSString*)compiledParserPath {
-    if(_tmpFolderUrl) {
-        id fileName = [NSString stringWithFormat:@"%@%@-parser.dylib", self.schemaName, self.prefixOverride ? self.prefixOverride : @""];
-        NSString *compiledFile = [_tmpFolderUrl.path stringByAppendingPathComponent:fileName];
-        return compiledFile;
-    }
-    else {
-        return nil;
     }
 }
 
@@ -89,7 +69,7 @@ NSURL *_tmpFolderUrl;
 }
 
 - (void)helpTestCorrectnessParsingSchema {
-    __block XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:self.prefixOverride error:nil];
+    __block XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     XCTAssert(schema);
     
     [self assertSchema:schema];
@@ -99,11 +79,10 @@ NSURL *_tmpFolderUrl;
 
 - (void)assertParsedXML:(id)rootNode {
     NSLog(@"%@", [rootNode performSelector:@selector(dictionary)]);
-    assert(NO);
 }
 
-- (void)helpTestCorrectnessGeneratingParser {
-    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:self.prefixOverride error:nil];
+- (void)helpTestCorrectnessGeneratingParserObjC {
+    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     XCTAssert(schema);
     
     NSError *error;
@@ -112,77 +91,49 @@ NSURL *_tmpFolderUrl;
     
     BOOL bWritten;
     NSError *genError;
-    bWritten = [schema generateInto:_tmpFolderUrl
+    bWritten = [schema generateInto:self.tmpFolderUrl
                            products:XSDschemaGeneratorOptionSourceCode
                               error:&genError];
     XCTAssert(bWritten);
-
-    //fix folder name
-    id folderName = @"Sources";
-    id srcFolder = [_tmpFolderUrl URLByAppendingPathComponent:folderName
-                                                      isDirectory:YES].path;
-    folderName = [NSString stringWithFormat:@"%@%@-Sources", self.schemaName, self.prefixOverride ? self.prefixOverride : @""];
-    id destFolder = [_tmpFolderUrl URLByAppendingPathComponent:folderName
-                                                       isDirectory:YES].path;
-    [[NSFileManager defaultManager] removeItemAtPath:destFolder error:nil];
-    [[NSFileManager defaultManager] moveItemAtPath:srcFolder toPath:destFolder error:nil];
     
-    //get contents
-    id src = [NSURL fileURLWithPath:destFolder];
+    id src = [self.tmpFolderUrl URLByAppendingPathComponent:@"Sources" isDirectory:YES];
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:src
                                                    includingPropertiesForKeys:nil
                                                                       options:0
                                                                         error:nil];
-
-    //check if we have all we need
     NSMutableArray *needed = [self.expectedFiles mutableCopy];
     for (NSURL *url in files) {
         id name = url.lastPathComponent;
-        XCTAssert([needed containsObject:name], @"needed doesn't conaint %@", name);
+        XCTAssert([needed containsObject:name]);
         [needed removeObject:name];
     }
     XCTAssert(needed.count == 0);
     
-    //compile it
-    id fileName = [NSString stringWithFormat:@"%@%@-parser.dylib", self.schemaName, self.prefixOverride ? self.prefixOverride : @""];
-    NSString *compiledFile = [_tmpFolderUrl.path stringByAppendingPathComponent:fileName];
+    NSString *compiledFile = [self.tmpFolderUrl.path stringByAppendingPathComponent:@"parser.dylib"];
     XCTAssert(![[NSFileManager defaultManager] fileExistsAtPath:compiledFile]);
-
-    //do it
-    [self compileParser:compiledFile from:files];
+    DDRunTask(@"/usr/bin/clang", @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"x86_64", @"-framework", @"foundation", @"-lxml2", @"-I/usr/include/libxml2", @"-o", compiledFile, files, nil);
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:compiledFile]);
     
-    //open dylib
     void* lib_handle = dlopen(compiledFile.UTF8String, RTLD_LOCAL);
     XCTAssert(lib_handle);//dl_error()
-    _loadedLibHandle = lib_handle;
     
-    //load the root class (required with runtime-loaded libraries).
+    // Get the Person class (required with runtime-loaded libraries).
     Class wlfg_class = objc_getClass(self.rootClassName.UTF8String);
     XCTAssert(wlfg_class);
     XCTAssert([wlfg_class respondsToSelector:NSSelectorFromString(self.parseMethodName)]);
     
-    //parse it
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     id root = [wlfg_class performSelector:NSSelectorFromString(self.parseMethodName) withObject:self.xmlFileUrl];
 #pragma clang diagnostic pop
     XCTAssert(root);
     XCTAssert([root respondsToSelector:@selector(dictionary)]);
-    NSLog(@"%@", [root dump]);
     
-    //check it
     [self assertParsedXML:root];
     
-    //unload it
     root = nil;
     int status = dlclose(lib_handle);
     XCTAssert(status == 0);
-    _loadedLibHandle = nil;
-}
-
-- (void*)loadedLibHandle {
-    return _loadedLibHandle;
 }
 
 #pragma mark performance tests
@@ -190,13 +141,13 @@ NSURL *_tmpFolderUrl;
 - (void)helpTestPerformanceParsingSchema {
     __block XSDschema *schema;
     [self measureBlock:^{
-        schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:self.prefixOverride error:nil];
+        schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     }];
     XCTAssert(schema);
 }
 
-- (void)helpTestPerformanceLoadingTemplate {
-    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:self.prefixOverride  error:nil];
+- (void)helpTestPerformanceLoadingTemplateObjC {
+    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     XCTAssert(schema);
     
     __block BOOL bLoaded;
@@ -207,8 +158,8 @@ NSURL *_tmpFolderUrl;
     XCTAssert(bLoaded);
 }
 
-- (void)helpTestPerformanceGeneratingParser {
-    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:self.prefixOverride  error:nil];
+- (void)helpTestPerformanceGeneratingParserObjC {
+    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     XCTAssert(schema);
     
     NSError *error;
@@ -218,26 +169,15 @@ NSURL *_tmpFolderUrl;
     __block BOOL bWritten;
     [self measureBlock:^{
         NSError *genError;
-        
-        bWritten = [schema generateInto:_tmpFolderUrl
+        bWritten = [schema generateInto:self.tmpFolderUrl
                                products:XSDschemaGeneratorOptionSourceCode
                                   error:&genError];
-
-        //fix folder name
-        id folderName = @"Sources";
-        id srcFolder = [_tmpFolderUrl URLByAppendingPathComponent:folderName
-                                                      isDirectory:YES].path;
-        folderName = [NSString stringWithFormat:@"%@%@-Sources", self.schemaName, self.prefixOverride ? self.prefixOverride : @""];
-        id destFolder = [_tmpFolderUrl URLByAppendingPathComponent:folderName
-                                                       isDirectory:YES].path;
-        [[NSFileManager defaultManager] removeItemAtPath:destFolder error:nil];
-        [[NSFileManager defaultManager] moveItemAtPath:srcFolder toPath:destFolder error:nil];
     }];
     XCTAssert(bWritten);
 }
 
-- (void)helpTestPerformanceParsingXML {
-    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:self.prefixOverride error:nil];
+- (void)helpTestPerformanceParsingXMLObjC {
+    XSDschema *schema = [[XSDschema alloc] initWithUrl:self.schemaUrl targetNamespacePrefix:nil error:nil];
     XCTAssert(schema);
     
     NSError *error;
@@ -245,37 +185,24 @@ NSURL *_tmpFolderUrl;
     XCTAssert(bLoaded);
     
     BOOL bWritten;
-    bWritten = [schema generateInto:_tmpFolderUrl
+    bWritten = [schema generateInto:self.tmpFolderUrl
                            products:XSDschemaGeneratorOptionSourceCode
                               error:&error];
-    //fix folder name
-    id folderName = @"Sources";
-    id srcFolder = [_tmpFolderUrl URLByAppendingPathComponent:folderName
-                                                  isDirectory:YES].path;
-    folderName = [NSString stringWithFormat:@"%@%@-Sources", self.schemaName, self.prefixOverride ? self.prefixOverride : @""];
-    id destFolder = [_tmpFolderUrl URLByAppendingPathComponent:folderName
-                                                   isDirectory:YES].path;
-    [[NSFileManager defaultManager] removeItemAtPath:destFolder error:nil];
-    [[NSFileManager defaultManager] moveItemAtPath:srcFolder toPath:destFolder error:nil];
-
     XCTAssert(bWritten);
     
-    id src = [NSURL fileURLWithPath:destFolder];
+    id src = [self.tmpFolderUrl URLByAppendingPathComponent:@"Sources" isDirectory:YES];
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:src
                                                    includingPropertiesForKeys:nil
                                                                       options:0
                                                                         error:nil];
     
-    NSString *compiledFile = [_tmpFolderUrl.path stringByAppendingPathComponent:@"parser.dylib"];
+    NSString *compiledFile = [self.tmpFolderUrl.path stringByAppendingPathComponent:@"parser.dylib"];
     XCTAssert(![[NSFileManager defaultManager] fileExistsAtPath:compiledFile]);
-
-    //do it
-    [self compileParser:compiledFile from:files];
+    DDRunTask(@"/usr/bin/clang", @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"x86_64", @"-framework", @"foundation", @"-lxml2", @"-I/usr/include/libxml2", @"-o", compiledFile, files, nil);
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:compiledFile]);
     
     void* lib_handle = dlopen(compiledFile.UTF8String, RTLD_LOCAL);
     XCTAssert(lib_handle);//dl_error()
-    _loadedLibHandle = lib_handle;
     
     // Get the Person class (required with runtime-loaded libraries).
     Class wlfg_class = objc_getClass(self.rootClassName.UTF8String);
@@ -295,11 +222,6 @@ NSURL *_tmpFolderUrl;
     root = nil;
     int status = dlclose(lib_handle);
     XCTAssert(status == 0);
-    _loadedLibHandle = nil;
-}
-
-- (void)compileParser:(NSString *)output from:(NSArray *)input {
-    assert(NO);
 }
 
 @end

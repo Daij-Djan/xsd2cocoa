@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FileFormatter.h"
 
-@interface DDSimpleFormatter: NSObject<FileFormatter>
+@interface DDSimpleFormatter: NSObject
 
 + (instancetype)sharedInstance;
+
 - (NSString*)formatString:(NSString*)string;
+
+- (BOOL)formatFile:(NSString *)file error:(NSError *__autoreleasing *)error;
+- (NSArray *)formatFiles:(NSArray *)files error:(NSError *__autoreleasing *)error;
 
 @end

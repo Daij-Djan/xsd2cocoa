@@ -340,6 +340,14 @@
     return [NSDictionary dictionaryWithObject:self forKey:@"type"];
 }
 
+//stupid swift 2 workaround
+- (NSString *) swiftIntEnum {
+    if(gUnitTestingSwiftCode)
+        return @"Int, EVRawInt";
+    else
+        return @"Int";
+}
+
 #pragma mark
 
 /**
@@ -372,3 +380,5 @@
 }
 
 @end
+
+BOOL gUnitTestingSwiftCode = NO; //swift 2 workaround

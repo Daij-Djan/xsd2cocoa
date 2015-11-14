@@ -5,9 +5,11 @@
 	xmlns:p = "http://www.example.org/Pantry" 
 	elementFormDefault="qualified" >
 	
-	<xs:simpleType name="FoodGroupType">
+    <xs:element name='Pantry' type="PantryType"/>
+
+    <xs:simpleType name="FoodGroupType">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="sweet/fat/oil" />
+			<xs:enumeration value="sweetFatOil" />
 			<xs:enumeration value="dairy" />
 			<xs:enumeration value="protein" />
 			<xs:enumeration value="vegetable" />
@@ -31,7 +33,7 @@
 	</xs:complexType>
 	
 	
-	<xs:complexType name="Pantry">
+	<xs:complexType name="PantryType">
 		<xs:sequence>
 			<xs:element name="Shelf" type="p:ShelfType" minOccurs="1" maxOccurs="unbounded" />
 		</xs:sequence>

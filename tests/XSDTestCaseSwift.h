@@ -9,4 +9,5 @@
 #import "XSDTestCase.h"
 
 @interface XSDTestCaseSwift : XSDTestCase
+- (NSNumber*)reflect:(id)obj numberForKey:(NSString*)propertyName;
 @end

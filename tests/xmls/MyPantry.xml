@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Pantry>
 <p:Pantry
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:p="http://www.example.org/Pantry"
@@ -14,7 +13,7 @@
 	<p:Shelf>
 		<p:Food>
 			<p:Name>Chocolate</p:Name>
-			<p:FoodGroup>sweet/fat/oil</p:FoodGroup>
+			<p:FoodGroup>sweetFatOil</p:FoodGroup>
 			<p:Cost>$0.50</p:Cost>
 		</p:Food>
 	</p:Shelf>
