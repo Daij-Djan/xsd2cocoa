@@ -137,6 +137,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B3142BF71BF7E0620052E2E7 /* XSDConverter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = XSDConverter.entitlements; sourceTree = "<group>"; };
 		B33F4FC21B4E9AEB00797D74 /* DDXMLValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLValidator.h; sourceTree = "<group>"; };
 		B33F4FC31B4E9AEB00797D74 /* DDXMLValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLValidator.m; sourceTree = "<group>"; };
 		B342A5211A9655010061C546 /* SimpleTypesTestsSwift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleTypesTestsSwift.m; sourceTree = "<group>"; };
@@ -497,6 +498,7 @@
 		B45720FE1857D532005632B7 /* app */ = {
 			isa = PBXGroup;
 			children = (
+				B3142BF71BF7E0620052E2E7 /* XSDConverter.entitlements */,
 				B45720FF1857D532005632B7 /* AppDelegate.h */,
 				B45721001857D532005632B7 /* AppDelegate.m */,
 				B45721081857D532005632B7 /* main.m */,
@@ -655,6 +657,13 @@
 					B42F9F401A488F830007FC96 = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = B45720CD1857D487005632B7;
+					};
+					B45720CD1857D487005632B7 = {
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -995,6 +1004,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = app/XSDConverter.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1033,6 +1044,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = app/XSDConverter.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

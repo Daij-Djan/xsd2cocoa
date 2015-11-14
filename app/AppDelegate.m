@@ -262,6 +262,12 @@
         }
     }
     else {
+#if 1 /*sandboxed*/
+        if([[url pathExtension] isEqualToString:@"xsd"] ||
+           [[url pathExtension] isEqualToString:@"xml"]) {
+            return YES;
+        }
+#else
         //read the first XMLNode's name (if possible)
         id name = [XMLUtils rootNodeNameFromURL:url];
         if(name) {
@@ -272,6 +278,7 @@
                 return YES;
             }
         }
+#endif
     }
     
     return NO;
