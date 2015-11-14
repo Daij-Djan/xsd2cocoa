@@ -36,3 +36,5 @@ demo2/Address/MYCOMPANYStreetInfo.h
 demo2/Address/MYCOMPANYStreetInfo.m
 demo2/Address/MYCOMPANYUnitInfo.h
 demo2/Address/MYCOMPANYUnitInfo.m
+demos/weblinks-demo/weblinks-ios/generated/Sources
+demos/weblinks-demo/weblinks-osx/generated/Sources
