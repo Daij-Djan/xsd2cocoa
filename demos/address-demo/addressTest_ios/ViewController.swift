@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         
         let url = NSBundle.mainBundle().URLForResource("Address", withExtension: "xml")
         if(url != nil) {
-            let addr = MYCOMPANYAddress.fromURL(url!)
+            let addr = MYCOMPANYAddress.AddressFromURL(url!)
             if(addr != nil) {
                 textView.text = addr!.dictionary.description
             }

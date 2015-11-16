@@ -40,3 +40,5 @@ demos/weblinks-demo/weblinks-ios/generated/Sources
 demos/weblinks-demo/weblinks-osx/generated/Sources
 demos/simpletypes-demo/simpletypes_ios/Generated/Sources
 demos/simpletypes-demo/simpletypes_osx/Generated/Sources
+demos/address-demo/addressTest_ios/Generated/Sources
+demos/address-demo/addressTest_osx/Generated/Sources
