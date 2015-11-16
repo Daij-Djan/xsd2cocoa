@@ -44,3 +44,5 @@ demos/address-demo/addressTest_ios/Generated/Sources
 demos/address-demo/addressTest_osx/Generated/Sources
 demos/MyPantry-demo/MyPantry-ios/generated/Sources
 demos/MyPantry-demo/MyPantry-osx/generated/Sources
+demos/SampleLanguageData/SampleLanguageData-ios/generated/Sources
+demos/SampleLanguageData/SampleLanguageData-osx/generated/Sources
