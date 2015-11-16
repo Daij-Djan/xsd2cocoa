@@ -48,6 +48,12 @@
         self.defaultValue = [XMLUtils node:node stringAttribute:@"default"];
         self.fixed = [XMLUtils node:node stringAttribute:@"fixed"];
         self.form = [XMLUtils node:node stringAttribute:@"form"];
+
+        //specify string as default value
+        if(!self.type) {
+            NSLog(@"assign default tye xs:string to attribute %@", self.name);
+            self.type = @"xs:string";
+        }
     }
     return self;
 }

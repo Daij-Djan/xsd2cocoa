@@ -91,7 +91,12 @@
         }
 
         NSAssert(self.name, @"no name");
-        NSAssert(self.type || self.localType, @"no type");
+        
+        //specify string as default value
+        if(!self.type && !self.localType) {
+            NSLog(@"assign default tye xs:string to element %@", self.name);
+            self.type = @"xs:string";
+        }
     }
     return self;
 }
