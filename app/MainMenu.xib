@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8187.4" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
         <development version="6300" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8187.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -345,10 +345,10 @@
                     <textField verticalHuggingPriority="750" id="dO4-XI-ytA">
                         <rect key="frame" x="20" y="127" width="287" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="file path for a XSD to generate a parser" drawsBackground="YES" id="Egs-XU-e3p">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="file path for a XSD to generate a parser" drawsBackground="YES" id="Egs-XU-e3p">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" red="0.97090474523679171" green="0.97090474523679171" blue="0.97090474523679171" alpha="1" colorSpace="calibratedRGB"/>
                         </textFieldCell>
                         <connections>
                             <action selector="textfieldEdited:" target="494" id="fi2-Aq-kbX"/>
@@ -370,10 +370,10 @@
                     <textField verticalHuggingPriority="750" id="bXB-tP-aWJ">
                         <rect key="frame" x="20" y="72" width="322" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="path to folder for generated files" drawsBackground="YES" id="VCz-8o-7PV">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="path to folder for generated files" drawsBackground="YES" id="VCz-8o-7PV">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" red="0.97090474520000003" green="0.97090474520000003" blue="0.97090474520000003" alpha="1" colorSpace="calibratedRGB"/>
                         </textFieldCell>
                         <connections>
                             <action selector="textfieldEdited:" target="494" id="eCY-dB-zzN"/>
@@ -483,10 +483,10 @@ DQ
                     <textField verticalHuggingPriority="750" id="shM-H9-Sro">
                         <rect key="frame" x="38" y="52" width="240" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="file path to custom template xml" drawsBackground="YES" id="eIH-a1-P24">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="file path to custom template xml" drawsBackground="YES" id="eIH-a1-P24">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" red="0.97090474520000003" green="0.97090474520000003" blue="0.97090474520000003" alpha="1" colorSpace="calibratedRGB"/>
                         </textFieldCell>
                         <connections>
                             <action selector="textfieldEdited:" target="494" id="RcD-3Y-j8m"/>

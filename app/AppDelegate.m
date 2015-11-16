@@ -132,8 +132,36 @@
     /* Build the schemea with simple types, complex types, and elements with imported schemas */
     XSDschema* schema = [[XSDschema alloc] initWithUrl: schemaURL targetNamespacePrefix: classPrefix error: &error];
     if(error != nil) {
-        NSString *errorString = [error localizedDescription] ? [error localizedDescription] : @"Unknown Error";
-        NSRunAlertPanel(@"Error", @"Error while reading XSD %@", @"OK", nil, nil, errorString);
+        if(error.code == 50) {
+            __weak typeof(self) wself = self;
+            
+            NSURL *url = error.userInfo[@"url"];
+            NSString *title = @"Can't open included XSD";
+            NSString *msg = [NSString stringWithFormat:@"Cant open an included XSD at %@.\n\n Either it is not there or this is a sandbox issue. Please use the following opening dialog to locate it and try again.", url.path];
+            NSRunAlertPanel(title, msg, @"OK", nil, nil, nil);
+            
+            msg = [NSString stringWithFormat:@"Locate %@.", url.path.lastPathComponent];
+            
+            NSOpenPanel *panel = [NSOpenPanel openPanel];
+            panel.canChooseFiles = YES;
+            panel.delegate = self;
+            panel.message = msg;
+            panel.directoryURL = url;//! containingFolder
+            [panel beginWithCompletionHandler:^(NSInteger result) {
+                if(result==NSFileHandlingPanelOKButton) {
+                    for (NSURL *url in panel.URLs) {
+                        if(!url.isFileURL) {
+                            continue;
+                        }
+                        [wself writeCode:nil];
+                    }
+                }
+            }];
+        }
+        else {
+            NSString *errorString = [error localizedDescription] ? [error localizedDescription] : @"Unknown Error";
+            NSRunAlertPanel(@"Error", @"Error while reading XSD %@", @"OK", nil, nil, errorString);
+        }
         return;
     }
 

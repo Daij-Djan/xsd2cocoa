@@ -189,6 +189,13 @@
 
             id schemaLocation = [aChild attributeForName:@"schemaLocation"].stringValue;
             NSURL *url = [NSURL URLWithString:schemaLocation relativeToURL:schemaUrl];
+            if(![[NSFileManager defaultManager] isReadableFileAtPath:url.path]) {
+                if(error) {
+                    *error = [NSError errorWithDomain:@"XSDschema" code:50 userInfo:@{@"url":url, NSLocalizedRecoverySuggestionErrorKey: [NSString stringWithFormat:@"Cant open included xsd file at %@.", url]}];
+                    
+                }
+                return nil;
+            }
             XSDschema *xsd = [[self.class alloc] initWithUrl:url targetNamespacePrefix:prefix error:error];
             if(!xsd) {
                 return nil;
