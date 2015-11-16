@@ -53,4 +53,10 @@
     <!-- date time -->
     <test_dateTime>2015-01-25T10:37:07+0100</test_dateTime>
 
+    <!-- date -->
+    <test_date>2015-01-25</test_date>
+
+    <!-- date time -->
+    <test_time>10:37:07</test_time>
+
 </st:simpleTypes>

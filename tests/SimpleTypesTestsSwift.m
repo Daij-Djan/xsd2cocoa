@@ -41,6 +41,8 @@
                             @"Name": @"String",
                             @"double": @"Double",
                             @"dateTime": @"NSDate",
+                            @"date": @"NSDate",
+                            @"time": @"NSDate",
                             @"IDREF": @"String",
                             @"string": @"String",
                             @"negativeInteger": @"Int",
@@ -97,13 +99,21 @@
     XCTAssert(ct.hasAnnotations);
     XCTAssert([[ct.globalElements valueForKeyPath:@"name"] containsObject:@"simpleTypes"]);
 
-    XCTAssert(ct.simpleTypesInUse.count==40);
+    XCTAssert(ct.simpleTypesInUse.count==42);
 }
 
 - (void)assertParsedXML:(id)rootNode {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.timeStyle = NSDateFormatterFullStyle;
     dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
+    NSDateFormatter *dateOnlyFormatter = [[NSDateFormatter alloc] init];
+    dateOnlyFormatter.timeStyle = NSDateFormatterFullStyle;
+    dateOnlyFormatter.dateFormat = @"yyyy-MM-dd";
+    dateOnlyFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    NSDateFormatter *timeFormatter = [[NSDateFormatter alloc] init];
+    timeFormatter.timeStyle = NSDateFormatterFullStyle;
+    timeFormatter.dateFormat = @"HH:mm:ss";
+    timeFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
     
     XCTAssertTrue([[rootNode valueForKey:@"test_ENTITIES"] isEqualToString:@"all_is_ok"]);
     XCTAssertTrue([[rootNode valueForKey:@"test_ENTITY"] isEqualToString:@"all_is_ok"]);
@@ -120,6 +130,8 @@
     XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_boolean"] isEqualToNumber:@YES]);
     XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_byte"] isEqualToNumber:@123]);
     XCTAssertTrue([[rootNode valueForKey:@"test_dateTime"] isEqualToDate:[dateFormatter dateFromString:@"2015-01-25 09:37:07 +0000"]]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_date"] isEqualToDate:[dateOnlyFormatter dateFromString:@"2015-01-25"]]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_time"] isEqualToDate:[timeFormatter dateFromString:@"10:37:07"]]);
     XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_decimal"] isEqualToNumber:@(12.34)]);
     XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_double"] isEqualToNumber:@(12.34)]);
     XCTAssertTrue([[self reflect:rootNode numberForKey:@"test_duration"] isEqualToNumber:@(12.34)]);
@@ -162,7 +174,7 @@
     BOOL bLoaded = [schema loadTemplate:self.templateUrl error:&error];
     XCTAssert(bLoaded);
     
-    XCTAssert(ct.simpleTypesInUse.count==40);
+    XCTAssert(ct.simpleTypesInUse.count==42);
     for (XSSimpleType *t in ct.simpleTypesInUse) {
         XCTAssert(t.name);
         id expectedClassname = _expectedClassnames[t.name];
@@ -183,7 +195,7 @@
     BOOL bLoaded = [schema loadTemplate:self.templateUrl error:&error];
     XCTAssert(bLoaded);
     
-    XCTAssert(ct.simpleTypesInUse.count==40);
+    XCTAssert(ct.simpleTypesInUse.count==42);
     for (XSSimpleType *t in ct.simpleTypesInUse) {
         NSLog(@"TRY %@", t.name);
         

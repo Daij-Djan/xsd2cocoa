@@ -74,10 +74,14 @@
       <!-- URLs -->
       <xs:element name="test_anyURI" type="anyURI"/>
 
-      <!-- date time: only base -->
+      <!-- date time -->
       <xs:element name="test_dateTime" type="dateTime"/>
-      <!--<type base="dateTime" name="date"/> -->
-      <!--<type base="dateTime" name="time"/> -->
+
+      <!-- date -->
+      <xs:element name="test_date" type="date"/>
+
+      <!-- time -->
+      <xs:element name="test_time" type="time"/>
 
       <!-- base64Binary -->
       <!--<type base="base64Binary" name="base64Binary"/>-->

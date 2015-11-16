@@ -116,7 +116,6 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
     <read>
       <prefix>
         <![CDATA[let dateFormatter = NSDateFormatter()
-        dateFormatter.timeStyle = NSDateFormatterStyle.FullStyle
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"]]>
         </prefix>
       <attribute>
@@ -136,6 +135,60 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         }]]>
         </value>
     </read>
+  </simpletype>
+  <simpletype name="date" objType="NSDate"
+      arrayType="[NSDate]">
+      <read>
+          <prefix>
+              <![CDATA[let dateOnlyFormatter = NSDateFormatter()
+                  dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
+                  dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+              ]]>
+          </prefix>
+          <attribute>
+              <![CDATA[
+                  self.{{ attribute.variableName }} = dateOnlyFormatter.dateFromString( String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue)]]>
+          </attribute>
+          <element>
+              <![CDATA[
+                  {% if element.isSingleValue %}self.{{ element.variableName }} = dateOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)
+                  {% else %}{{ element.variableName }}Array.append(dateOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)!) //bad force unwrapping{% /if %}]]>
+          </element>
+          <value>
+              <![CDATA[let value = String.fromCString(UnsafePointer<CChar>(contentValue))
+                  if value != nil {
+                  let trimmed = value!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                  self.value = dateOnlyFormatter.dateFromString(trimmed)
+                  }]]>
+          </value>
+      </read>
+  </simpletype>
+  <simpletype name="time" objType="NSDate"
+      arrayType="[NSDate]">
+      <read>
+          <prefix>
+              <![CDATA[let timeOnlyFormatter = NSDateFormatter()
+                  timeOnlyFormatter.dateFormat = "HH:mm:ss"
+                  timeOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+              ]]>
+          </prefix>
+          <attribute>
+              <![CDATA[
+                  self.{{ attribute.variableName }} = timeOnlyFormatter.dateFromString( String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue)]]>
+          </attribute>
+          <element>
+              <![CDATA[
+                  {% if element.isSingleValue %}self.{{ element.variableName }} = timeOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)
+                  {% else %}{{ element.variableName }}Array.append(timeOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)!) //bad force unwrapping{% /if %}]]>
+          </element>
+          <value>
+              <![CDATA[let value = String.fromCString(UnsafePointer<CChar>(contentValue))
+                  if value != nil {
+                  let trimmed = value!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                  self.value = timeOnlyFormatter.dateFromString(trimmed)
+                  }]]>
+          </value>
+      </read>
   </simpletype>
   <!--complex type-->
   <complextype objType="@objc-Subclass"

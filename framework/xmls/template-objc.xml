@@ -110,9 +110,8 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
   <simpletype name="dateTime" objType="NSDate" arrayType="NSArray">
     <read>
       <prefix>NSDateFormatter* dateFormatter = [[NSDateFormatter
-      alloc] init]; dateFormatter.timeStyle =
-      NSDateFormatterFullStyle; dateFormatter.dateFormat =
-      @"yyyy-MM-dd'T'HH:mm:ssZ";</prefix>
+      alloc] init];
+      dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";</prefix>
       <attribute>self.{{ attribute.variableName }} = [dateFormatter
       dateFromString:[NSString stringWithCString:{{ attribute.name
       }}AttrValue encoding:NSUTF8StringEncoding]];</attribute>
@@ -129,6 +128,54 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
       whitespaceAndNewlineCharacterSet]]; self.value =
       [dateFormatter dateFromString:value];</value>
     </read>
+  </simpletype>
+  <simpletype name="date" objType="NSDate" arrayType="NSArray">
+      <read>
+          <prefix>NSDateFormatter* dateOnlyFormatter = [[NSDateFormatter
+              alloc] init];
+              dateOnlyFormatter.dateFormat = @"yyyy-MM-dd";
+              dateOnlyFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+          </prefix>
+          <attribute>self.{{ attribute.variableName }} = [dateOnlyFormatter
+              dateFromString:[NSString stringWithCString:{{ attribute.name
+              }}AttrValue encoding:NSUTF8StringEncoding]];</attribute>
+          <element>
+              <![CDATA[
+                  {% if element.isSingleValue %}self.{{ element.variableName }} = [dateOnlyFormatter dateFromString:[NSString stringWithCString:{{element.name}}ElementValue encoding:NSUTF8StringEncoding]];{% else %}[{{ element.variableName }}Array addObject:[dateOnlyFormatter dateFromString:[NSString stringWithCString:{{element.name}}ElementValue encoding:NSUTF8StringEncoding]]];
+                  {% /if %}
+              ]]>
+          </element>
+          <value>NSString *value = [NSString
+              stringWithCString:contentValue
+              encoding:NSUTF8StringEncoding]; value = [value
+              stringByTrimmingCharactersInSet:[NSCharacterSet
+              whitespaceAndNewlineCharacterSet]]; self.value =
+              [dateOnlyFormatter dateFromString:value];</value>
+      </read>
+  </simpletype>
+  <simpletype name="time" objType="NSDate" arrayType="NSArray">
+      <read>
+          <prefix>NSDateFormatter* timeFormatter = [[NSDateFormatter
+              alloc] init];
+              timeFormatter.dateFormat = @"HH:mm:ss";
+              timeFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+          </prefix>
+          <attribute>self.{{ attribute.variableName }} = [timeFormatter
+              dateFromString:[NSString stringWithCString:{{ attribute.name
+              }}AttrValue encoding:NSUTF8StringEncoding]];</attribute>
+          <element>
+              <![CDATA[
+                  {% if element.isSingleValue %}self.{{ element.variableName }} = [timeFormatter dateFromString:[NSString stringWithCString:{{element.name}}ElementValue encoding:NSUTF8StringEncoding]];{% else %}[{{ element.variableName }}Array addObject:[timeFormatter dateFromString:[NSString stringWithCString:{{element.name}}ElementValue encoding:NSUTF8StringEncoding]]];
+                  {% /if %}
+              ]]>
+          </element>
+          <value>NSString *value = [NSString
+              stringWithCString:contentValue
+              encoding:NSUTF8StringEncoding]; value = [value
+              stringByTrimmingCharactersInSet:[NSCharacterSet
+              whitespaceAndNewlineCharacterSet]]; self.value =
+              [timeFormatter dateFromString:value];</value>
+      </read>
   </simpletype>
   <!--complex type-->
   <complextype objType="NSObject-Subclass" arrayType="NSArray">

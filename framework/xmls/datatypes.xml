@@ -52,8 +52,8 @@
 
 <!-- date time: only base -->
 <type base="dateTime" name="dateTime"/>
-<!--<type base="dateTime" name="date"/> -->
-<!--<type base="dateTime" name="time"/> -->
+<type base="date" name="date"/>
+<type base="time" name="time"/>
 
 <!-- base64Binary -->
 <!--<type base="base64Binary" name="base64Binary"/>-->
