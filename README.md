@@ -12,15 +12,16 @@ The generator is a framework that is completely seperate from the GUI. And thus 
 **The generator is checked with unit tests that read specific xsds, generate code for it, compile it using clang and then see if they can parse an according xml**<br/>
 (so IF you find bugs / missing features - please provide a xsd & a xml file so I can fix it / add it to the generator)
 
-###What works already: (1.5)
+###What works already: (1.5.1)
 ##### (the key points I remember)
 
+- element default type
 - objc & swift 2.0 support (generates FORMATTED code) ** 1.5 **
 - handles namespacesd xsd ** 1.5 ** 
 - Complex type elements
 - Simple type elements/attributes (standard and custom)
-	- **40/44 types defined by the w3c work**<br/> 
-	outstanding: date, time, base64Binary, hexBinary
+	- **42/44 types defined by the w3c work**<br/> 
+	outstanding: 		base64Binary, hexBinary
 - Inheritance by extension
 - restrictions with enumeration support (thanks to Alex Smith for the initial trigger) ** 1.4 **
 - Static parsing methods for global elements (a category is generated for a complex type that is used as the root element)
