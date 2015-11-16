@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:Pantry
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.example.org/Pantry"
+	xsi:schemaLocation="http://www.example.org/Pantry Pantry.xsd">
+	<p:Shelf>
+		<p:Food>
+			<p:Name>Apple</p:Name>
+			<p:FoodGroup>fruit</p:FoodGroup>
+			<p:Cost>$0.50</p:Cost>
+		</p:Food>
+	</p:Shelf>
+	<p:Shelf>
+		<p:Food>
+			<p:Name>Chocolate</p:Name>
+			<p:FoodGroup>sweetFatOil</p:FoodGroup>
+			<p:Cost>$0.50</p:Cost>
+		</p:Food>
+	</p:Shelf>
+</p:Pantry>

@@ -42,3 +42,5 @@ demos/simpletypes-demo/simpletypes_ios/Generated/Sources
 demos/simpletypes-demo/simpletypes_osx/Generated/Sources
 demos/address-demo/addressTest_ios/Generated/Sources
 demos/address-demo/addressTest_osx/Generated/Sources
+demos/MyPantry-demo/MyPantry-ios/generated/Sources
+demos/MyPantry-demo/MyPantry-osx/generated/Sources
