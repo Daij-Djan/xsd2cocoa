@@ -25,7 +25,17 @@
 }
 
 - (void)compileParser:(NSString *)output from:(NSArray *)input {
-    DDRunTask(@"/usr/bin/clang", @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"x86_64", @"-framework", @"foundation", @"-lxml2", @"-I/usr/include/libxml2", @"-o", output, input, nil);
+    id tmp = [self.class tmpFolderUrl].path;
+
+    //get sdk paths
+    NSString *toolPath = DDRunTask(@"/usr/bin/xcrun", @"-f", @"--sdk", @"macosx", @"clang", nil);
+    NSString *sdkPath = DDRunTask(@"/usr/bin/xcrun", @"--show-sdk-path", @"--sdk", @"macosx", nil);
+    toolPath = [toolPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    sdkPath = [sdkPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+    id env = @{@"SDKROOT": sdkPath};
+    
+    DDRunTaskExt(tmp, env, nil, toolPath, @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"x86_64", @"-framework", @"foundation", @"-lxml2", [NSString stringWithFormat:@"-I%@/usr/include/libxml2", sdkPath], @"-o", output, input, nil);
 }
 
 @end

@@ -7,7 +7,7 @@
 //
 #import "DDRunTask.h"
 
-int __DDRunTaskExt(NSString *cwd, NSString **output, NSString *command, NSMutableArray *args) {
+int __DDRunTaskExt(NSString *cwd, NSDictionary *env, NSString **output, NSString *command, NSMutableArray *args) {
     NSString *result;
     int terminationStatus;
     
@@ -25,9 +25,11 @@ int __DDRunTaskExt(NSString *cwd, NSString **output, NSString *command, NSMutabl
         if(cwd.length) {
             [task setCurrentDirectoryPath:cwd];
         }
+        if(env.count) {
+            [task setEnvironment:env];
+        }
         [task setStandardOutput: pipe];
         [readData setLength:0];
-
 #if DEBUG
         if(cwd.length) {
             NSLog(@"working dir = %@", cwd);
@@ -98,17 +100,17 @@ NSString *DDRunTask(NSString *command, ...) {
     NSMutableArray *args = __DDRunTaskArgs(varargs);
     va_end(varargs);
     
-    int status = __DDRunTaskExt(nil, &output, command, args);
+    int status = __DDRunTaskExt(nil, nil, &output, command, args);
     
     return status==0?output:nil;
 }
 
-int DDRunTaskExt(NSString *cwd, NSString **output, NSString *command, ...) {
+int DDRunTaskExt(NSString *cwd, NSDictionary *env, NSString **output, NSString *command, ...) {
     //var args to string array
     va_list varargs;
     va_start(varargs, command);
     NSMutableArray *args = __DDRunTaskArgs(varargs);
     va_end(varargs);
     
-    return __DDRunTaskExt(cwd, output, command, args);
+    return __DDRunTaskExt(cwd, env, output, command, args);
 }

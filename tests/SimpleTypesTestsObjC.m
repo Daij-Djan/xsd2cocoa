@@ -126,7 +126,7 @@
     XCTAssertTrue([[[rootNode valueForKey:@"test_anyURI"] absoluteString] isEqualToString:@"http://www.google.com"]);
     XCTAssertTrue([[rootNode valueForKey:@"test_boolean"] isEqualToNumber:@YES]);
     XCTAssertTrue([[rootNode valueForKey:@"test_byte"] isEqualToNumber:@123]);
-    XCTAssertTrue([[rootNode valueForKey:@"test_dateTime"] isEqualToDate:[dateFormatter dateFromString:@"2015-01-25 09:37:07 +0000"]]);
+    XCTAssertTrue([[rootNode valueForKey:@"test_dateTime"] isEqualToDate:[dateFormatter dateFromString:@"2015-01-25T09:37:07+0000"]]);
     XCTAssertTrue([[rootNode valueForKey:@"test_date"] isEqualToDate:[dateOnlyFormatter dateFromString:@"2015-01-25"]]);
     XCTAssertTrue([[rootNode valueForKey:@"test_time"] isEqualToDate:[timeFormatter dateFromString:@"10:37:07"]]);
     XCTAssertTrue([[rootNode valueForKey:@"test_decimal"] isEqualToNumber:@(12.34)]);

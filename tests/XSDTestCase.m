@@ -13,7 +13,7 @@
 #import <objc/runtime.h>
 #import "NSObject+DDDump.h"
 
-#define KEEP_AND_SHOW 1
+#define KEEP_AND_SHOW 0
 
 @interface XSDTestCase ()
 

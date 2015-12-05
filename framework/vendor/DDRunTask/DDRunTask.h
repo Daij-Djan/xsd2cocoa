@@ -14,6 +14,6 @@
 // - NSArray objects that contain args
 NSString *DDRunTask(NSString *command, ...);
 
-//if you really care about the working dir and the exit status.
+//if you really care about the working dir AND/or environment variables AND/or the exit status.
 //The arguments work the same as with runTask
-int DDRunTaskExt(NSString *cwd, NSString **output, NSString *command, ...);
+int DDRunTaskExt(NSString *cwd, NSDictionary *env, NSString **output, NSString *command, ...);

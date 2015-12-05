@@ -48,13 +48,15 @@
         [allFiles addObjectsFromArray:swiftFiles];
     }
     
-    //make module
+    //get sdk paths
     NSString *toolPath = DDRunTask(@"/usr/bin/xcrun", @"-f", @"--sdk", @"macosx", @"swiftc", nil);
     NSString *sdkPath = DDRunTask(@"/usr/bin/xcrun", @"--show-sdk-path", @"--sdk", @"macosx", nil);
     toolPath = [toolPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     sdkPath = [sdkPath stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-    DDRunTaskExt(tmp, nil, toolPath, @"-target-cpu", @"x86-64", @"-module-name", @"parser", @"-O", @"-sdk", sdkPath, @"-import-objc-header", headerFiles.firstObject, @"-I/usr/include/libxml2", @"-lxml2", @"-emit-library", @"-o", output, allFiles, nil);
+    id env = @{@"SDKROOT": sdkPath};
+
+    DDRunTaskExt(tmp, env, nil, toolPath, @"-target-cpu", @"x86-64", @"-module-name", @"parser", @"-O", @"-sdk", sdkPath, @"-import-objc-header", headerFiles.firstObject, [NSString stringWithFormat:@"-I%@/usr/include/libxml2", sdkPath], @"-lxml2", @"-emit-library", @"-o", output, allFiles, nil);
 }
 
 - (NSNumber*)reflect:(id)obj numberForKey:(NSString*)propertyName {
