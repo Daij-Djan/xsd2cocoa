@@ -66,7 +66,7 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
     <read>
       <prefix>NSNumberFormatter* numFormatter = [[NSNumberFormatter
       alloc] init]; numFormatter.numberStyle =
-      NSNumberFormatterDecimalStyle;</prefix>
+          NSNumberFormatterDecimalStyle; numFormatter.locale = self.locale;</prefix>
       <attribute>self.{{ attribute.variableName }} = [numFormatter
       numberFromString:[NSString stringWithCString:{{
       attribute.name }}AttrValue
@@ -88,7 +88,7 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
   arrayType="NSArray">
     <read>
       <prefix>NSNumberFormatter* decFormatter = [[NSNumberFormatter
-      alloc] init]; decFormatter.decimalSeparator = @".";
+          alloc] init]; decFormatter.locale = self.locale;
       decFormatter.numberStyle =
       NSNumberFormatterDecimalStyle;</prefix>
       <attribute>self.{{ attribute.variableName }} = [decFormatter
@@ -109,24 +109,42 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
   </simpletype>
   <simpletype name="dateTime" objType="NSDate" arrayType="NSArray">
     <read>
-      <prefix>NSDateFormatter* dateFormatter = [[NSDateFormatter
-      alloc] init];
-      dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";</prefix>
-      <attribute>self.{{ attribute.variableName }} = [dateFormatter
+        <prefix>id sRFC3339DateFormatterSubSeconds = [[NSDateFormatter alloc] init];
+            [sRFC3339DateFormatterSubSeconds setLocale:self.locale];
+            [sRFC3339DateFormatterSubSeconds setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSSSSSXXXXX"];
+            [sRFC3339DateFormatterSubSeconds setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+            id sRFC3339DateFormatter = [[NSDateFormatter alloc] init];
+            [sRFC3339DateFormatter setLocale:self.locale];
+            [sRFC3339DateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ssXXXXX"];
+            [sRFC3339DateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];</prefix>
+      <attribute>self.{{ attribute.variableName }} = [sRFC3339DateFormatter
       dateFromString:[NSString stringWithCString:{{ attribute.name
-      }}AttrValue encoding:NSUTF8StringEncoding]];</attribute>
+      }}AttrValue encoding:NSUTF8StringEncoding]];
+          if(!self.{{ attribute.variableName }}) {
+              self.{{ attribute.variableName }} = [sRFC3339DateFormatterSubSeconds
+          dateFromString:[NSString stringWithCString:{{ attribute.name
+          }}AttrValue encoding:NSUTF8StringEncoding]];
+          }</attribute>
       <element>
         <![CDATA[
-        {% if element.isSingleValue %}self.{{ element.variableName }} = [dateFormatter dateFromString:[NSString stringWithCString:{{element.name}}ElementValue encoding:NSUTF8StringEncoding]];{% else %}[{{ element.variableName }}Array addObject:[dateFormatter dateFromString:[NSString stringWithCString:{{element.name}}ElementValue encoding:NSUTF8StringEncoding]]];
+        {% if element.isSingleValue %}self.{{ element.variableName }} = [sRFC3339DateFormatter dateFromString:[NSString stringWithCString:{{element.name}}ElementValue encoding:NSUTF8StringEncoding]];
+        if(!self.{{ element.variableName }}) {
+            self.{{ element.variableName }} = [sRFC3339DateFormatterSubSeconds dateFromString:[NSString stringWithCString:{{element.name}}ElementValue encoding:NSUTF8StringEncoding]];
+        }
+        {% else %}id {{ element.variableName }}Temp = [sRFC3339DateFormatter dateFromString:[NSString stringWithCString:{{element.name}}ElementValue encoding:NSUTF8StringEncoding]];
+        if(!{{ element.variableName }}) {
+            {{ element.variableName }}Temp = [sRFC3339DateFormatterSubSeconds dateFromString:[NSString stringWithCString:{{element.name}}ElementValue encoding:NSUTF8StringEncoding]];
+        }
+        [{{ element.variableName }}Array addObject:{{ element.variableName }}Temp];
         {% /if %}
         ]]>
         </element>
-      <value>NSString *value = [NSString
-      stringWithCString:contentValue
-      encoding:NSUTF8StringEncoding]; value = [value
-      stringByTrimmingCharactersInSet:[NSCharacterSet
-      whitespaceAndNewlineCharacterSet]]; self.value =
-      [dateFormatter dateFromString:value];</value>
+      <value>NSString *value = [NSString stringWithCString:contentValue encoding:NSUTF8StringEncoding];
+      value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+      self.value = [sRFC3339DateFormatter dateFromString:value];
+          if(!self.value) {
+              self.value = [sRFC3339DateFormatterSubSeconds dateFromString:value];
+          }</value>
     </read>
   </simpletype>
   <simpletype name="date" objType="NSDate" arrayType="NSArray">
@@ -135,6 +153,7 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
               alloc] init];
               dateOnlyFormatter.dateFormat = @"yyyy-MM-dd";
               dateOnlyFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+              dateOnlyFormatter.locale = self.locale;
           </prefix>
           <attribute>self.{{ attribute.variableName }} = [dateOnlyFormatter
               dateFromString:[NSString stringWithCString:{{ attribute.name
@@ -159,6 +178,7 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
               alloc] init];
               timeFormatter.dateFormat = @"HH:mm:ss";
               timeFormatter.timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+              timeFormatter.locale = self.locale;
           </prefix>
           <attribute>self.{{ attribute.variableName }} = [timeFormatter
               dateFromString:[NSString stringWithCString:{{ attribute.name
@@ -230,19 +250,22 @@ this will be used to generate the class header files for the complex types.
         @property (nonatomic, readonly) {% if type.baseClass.hasEnumeration %}{{ type.baseClass.enumerationName }} {% else %}{{ type.baseClass.targetClassName }}* {% /if %}value;
         {% /if %}
 
-        /* Returns a dictionary representation of this class (recursivly making dictionaries of properties) */
+        /** Returns a dictionary representation of this class (recursivly making dictionaries of properties) */
         @property (nonatomic, readonly) NSDictionary* dictionary;
 
         @end
 
         @interface {{ type.targetClassName }} (Reading)
 
-        /* The class's initializer used by the reader to build the object structure during parsing (xmlTextReaderPtr at the moment) */
+        /** The class's initializer used by the reader to build the object structure during parsing (xmlTextReaderPtr at the moment) */
         - (id) initWithReader: (void*) reader;
 
-        /* Method that is overidden by subclasses that want to extend the base type (xmlTextReaderPtr at the moment) */
+        /** Method that is overidden by subclasses that want to extend the base type (xmlTextReaderPtr at the moment) */
         - (void) readAttributes: (void*) reader;
 
+        /** Property that sets the NSLocale used by formatters of this type. It defaults to enUSPOSIX */
+        @property(nonatomic, strong) NSLocale *locale;
+        
         @end
         ]]>
         </header>
@@ -270,8 +293,26 @@ this will be used to generate the class files for the complex types.
 
         @end
 
+        {% if type.hasComplexBaseClass %}
         @implementation {{ type.targetClassName }}
-
+        {% else %}
+        @implementation {{ type.targetClassName }} {
+            NSLocale *_locale;
+        }
+        /**
+        * the type's locale. We need this often so we put it here
+        */
+        - (NSLocale*)locale {
+            if(!_locale) {
+                _locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+            }
+            return _locale;
+        }
+        - (void)setLocale:(NSLocale*)locale {
+             _locale = locale;
+        }
+        {% /if %}
+        
         /**
         * Name:        readAttributes
         * Parameters:  (void *) - the Libxml's xmlTextReader pointer
@@ -301,8 +342,8 @@ this will be used to generate the class files for the complex types.
             if(self) { {{ type.combinedReadPrefixCode }}
             {% if type.hasComplexBaseClass %}{% else %}[self readAttributes: reader];{% /if %}
             {% for element in type.elements %}{% if element.isSingleValue %}{% else %}NSMutableArray *{{ element.variableName }}Array = [NSMutableArray array];{% /if %}
-            {% /for %}{% if type.hasComplexBaseClass %}int _readerOk = 1;{% else %}int _readerOk = xmlTextReaderRead(reader);{% /if %}
-            int _currentNodeType = xmlTextReaderNodeType(reader);
+            {% /for %}{% if type.hasComplexBaseClass %}int _readerOk __attribute__ ((unused)) = 1;{% else %}int _readerOk __attribute__ ((unused)) = xmlTextReaderRead(reader);{% /if %}
+            int _currentNodeType __attribute__ ((unused)) = xmlTextReaderNodeType(reader);
             int _currentXmlDept = xmlTextReaderDepth(reader);
             while(_readerOk && _currentNodeType != XML_READER_TYPE_NONE && _complexTypeXmlDept < _currentXmlDept) {
                 BOOL handledInChild = NO;
@@ -426,6 +467,8 @@ this will be used to generate the class files for the complex types.
             #import "{{ type.targetClassFileName }}+File.h"
             #import <libxml/xmlreader.h>
             
+            #define kGlobalElementNamesArray @[@"##elements##"{% for element in type.globalElements %},@"{{ element.name }}"{% /for %}]
+            
             @implementation {{ type.targetClassFileName }} (File)
             
             /**
@@ -440,11 +483,21 @@ this will be used to generate the class files for the complex types.
                 xmlTextReaderPtr reader = xmlReaderForFile(url.absoluteString.UTF8String,
                 NULL,
                 (XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA | XML_PARSE_NOERROR | XML_PARSE_NOWARNING));
+                int ret;
                 if(reader != nil) {
-                    int ret = xmlTextReaderRead(reader);
-                    if(ret == XML_READER_TYPE_ELEMENT) {
-                        obj = [[{{ type.targetClassName }} alloc] initWithReader: reader];
-                    }
+                    //find the correct root
+                    do {
+                        ret = xmlTextReaderRead(reader);
+                        if(ret == XML_READER_TYPE_ELEMENT) {
+                            NSString* elementName = [NSString stringWithCString: (const char*) xmlTextReaderConstLocalName(reader) encoding:NSUTF8StringEncoding];
+                            id array = kGlobalElementNamesArray;
+                            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", array];
+                            if([predicate evaluateWithObject:elementName]) {
+                                obj = [[{{ type.targetClassName }} alloc] initWithReader: reader];
+                                break;
+                            }
+                        }
+                    } while(ret);
                     xmlFreeTextReader(reader);
                 }
                 return obj;
@@ -535,14 +588,17 @@ this will be used to generate the class files for the complex types.
             
             #define k{{ type.enumerationName }}NamesArray @[@"Unknown"{% for enumValue in type.enumerationValues %},@"{{ enumValue }}"{% /for %}]
             
-            
             NSString *{{ type.enumerationName }}ToString({{ type.enumerationName }} enumType) {
                 assert(enumType < k{{ type.enumerationName }}NamesArray.count);
                 return [k{{ type.enumerationName }}NamesArray objectAtIndex:enumType+1];
             }
             
             {{ type.enumerationName }} {{ type.enumerationName }}FromString(NSString *enumString) {
-                if([[[NSNumberFormatter alloc] init] numberFromString:enumString]) {
+                NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+                NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
+                numFormatter.locale =locale;
+
+                if([numFormatter numberFromString:enumString]) {
                     enumString = [@"Value" stringByAppendingString:enumString];
                 }
                     

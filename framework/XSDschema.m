@@ -252,7 +252,12 @@
         self.targetNamespacePrefix = @"";
     }
     else {
-        self.targetNamespacePrefix = [self.targetNamespacePrefix uppercaseString];
+        if([[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:[self.targetNamespacePrefix characterAtIndex:0]]) {
+            self.targetNamespacePrefix = self.targetNamespacePrefix;// uppercaseString];
+        }
+        else {
+            self.targetNamespacePrefix = [self.targetNamespacePrefix uppercaseString];
+        }
     }
 }
 

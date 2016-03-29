@@ -65,6 +65,7 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         <![CDATA[
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        numFormatter.locale = self.locale
         ]]>
         </prefix>
       <attribute>
@@ -80,7 +81,7 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         <![CDATA[let value = String.fromCString(UnsafePointer<CChar>(contentValue))
         if value != nil {
             let trimmed = value!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            self.value = numFormatter.numberFromString(trimmed)
+            self.value = numFormatter.numberFromString(trimmed).integerValue
         }]]>
         </value>
     </read>
@@ -91,11 +92,11 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         <![CDATA[
         let decFormatter = NSNumberFormatter()
         decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        decFormatter.decimalSeparator = "."]]>
+        decFormatter.locale = self.locale]]>
         </prefix>
       <attribute>
         <![CDATA[
-        self.{{ attribute.variableName }} = decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue))!)]]>
+        self.{{ attribute.variableName }} = decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue))!)!.doubleValue]]>
         </attribute>
       <element>
           <![CDATA[
@@ -106,7 +107,7 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         <![CDATA[let value = String.fromCString(UnsafePointer<CChar>(contentValue))
         if value != nil {
             let trimmed = value!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            self.value = decFormatter.numberFromString(trimmed)
+            self.value = decFormatter.numberFromString(trimmed)!.doubleValue
         }]]>
         </value>
     </read>
@@ -115,23 +116,43 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
   arrayType="[NSDate]">
     <read>
       <prefix>
-        <![CDATA[let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"]]>
-        </prefix>
+        <![CDATA[
+            let sRFC3339DateFormatterSubSeconds = NSDateFormatter()
+            sRFC3339DateFormatterSubSeconds.locale = self.locale
+            sRFC3339DateFormatterSubSeconds.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSSSSSXXXXX"
+            sRFC3339DateFormatterSubSeconds.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+            
+            let sRFC3339DateFormatter = NSDateFormatter()
+            sRFC3339DateFormatter.locale = self.locale
+            sRFC3339DateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssXXXXX"
+            sRFC3339DateFormatterSubSeconds.timeZone = NSTimeZone(forSecondsFromGMT: 0)]]></prefix>
       <attribute>
         <![CDATA[
-        self.{{ attribute.variableName }} = dateFormatter.dateFromString( String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue)]]>
+        self.{{ attribute.variableName }} = sRFC3339DateFormatter.dateFromString( String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue))! )
+            if(self.{{ attribute.variableName }} == nil) {
+            self.{{ attribute.variableName }} = sRFC3339DateFormatterSubSeconds.dateFromString( String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue))!)
+            }]]>
         </attribute>
       <element>
           <![CDATA[
-              {% if element.isSingleValue %}self.{{ element.variableName }} = dateFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)
-              {% else %}{{ element.variableName }}Array.append(dateFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)!) //bad force unwrapping{% /if %}]]>
+              {% if element.isSingleValue %}self.{{ element.variableName }} = sRFC3339DateFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)
+              if(self.{{ element.variableName }} == nil) {
+                  self.{{ element.variableName }} = sRFC3339DateFormatterSubSeconds.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)
+              }
+              {% else %}var {{ element.variableName }}Temp = sRFC3339DateFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)
+              if({{element.variableName }}Temp == nil) {
+                  {{ element.variableName }}Temp = sRFC3339DateFormatterSubSeconds.dateFromString(String.fromCString(UnsafePointer<CChar>({{element.name}}ElementValue))!)
+              }
+              {{ element.variableName }}Array.append(!) //bad force unwrapping{% /if %}]]>
         </element>
       <value>
         <![CDATA[let value = String.fromCString(UnsafePointer<CChar>(contentValue))
         if value != nil {
             let trimmed = value!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            self.value = dateFormatter.dateFromString(trimmed)
+            self.value = sRFC3339DateFormatter.dateFromString(trimmed)
+            if(!self.value) {
+                self.value = sRFC3339DateFormatterSubSeconds.dateFromString(trimmed)
+            }
         }]]>
         </value>
     </read>
@@ -143,11 +164,12 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
               <![CDATA[let dateOnlyFormatter = NSDateFormatter()
                   dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
                   dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+                  dateOnlyFormatter.locale = self.locale
               ]]>
           </prefix>
           <attribute>
               <![CDATA[
-                  self.{{ attribute.variableName }} = dateOnlyFormatter.dateFromString( String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue)]]>
+                  self.{{ attribute.variableName }} = dateOnlyFormatter.dateFromString( String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue))!)]]>
           </attribute>
           <element>
               <![CDATA[
@@ -170,11 +192,12 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
               <![CDATA[let timeOnlyFormatter = NSDateFormatter()
                   timeOnlyFormatter.dateFormat = "HH:mm:ss"
                   timeOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+                  timeOnlyFormatter.locale = self.locale
               ]]>
           </prefix>
           <attribute>
               <![CDATA[
-                  self.{{ attribute.variableName }} = timeOnlyFormatter.dateFromString( String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue)]]>
+                  self.{{ attribute.variableName }} = timeOnlyFormatter.dateFromString( String.fromCString(UnsafePointer<CChar>({{ attribute.name }}AttrValue))!)]]>
           </attribute>
           <element>
               <![CDATA[
@@ -207,6 +230,11 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
 
         @objc
         class {{ type.targetClassName }} {% if type.hasComplexBaseClass %}: {{ type.baseClass.targetClassName }} {%else %}: NSObject{% /if %}{
+            {% if type.hasComplexBaseClass %}
+            {% else %}
+            /** Property that sets the NSLocale used by formatters of this type. It defaults to enUSPOSIX */
+            var locale = NSLocale(localeIdentifier: "en_US_POSIX")
+            {% /if %}
             {% for attribute in type.attributes %}
             var {{ attribute.variableName }}: {% if attribute.hasEnumeration %}{{ attribute.schemaType.enumerationName }}{% else %}{{ attribute.codeType }}{% /if %}?
             {% /for %}
@@ -337,20 +365,34 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
         <![CDATA[
             import Foundation
             
+            let kGlobalElementNamesArray = ["##elements##"{% for element in type.globalElements %},"{{ element.name }}"{% /for %}]
+
             extension {{ type.targetClassFileName }} {
                 class func {{ type.name }}FromURL(url:NSURL) -> {{ type.targetClassName }}? {
                     let s = (url.absoluteString as NSString).UTF8String
                     let reader = xmlReaderForFile( s, nil, 0/*options*/)
+                    var ret: Int32
+                    var obj: {{ type.targetClassName }}? = nil
                     
                     if(reader != nil) {
-                        let ret = xmlTextReaderRead(reader)
-                        if(ret == 1/*XML_READER_TYPE_ELEMENT*/) {
-                            return {{ type.targetClassName }}(reader: reader)
-                        }
+                        //find the correct root
+                        repeat {
+                            ret = xmlTextReaderRead(reader)
+                            if(ret == 1/*XML_READER_TYPE_ELEMENT*/) {
+                                let elementNameXmlChar = xmlTextReaderConstLocalName(reader)
+                                let elementName = String.fromCString(UnsafePointer<CChar>(elementNameXmlChar))
+                                let array = [kGlobalElementNamesArray]
+                                let predicate = NSPredicate(format: "SELF IN %@", argumentArray: array)
+                                if(predicate.evaluateWithObject(elementName)) {
+                                    obj = {{ type.targetClassName }}(reader: reader)
+                                    break
+                                }
+                            }
+                        } while(ret != 0)
                         xmlFreeTextReader(reader)
                     }
                     
-                    return nil
+                    return obj
                 }
                 
                 class func {{ type.name }}FromFile(path:String) -> {{ type.targetClassName }}? {
@@ -419,7 +461,11 @@ xsi:schemaLocation="http://www.example.com/xsd2cocoa template.xsd">
                 
                 static func fromString(enumString:String?) -> {{ type.enumerationName }} {
                     if var enumString = enumString {
-                        if(NSNumberFormatter().numberFromString(enumString) != nil) {
+                        let locale = NSLocale(localeIdentifier: "en_US_POSIX")
+                        let numFormatter = NSNumberFormatter()
+                        numFormatter.locale = locale
+                        
+                        if(numFormatter.numberFromString(enumString) != nil) {
                             enumString = "Value\(enumString)"
                         }
                         if let i = namesArray.indexOf(enumString) {

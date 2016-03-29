@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B36C73F41CA93AB500AA2012 /* ReflectionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36C73F31CA93AB500AA2012 /* ReflectionHelpers.swift */; };
 		B3E76CEB1ADAC36F00ED22B5 /* simpleTypes.xml in Resources */ = {isa = PBXBuildFile; fileRef = B3E76CE91ADAC36F00ED22B5 /* simpleTypes.xml */; };
 		B3E76CEC1ADAC36F00ED22B5 /* simpleTypes.xsd in Resources */ = {isa = PBXBuildFile; fileRef = B3E76CEA1ADAC36F00ED22B5 /* simpleTypes.xsd */; };
 		B3E76CF41ADAC39E00ED22B5 /* STSimpleTypesType+File.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E76CF11ADAC39E00ED22B5 /* STSimpleTypesType+File.m */; };
@@ -38,6 +39,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B36C73F31CA93AB500AA2012 /* ReflectionHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReflectionHelpers.swift; sourceTree = "<group>"; };
 		B3C971C41AD2851F00CD1DD9 /* libxml-bridging-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libxml-bridging-header.h"; sourceTree = "<group>"; };
 		B3E76CE91ADAC36F00ED22B5 /* simpleTypes.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = simpleTypes.xml; sourceTree = "<group>"; };
 		B3E76CEA1ADAC36F00ED22B5 /* simpleTypes.xsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simpleTypes.xsd; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 		B444BEBE1A61D51A00FCA8DA /* Generated */ = {
 			isa = PBXGroup;
 			children = (
+				B36C73F31CA93AB500AA2012 /* ReflectionHelpers.swift */,
 				B3C971C31AD2851F00CD1DD9 /* Sources */,
 				B444BEBF1A61D51A00FCA8DA /* !!!use as output folder.xml */,
 			);
@@ -230,7 +233,7 @@
 		B4D65C2D185C96D600D1BE85 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Dominik Pich";
 				TargetAttributes = {
@@ -290,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B36C73F41CA93AB500AA2012 /* ReflectionHelpers.swift in Sources */,
 				B3E76CF41ADAC39E00ED22B5 /* STSimpleTypesType+File.m in Sources */,
 				B444BEBD1A61D4F500FCA8DA /* main.m in Sources */,
 				B3E76CF51ADAC39E00ED22B5 /* STSimpleTypesType.m in Sources */,
@@ -446,23 +450,28 @@
 		B4D65C44185C96D600D1BE85 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/include/libxml2,
 				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = simpletypes;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		B4D65C45185C96D600D1BE85 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/include/libxml2,
 				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = simpletypes;
 			};
 			name = Release;

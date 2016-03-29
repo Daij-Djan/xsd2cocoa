@@ -437,8 +437,8 @@
 		B42F9F561A4890CE0007FC96 /* tests */ = {
 			isa = PBXGroup;
 			children = (
-				B3F751D61BA7240000FA66DC /* vendor */,
 				B42F9F5A1A4890CE0007FC96 /* xmls */,
+				B3F751D61BA7240000FA66DC /* vendor */,
 				B342A5291A9657A40061C546 /* concrete objc tests */,
 				B342A5281A9657740061C546 /* concrete swift tests */,
 				B42F9F581A4890CE0007FC96 /* Info.plist */,
@@ -455,8 +455,8 @@
 		B42F9F5A1A4890CE0007FC96 /* xmls */ = {
 			isa = PBXGroup;
 			children = (
-				B38D75821BA6C6EE00E725DD /* MyPantry.xml */,
 				B38D75801BA6C6E300E725DD /* MyPantry.xsd */,
+				B38D75821BA6C6EE00E725DD /* MyPantry.xml */,
 				B3FB29B41B458F8F009BFD29 /* SampleLanguageData.xml */,
 				B3FB29B51B458F8F009BFD29 /* SampleLanguageData.xsd */,
 				B3BCCFAF1AE26882005D31AC /* configFeatures.xml */,

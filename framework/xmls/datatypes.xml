@@ -17,6 +17,12 @@
 <type base="string" name="QName"/>
 <type base="string" name="token"/>
 <type base="string" name="NOTATION"/>
+<type base="string" name="gDay"/>
+<type base="string" name="gMonth"/>
+<type base="string" name="gMonthDay"/>
+<type base="string" name="gYear"/>
+<type base="string" name="gYearMonth"/>
+<type base="string" name="duration"/>
 
 <!--integer -->
 <type base="integer" name="byte"/>
@@ -32,17 +38,11 @@
 <type base="integer" name="unsignedInt"/>
 <type base="integer" name="unsignedShort"/>
 <type base="integer" name="unsignedByte"/>
-<type base="integer" name="gDay"/>
-<type base="integer" name="gMonth"/>
-<type base="integer" name="gMonthDay"/>
-<type base="integer" name="gYear"/>
-<type base="integer" name="gYearMonth"/>
- 
+
 <!--decimal-->
 <type base="decimal" name="decimal"/>
 <type base="decimal" name="double"/>
 <type base="decimal" name="float"/>
-<type base="decimal" name="duration"/>
 
 <!--boolean-->
 <type base="boolean" name="boolean"/>

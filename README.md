@@ -12,8 +12,8 @@ The generator is a framework that is completely seperate from the GUI. And thus 
 **The generator is checked with unit tests that read specific xsds, generate code for it, compile it using clang and then see if they can parse an according xml**<br/>
 (so IF you find bugs / missing features - please provide a xsd & a xml file so I can fix it / add it to the generator)
 
-###What works already: (1.5.1)
-##### (the key points I remember)
+###What works already:
+##### (the key points I remember, a changelog is attached)
 
 - element default type
 - objc & swift 2.0 support (generates FORMATTED code) ** 1.5 **
@@ -72,3 +72,14 @@ I made numerous fixes and improvements to the generator.
 - modernized and completed the templates used to generate the code
 
 The code uses the MGTemplateEngine by Matt Gemmel
+
+###changelog
+
+####1.6
+- fixed a memory leak that parsing a URL
+- made the reader not break if there are comments in global level
+- fixed the xsd types gDay, gMonth, gMonthDay, ...
+- fixed unit tests
+- improved date parsing
+- fixed some swift issues where parsers crashed
+- setting enUSPOSIXLocale for all formatters so XML types are parsed ok

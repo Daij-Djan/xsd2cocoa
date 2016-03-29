@@ -151,34 +151,37 @@ NSURL *_tmpFolderUrl;
     //do it
     [self compileParser:compiledFile from:files];
     XCTAssert([[NSFileManager defaultManager] fileExistsAtPath:compiledFile]);
-    
-    //open dylib
-    void* lib_handle = dlopen(compiledFile.UTF8String, RTLD_LOCAL);
-    XCTAssert(lib_handle);//dl_error()
-    _loadedLibHandle = lib_handle;
-    
-    //load the root class (required with runtime-loaded libraries).
-    Class wlfg_class = objc_getClass(self.rootClassName.UTF8String);
-    XCTAssert(wlfg_class);
-    XCTAssert([wlfg_class respondsToSelector:NSSelectorFromString(self.parseMethodName)]);
-    
-    //parse it
+    if([[NSFileManager defaultManager] fileExistsAtPath:compiledFile]) {
+        //open dylib
+        void* lib_handle = dlopen(compiledFile.UTF8String, RTLD_LOCAL);
+        XCTAssert(lib_handle);//dl_error()
+        _loadedLibHandle = lib_handle;
+        
+        //load the root class (required with runtime-loaded libraries).
+        Class wlfg_class = objc_getClass(self.rootClassName.UTF8String);
+        XCTAssert(wlfg_class);
+        XCTAssert([wlfg_class respondsToSelector:NSSelectorFromString(self.parseMethodName)]);
+        
+        //parse it
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    id root = [wlfg_class performSelector:NSSelectorFromString(self.parseMethodName) withObject:self.xmlFileUrl];
+        id root = [wlfg_class performSelector:NSSelectorFromString(self.parseMethodName) withObject:self.xmlFileUrl];
 #pragma clang diagnostic pop
-    XCTAssert(root);
-    XCTAssert([root respondsToSelector:@selector(dictionary)]);
-    NSLog(@"%@", [root dump]);
-    
-    //check it
-    [self assertParsedXML:root];
-    
-    //unload it
-    root = nil;
-    int status = dlclose(lib_handle);
-    XCTAssert(status == 0);
-    _loadedLibHandle = nil;
+        XCTAssert(root);
+        NSLog(@"%@", [root dump]);
+        
+        //check it
+        XCTAssert([root respondsToSelector:@selector(dictionary)]);
+        if([root respondsToSelector:@selector(dictionary)]) {
+            [self assertParsedXML:root];
+        }
+        
+        //unload it
+        root = nil;
+        int status = dlclose(lib_handle);
+        XCTAssert(status == 0);
+        _loadedLibHandle = nil;
+    }
 }
 
 - (void*)loadedLibHandle {
