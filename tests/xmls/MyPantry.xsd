@@ -21,6 +21,7 @@
 	<xs:complexType name="FoodItemType">
 		<xs:sequence>
 			<xs:element name="Name" type="xs:string" />
+			<xs:element name="Comment" type="xs:string" />
 			<xs:element name="FoodGroup" type="p:FoodGroupType" />
 			<xs:element name="Cost" type="xs:string" />
 		</xs:sequence>
