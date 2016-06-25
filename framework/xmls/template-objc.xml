@@ -356,12 +356,14 @@ this will be used to generate the class files for the complex types.
                         {% else %}
                         _readerOk = xmlTextReaderRead(reader);
                         _currentNodeType = xmlTextReaderNodeType(reader);
-                        const char *{{element.name}}ElementValue = (const char*) xmlTextReaderConstValue(reader);
-                        if({{element.name}}ElementValue) {
-                            {{ element.readCodeForContent }}
+                        if (_currentNodeType != XML_READER_TYPE_END_ELEMENT) {
+                            const char *{{element.name}}ElementValue = (const char*) xmlTextReaderConstValue(reader);
+                            if({{element.name}}ElementValue) {
+                                {{ element.readCodeForContent }}
+                            }
+                            _readerOk = xmlTextReaderRead(reader);
+                            _currentNodeType = xmlTextReaderNodeType(reader);
                         }
-                        _readerOk = xmlTextReaderRead(reader);
-                        _currentNodeType = xmlTextReaderNodeType(reader);
                         {% /if %}
                     } else {% /for %}{% if type.hasSimpleBaseClass %}if([@"#text" isEqualToString: _currentElementName]){
                         const char* contentValue = (const char*) xmlTextReaderConstValue(reader);
