@@ -45,14 +45,15 @@
     xmlTextReaderPtr reader = xmlReaderForFile( url.absoluteString.UTF8String,
                                                NULL,
                                                (XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA | XML_PARSE_NOERROR | XML_PARSE_NOWARNING));
-    if(reader != nil) {
-        int ret = xmlTextReaderRead(reader);
-        if(ret == 1) {
-            obj = [NSString stringWithCString:(const char*)xmlTextReaderConstLocalName(reader)
-                                     encoding:NSUTF8StringEncoding];
-        }
-        xmlFreeTextReader(reader);
+
+    int status;
+    for ( ; (status = xmlTextReaderRead(reader)) && xmlTextReaderNodeType(reader) == XML_READER_TYPE_COMMENT; );
+
+    if (status) {
+        obj = [NSString stringWithCString:(char*)xmlTextReaderConstLocalName(reader) encoding:NSUTF8StringEncoding];
     }
+
+    xmlFreeTextReader(reader);
     return obj;
 }
 
