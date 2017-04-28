@@ -12,7 +12,7 @@ The generator is a framework that is completely seperate from the GUI. And thus 
 **The generator is checked with unit tests that read specific xsds, generate code for it, compile it using clang and then see if they can parse an according xml**<br/>
 (so IF you find bugs / missing features - please provide a xsd & a xml file so I can fix it / add it to the generator)
 
-###What works already:
+### What works already:
 ##### (the key points I remember, a changelog is attached)
 
 - element default type
@@ -37,7 +37,7 @@ the **generated parser** only requires libxml and I have tested it on **IOS as w
 
 The generator itself uses the NSXML* tree based API and is for OSX only.
 
-###Biggest pain points
+### Biggest pain points
 1. So far the generator does NOT handle references to elements/attributes via the ref= attribute.
 2. The min & maxOccurances of elements inside a sequence/choice must be specified on element itself as opposed to the sequence itself
 
@@ -46,7 +46,7 @@ The generator itself uses the NSXML* tree based API and is for OSX only.
 The Project is still in alpha phase, BUT real world usage is already be possible. *and practiced* <br/>
 **A demo project is included** and I used it to generate XML Parsers for **two commercial projects already** (Ill merge back fixes as I find the time).
 
-###how-to (based on 1.0)
+### how-to (based on 1.0)
 ##### (very brief ;))
 1. download the sourcecode and use XCode 7 to build the xsd2cocoa mac app. (At this point, Im not providing a binary)
 2. Upon starting the app you see a window 
@@ -61,7 +61,7 @@ The Project is still in alpha phase, BUT real world usage is already be possible
 3. After specifying the in- and output paths you hit 'write code' and you get ready to use .h/.m files. **(Remember: to use the classes, link against libxml2 (!))**
 ![3](https://raw.github.com/Daij-Djan/xsd2cocoa/master/README-files/3.png)
 
-###credits
+### credits
 The basic code was on google projects. **The original xsd2cocoa was written by Stefan Winter** in 2011 and even if not really usable, it was **already quite awesome**
 
 I made numerous fixes and improvements to the generator.
@@ -73,9 +73,9 @@ I made numerous fixes and improvements to the generator.
 
 The code uses the MGTemplateEngine by Matt Gemmel
 
-###changelog
+### changelog
 
-####1.6
+#### 1.6
 - fixed a memory leak that parsing a URL
 - made the reader not break if there are comments in global level
 - fixed the xsd types gDay, gMonth, gMonthDay, ...
