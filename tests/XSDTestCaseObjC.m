@@ -35,7 +35,7 @@
 
     id env = @{@"SDKROOT": sdkPath};
     
-    DDRunTaskExt(tmp, env, nil, toolPath, @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"x86_64", @"-framework", @"foundation", @"-lxml2", [NSString stringWithFormat:@"-I%@/usr/include/libxml2", sdkPath], @"-o", output, input, nil);
+    DDRunTaskExt(tmp, env, nil, toolPath, @"-isysroot", [NSString stringWithFormat:@"%@", sdkPath], @"-fobjc-arc", @"-ObjC", @"-dynamiclib", @"-arch", @"x86_64", @"-framework", @"foundation", @"-lxml2", [NSString stringWithFormat:@"-I%@/usr/include/libxml2", sdkPath], @"-o", output, input, nil);
 }
 
 @end
